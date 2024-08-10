@@ -37,7 +37,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
             <!-- Produk Paling Sering Dipesan -->
-            <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-6"> <!-- Tambahkan margin atas di sini -->
+            <div class="col-span-1 md:col-span-2 lg:col-span-3 mt-6">
                 <h2 class="text-xl md:text-2xl font-semibold text-gray-800 mb-4">Produk Paling Sering Dipesan</h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
                     <div class="bg-white shadow-lg rounded-lg p-6 transform hover:scale-105 transition-transform duration-300">
