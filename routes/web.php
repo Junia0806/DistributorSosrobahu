@@ -39,3 +39,13 @@ Route::get('/nota', function () {
     return view('sales.nota');
 })->name('nota');
 
+Route::get('/rekening', function () {
+    return view('agen.rekening');
+})->name('rekening');
+
+
+Route::get('/pengaturan', function () {
+    return view('agen.pengaturan_harga');
+})->name('pengaturan');
+
+
