@@ -17,6 +17,36 @@ Route::get('/app', function () {
     return view('app');
 });
 
+Route::get('/login-sales', function () {
+    return view('login-sales');
+});
+
+Route::post('/login-sales', function () {
+    $username = request('username');
+    $password = request('password');
+
+    $validUsername = 'sales';
+    $validPassword = '123';
+
+    if ($username === $validUsername && $password === $validPassword) {
+        return redirect('/dashboard-sales');
+    } else {
+        return redirect('/login-sales')->with('error', 'Username atau password salah');
+    }
+});
+
+Route::get('/dashboard-sales', function () {
+    return view('dashboard-sales');
+});
+
+Route::get('/daftar-toko-sales', function () {
+    return view('daftar-toko-sales');
+});
+
+Route::get('/daftar-kunjungan/{storeName}', function ($storeName) {
+    return view('daftar-kunjungan-sales', ['storeName' => $storeName]);
+});
+
 Route::get('/default', function () {
     return view('sales.default');
 });
