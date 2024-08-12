@@ -1,18 +1,18 @@
 @extends('sales.default')
 
 @section('content')
-<section class="container mx-auto p-6">
+<section class="container mx-auto p-6 my-20">
   <div class="bg-white shadow-lg rounded-lg max-w-full overflow-x-auto">
       <h2 class="text-2xl font-bold border-b mb-3 pb-3 text-center">Riwayat Pemesanan</h2>
       <div class="overflow-x-auto">
         <table class="w-full border-separate border-spacing-0">
-            <thead class="bg-gray-800 text-white">
+            <thead class="bg-gray-800 text-white font-bold">
                 <tr>
-                    <th class="p-2 text-left text-sm font-medium">Tanggal Pemesanan</th>
-                    <th class="p-2 text-left text-sm font-medium">Total Harga</th>
-                    <th class="p-2 text-left text-sm font-medium">Pesanan</th>
-                    <th class="p-2 text-left text-sm font-medium">Pembayaran</th>
-                    <th class="p-2 text-left text-sm font-medium">Nota</th>
+                    <th class="p-2 text-left text-sm">Tanggal Pemesanan</th>
+                    <th class="p-2 text-left text-sm ">Total Harga</th>
+                    <th class="p-2 text-left text-sm ">Pesanan</th>
+                    <th class="p-2 text-left text-sm ">Pembayaran</th>
+                    <th class="p-2 text-left text-sm ">Nota</th>
                 </tr>
             </thead>
             <tbody class="bg-white text-sm">

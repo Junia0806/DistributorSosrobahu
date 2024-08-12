@@ -1,17 +1,17 @@
 @extends('sales.default')
 
 @section('content')
-    <section class="bg-gray-100 py-5">
+    <section class="bg-gray-100 py-5 my-20">
         <div class="max-w-3xl mx-auto mb-4 flex justify-end">
             <button onclick="downloadPDF()"
-                class="bg-blue-600 text-white font-semibold py-2 px-4 rounded-md hover:bg-blue-700 transition duration-300">
+                 class="bg-gray-800 font-bold text-white py-2 px-10 mt-2 rounded-md hover:bg-gray-700 transition duration-300">
                 <i class="fa-solid fa-download"></i> Download PDF
             </button>
         </div>
         <div class="bg-nota bg-center bg-no-repeat bg-cover rounded-lg shadow-lg px-8 py-5 max-w-3xl mx-auto">
             <div class="flex items-center justify-between mb-3">
                 <div class="flex items-center">
-                    <img class="h-28 w-28 mr-4" src="{{ asset('assets/images/logo.png') }}" alt="Logo" />
+                    <img class="h-20 w-30 mr-4" src="{{ asset('assets/images/logo.png') }}" alt="Logo" />
                 </div>
                 <div class="text-gray-700 text-right">
                     <div class="font-bold text-2xl mb-2">NOTA PESANAN</div>

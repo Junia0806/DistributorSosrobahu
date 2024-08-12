@@ -2,26 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-Route::get('/app', function () {
-    return view('app');
+Route::get('/', function () {
+    return view('sales.login');
 });
 
-Route::get('/login-sales', function () {
-    return view('login-sales');
-});
-
-Route::post('/login-sales', function () {
+Route::post('/', function () {
     $username = request('username');
     $password = request('password');
 
@@ -29,22 +14,22 @@ Route::post('/login-sales', function () {
     $validPassword = '123';
 
     if ($username === $validUsername && $password === $validPassword) {
-        return redirect('/dashboard-sales');
+        return redirect('/dashboard');
     } else {
-        return redirect('/login-sales')->with('error', 'Username atau password salah');
+        return redirect('/')->with('error', 'Username atau password salah');
     }
 });
 
-Route::get('/dashboard-sales', function () {
-    return view('dashboard-sales');
-});
+Route::get('/dashboard', function () {
+    return view('sales.dashboard');
+})->name('dashboard');;
 
-Route::get('/daftar-toko-sales', function () {
-    return view('daftar-toko-sales');
-});
+Route::get('/toko', function () {
+    return view('sales.toko');
+})->name('toko');;
 
-Route::get('/daftar-kunjungan/{storeName}', function ($storeName) {
-    return view('daftar-kunjungan-sales', ['storeName' => $storeName]);
+Route::get('/kunjungan/{storeName}', function ($storeName) {
+    return view('sales.kunjungan', ['storeName' => $storeName]);
 });
 
 Route::get('/default', function () {
@@ -69,6 +54,8 @@ Route::get('/nota', function () {
     return view('sales.nota');
 })->name('nota');
 
+
+//ROUTE AGEN
 Route::get('/rekening', function () {
     return view('agen.rekening');
 })->name('rekening');

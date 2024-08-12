@@ -1,4 +1,4 @@
-@extends('sales.default')
+@extends('agen.default')
 
 @section('content')
 <section class="container mx-auto p-6">
@@ -28,7 +28,7 @@
 </section>
 
 <!-- Modal -->
-<div id="editModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+<div id="editModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
   <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
     <h3 class="text-2xl font-semibold mb-4">Edit Harga Produk</h3>
     <form id="editForm">

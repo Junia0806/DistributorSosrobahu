@@ -17,6 +17,7 @@
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src="{{ asset('assets/images/logo.png') }}" class="h-12" alt="Flowbite Logo" />
+                    <span>Agen</span>
                 </a>
                 <div class="flex items-center md:order-2 space-x-1 md:space-x-0 rtl:space-x-reverse">
                     <button type="button" data-dropdown-toggle="language-dropdown-menu"
@@ -112,7 +113,7 @@
                 <div class="mb-6 md:mb-0">
                     <a href="https://flowbite.com/" class="flex items-center">
                         <img src="{{ asset('assets/images/logo.png') }}" class="h-8 me-3" alt="FlowBite Logo" />
-                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Sales</span>
+                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Agen</span>
                     </a>
                 </div>
                 <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2">

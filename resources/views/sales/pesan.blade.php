@@ -1,14 +1,10 @@
 @extends('sales.default')
 
 @section('content')
-    <section class="container mx-auto py-6">
+    <section class="container mx-auto py-6 my-20">
         <div class="bg-white shadow-lg rounded-lg p-3">
             <h2 class="text-2xl font-bold mb-2 text-center text-gray-800">Pilih Produk</h2>
-            <p class="text-center text-gray-600 mb-6">Pilih kartu produk yang ingin Anda pesan, lalu klik tombol "Lanjut Pesanan" untuk melanjutkan.</p>
-            <div class="flex justify-end mb-6">
-                <button onclick="window.location.href='{{ route('detail') }}'"
-                    class="bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300">Lanjut Pesanan <i class="fa-solid fa-forward-step ml-2"></i></button>
-            </div>
+            <p class="text-center text-gray-600 mb-6">Silakan klik produk yang ingin Anda pesan, lalu tekan tombol "Lanjutkan Pesanan" untuk melanjutkan proses pembelian.</p>
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2  md:grid-cols-2 lg:grid-cols-3 py-3">
                 {{-- Card Produk 1 --}}
                 <label class="relative block cursor-pointer">
@@ -99,6 +95,11 @@
                         </div>
                     </div>
                 </label>
+            </div>
+
+            <div class="flex justify-end mb-6">
+                <button onclick="window.location.href='{{ route('detail') }}'"
+                    class="bg-gray-800 text-white py-2 px-4 mt-2 rounded-md hover:bg-gray-700 transition duration-300">Lanjut Pesanan <i class="fa-solid fa-forward-step ml-2"></i></button>
             </div>
         </div>
     </section>
