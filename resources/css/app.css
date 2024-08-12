@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-login {
+  background-image: url(/public/assets/images/login.jpg);  
+  background-size: cover;
+  background-position: center;
+
+}
+
+.bg-nota {
+  background-image: url(/public/assets/images/nota.png);
+}
+
+
+.card:checked + .card-content {
+  transform: scale(0.95);
+  background-color: #e2e8f0;
+}
