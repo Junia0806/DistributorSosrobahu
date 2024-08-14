@@ -99,7 +99,7 @@
                         </div>
                         <div class="col-span-2">
                             <label for="phone" class="block mb-2 text-sm font-medium text-black">No. Telepon</label>
-                            <input type="text" name="phone" id="phone"
+                            <input type="text" name="phone" id="phone" placeholder="08XXXXXXXXXXX"
                                 class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                 required>
                         </div>
