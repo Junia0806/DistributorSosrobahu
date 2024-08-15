@@ -30,19 +30,18 @@ Route::get('/dashboard', function () {
     return view('sales.dashboard');
 })->name('dashboard');;
 
+//Router untuk membuat Toko (POST)
+Route::post('/tokoSales', [DaftarTokoController::class, 'store'])->name('tokoSales.store');
 // Route untuk menampilkan Daftar Toko
 Route::get('/tokoSales', [DaftarTokoController::class, 'index'])->name('tokoSales');
 // Route untuk menampilkan toko berdasarkan id_daftar_toko
 Route::get('daftar_toko/{id_daftar_toko}/toko', [DaftarTokoController::class, 'showToko'])->name('toko');
-Route::get('/toko', function () {
-    return view('sales.toko');
-})->name('toko');;
 
+//Router untuk membuat Kunjungan Toko (POST)
+Route::post('/kunjunganToko/{id_daftar_toko}', [KunjunganTokoController::class, 'store'])->name('kunjunganToko.store');
+Route::put('/kunjunganToko/{id_daftar_toko}', [KunjunganTokoController::class, 'update'])->name('kunjunganToko.update');
+Route::get('kunjunganToko/{id_daftar_toko}', [KunjunganTokoController::class, 'showVisitsByStore'])->name('kunjunganToko');
 
-Route::get('kunjunganToko/{id_daftar_toko}', [KunjunganTokoController::class,'index', 'showVisitsByStore'])->name('kunjunganToko');
-Route::get('/kunjungan/{storeName}', function ($storeName) {
-    return view('sales.kunjungan', ['storeName' => $storeName]);
-});
 
 Route::get('/pesan', function () {
     return view('sales.pesan');

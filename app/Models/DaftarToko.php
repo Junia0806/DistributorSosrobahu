@@ -21,4 +21,5 @@ class DaftarToko extends Model
         'nama_pemilik',
         'no_telp',
     ];
+    public $timestamps = false; // Menonaktifkan timestamp otomati
 }

@@ -3,7 +3,7 @@
 @section('content')
     <div class="w-full max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-x-auto my-20">
         <div class="flex items-center justify-between p-6 border-b">
-            <h1 class="text-2xl font-bold text-black">Daftar Kunjungan - Toko </h1>
+            <h1 class="text-2xl font-bold text-black">Daftar Kunjungan - Toko {{ $storeName }}</h1>
             <button data-modal-target="add-visit-modal" data-modal-toggle="add-visit-modal"
                 class="bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300" type="button">
                 <i class="fa-regular fa-square-plus"></i> Tambah Kunjungan
@@ -29,10 +29,11 @@
                             <td class="p-2">{{ $visit->tanggal->format('d/m/Y') }}</td>
                             <td class="p-2">{{ $visit->sisa_produk }}</td>
                             <td class="p-2 align-middle">
-                                <img src="{{ $visit->gambar }}" alt="Dokumentasi" class="w-20 h-20 object-cover rounded-lg mx-auto">
+                                <img src="{{ $visit->gambar }}" alt="Dokumentasi"
+                                    class="w-20 h-20 object-cover rounded-lg mx-auto">
                             </td>
                             <td class="p-2">
-                                <button type="button" data-modal-target="edit-visit-modal" data-modal-toggle="edit-visit-modal"
+                                <button type="button" data-modal-target="#edit-visit-modal-{{ $visit->id_kunjungan_toko }}"
                                     class="inline-flex items-center justify-center w-10 h-10 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
                                     <i class="fa-regular fa-pen-to-square text-lg"></i>
                                 </button>
@@ -42,10 +43,70 @@
                                 </button>
                             </td>
                         </tr>
+                        <!-- Modal Edit Kunjungan -->
+                        <div id="edit-visit-modal-{{ $visit->id_kunjungan_toko }}" tabindex="-1" aria-hidden="true"
+                            class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-modal">
+                            <div class="relative w-full max-w-full md:max-w-md h-full max-h-full md:h-auto">
+                                <div class="relative bg-white rounded-lg shadow">
+                                    <div class="flex items-center justify-between p-6 border-b">
+                                        <h3 class="text-lg font-semibold text-gray-900">Edit Kunjungan</h3>
+                                        <button type="button"
+                                            data-modal-hide="#edit-visit-modal-{{ $visit->id_kunjungan_toko }}"
+                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
+                                            <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12">
+                                                </path>
+                                            </svg>
+                                            <span class="sr-only">Close modal</span>
+                                        </button>
+                                    </div>
+                                    <div class="p-6">
+                                        <form action="{{ route('kunjunganToko.update', $visit->id_kunjungan_toko) }}" method="POST" class="space-y-4">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="text-left">
+                                                <input type="hidden" name="id_daftar_toko" id="id_daftar_toko"
+                                                    value="{{ $id_toko }}"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                    required>
+                                            </div>
+                                            <div class="text-left">
+                                                <label for="tanggal"
+                                                    class="block text-sm font-medium text-gray-900">Tanggal</label>
+                                                <input type="date" name="tanggal" id="tanggal"
+                                                    value="{{ $visit->tanggal->format('Y-m-d') }}"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                    required>
+                                            </div>
+                                            <div class="text-left">
+                                                <label for="sisa_produk"
+                                                    class="block text-sm font-medium text-gray-900">Sisa Produk</label>
+                                                <input type="number" id="sisa_produk" name="sisa_produk"
+                                                    value="{{ $visit->sisa_produk }}"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                    required>
+                                            </div>
+                                            <div class="text-left">
+                                                <label for="gambar"
+                                                    class="block text-sm font-medium text-gray-900">Dokumentasi</label>
+                                                <input type="file" id="gambar" name="gambar"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                            </div>
+                                            <button type="submit"
+                                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Simpan</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @endforeach
                 </tbody>
             </table>
         </div>
+
+
     </div>
 
     <!-- Modal Tambah Kunjungan -->
@@ -65,77 +126,57 @@
                 </button>
                 <div class="p-6 text-center">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Tambah Kunjungan</h3>
-                    <form action="#" method="POST" class="space-y-4">
+                    <form action="" method="POST" class="space-y-4">
+                        @csrf
                         <div class="text-left">
-                            <label for="date"
+
+                            <input type="hidden" name="id_daftar_toko" id="id_daftar_toko" value="{{ $id_toko }}"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                required>
+                        </div>
+                        <div class="text-left">
+                            <label for="tanggal"
                                 class="block text-sm font-medium text-gray-900 dark:text-gray-300">Tanggal</label>
-                            <input type="date" id="date" name="date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <input type="date" name="tanggal" id="tanggal"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                required>
                         </div>
                         <div class="text-left">
-                            <label for="stock" class="block text-sm font-medium text-gray-900 dark:text-gray-300">Sisa
-                                Produk</label>
-                            <input type="number" id="stock" name="stock"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <label for="sisa_produk"
+                                class="block text-sm font-medium text-gray-900 dark:text-gray-300">Sisa Produk</label>
+                            <input type="number" id="sisa_produk" name="sisa_produk"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                required>
                         </div>
                         <div class="text-left">
-                            <label for="documentation"
+                            <label for="gambar"
                                 class="block text-sm font-medium text-gray-900 dark:text-gray-300">Dokumentasi</label>
-                            <input type="file" id="documentation" name="documentation"
-                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
+                            <input type="file" id="gambar" name="gambar"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                required>
                         </div>
                         <button type="submit"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Simpan</button>
                     </form>
-
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal Edit Kunjungan -->
-    <div id="edit-visit-modal" tabindex="-1" aria-hidden="true"
-        class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-modal">
-        <div class="relative w-full max-w-full md:max-w-md h-full max-h-full md:h-auto">
-            <div class="relative bg-white rounded-lg shadow">
-                <div class="flex items-center justify-between p-6 border-b">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Edit Kunjungan</h3>
-                    <button type="button"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:text-gray-500 dark:hover:bg-gray-600 dark:hover:text-white"
-                        data-modal-toggle="edit-visit-modal">
-                        <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
-                            </path>
-                        </svg>
-                        <span class="sr-only">Close modal</span>
-                    </button>
-                </div>
-                <div class="p-6">
-                    <form action="#" method="POST" class="space-y-4">
-                        <div class="text-left">
-                            <label for="edit-date"
-                                class="block text-sm font-medium text-gray-900 dark:text-gray-300">Tanggal</label>
-                            <input type="date" id="edit-date" name="date"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                        <div class="text-left">
-                            <label for="edit-stock" class="block text-sm font-medium text-gray-900 dark:text-gray-300">Sisa
-                                Produk</label>
-                            <input type="number" id="edit-stock" name="stock"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                        </div>
-                        <div class="text-left">
-                            <label for="edit-documentation"
-                                class="block text-sm font-medium text-gray-900 dark:text-gray-300">Dokumentasi</label>
-                            <input type="file" id="edit-documentation" name="documentation"
-                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
-                        </div>
-                        <button type="submit"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Update</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- Include your modal JavaScript here to handle show/hide -->
+    <script>
+        document.querySelectorAll('[data-modal-target]').forEach(button => {
+            button.addEventListener('click', () => {
+                const modalId = button.getAttribute('data-modal-target');
+                document.querySelector(modalId).classList.remove('hidden');
+            });
+        });
+
+        document.querySelectorAll('[data-modal-hide]').forEach(button => {
+            button.addEventListener('click', () => {
+                const modalId = button.getAttribute('data-modal-hide');
+                document.querySelector(modalId).classList.add('hidden');
+            });
+        });
+    </script>
 @endsection

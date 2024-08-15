@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DaftarToko;
+use App\Models\KunjunganToko;
 use Illuminate\Http\Request;
 
 class DaftarTokoController extends Controller
@@ -48,16 +49,18 @@ class DaftarTokoController extends Controller
      */
     public function store(Request $request)
     {
+       
         $request->validate([
             'nama_toko' => 'required|string|max:255',
             'lokasi' => 'required|string|max:255',
             'nama_pemilik' => 'required|string|max:255',
             'no_telp' => 'required|string|max:100',
         ]);
-
+        
+        // dd($request->all());
         DaftarToko::create($request->all());
 
-        return redirect()->route('daftar_toko.index')->with('success', 'Toko berhasil ditambahkan.');
+        return redirect()->route('tokoSales')->with('success', 'Toko berhasil ditambahkan.');
     }
 
     // Function untuk memanggil halaman/view toko
