@@ -72,15 +72,15 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('riwayat') }}"
-                                class="block py-2 px-3 text-gray-900 rounded transition-colors duration-300 hover:text-blue-500 md:hover:text-blue-600 dark:text-white {{ request()->routeIs('riwayat') ? 'text-blue-700 underline' : '' }}"
+                            <a href="{{ route('riwayatOrder') }}"
+                                class="block py-2 px-3 text-gray-900 rounded transition-colors duration-300 hover:text-blue-500 md:hover:text-blue-600 dark:text-white {{ request()->routeIs('riwayatOrder') ? 'text-blue-700 underline' : '' }}"
                                 id="riwayat-link">
                                 Riwayat
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('toko') }}"
-                                class="block py-2 px-3 text-gray-900 rounded transition-colors duration-300 hover:text-blue-500 md:hover:text-blue-600 dark:text-white {{ request()->routeIs('toko') ? 'text-blue-700 underline' : '' }}"
+                            <a href="{{ route('tokoSales') }}"
+                                class="block py-2 px-3 text-gray-900 rounded transition-colors duration-300 hover:text-blue-500 md:hover:text-blue-600 dark:text-white {{ request()->routeIs('tokoSales') ? 'text-blue-700 underline' : '' }}"
                                 id="toko-link">
                                 Toko
                             </a>

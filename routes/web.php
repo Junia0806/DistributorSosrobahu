@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderSaleController;
+use App\Http\Controllers\DaftarTokoController;
+use App\Http\Controllers\KunjunganTokoController;
 
 Route::get('/', function () {
     return view('sales.login');
@@ -20,14 +23,23 @@ Route::post('/', function () {
     }
 });
 
+// CRUD SAlES
+Route::resource('order_sales', OrderSaleController::class);
+
 Route::get('/dashboard', function () {
     return view('sales.dashboard');
 })->name('dashboard');;
 
+// Route untuk menampilkan Daftar Toko
+Route::get('/tokoSales', [DaftarTokoController::class, 'index'])->name('tokoSales');
+// Route untuk menampilkan toko berdasarkan id_daftar_toko
+Route::get('daftar_toko/{id_daftar_toko}/toko', [DaftarTokoController::class, 'showToko'])->name('toko');
 Route::get('/toko', function () {
     return view('sales.toko');
 })->name('toko');;
 
+
+Route::get('kunjunganToko/{id_daftar_toko}', [KunjunganTokoController::class,'index', 'showVisitsByStore'])->name('kunjunganToko');
 Route::get('/kunjungan/{storeName}', function ($storeName) {
     return view('sales.kunjungan', ['storeName' => $storeName]);
 });
@@ -41,6 +53,10 @@ Route::get('/detail', function () {
 })->name('detail');
 
 
+// Route untuk menampilkan riwayat pemesanan
+Route::get('/riwayatOrder', [OrderSaleController::class, 'index'])->name('riwayatOrder');
+// Route untuk menampilkan nota berdasarkan id_daftar_toko
+Route::get('order_sales/{id_daftar_toko}/nota', [OrderSaleController::class, 'showNota'])->name('nota');
 Route::get('/riwayat', function () {
     return view('sales.riwayat');
 })->name('riwayat');
