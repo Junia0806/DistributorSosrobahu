@@ -65,8 +65,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('pesan') }}"
-                                class="block py-2 px-3 text-gray-900 rounded transition-colors duration-300 hover:text-blue-500 md:hover:text-blue-600 dark:text-white {{ request()->routeIs('pesan') ? 'text-blue-700 underline' : '' }}"
+                            <a href="{{ route('pesan_barang') }}"
+                                class="block py-2 px-3 text-gray-900 rounded transition-colors duration-300 hover:text-blue-500 md:hover:text-blue-600 dark:text-white {{ request()->routeIs('pesan_barang') ? 'text-blue-700 underline' : '' }}"
                                 id="pesan-link">
                                 Order
                             </a>

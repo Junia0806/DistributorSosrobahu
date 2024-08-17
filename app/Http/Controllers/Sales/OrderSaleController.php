@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sales;
 
+use App\Http\Controllers\Controller;
+use App\Models\BarangAgen;
 use App\Models\OrderSale;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -108,5 +110,43 @@ class OrderSaleController extends Controller
 
         return redirect()->route('order_sales.index')
                          ->with('success', 'Order Sale deleted successfully.');
+    }
+
+    //  memilih barang Dihalaman Order 
+    public function detail(Request $request)
+    {
+        $selectedProductIds = $request->input('products', []); // Mengambil ID produk yang dipilih dari request
+        
+        // Ambil detail pesanan berdasarkan ID produk yang dipilih
+        $orders = BarangAgen::whereIn('id_master_barang', $selectedProductIds)->get();
+        
+        // Menghitung total harga
+        $totalAmount = $orders->sum(function($order) {
+            return $order->harga_agen * $order->jumlah; // Menghitung total harga untuk semua barang
+        });
+
+
+        // Mengambil harga per produk
+        $prices = $orders->pluck('harga_agen', 'id_master_barang')->toArray();
+
+        return view('sales.detail_pesanan', compact('orders', 'totalAmount', 'prices'));
+    }
+
+    
+    public function submit(Request $request)
+    {
+        $request->validate([
+            'products' => 'required|array', // Validasi ID produk yang dipilih
+            'payment-proof' => 'required|file|mimes:jpeg,png,pdf|max:2048' // Validasi file bukti pembayaran
+        ]);
+
+        // Proses upload bukti pembayaran
+        $filePath = $request->file('payment-proof')->store('public/payment_proofs');
+
+        // Simpan data pesanan ke database (contoh sederhana, sesuaikan dengan struktur data dan kebutuhan aplikasi)
+        // Misalnya, Anda perlu membuat model Order dan menyimpan data pesanan ke dalamnya
+
+        // Redirect dengan pesan sukses
+        return redirect()->route('detail')->with('success', 'Pesanan Anda telah diproses. Terima kasih!');
     }
 }

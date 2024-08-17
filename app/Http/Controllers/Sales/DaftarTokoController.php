@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Sales;
 
+use App\Http\Controllers\Controller;
 use App\Models\DaftarToko;
 use App\Models\KunjunganToko;
 use Illuminate\Http\Request;

@@ -43,6 +43,7 @@
                                 </button>
                             </td>
                         </tr>
+
                         <!-- Modal Edit Kunjungan -->
                         <div id="edit-visit-modal-{{ $visit->id_kunjungan_toko }}" tabindex="-1" aria-hidden="true"
                             class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-modal">
@@ -63,37 +64,33 @@
                                         </button>
                                     </div>
                                     <div class="p-6">
-                                        <form action="{{ route('kunjunganToko.update', $visit->id_kunjungan_toko) }}" method="POST" class="space-y-4">
+                                        <form action="{{ route('kunjunganToko.update', $visit->id_kunjungan_toko) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                                             @csrf
                                             @method('PUT')
+
                                             <div class="text-left">
-                                                <input type="hidden" name="id_daftar_toko" id="id_daftar_toko"
-                                                    value="{{ $id_toko }}"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                                    required>
+                                                <input type="hidden" name="id_daftar_toko" id="id_daftar_toko" value="{{ $id_toko }}"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
                                             </div>
+
                                             <div class="text-left">
-                                                <label for="tanggal"
-                                                    class="block text-sm font-medium text-gray-900">Tanggal</label>
-                                                <input type="date" name="tanggal" id="tanggal"
-                                                    value="{{ $visit->tanggal->format('Y-m-d') }}"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                                    required>
+                                                <label for="tanggal" class="block text-sm font-medium text-gray-900">Tanggal</label>
+                                                <input type="date" name="tanggal" id="tanggal" value="{{ $visit->tanggal->format('Y-m-d') }}"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
                                             </div>
+
                                             <div class="text-left">
-                                                <label for="sisa_produk"
-                                                    class="block text-sm font-medium text-gray-900">Sisa Produk</label>
-                                                <input type="number" id="sisa_produk" name="sisa_produk"
-                                                    value="{{ $visit->sisa_produk }}"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                                    required>
+                                                <label for="sisa_produk" class="block text-sm font-medium text-gray-900">Sisa Produk</label>
+                                                <input type="number" id="sisa_produk" name="sisa_produk" value="{{ $visit->sisa_produk }}"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
                                             </div>
+
                                             <div class="text-left">
-                                                <label for="gambar"
-                                                    class="block text-sm font-medium text-gray-900">Dokumentasi</label>
+                                                <label for="gambar" class="block text-sm font-medium text-gray-900">Dokumentasi</label>
                                                 <input type="file" id="gambar" name="gambar"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                             </div>
+
                                             <button type="submit"
                                                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">Simpan</button>
                                         </form>
