@@ -106,3 +106,46 @@ Route::get('/rekening', function () {
 Route::get('/pengaturan', function () {
     return view('agen.pengaturan_harga');
 })->name('pengaturan');
+
+Route::get('/kelola-akun', function () {
+    return view('agen.kelola-akun');
+})->name('kelola');
+
+Route::get('/transaksi', function () {
+    return view('agen.transaksi');
+})->name('transaksi');
+
+// routes/web.php
+Route::get('/detail', function () {
+    $namaAgen = request('namaAgen');
+    $orderDate = request('orderDate');
+
+    return view('agen.detail', [
+        'namaAgen' => $namaAgen,
+        'orderDate' => $orderDate,
+    ]);
+})->name('detail');
+
+Route::get('/detail/{namaAgen}', function ($namaAgen) {
+    return view('agen.detail', ['namaAgen' => $namaAgen]);
+});
+
+
+Route::get('/login-agen', function () {
+    return view('agen.login-agen');
+})->name('login');
+
+Route::post('/login-agen', function () {
+    $username = request('username');
+    $password = request('password');
+
+    if ($username === 'agen' && $password === '456') {
+        return redirect()->route('dashboard-agen');
+    }
+
+    return redirect()->route('agen.login-agen')->withErrors('Username atau Password salah.');
+})->name('login.submit');
+
+Route::get('/dashboard-agen', function () {
+    return view('agen.dashboard-agen');
+})->name('dashboard');
