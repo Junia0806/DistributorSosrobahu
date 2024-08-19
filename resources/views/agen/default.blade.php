@@ -12,49 +12,50 @@
 </head>
 
 <body class="flex flex-col min-h-screen">
-    <header class="fixed top-0 w-full z-50 bg-gray-300 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
-        <nav class="bg-gray-300 border-gray-200 dark:bg-gray-900">
+    <header
+        class="fixed top-0 w-full z-50 bg-gray-300 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-md">
+        <nav class="bg-white border-gray-200 dark:bg-gray-900">
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
-                    <img src="{{ asset('assets/images/logo.png') }}" class="h-12" alt="Flowbite Logo" />
-                    <span>Agen</span>
+                    <img src="{{ asset('assets/images/logo.png') }}" class="h-8" alt="Flowbite Logo" />
                 </a>
-                <div class="flex items-center md:order-2 space-x-1 md:space-x-0 rtl:space-x-reverse">
-                    <button type="button" data-dropdown-toggle="language-dropdown-menu"
-                        class="inline-flex items-center font-medium px-4 py-1 text-sm text-gray-900 rounded-lg cursor-pointer bg-gray-100 dark:bg-gray-700 dark:text-white">
-                        <img class="w-5 h-5 rounded-full me-3"
-                            src="https://static.vecteezy.com/system/resources/previews/000/357/350/original/businessman-vector-icon.jpg"
-                            alt="User Avatar">
-                        <div class="flex flex-col items-start">
-                            <span class="font-bold">Hari Supriadi</span>
-                            <span class="text-xs text-gray-500 dark:text-gray-400">Peringkat: 5</span>
-                        </div>
+                <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                    <button type="button"
+                        class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                        id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
+                        data-dropdown-placement="bottom">
+                        <span class="sr-only">Open user menu</span>
+                        <img class="w-8 h-8 rounded-full"
+                            src="https://static.vecteezy.com/system/resources/previews/000/357/350/original/businessman-vector-icon.jpg"alt="user photo">
                     </button>
-                    <!-- Dropdown -->
-                    <div class="z-50 hidden my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700"
-                        id="language-dropdown-menu">
-                        <ul class="py-2 font-medium" role="none">
+                    <!-- Dropdown menu -->
+                    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+                        id="user-dropdown">
+                        <div class="px-4 py-3">
+                            <span class="block text-sm text-gray-900 dark:text-white">Akun Agen</span>
+                            <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">Moch. Samsul
+                                Abidin</span>
+                        </div>
+                        <ul class="py-2" aria-labelledby="user-menu-button">
+                            <li>
+                                <a href="{{ route('pengaturan') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Kelola
+                                    Harga</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('agen-rekening') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Rekening</a>
+                            </li>
                             <li>
                                 <a href="#" id="logout-link"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    role="menuitem">
-                                    Keluar Akun<i class="fa-solid fa-right-from-bracket ml-2"></i>
-                                </a>
-                                {{-- 
-                                <a href="#"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
-                                    role="menuitem">
-                                    <div class="inline-flex items-center">
-
-                                        Keluar Akun<i class="fa-solid fa-right-from-bracket ml-2"></i>
-                                    </div>
-                                </a> --}}
-
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Keluar<i
+                                        class="fa-solid fa-right-from-bracket ml-2"></i></a>
+                            </li>
                         </ul>
                     </div>
-                    <button data-collapse-toggle="navbar-language" type="button"
+                    <button data-collapse-toggle="navbar-user" type="button"
                         class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                        aria-controls="navbar-language" aria-expanded="false">
+                        aria-controls="navbar-user" aria-expanded="false">
                         <span class="sr-only">Open main menu</span>
                         <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 17 14">
@@ -63,43 +64,46 @@
                         </svg>
                     </button>
                 </div>
-                <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-                    id="navbar-language">
+                <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
                     <ul
-                        class=" font-semibold flex flex-col md:flex-row p-4 md:p-0 border border-gray-200 rounded-lg bg-gray-300 md:space-x-8 rtl:space-x-reverse md:border-0 md:bg-gray-300 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                        class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li>
-                            <a href="{{ route('dashboard') }}"
-                                class="block py-2 px-3 text-gray-900 rounded transition-colors duration-300 hover:text-blue-500 md:hover:text-blue-600 dark:text-white {{ request()->routeIs('dashboard') ? 'text-blue-700 underline' : '' }}"
+                            <a href="#"
+                                class="block py-2 px-3 rounded {{ Route::is('agen-pesan') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                                 id="dashboard-link">
                                 Dashboard
                             </a>
                         </li>
+                        <a href="#"
+                            class="block py-2 px-3 rounded {{ Route::is('agen-pesan') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            id="sales-link">
+                            Sales
+                        </a>
                         <li>
-                            <a href="{{ route('pesan') }}"
-                                class="block py-2 px-3 text-gray-900 rounded transition-colors duration-300 hover:text-blue-500 md:hover:text-blue-600 dark:text-white {{ request()->routeIs('pesan') ? 'text-blue-700 underline' : '' }}"
+                            <a href="#"
+                                class="block py-2 px-3 rounded {{ Route::is('agen-pesan') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                                id="transaksi-link">
+                                Pesanan Masuk
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('agen-pesan') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('agen-pesan') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                                 id="pesan-link">
                                 Order
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('riwayat') }}"
-                                class="block py-2 px-3 text-gray-900 rounded transition-colors duration-300 hover:text-blue-500 md:hover:text-blue-600 dark:text-white {{ request()->routeIs('riwayat') ? 'text-blue-700 underline' : '' }}"
+                            <a href="{{ route('agen-riwayat') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('agen-riwayat') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                                 id="riwayat-link">
                                 Riwayat
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ route('toko') }}"
-                                class="block py-2 px-3 text-gray-900 rounded transition-colors duration-300 hover:text-blue-500 md:hover:text-blue-600 dark:text-white {{ request()->routeIs('toko') ? 'text-blue-700 underline' : '' }}"
-                                id="toko-link">
-                                Toko
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
-
     </header>
 
 
@@ -107,13 +111,13 @@
         @yield('content')
     </main>
 
-    <footer class="bg-gray-300 dark:bg-gray-900 mt-auto">
+    <footer class="bg-white dark:bg-gray-900 mt-auto  dark:border-gray-600 shadow-md">
         <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
             <div class="md:flex md:justify-between">
                 <div class="mb-6 md:mb-0">
                     <a href="https://flowbite.com/" class="flex items-center">
                         <img src="{{ asset('assets/images/logo.png') }}" class="h-8 me-3" alt="FlowBite Logo" />
-                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Agen</span>
+                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">AGEN</span>
                     </a>
                 </div>
                 <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2">
@@ -132,8 +136,7 @@
                         <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Pemesanan</h2>
                         <ul class="text-gray-500 dark:text-gray-400 font-medium">
                             <li class="mb-4">
-                                <a href="https://github.com/themesberg/flowbite" class="hover:underline">Order
-                                    Produk</a>
+                                <a href="https://github.com/themesberg/flowbite" class="hover:underline">Order Produk</a>
                             </li>
                             <li>
                                 <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">Riwayat Pesanan</a>
@@ -149,6 +152,7 @@
             </div>
         </div>
     </footer>
+    
 
 </body>
 <!-- SweetAlert2 CDN -->
@@ -158,14 +162,23 @@
         const path = window.location.pathname;
         const links = {
             '/': 'dashboard-link',
-            '/pesan': 'pesan-link',
-            '/riwayat': 'riwayat-link',
+            '/agen/pesan': 'pesan-link',
+            '/agen/riwayat': 'riwayat-link',
             '/toko': 'toko-link'
         };
 
+        console.log('Current Path:', path);
+
         for (const [url, linkId] of Object.entries(links)) {
+            console.log(`Checking URL: ${url}, Link ID: ${linkId}`);
             if (path === url) {
-                document.getElementById(linkId).classList.add('text-gray-800');
+                const element = document.getElementById(linkId);
+                if (element) {
+                    element.classList.add('text-blue-500');
+                    console.log(`Added class to element with ID: ${linkId}`);
+                } else {
+                    console.log(`Element with ID: ${linkId} not found.`);
+                }
             }
         }
 
@@ -195,7 +208,5 @@
         });
     });
 </script>
-
-
 
 </html>
