@@ -10,7 +10,7 @@
             @csrf
             <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 py-3">
                 {{-- Card Produk --}}
-                @foreach ($barangAgens as $barang)
+                @foreach ($barangAgens as $index => $barang)
                     <label class="relative block cursor-pointer">
                         <input type="checkbox" class="absolute opacity-0 peer" id="product{{ $barang->id_master_barang }}" name="products[]" value="{{ $barang->id_master_barang }}">
                         <div class="bg-white p-3 rounded-lg border border-gray-200 shadow-md transition-colors duration-150 peer-checked:bg-gray-300 peer-checked:border-green-500 peer-checked:border-2 peer-checked:shadow-lg w-full max-w-[180px] mx-auto">
@@ -18,7 +18,7 @@
                                 <img src="{{ asset('storage/' . $barang->gambar) }}" alt="{{ $barang->nama_rokok }}" class="w-full h-[200px] object-cover rounded-md border border-gray-200">
                             </div>
                             <div class="text-center">
-                                <h2 class="text-sm font-bold text-gray-800">{{ $barang->id_master_barang }}</h2>
+                                <h2 class="text-sm font-bold text-gray-800">{{ $namaRokokList[$index] }}</h2>
                                 <p class="text-gray-600 text-sm">Rp {{ number_format($barang->harga_agen, 0, ',', '.') }}</p>
                             </div>
                         </div>
