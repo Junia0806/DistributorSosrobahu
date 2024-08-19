@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('master_barang', function (Blueprint $table) {
+            $table->timestamps(); // Menambahkan kolom created_at dan updated_at
             $table->integer('id_master_barang', true);
             $table->string('nama_rokok', 100);
             $table->integer('harga_karton_pabrik');
