@@ -10,28 +10,10 @@ use Carbon\Carbon;
 class KunjunganTokoController extends Controller
 {
     //function untuk menampilkan semua data kunjungan toko
-    public function index()
+    public function index($id_toko)
     {
-        $kunjunganToko = KunjunganToko::all();
-        foreach ($kunjunganToko as $visit) {
-            $visit->tanggal = Carbon::parse($visit->tanggal);
-        }
-        return view('sales.kunjunganToko', compact('kunjunganToko'));
-    }
-    // Function untuk menampilkan kunjungan toko berdasarkan id
-    public function show($id)
-    {
-        $kunjunganToko = KunjunganToko::find($id);
-        if (!$kunjunganToko) {
-            return response()->json(['message' => 'Data not found'], 404);
-        }
-        return response()->json($kunjunganToko);
-    }
-
-    public function showVisitsByStore($id_daftar_toko)
-    {
-        $toko = DaftarToko::find($id_daftar_toko); // Ambil informasi toko jika diperlukan
-        $kunjunganToko = KunjunganToko::where('id_daftar_toko', $id_daftar_toko)->get();
+        $toko = DaftarToko::find($id_toko); // Ambil informasi toko jika diperlukan
+        $kunjunganToko = KunjunganToko::where('id_daftar_toko', $id_toko)->get();
 
         if (!$toko) {
             return redirect()->back()->with('error', 'Toko tidak ditemukan');
@@ -43,8 +25,17 @@ class KunjunganTokoController extends Controller
         return view('sales.kunjunganToko', [
             'storeName' => $toko->nama_toko, // Nama toko untuk ditampilkan di view
             'kunjunganToko' => $kunjunganToko,
-            'id_toko' => $id_daftar_toko,
+            'id_toko' => $id_toko,
         ]);
+    }
+    // Function untuk menampilkan kunjungan toko berdasarkan id
+    public function show($id)
+    {
+        $kunjunganToko = KunjunganToko::find($id);
+        if (!$kunjunganToko) {
+            return response()->json(['message' => 'Data not found'], 404);
+        }
+        return response()->json($kunjunganToko);
     }
 
     /**
@@ -68,42 +59,51 @@ class KunjunganTokoController extends Controller
     /**
      * Function untuk Mengupdate ke database 
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_kunjungan_toko)
     {
         $request->validate([
             'id_daftar_toko' => 'required|integer',
             'tanggal' => 'required|date',
             'sisa_produk' => 'required|integer',
-            'gambar' => 'required|string',
+            'gambar' => 'nullable|file|mimes:jpg,png,jpeg|max:2048',
         ]);
 
-        // dd($request);
-        $kunjunganToko = KunjunganToko::find($id);
+        // Debugging request
+        // dd($request->all(), $request->file('gambar'));
+
+        $kunjunganToko = KunjunganToko::find($id_kunjungan_toko);
         if (!$kunjunganToko) {
             return response()->json(['message' => 'Data not found'], 404);
         } else {
             $kunjunganToko->tanggal = $request->tanggal;
             $kunjunganToko->sisa_produk = $request->sisa_produk;
-            $kunjunganToko->gambar = $request->gambar;
+            if ($request->hasFile('gambar')) {
+                $gambarPath = $request->file('gambar')->store('images', 'public');
+                $kunjunganToko->gambar = $gambarPath;
+            }
             $kunjunganToko->save();
         }
 
-        return redirect()->route('kunjunganToko.showVisitsByStore', ['id_daftar_toko' => $kunjunganToko->id_daftar_toko])
+        return redirect()->route('kunjunganToko', ['id_daftar_toko' => $kunjunganToko->id_daftar_toko])
             ->with('success', 'Kunjungan toko berhasil diperbarui.');
     }
+
 
 
     /**
      * Function untuk Menghapus atau delete ke database
      */
-    public function destroy($id)
+    public function destroy($id_kunjungan_toko)
     {
-        $kunjunganToko = KunjunganToko::find($id);
-        if (!$kunjunganToko) {
-            return response()->json(['message' => 'Data not found'], 404);
+        $kunjunganToko = KunjunganToko::find($id_kunjungan_toko);
+    
+        if ($kunjunganToko) {
+            $kunjunganToko->delete();
+            return redirect()->route('kunjunganToko', ['id_daftar_toko' => $kunjunganToko->id_daftar_toko])->with('success', 'Kunjungan toko berhasil dihapus.');
+        } else {
+            return redirect()->route('kunjunganToko', ['id_daftar_toko' => $kunjunganToko->id_daftar_toko])->with('error', 'Kunjungan toko tidak ditemukan.');
         }
-
-        $kunjunganToko->delete();
-        return response()->json(['message' => 'Data deleted successfully']);
     }
+    
+
 }
