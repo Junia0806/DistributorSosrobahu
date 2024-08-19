@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Sales;
 
 use App\Http\Controllers\Controller;
+
 use App\Models\KunjunganToko;
 use Illuminate\Http\Request;
 use App\Models\DaftarToko;
@@ -90,17 +91,21 @@ class KunjunganTokoController extends Controller
     }
 
 
+
     /**
      * Function untuk Menghapus atau delete ke database
      */
-    public function destroy($id)
+    public function destroy($id_kunjungan_toko)
     {
-        $kunjunganToko = KunjunganToko::find($id);
-        if (!$kunjunganToko) {
-            return response()->json(['message' => 'Data not found'], 404);
+        $kunjunganToko = KunjunganToko::find($id_kunjungan_toko);
+    
+        if ($kunjunganToko) {
+            $kunjunganToko->delete();
+            return redirect()->route('kunjunganToko', ['id_daftar_toko' => $kunjunganToko->id_daftar_toko])->with('success', 'Kunjungan toko berhasil dihapus.');
+        } else {
+            return redirect()->route('kunjunganToko', ['id_daftar_toko' => $kunjunganToko->id_daftar_toko])->with('error', 'Kunjungan toko tidak ditemukan.');
         }
-
-        $kunjunganToko->delete();
-        return response()->json(['message' => 'Data deleted successfully']);
     }
+    
+
 }

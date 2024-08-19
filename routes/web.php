@@ -33,17 +33,18 @@ Route::get('/dashboard', function () {
     return view('sales.dashboard');
 })->name('dashboard');;
 
-//Router untuk membuat Toko (POST)
+//CRUD TOKO [sales]
 Route::post('/tokoSales', [DaftarTokoController::class, 'store'])->name('tokoSales.store');
-// Route untuk menampilkan Daftar Toko
 Route::get('/tokoSales', [DaftarTokoController::class, 'index'])->name('tokoSales');
-// Route untuk menampilkan toko berdasarkan id_daftar_toko
 Route::get('daftar_toko/{id_daftar_toko}/toko', [DaftarTokoController::class, 'showToko'])->name('toko');
+Route::delete('/tokoSales/delete/{id_daftar_toko}', [DaftarTokoController::class, 'destroy'])->name('tokoSales.destroy');
+Route::put('/tokoSales/update/{id_daftar_toko}', [DaftarTokoController::class, 'update'])->name('tokoSales.update');
 
-//Router untuk membuat Kunjungan Toko (POST)
+//CRUD KUNJUNGAN TOKO [sales]
 Route::get('/kunjunganToko/{id_daftar_toko}', [KunjunganTokoController::class, 'index'])->name('kunjunganToko');
 Route::post('/kunjunganToko/{id_daftar_toko}', [KunjunganTokoController::class, 'store'])->name('kunjunganToko.store');
 Route::put('/kunjunganToko/update/{id_kunjungan_toko}', [KunjunganTokoController::class, 'update'])->name('kunjunganToko.update');
+Route::delete('/kunjunganToko/delete/{id_kunjungan_toko}', [KunjunganTokoController::class, 'destroy'])->name('kunjunganToko.destroy');
 
 
 Route::get('/pesan', function () {
