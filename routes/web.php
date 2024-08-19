@@ -148,4 +148,4 @@ Route::post('/login-agen', function () {
 
 Route::get('/dashboard-agen', function () {
     return view('agen.dashboard-agen');
-})->name('dashboard');
+})->name('dashboard-agen');
