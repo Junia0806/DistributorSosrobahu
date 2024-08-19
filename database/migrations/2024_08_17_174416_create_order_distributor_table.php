@@ -11,15 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('order_sales', function (Blueprint $table) {
+        Schema::create('order_distributor', function (Blueprint $table) {
+            $table->timestamps(); // Menambahkan kolom created_at dan updated_at
             $table->integer('id_order', true);
-            $table->integer('id_user_sales')->index('id_user_sales');
+            $table->integer('id_user_distributor')->index('id_user_distributor');
             $table->integer('jumlah');
             $table->integer('total');
             $table->date('tanggal');
             $table->string('bukti_transfer');
             $table->integer('status_pemesanan');
             $table->string('nota');
+
+            $table->index(['id_user_distributor'], 'id_user_distributor_2');
         });
     }
 
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('order_sales');
+        Schema::dropIfExists('order_distributor');
     }
 };

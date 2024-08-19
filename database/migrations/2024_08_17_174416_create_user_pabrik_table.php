@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_sales', function (Blueprint $table) {
-            $table->integer('id_user_sales', true);
+        Schema::create('user_pabrik', function (Blueprint $table) {
+            $table->timestamps(); // Menambahkan kolom created_at dan updated_at
+            $table->integer('id_user_pabrik', true);
             $table->string('nama_lengkap');
             $table->string('username');
             $table->string('password');
             $table->string('no_telp', 100);
-            $table->integer('status');
             $table->integer('level');
-            $table->string('gambar_ktp');
         });
     }
 
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_sales');
+        Schema::dropIfExists('user_pabrik');
     }
 };

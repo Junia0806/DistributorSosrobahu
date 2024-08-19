@@ -1,9 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\OrderSaleController;
-use App\Http\Controllers\DaftarTokoController;
-use App\Http\Controllers\KunjunganTokoController;
+use App\Http\Controllers\Sales\OrderSaleController;
+use App\Http\Controllers\Sales\DaftarTokoController;
+use App\Http\Controllers\Sales\KunjunganTokoController;
+use App\Http\Controllers\MasterBarangController;
+use App\Http\Controllers\BarangAgenController;
+use App\Http\Controllers\OrderSalesController;
 
 Route::get('/', function () {
     return view('sales.login');
@@ -43,6 +46,7 @@ Route::post('/kunjunganToko/{id_daftar_toko}', [KunjunganTokoController::class, 
 Route::put('/kunjunganToko/update/{id_kunjungan_toko}', [KunjunganTokoController::class, 'update'])->name('kunjunganToko.update');
 Route::delete('/kunjunganToko/delete/{id_kunjungan_toko}', [KunjunganTokoController::class, 'destroy'])->name('kunjunganToko.destroy');
 
+
 Route::get('/pesan', function () {
     return view('sales.pesan');
 })->name('pesan');;
@@ -50,6 +54,15 @@ Route::get('/pesan', function () {
 Route::get('/detail', function () {
     return view('sales.detailpesan');
 })->name('detail');
+
+// Rute untuk memilih barang
+Route::get('/sales/pesan_barang', [BarangAgenController::class, 'index'])->name('pesan_barang');
+
+// Rute untuk detail pesanan
+Route::post('/sales/detail_pesanan', [OrderSaleController::class, 'detail'])->name('detail_pesanan');
+
+// Rute untuk menyimpan pesanan
+Route::post('/sales/submit-pesanan', [OrderSaleController::class, 'submit'])->name('submit-pesanan');
 
 
 // Route untuk menampilkan riwayat pemesanan

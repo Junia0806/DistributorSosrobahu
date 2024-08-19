@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tbl_barang_agen', function (Blueprint $table) {
-            $table->integer('id_barang_agen', true);
+        Schema::create('tbl_barang_sales', function (Blueprint $table) {
+            $table->timestamps(); // Menambahkan kolom created_at dan updated_at
+            $table->integer('id_barang_sales', true);
             $table->integer('id_master_barang')->index('id_master_barang');
-            $table->integer('id_user_agen')->index('id_use_agen');
-            $table->integer('harga_agen');
-            $table->integer('stok_karton');
+            $table->integer('id_user_sales')->index('id_user_sales');
+            $table->integer('harga_sales');
+            $table->integer('stok_slop');
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tbl_barang_agen');
+        Schema::dropIfExists('tbl_barang_sales');
     }
 };
