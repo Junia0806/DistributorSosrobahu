@@ -15,34 +15,36 @@
         <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 py-3">
             {{-- Card Produk --}}
             @for ($i = 1; $i <= 6; $i++)
-                <label class="relative block cursor-pointer">
-                    <input type="checkbox" class="absolute opacity-0 peer" id="product{{ $i }}">
-                    <div class="bg-white p-3 rounded-lg border border-gray-200 shadow-md transition-colors duration-150 peer-checked:bg-gray-300 peer-checked:border-green-500 peer-checked:border-2 peer-checked:shadow-lg w-full max-w-[180px] mx-auto">
-                        <div class="relative mb-2">
-                            <img src="{{ asset('assets/images/produk.jpg') }}" alt="Sosrobahu Kopi Hitam" class="w-full h-[200px] object-cover rounded-md border border-gray-200">
-                        </div>
-                        <div class="text-center">
-                            <h2 class="text-sm font-bold text-gray-800">Sosrobahu Kopi Hitam</h2>
-                            <p class="text-gray-600 text-sm">Rp 600.000 / karton</p>
-                        </div>
+            <label class="relative block cursor-pointer">
+                <input type="checkbox" class="absolute opacity-0 peer" id="product1">
+                <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-md transition-colors duration-150 peer-checked:bg-gray-300 peer-checked:border-green-500 peer-checked:border-2 peer-checked:shadow-lg w-full max-w-[180px] mx-auto">
+                    <div class="relative mb-4">
+                        <img src="{{ asset('assets/images/produk.jpg') }}" alt="Sosrobahu Kopi Hitam" class="w-full h-[200px] object-cover rounded-md border border-gray-200">
                     </div>
-                </label>
+                    <div class="text-center">
+                        <h2 class="text-sm font-bold text-gray-800">Sosrobahu Kopi Hitam</h2>
+                        <p class="text-gray-600 text-sm">Rp 600.000</p>
+                        <p class="text-gray-500 text-xs">1 Karton berisi 80 slop</p> <!-- Informasi jumlah slop -->
+                    </div>
+                </div>
+            </label>
             @endfor
 
             {{-- Card Produk --}}
             @for ($i = 1; $i <= 6; $i++)
-                <label class="relative block cursor-pointer">
-                    <input type="checkbox" class="absolute opacity-0 peer" id="product{{ $i + 6 }}">
-                    <div class="bg-white p-3 rounded-lg border border-gray-200 shadow-md transition-colors duration-150 peer-checked:bg-gray-300 peer-checked:border-green-500 peer-checked:border-2 peer-checked:shadow-lg w-full max-w-[180px] mx-auto">
-                        <div class="relative mb-2">
-                            <img src="{{ asset('assets/images/produk2.jpg') }}" alt="Sosrobahu D&H" class="w-full h-[200px] object-cover rounded-md border border-gray-200">
-                        </div>
-                        <div class="text-center">
-                            <h2 class="text-sm font-bold text-gray-800">Sosrobahu D&H</h2>
-                            <p class="text-gray-600 text-sm">Rp 200.000 / karton</p>
-                        </div>
+            <label class="relative block cursor-pointer">
+                <input type="checkbox" class="absolute opacity-0 peer" id="product1">
+                <div class="bg-white p-4 rounded-lg border border-gray-200 shadow-md transition-colors duration-150 peer-checked:bg-gray-300 peer-checked:border-green-500 peer-checked:border-2 peer-checked:shadow-lg w-full max-w-[180px] mx-auto">
+                    <div class="relative mb-4">
+                        <img src="{{ asset('assets/images/produk.jpg') }}" alt="Sosrobahu Kopi Hitam" class="w-full h-[200px] object-cover rounded-md border border-gray-200">
                     </div>
-                </label>
+                    <div class="text-center">
+                        <h2 class="text-sm font-bold text-gray-800">Sosrobahu Kopi Hitam</h2>
+                        <p class="text-gray-600 text-sm">Rp 600.000</p>
+                        <p class="text-gray-500 text-xs">1 Karton berisi 80 slop</p> <!-- Informasi jumlah slop -->
+                    </div>
+                </div>
+            </label>
             @endfor
         </div>
 

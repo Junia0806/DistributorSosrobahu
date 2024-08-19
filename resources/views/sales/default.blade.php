@@ -12,8 +12,8 @@
 </head>
 
 <body class="flex flex-col min-h-screen">
-    <header class="fixed top-0 w-full z-50 bg-gray-300 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
-        <nav class="bg-gray-300 border-gray-200 dark:bg-gray-900">
+    <header class="fixed top-0 w-full z-50 bg-gray-300 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-md">
+        <nav class="bg-white border-gray-200 dark:bg-gray-900">
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src="{{ asset('assets/images/logo.png') }}" class="h-12" alt="Flowbite Logo" />
@@ -56,7 +56,7 @@
                 <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
                     id="navbar-language">
                     <ul
-                        class=" font-semibold flex flex-col md:flex-row p-4 md:p-0 border border-gray-200 rounded-lg bg-gray-300 md:space-x-8 rtl:space-x-reverse md:border-0 md:bg-gray-300 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                        class="flex flex-col md:flex-row p-4 md:p-0 border border-gray-200 rounded-lg bg-white md:space-x-8 rtl:space-x-reverse md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li>
                             <a href="{{ route('dashboard') }}"
                                 class="block py-2 px-3 text-gray-900 rounded transition-colors duration-300 hover:text-blue-500 md:hover:text-blue-600 dark:text-white {{ request()->routeIs('dashboard') ? 'text-blue-700 underline' : '' }}"
@@ -97,13 +97,13 @@
         @yield('content')
     </main>
 
-    <footer class="bg-gray-300 dark:bg-gray-900 mt-auto">
+    <footer class="bg-white dark:bg-gray-900 mt-auto">
         <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
             <div class="md:flex md:justify-between">
                 <div class="mb-6 md:mb-0">
                     <a href="https://flowbite.com/" class="flex items-center">
                         <img src="{{ asset('assets/images/logo.png') }}" class="h-8 me-3" alt="FlowBite Logo" />
-                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Sales</span>
+                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">SALES</span>
                     </a>
                 </div>
                 <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2">
