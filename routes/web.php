@@ -69,9 +69,9 @@ Route::post('/sales/submit-pesanan', [OrderSaleController::class, 'submit'])->na
 Route::get('/riwayatOrder', [OrderSaleController::class, 'index'])->name('riwayatOrder');
 // Route untuk menampilkan nota berdasarkan id_daftar_toko
 Route::get('order_sales/{id_daftar_toko}/nota', [OrderSaleController::class, 'showNota'])->name('nota');
-Route::get('/riwayat', function () {
-    return view('sales.riwayat');
-})->name('riwayat');
+// Route::get('/riwayat', function () {
+//     return view('sales.riwayat');
+// })->name('riwayat');
 
 Route::get('/nota', function () {
     return view('sales.nota');

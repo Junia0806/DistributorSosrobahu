@@ -9,12 +9,6 @@ use Illuminate\Http\Request;
 
 class DaftarTokoController extends Controller
 {
-    public function count()
-    {
-        $jumlahToko = DaftarToko::count();
-        return view('sales.dashboard', compact('jumlahToko')); // Mengirimkan $jumlahToko
-    }    
-
     /**
      * Function untuk menampilkan semua daftar toko
      */

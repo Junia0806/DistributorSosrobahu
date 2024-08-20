@@ -10,7 +10,7 @@
                         <i class="fas fa-box-open fa-2x"></i>
                     </div>
                     <div class="ml-4">
-                        <h2 class="text-xl font-bold">185 slop</h2>
+                        <h2 class="text-xl font-bold">185 Pcs</h2>
                         <p class="text-lg">Total Stok</p>
                     </div>
                 </div>
