@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Sales;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use App\Models\BarangAgen;
 use App\Models\OrderSale;
 use Illuminate\Http\Request;
@@ -116,6 +117,25 @@ class OrderSaleController extends Controller
     public function detail(Request $request)
     {
         $selectedProductIds = $request->input('products', []); // Mengambil ID produk yang dipilih dari request
+
+        $namaRokokList = [];
+
+        // Loop through each selected product ID
+        foreach ($selectedProductIds as $barangAgen) {
+
+            // Convert the ID to an integer
+            $namaProdukint = intval($barangAgen);
+
+            // Query the master_barang table for the corresponding record
+            $program = DB::table('master_barang')->where('id_master_barang', $namaProdukint)->first();
+
+            // Store the nama_rokok in the array
+            if ($program) {
+                $namaRokokList[] = $program->nama_rokok;
+            } else {
+                $namaRokokList[] = null; // If no matching record is found
+            }
+        }
         
         // Ambil detail pesanan berdasarkan ID produk yang dipilih
         $orders = BarangAgen::whereIn('id_master_barang', $selectedProductIds)->get();
@@ -129,7 +149,7 @@ class OrderSaleController extends Controller
         // Mengambil harga per produk
         $prices = $orders->pluck('harga_agen', 'id_master_barang')->toArray();
 
-        return view('sales.detail_pesanan', compact('orders', 'totalAmount', 'prices'));
+        return view('sales.detail_pesanan', compact('orders', 'totalAmount', 'prices','namaRokokList'));
     }
 
     

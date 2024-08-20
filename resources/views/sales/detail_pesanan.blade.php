@@ -15,9 +15,9 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white">
-                    @foreach ($orders as $order)
+                    @foreach ($orders as $index => $order)
                     <tr class="border-b">
-                        <td class="p-3 text-center">{{ $order->id_master_barang }}</td>
+                        <td class="p-3 text-center"> {{ $namaRokokList[$index]}}</td>
                         <td class="p-3 text-center">Rp {{ number_format($order->harga_agen, 0, ',', '.') }}</td>
                         <td class="p-3 text-center">
                             <div class="flex items-center justify-center space-x-2">
