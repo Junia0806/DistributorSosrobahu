@@ -81,6 +81,8 @@ class BarangAgenController extends Controller
         return redirect()->route('barang_agen.index')->with('success', 'Barang Agen berhasil diperbarui.');
     }
 
+    
+
     public function destroy($id)
     {
         BarangAgen::findOrFail($id)->delete();

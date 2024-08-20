@@ -20,6 +20,5 @@ class OrderSale extends Model
         'tanggal',
         'bukti_transfer',
         'status_pemesanan',
-        'nota'
     ];
 }

@@ -23,13 +23,14 @@
                         <td class="p-2">Rp. {{ number_format($orderSale->total, 0, ',', '.') }}</td>
                         <td class="p-2">{{ $orderSale->jumlah }} Slop</td>
                         <td class="p-2 {{ $orderSale->status_pemesanan == 1 ? 'text-green-600' : 'text-red-600' }} font-semibold">
-                            {{ $orderSale->status_pemesanan == 1 ? 'Selesai' : 'Ditolak' }}
+                            {{ $orderSale->status_pemesanan == 1 ? 'Selesai' : ($orderSale->status_pemesanan == 2 ? 'Ditolak' : 'Diproses' ) }}
                         </td>
+
                         <td class="p-2 {{ $orderSale->bukti_transfer ? 'text-green-600' : 'text-red-600' }} font-semibold">
                             {{ $orderSale->bukti_transfer ? 'Lunas' : 'Hutang' }}
                         </td>
                         <td class="p-2">
-                            @if($orderSale->nota)
+                            @if($orderSale->status_pemesanan == 1 && $orderSale->bukti_transfer)
                                 <button onclick="window.location.href='{{ route('nota', $orderSale->id_order) }}'" class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">
                                     Tersedia
                                 </button>

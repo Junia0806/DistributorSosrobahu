@@ -8,6 +8,7 @@ use App\Models\BarangAgen;
 use App\Models\DaftarToko;
 use App\Models\OrderSale;
 use Illuminate\Http\Request;
+use App\Models\OrderDetailSales;
 use Carbon\Carbon;
 
 class OrderSaleController extends Controller
@@ -53,21 +54,65 @@ class OrderSaleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'id_user_sales' => 'required|integer',
-            'jumlah' => 'required|integer',
-            'total' => 'required|integer',
-            'tanggal' => 'required|date',
-            'bukti_transfer' => 'required|string',
-            'status_pemesanan' => 'required|integer',
-            'nota' => 'required|string',
-        ]);
+       
+        // Validate the request
+        // $validatedData = $request->validate([
+        //     'payment-proof' => 'required|file|mimes:jpeg,png,pdf|max:2048',
+        //     'quantities' => 'required|array',
+        //     'quantities.*' => 'required|integer|min:1',
+        // ]);
+       
+        // Handle file upload
+        if ($request->hasFile('payment_proof')) {
+            $path = $request->file('payment_proof')->store('bukti_transfer', 'public');
+        }
+        
+        //ambil data semua buat data untuk tabel order lalu generate id order terbaru lalu jalankan foreach
+        // Calculate total price
+        $totalAmount = 0;
 
-        OrderSale::create($request->all());
+        $orders = [
+            'id_user_sales' => 1,
+            'jumlah' => $request->total_items,
+            'total' => $request->total_amount,
+            'tanggal' => now(),
+            'bukti_transfer' => $path ?? '',
+            'status_pemesanan' => 0, // Assuming 0 means "Pending"
+            'created_at' => now(),
+            'updated_at' => now(),
+        ];
 
-        return redirect()->route('order_sales.index')
-            ->with('success', 'Order Sale created successfully.');
+        // Memasukan data Ke dalam tabel Order Sales
+        OrderSale::insert($orders);
+        $id_order = OrderSale::latest('id_order')->first()->id_order;
+        $orders = [];
+        foreach ($request->input('quantities') as $productId => $quantity) {
+            $product = DB::table('tbl_barang_agen')->where('id_master_barang', $productId)->first();
+            $totalAmount += $product->harga_agen * $quantity;
+            
+
+            $orders[] = [
+                'id_order'=> $id_order,
+                'id_user_agen' => 1,
+                'id_user_sales' => 1,
+                'id_master_barang' => $productId,
+                'id_barang_agen' => $product->id_barang_agen,
+                'jumlah_produk' => $quantity,
+                'jumlah_harga_item' => $totalAmount,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+            
+        }
+        
+        // Memasukan data Ke dalam tabel Order Detail Sales
+        OrderDetailSales::insert($orders);
+
+        // Redirect or return a response
+        return redirect()->route('riwayatOrder')->with('success', 'Pesanan berhasil dikirim!');
     }
+
+
 
     /**
      * Menampilkan Order Berdasarkan id pada database

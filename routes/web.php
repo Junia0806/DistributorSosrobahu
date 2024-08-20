@@ -58,14 +58,15 @@ Route::get('/detail', function () {
 // Rute untuk memilih barang
 Route::get('/sales/pesan_barang', [BarangAgenController::class, 'index'])->name('pesan_barang');
 
-// Rute untuk detail pesanan
 Route::post('/sales/detail_pesanan', [OrderSaleController::class, 'detail'])->name('detail_pesanan');
 
 // Rute untuk menyimpan pesanan
-Route::post('/sales/submit-pesanan', [OrderSaleController::class, 'submit'])->name('submit-pesanan');
+Route::post('/sales/riwayatOrder', [OrderSaleController::class, 'store'])->name('simpan_order');
+
 
 
 // Route untuk menampilkan riwayat pemesanan
+
 Route::get('/riwayatOrder', [OrderSaleController::class, 'index'])->name('riwayatOrder');
 // Route untuk menampilkan nota berdasarkan id_daftar_toko
 Route::get('order_sales/{id_daftar_toko}/nota', [OrderSaleController::class, 'showNota'])->name('nota');
