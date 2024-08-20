@@ -14,10 +14,10 @@ class DaftarTokoController extends Controller
      */
     public function index()
     {
-        $toko = DaftarToko::all();
+        $toko = DaftarToko::paginate(5); // Mengambil 5 data per halaman
         return view('sales.tokoSales', compact('toko'));
     }
-
+    
     /**
      * Function untuk menampilkan kunjungan toko berdasarkan id daftar toko
      */
@@ -50,14 +50,14 @@ class DaftarTokoController extends Controller
      */
     public function store(Request $request)
     {
-       
+
         $request->validate([
             'nama_toko' => 'required|string|max:255',
             'lokasi' => 'required|string|max:255',
             'nama_pemilik' => 'required|string|max:255',
             'no_telp' => 'required|string|max:100',
         ]);
-        
+
         // dd($request->all());
         DaftarToko::create($request->all());
 
@@ -70,7 +70,7 @@ class DaftarTokoController extends Controller
         return view('daftar_toko.show', compact('daftarToko'));
     }
 
-    
+
     // Function untuk memanggil halaman/view edit
     public function edit(DaftarToko $daftarToko)
     {
@@ -90,7 +90,7 @@ class DaftarTokoController extends Controller
             'no_telp' => 'required|string|max:100',
         ]);
 
-        
+
         $daftarToko = DaftarToko::find($id_daftar_toko);
         if (!$daftarToko) {
             return response()->json(['message' => 'Data not found'], 404);
@@ -111,21 +111,19 @@ class DaftarTokoController extends Controller
      */
 
     public function destroy($id_daftar_toko)
-{
-    $daftarToko = DaftarToko::find($id_daftar_toko);
+    {
+        $daftarToko = DaftarToko::find($id_daftar_toko);
 
-    if ($daftarToko) {
-        // Hapus semua kunjungan terkait toko ini
-        $daftarToko->kunjunganToko()->delete();
+        if ($daftarToko) {
+            // Hapus semua kunjungan terkait toko ini
+            $daftarToko->kunjunganToko()->delete();
 
-        // Hapus toko
-        $daftarToko->delete();
+            // Hapus toko
+            $daftarToko->delete();
 
-        return redirect()->route('tokoSales')->with('success', 'Toko dan kunjungan terkait berhasil dihapus.');
-    } else {
-        return redirect()->route('tokoSales')->with('error', 'Toko tidak ditemukan.');
+            return redirect()->route('tokoSales')->with('success', 'Toko dan kunjungan terkait berhasil dihapus.');
+        } else {
+            return redirect()->route('tokoSales')->with('error', 'Toko tidak ditemukan.');
+        }
     }
-}
-
-   
 }

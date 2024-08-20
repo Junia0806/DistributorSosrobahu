@@ -17,7 +17,7 @@
                     <tr>
                         <th class="p-2 text-center">No</th>
                         <th class="p-2 text-center">Tanggal</th>
-                        <th class="p-2 text-center">Sisa Produk</th>
+                        <th class="p-2 text-center">Produk Terjual</th>
                         <th class="p-2 text-center">Dokumentasi</th>
                         <th class="p-2 text-center">Aksi</th>
                     </tr>

@@ -132,11 +132,11 @@
                 if (result.isConfirmed) {
                     Swal.fire({
                         title: "Terimakasih!",
-                        text: "Pesanan Anda telah di proses. Cek status pesanan pada fitur riwayat.",
+                        text: "Pesanan Anda telah diproses. Cek status pesanan pada fitur riwayat.",
                         icon: "success"
                     }).then(() => {
-                        // Redirect to login page or home
-                        window.location.href = '/riwayat'; // Adjust the URL as needed
+                        // Redirect to the order history page
+                        window.location.href = "{{ url('/riwayatOrder') }}"; // Adjust the URL as needed
                     });
                 }
             });

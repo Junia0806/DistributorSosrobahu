@@ -15,9 +15,9 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white">
-                    @foreach ($orders as $order)
+                    @foreach ($orders as $index => $order)
                     <tr class="border-b">
-                        <td class="p-3 text-center">{{ $order->id_master_barang }}</td>
+                        <td class="p-3 text-center"> {{ $namaRokokList[$index]}}</td>
                         <td class="p-3 text-center">Rp {{ number_format($order->harga_agen, 0, ',', '.') }}</td>
                         <td class="p-3 text-center">
                             <div class="flex items-center justify-center space-x-2">
@@ -78,7 +78,7 @@
     <script>
         // Harga per slop
         const prices = @json($prices);
-
+    
         // Update harga total dan keseluruhan
         function updatePrices() {
             let totalAmount = 0;
@@ -91,11 +91,11 @@
                 document.getElementById(`${key}-total`).textContent = `Rp. ${totalPrice.toLocaleString()}`;
                 totalAmount += totalPrice;
             });
-
+    
             document.getElementById('total-amount').textContent = `Rp. ${totalAmount.toLocaleString()}`;
             document.getElementById('total-amount2').textContent = `Rp. ${totalAmount.toLocaleString()}`;
         }
-
+    
         // Fungsi untuk mengubah jumlah produk
         function changeQuantity(productId, amount) {
             const quantityElement = document.getElementById(`${productId}-quantity`);
@@ -104,12 +104,12 @@
             quantityElement.value = quantity;
             updatePrices();
         }
-
+    
         // Fungsi untuk memvalidasi input file dan menampilkan konfirmasi
         function validateAndSubmit() {
             const fileInput = document.getElementById('payment-proof');
             const fileError = document.getElementById('file-error');
-
+    
             if (fileInput.files.length === 0) {
                 fileError.classList.remove('hidden');
                 fileInput.classList.add('border-red-500');
@@ -118,7 +118,7 @@
                 fileError.classList.add('hidden');
                 fileInput.classList.remove('border-red-500');
             }
-
+    
             Swal.fire({
                 title: "Apakah Anda yakin?",
                 text: "Anda tidak akan bisa membatalkan pesanan ini!",
@@ -140,5 +140,9 @@
                 }
             });
         }
+    
+        // Panggil updatePrices saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', updatePrices);
     </script>
+    
 @endsection
