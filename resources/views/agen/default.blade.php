@@ -38,7 +38,7 @@
                         </div>
                         <ul class="py-2" aria-labelledby="user-menu-button">
                             <li>
-                                <a href="{{ route('pengaturan') }}"
+                                <a href="{{ route('agen-pengaturan') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Kelola
                                     Harga</a>
                             </li>
@@ -68,20 +68,20 @@
                     <ul
                         class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li>
-                            <a href="#"
-                                class="block py-2 px-3 rounded {{ Route::is('agen-pesan') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                                id="dashboard-link">
+                            <a href="{{ route('dashboard-agen') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('dashboard-agen') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                                id="dashboard-agen">
                                 Dashboard
                             </a>
                         </li>
-                        <a href="#"
-                            class="block py-2 px-3 rounded {{ Route::is('agen-pesan') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                            id="sales-link">
+                        <a href="{{ route('kelola-sales') }}"
+                            class="block py-2 px-3 rounded {{ Route::is('kelola-sales') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            id="kelola-sales">
                             Sales
                         </a>
                         <li>
-                            <a href="#"
-                                class="block py-2 px-3 rounded {{ Route::is('agen-pesan') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            <a href="{{ route('transaksi') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('transaksi') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                                 id="transaksi-link">
                                 Pesanan Masuk
                             </a>
@@ -136,7 +136,8 @@
                         <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Pemesanan</h2>
                         <ul class="text-gray-500 dark:text-gray-400 font-medium">
                             <li class="mb-4">
-                                <a href="https://github.com/themesberg/flowbite" class="hover:underline">Order Produk</a>
+                                <a href="https://github.com/themesberg/flowbite" class="hover:underline">Order
+                                    Produk</a>
                             </li>
                             <li>
                                 <a href="https://discord.gg/4eeurUVvTy" class="hover:underline">Riwayat Pesanan</a>
@@ -152,7 +153,7 @@
             </div>
         </div>
     </footer>
-    
+
 
 </body>
 <!-- SweetAlert2 CDN -->
@@ -161,7 +162,9 @@
     document.addEventListener('DOMContentLoaded', function() {
         const path = window.location.pathname;
         const links = {
-            '/': 'dashboard-link',
+            '/dashboard-agen': 'dashboard-agen',
+            '/agen/transaksi': 'transaksi-link',
+            '/agen/kelola-sales': 'kelola-sales',
             '/agen/pesan': 'pesan-link',
             '/agen/riwayat': 'riwayat-link',
             '/toko': 'toko-link'
@@ -201,7 +204,7 @@
                         icon: "success"
                     }).then(() => {
                         // Redirect to login page or home
-                        window.location.href = '/'; // Adjust the URL as needed
+                        window.location.href = '/login-agen'; // Adjust the URL as needed
                     });
                 }
             });

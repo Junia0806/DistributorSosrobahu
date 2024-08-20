@@ -77,6 +77,8 @@ Route::get('/nota', function () {
     return view('sales.nota');
 })->name('nota');
 
+//DASHBOARD SALES
+Route::get('/dashboard', [OrderSaleController::class, 'dashboard'])->name('dashboard');
 
 //ROUTE AGEN
 Route::get('/default', function () {
@@ -99,23 +101,22 @@ Route::get('/agen/nota', function () {
     return view('agen.nota');
 })->name('agen-nota');
 
-Route::get('/rekening', function () {
+Route::get('/agen/rekening', function () {
     return view('agen.rekening');
 })->name('agen-rekening');
 
-Route::get('/pengaturan', function () {
+Route::get('/agen/pengaturan', function () {
     return view('agen.pengaturan_harga');
-})->name('pengaturan');
+})->name('agen-pengaturan');
 
-Route::get('/kelola-akun', function () {
+Route::get('/agen/kelola-sales', function () {
     return view('agen.kelola-akun');
-})->name('kelola');
+})->name('kelola-sales');
 
-Route::get('/transaksi', function () {
+Route::get('/agen/transaksi', function () {
     return view('agen.transaksi');
 })->name('transaksi');
 
-// routes/web.php
 Route::get('/detail', function () {
     $namaAgen = request('namaAgen');
     $orderDate = request('orderDate');
@@ -149,3 +150,4 @@ Route::post('/login-agen', function () {
 Route::get('/dashboard-agen', function () {
     return view('agen.dashboard-agen');
 })->name('dashboard-agen');
+

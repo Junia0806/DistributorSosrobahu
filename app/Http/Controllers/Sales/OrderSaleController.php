@@ -4,18 +4,35 @@ namespace App\Http\Controllers\Sales;
 
 use App\Http\Controllers\Controller;
 use App\Models\BarangAgen;
+use App\Models\DaftarToko;
 use App\Models\OrderSale;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class OrderSaleController extends Controller
 {
+
+    public function dashboard()
+    {
+        // Mengambil data total harga dari semua pemesanan
+        $orderSales = OrderSale::all();
+        $totalPrice = $orderSales->sum('total');
+    
+        // Mengambil jumlah toko dari model
+        $jumlahToko = DaftarToko::count();
+    
+        // Mengirimkan variabel ke view
+        return view('sales.dashboard', compact('totalPrice', 'jumlahToko'));
+    }
+
     /**
      * Function untuk Menampilkan semua Order dari database
      */
     public function index()
     {
-        $orderSales = OrderSale::all();
+        // Membuat pagination dari order paling terbaru
+        $orderSales = OrderSale::orderBy('tanggal', 'desc')->paginate(10);
+
         foreach ($orderSales as $orderSale) {
             $orderSale->tanggal = Carbon::parse($orderSale->tanggal);
         }
@@ -48,7 +65,7 @@ class OrderSaleController extends Controller
         OrderSale::create($request->all());
 
         return redirect()->route('order_sales.index')
-                         ->with('success', 'Order Sale created successfully.');
+            ->with('success', 'Order Sale created successfully.');
     }
 
     /**
@@ -97,7 +114,7 @@ class OrderSaleController extends Controller
         $orderSale->update($request->all());
 
         return redirect()->route('order_sales.index')
-                         ->with('success', 'Order Sale updated successfully.');
+            ->with('success', 'Order Sale updated successfully.');
     }
 
     /**
@@ -109,19 +126,19 @@ class OrderSaleController extends Controller
         $orderSale->delete();
 
         return redirect()->route('order_sales.index')
-                         ->with('success', 'Order Sale deleted successfully.');
+            ->with('success', 'Order Sale deleted successfully.');
     }
 
     //  memilih barang Dihalaman Order 
     public function detail(Request $request)
     {
         $selectedProductIds = $request->input('products', []); // Mengambil ID produk yang dipilih dari request
-        
+
         // Ambil detail pesanan berdasarkan ID produk yang dipilih
         $orders = BarangAgen::whereIn('id_master_barang', $selectedProductIds)->get();
-        
+
         // Menghitung total harga
-        $totalAmount = $orders->sum(function($order) {
+        $totalAmount = $orders->sum(function ($order) {
             return $order->harga_agen * $order->jumlah; // Menghitung total harga untuk semua barang
         });
 
@@ -132,7 +149,7 @@ class OrderSaleController extends Controller
         return view('sales.detail_pesanan', compact('orders', 'totalAmount', 'prices'));
     }
 
-    
+
     public function submit(Request $request)
     {
         $request->validate([

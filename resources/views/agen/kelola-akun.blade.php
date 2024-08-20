@@ -4,7 +4,7 @@
 <div class="w-full max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-x-auto my-20">
     <div class="flex items-center justify-between p-6 border-b">
         <div class="flex-1 text-center">
-            <h1 class="text-2xl font-bold text-black">List Akun Sales</h1>
+            <h1 class="text-2xl font-bold text-black">Daftar Akun Sales</h1>
         </div>
         <button data-modal-target="tambah-modal" data-modal-toggle="tambah-modal"
             class="bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300" type="button">

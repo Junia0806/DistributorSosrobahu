@@ -1,7 +1,7 @@
 @extends('sales.default')
 
 @section('content')
-    <div class="w-full max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-x-auto my-20">
+    <div class="w-full max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-x-auto mt-20">
         <div class="flex items-center justify-between p-6 border-b">
             <div class="flex-1 text-center">
                 <h1 class="text-2xl font-bold text-black">Daftar Toko </h1>
@@ -27,9 +27,13 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white text-center">
+                    @php
+                        // Menghitung nomor urut awal untuk halaman saat ini
+                        $startIndex = $toko->perPage() * ($toko->currentPage() - 1) + 1;
+                    @endphp
                     @foreach ($toko as $index => $item)
                         <tr class="border-b border-gray-200">
-                            <td class="p-2">{{ $index + 1 }}</td>
+                            <td class="p-2">{{ $startIndex + $index }}</td>
                             <td class="p-2">{{ $item->nama_toko }}</td>
                             <td class="p-2">{{ $item->lokasi }}</td>
                             <td class="p-2">{{ $item->nama_pemilik }}</td>
@@ -188,8 +192,35 @@
                 </form>
             </div>
         </div>
+
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Custom Pagination -->
+    <div class="flex flex-col items-center my-6">
+        <!-- Help text -->
+        <span class="text-sm text-gray-700 dark:text-gray-400">
+            Menampilkan <span class="font-semibold text-gray-900 dark:text-white">{{ $toko->firstItem() }}</span> sampai
+            <span class="font-semibold text-gray-900 dark:text-white">{{ $toko->lastItem() }}</span> dari <span
+                class="font-semibold text-gray-900 dark:text-white">{{ $toko->total() }}</span> toko
+        </span>
+        <!-- Buttons -->
+        <div class="inline-flex mt-2 xs:mt-0">
+            <!-- Previous Button -->
+            <button {{ $toko->onFirstPage() ? 'disabled' : '' }}
+                class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                {{ $toko->previousPageUrl() ? 'onclick=window.location.href=\'' . $toko->previousPageUrl() . '\'' : '' }}>
+                Sebelumnya
+            </button>
+            <!-- Next Button -->
+            <button {{ !$toko->hasMorePages() ? 'disabled' : '' }}
+                class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                {{ $toko->nextPageUrl() ? 'onclick=window.location.href=\'' . $toko->nextPageUrl() . '\'' : '' }}>
+                Selanjutnya
+            </button>
+        </div>
+    </div>
+
+    </div>
     <script>
         document.querySelectorAll('[data-modal-target]').forEach(button => {
             button.addEventListener('click', () => {
