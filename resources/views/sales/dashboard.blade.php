@@ -10,7 +10,7 @@
                         <i class="fas fa-box-open fa-2x"></i>
                     </div>
                     <div class="ml-4">
-                        <h2 class="text-xl font-bold">185 Pcs</h2>
+                        <h2 class="text-xl font-bold">{{ $totalStok }} Pcs</h2>
                         <p class="text-lg">Total Stok</p>
                     </div>
                 </div>
@@ -21,12 +21,12 @@
                         <i class="fas fa-star fa-2x"></i>
                     </div>
                     <div class="ml-4">
-                        <h2 class="text-xl font-bold">Sosrobahu Premium</h2>
+                        <h2 class="text-xl font-bold">{{ $topProductName }}</h2>
                         <p class="text-lg">Produk Terlaris</p>
                     </div>
                 </div>
 
-                <!-- Pendapatan Bulan Ini -->
+                <!-- Modal -->
                 <div class="bg-blue-400 text-white rounded-lg shadow p-4 flex items-center">
                     <div class="flex-shrink-0">
                         <i class="fas fa-money-bill-wave fa-2x"></i>
