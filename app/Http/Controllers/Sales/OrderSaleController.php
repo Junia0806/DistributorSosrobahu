@@ -9,6 +9,7 @@ use App\Models\DaftarToko;
 use App\Models\OrderSale;
 use Illuminate\Http\Request;
 use App\Models\OrderDetailSales;
+use App\Models\KunjunganToko;
 use Carbon\Carbon;
 
 class OrderSaleController extends Controller
@@ -19,12 +20,27 @@ class OrderSaleController extends Controller
         // Mengambil data total harga dari semua pemesanan
         $orderSales = OrderSale::all();
         $totalPrice = $orderSales->sum('total');
-    
+
         // Mengambil jumlah toko dari model
         $jumlahToko = DaftarToko::count();
-    
+
+        // Mengambil produk terlaris
+        $topProduct = OrderDetailSales::select('id_master_barang', DB::raw('SUM(jumlah_produk) as total_quantity'))
+            ->groupBy('id_master_barang')
+            ->orderBy('total_quantity', 'desc')
+            ->first();
+
+        // Jika ada produk terlaris
+        $topProductName = $topProduct ? DB::table('master_barang')->where('id_master_barang', $topProduct->id_master_barang)->value('nama_rokok') : 'Tidak ada data';
+
+        
+        // Menghitung total stok (dalam pcs)
+        $totalStok = OrderDetailSales::sum(DB::raw('jumlah_produk * 10')); // Mengonversi slop ke pcs
+        $totalPenjualan = KunjunganToko::sum('sisa_produk'); // Total produk yang terjual
+        $totalStok -= $totalPenjualan; // Mengurangi stok berdasarkan produk yang terjual
+
         // Mengirimkan variabel ke view
-        return view('sales.dashboard', compact('totalPrice', 'jumlahToko'));
+        return view('sales.dashboard', compact('totalPrice', 'jumlahToko', 'topProductName', 'totalStok'));
     }
 
     /**
@@ -32,12 +48,15 @@ class OrderSaleController extends Controller
      */
     public function index()
     {
-        // Membuat pagination dari order paling terbaru
-        $orderSales = OrderSale::orderBy('tanggal', 'desc')->paginate(10);
+        // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
+        $orderSales = OrderSale::orderBy('id_order', 'desc')->paginate(10);
 
+        // Mengonversi tanggal ke format Carbon
         foreach ($orderSales as $orderSale) {
             $orderSale->tanggal = Carbon::parse($orderSale->tanggal);
         }
+
+        // Mengirim data pesanan ke view
         return view('sales.riwayatOrder', compact('orderSales'));
     }
 
@@ -54,12 +73,21 @@ class OrderSaleController extends Controller
      */
     public function store(Request $request)
     {
-       
+
+        // Validate the request
+        // $validatedData = $request->validate([
+        //     'payment-proof' => 'required|file|mimes:jpeg,png,pdf|max:2048',
+        //     'quantities' => 'required|array',
+        //     'quantities.*' => 'required|integer|min:1',
+        // ]);
+
         // Handle file upload
         if ($request->hasFile('payment_proof')) {
             $path = $request->file('payment_proof')->store('bukti_transfer', 'public');
         }
-        
+
+        //ambil data semua buat data untuk tabel order lalu generate id order terbaru lalu jalankan foreach
+
         // Calculate total price
         $totalAmount = 0;
         // Memasukkan data kedalan tabel Order Sales
@@ -82,10 +110,10 @@ class OrderSaleController extends Controller
             $totalAmount = 0;
             $product = DB::table('tbl_barang_agen')->where('id_master_barang', $productId)->first();
             $totalAmount += $product->harga_agen * $quantity;
-            
+
 
             $orders[] = [
-                'id_order'=> $id_order,
+                'id_order' => $id_order,
                 'id_user_agen' => 1,
                 'id_user_sales' => 1,
                 'id_master_barang' => $productId,
@@ -95,9 +123,8 @@ class OrderSaleController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
-            
         }
-        
+
         // Memasukan data Ke dalam tabel Order Detail Sales
         OrderDetailSales::insert($orders);
 
@@ -194,7 +221,7 @@ class OrderSaleController extends Controller
                 $namaRokokList[] = null; // If no matching record is found
             }
         }
-        
+
         // Ambil detail pesanan berdasarkan ID produk yang dipilih
         $orders = BarangAgen::whereIn('id_master_barang', $selectedProductIds)->get();
 
@@ -207,7 +234,7 @@ class OrderSaleController extends Controller
         // Mengambil harga per produk
         $prices = $orders->pluck('harga_agen', 'id_master_barang')->toArray();
 
-        return view('sales.detail_pesanan', compact('orders', 'totalAmount', 'prices','namaRokokList'));
+        return view('sales.detail_pesanan', compact('orders', 'totalAmount', 'prices', 'namaRokokList'));
     }
 
 
