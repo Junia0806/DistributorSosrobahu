@@ -12,7 +12,7 @@
                     <thead class="bg-gray-800 text-gray-300">
                         <tr>
                             <th class="p-3 text-center">Nama Produk</th>
-                            <th class="p-3 text-center">Harga / Karton</th>
+                            <th class="p-3 text-center">Harga / Slop</th>
                             <th class="p-3 text-center">Jumlah</th>
                             <th class="p-3 text-center">Total Harga</th>
                         </tr>
@@ -78,8 +78,8 @@
 
                 <!-- Tombol Pesan -->
                 <div class="text-right">
-                    <input type="text" id="total-amount-hidden" name="total_amount" value="{{ $totalAmount }}">
-                    <input type="text" id="total-items-hidden" name="total_items" value="0">
+                    <input type="hidden" id="total-amount-hidden" name="total_amount" value="{{ $totalAmount }}">
+                    <input type="hidden" id="total-items-hidden" name="total_items" value="0">
                     <button id="order-button" type="submit"
                         class="bg-gray-800 font-bold text-white py-2 px-10 mt-2 rounded-md hover:bg-gray-700 transition duration-300">
                         Kirim Pesanan
@@ -93,9 +93,9 @@
     <script>
         // Harga per slop
         const prices = @json($prices);
-    
+
         // Update harga total dan keseluruhan
-        
+
         function updatePrices() {
             let totalAmount = 0;
             let totalItems = 0;
@@ -119,7 +119,7 @@
             document.getElementById('total-items-hidden').value = totalItems;
         }
 
-    
+
         // Fungsi untuk mengubah jumlah produk
         function changeQuantity(productId, amount) {
             const quantityElement = document.getElementById(`${productId}-quantity`);
@@ -130,21 +130,24 @@
 
             document.getElementById('quantity-item').value = quantity;
         }
-    
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Panggil updatePrices saat halaman dimuat
+            updatePrices();
+
+            // Tambahkan event listener pada tombol submit
+            document.getElementById('order-button').addEventListener('click', function(event) {
+                // Cegah pengiriman form default
+                event.preventDefault();
+
+                // Panggil fungsi untuk validasi dan konfirmasi
+                validateAndSubmit();
+            });
+        });
+
+
         // Fungsi untuk memvalidasi input file dan menampilkan konfirmasi
         function validateAndSubmit() {
-            const fileInput = document.getElementById('payment-proof');
-            const fileError = document.getElementById('file-error');
-    
-            if (fileInput.files.length === 0) {
-                fileError.classList.remove('hidden');
-                fileInput.classList.add('border-red-500');
-                return;
-            } else {
-                fileError.classList.add('hidden');
-                fileInput.classList.remove('border-red-500');
-            }
-    
             Swal.fire({
                 title: "Apakah Anda yakin?",
                 text: "Anda tidak akan bisa membatalkan pesanan ini!",
@@ -161,12 +164,13 @@
                         icon: "success",
                         confirmButtonColor: "#388e3c"
                     }).then(() => {
-                        document.querySelector('form').submit();
+                        // Kirim form setelah konfirmasi
+                        document.getElementById('order-form').submit();
                     });
                 }
             });
         }
-    
+
         // Panggil updatePrices saat halaman dimuat
         document.addEventListener('DOMContentLoaded', updatePrices);
     </script>
