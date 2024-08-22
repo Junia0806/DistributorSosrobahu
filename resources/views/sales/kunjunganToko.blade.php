@@ -28,12 +28,6 @@
                             <th class="p-2 text-center">Dokumentasi</th>
                             <th class="p-2 text-center">Aksi</th>
                         </tr>
-                        <!-- Modal Edit Kunjungan -->
-                        <div id="edit-visit-modal-{{ $visit->id_kunjungan_toko }}" tabindex="-1" aria-hidden="true"
-                            class="fixed inset-0 z-50 flex items-center justify-center w-full p-4 overflow-x-hidden overflow-y-auto h-modal hidden">
-                            <div class="relative w-full max-w-full md:max-w-md h-full max-h-full md:h-auto">
-                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-
                     </thead>
 
                     @foreach ($kunjunganToko as $index => $visit)
@@ -47,64 +41,11 @@
                                         class="w-20 h-20 object-cover rounded-lg mx-auto">
                                 </td>
                                 <td class="p-2">
-
                                     <button type="button"
                                         data-modal-target="#edit-visit-modal-{{ $visit->id_kunjungan_toko }}"
                                         class="inline-flex items-center justify-center w-10 h-10 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
                                         <i class="fa-regular fa-pen-to-square text-lg"></i>
                                     </button>
-
-                                    <div class="p-6 text-center">
-                                        <h3 class="text-lg font-semibold text-gray-900">Edit Kunjungan</h3>
-                                        <form action="{{ route('kunjunganToko.update', $visit->id_kunjungan_toko) }}"
-                                            method="POST" enctype="multipart/form-data" class="space-y-4">
-                                            @csrf
-                                            @method('PUT')
-                        
-                                            <div class="text-left">
-                                                <input type="hidden" name="id_daftar_toko" id="id_daftar_toko"
-                                                    value="{{ $id_toko }}"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                                    required>
-                                            </div>
-                        
-                                            <div class="text-left mt-4">
-                                                <label for="tanggal"
-                                                    class="block text-sm font-medium text-gray-900">Tanggal</label>
-                                                <input type="date" name="tanggal" id="tanggal"
-                                                    value="{{ $visit->tanggal->format('Y-m-d') }}"
-                                                    class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                                    required>
-                                            </div>
-                        
-                                            <div class="text-left mt-4">
-                                                <label for="sisa_produk"
-                                                    class="block text-sm font-medium text-gray-900">Sisa Produk</label>
-                                                <input type="number" id="sisa_produk" name="sisa_produk"
-                                                    value="{{ $visit->sisa_produk }}"
-                                                    class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                                    required>
-                                            </div>
-                        
-                                            <div class="text-left mt-4">
-                                                <label for="gambar"
-                                                    class="block text-sm font-medium text-gray-900">Dokumentasi</label>
-                                                <input type="file" id="gambar" name="gambar"
-                                                    class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    required>
-                                            </div>
-                        
-                                            <button type="submit"
-                                                class="mt-6 bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300">
-                                                Simpan
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                     
-                    </tbody>
-                @endforeach
 
                                     <form id="delete-form"
                                         action="{{ route('kunjunganToko.destroy', $visit->id_kunjungan_toko) }}"
@@ -122,7 +63,7 @@
 
                             <!-- Modal Edit Kunjungan -->
                             <div id="edit-visit-modal-{{ $visit->id_kunjungan_toko }}" tabindex="-1" aria-hidden="true"
-                                class="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-modal hidden">
+                                class="fixed inset-0 z-50 flex items-center justify-center w-full p-4 overflow-x-hidden overflow-y-auto h-modal hidden">
                                 <div class="relative w-full max-w-full md:max-w-md h-full max-h-full md:h-auto">
                                     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                                         <button type="button"
@@ -242,7 +183,7 @@
                                 required>
                         </div>
                         <button type="submit"
-                            class="bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300">
+                            class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-md text-sm px-4 py-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                             Simpan
                         </button>
 

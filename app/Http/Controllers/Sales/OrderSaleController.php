@@ -16,31 +16,32 @@ class OrderSaleController extends Controller
 {
 
     public function dashboard()
-{
-    // Mengambil data total harga dari semua pemesanan
-    $orderSales = OrderSale::all();
-    $totalPrice = $orderSales->sum('total');
+    {
+        // Mengambil data total harga dari semua pemesanan
+        $orderSales = OrderSale::all();
+        $totalPrice = $orderSales->sum('total');
 
-    // Mengambil jumlah toko dari model
-    $jumlahToko = DaftarToko::count();
+        // Mengambil jumlah toko dari model
+        $jumlahToko = DaftarToko::count();
 
-    // Mengambil produk terlaris
-    $topProduct = OrderDetailSales::select('id_master_barang', DB::raw('SUM(jumlah_produk) as total_quantity'))
-        ->groupBy('id_master_barang')
-        ->orderBy('total_quantity', 'desc')
-        ->first();
+        // Mengambil produk terlaris
+        $topProduct = OrderDetailSales::select('id_master_barang', DB::raw('SUM(jumlah_produk) as total_quantity'))
+            ->groupBy('id_master_barang')
+            ->orderBy('total_quantity', 'desc')
+            ->first();
 
-    // Jika ada produk terlaris
-    $topProductName = $topProduct ? DB::table('master_barang')->where('id_master_barang', $topProduct->id_master_barang)->value('nama_rokok') : 'Tidak ada data';
+        // Jika ada produk terlaris
+        $topProductName = $topProduct ? DB::table('master_barang')->where('id_master_barang', $topProduct->id_master_barang)->value('nama_rokok') : 'Tidak ada data';
 
-     // Menghitung total stok (dalam pcs)
-     $totalStok = OrderDetailSales::sum(DB::raw('jumlah_produk * 10')); // Mengonversi slop ke pcs
-     $totalPenjualan = KunjunganToko::sum('sisa_produk'); // Total produk yang terjual
-     $totalStok -= $totalPenjualan; // Mengurangi stok berdasarkan produk yang terjual
-     
-    // Mengirimkan variabel ke view
-    return view('sales.dashboard', compact('totalPrice', 'jumlahToko', 'topProductName', 'totalStok'));
-}
+        
+        // Menghitung total stok (dalam pcs)
+        $totalStok = OrderDetailSales::sum(DB::raw('jumlah_produk * 10')); // Mengonversi slop ke pcs
+        $totalPenjualan = KunjunganToko::sum('sisa_produk'); // Total produk yang terjual
+        $totalStok -= $totalPenjualan; // Mengurangi stok berdasarkan produk yang terjual
+
+        // Mengirimkan variabel ke view
+        return view('sales.dashboard', compact('totalPrice', 'jumlahToko', 'topProductName', 'totalStok'));
+    }
 
     /**
      * Function untuk Menampilkan semua Order dari database
