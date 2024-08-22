@@ -2,7 +2,7 @@
 
 @section('content')
     <section class="container mx-auto p-6 relative my-10">
-        <form action="{{ route('simpan_order') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+        <form id="order-form" action="{{ route('simpan_order') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
             <!-- Detail Pesanan Section -->
             <section class="p-6 bg-white shadow-lg rounded-lg">
