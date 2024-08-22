@@ -54,7 +54,7 @@
 
                         <!-- Modal Edit Kunjungan -->
                         <div id="edit-visit-modal-{{ $visit->id_kunjungan_toko }}" tabindex="-1" aria-hidden="true"
-                            class="fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-modal hidden">
+                            class="fixed inset-0 z-50 flex items-center justify-center w-full p-4 overflow-x-hidden overflow-y-auto h-modal hidden">
                             <div class="relative w-full max-w-full md:max-w-md h-full max-h-full md:h-auto">
                                 <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
                                     <button type="button"
@@ -73,51 +73,49 @@
                                             method="POST" enctype="multipart/form-data" class="space-y-4">
                                             @csrf
                                             @method('PUT')
-
+                        
                                             <div class="text-left">
                                                 <input type="hidden" name="id_daftar_toko" id="id_daftar_toko"
                                                     value="{{ $id_toko }}"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                     required>
                                             </div>
-
-                                            <div class="text-left">
+                        
+                                            <div class="text-left mt-4">
                                                 <label for="tanggal"
                                                     class="block text-sm font-medium text-gray-900">Tanggal</label>
                                                 <input type="date" name="tanggal" id="tanggal"
                                                     value="{{ $visit->tanggal->format('Y-m-d') }}"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                    class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                     required>
                                             </div>
-
-                                            <div class="text-left">
+                        
+                                            <div class="text-left mt-4">
                                                 <label for="sisa_produk"
                                                     class="block text-sm font-medium text-gray-900">Sisa Produk</label>
                                                 <input type="number" id="sisa_produk" name="sisa_produk"
                                                     value="{{ $visit->sisa_produk }}"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                                    class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                                     required>
                                             </div>
-
-                                            <div class="text-left">
+                        
+                                            <div class="text-left mt-4">
                                                 <label for="gambar"
                                                     class="block text-sm font-medium text-gray-900">Dokumentasi</label>
                                                 <input type="file" id="gambar" name="gambar"
-                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                    class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                     required>
                                             </div>
-
+                        
                                             <button type="submit"
-                                                class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-md text-sm px-4 py-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 my-2">
+                                                class="mt-6 bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300">
                                                 Simpan
                                             </button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-
+                        </div>                     
                     </tbody>
                 @endforeach
             </table>
@@ -173,7 +171,7 @@
                                 required>
                         </div>
                         <button type="submit"
-                            class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-md text-sm px-4 py-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                            class="bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300">
                             Simpan
                         </button>
 

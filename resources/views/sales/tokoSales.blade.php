@@ -64,71 +64,63 @@
 
                         <!-- Modal Edit Toko -->
                         <div id="edit-item-modal-{{ $item->id_daftar_toko }}" tabindex="-1" aria-hidden="true"
-                            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                            <div class="relative p-4 w-full max-w-md max-h-full">
-                                <div class="relative bg-white rounded-lg shadow-lg">
-                                    <div class="flex items-center justify-between p-4 border-b border-gray-200">
-                                        <h3 class="text-lg font-semibold text-black">Edit Toko {{ $item->nama_toko }}</h3>
-                                        <button type="button"
-                                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
-                                            data-modal-hide="#edit-item-modal-{{ $item->id_daftar_toko }}">
-                                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                                fill="none" viewBox="0 0 14 14">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                            </svg>
-                                            <span class="sr-only">Close modal</span>
-                                        </button>
-                                    </div>
-                                    <form action="{{ route('tokoSales.update', $item->id_daftar_toko) }}" method="POST"
-                                        class="p-4">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="grid gap-4 mb-4 grid-cols-2">
-                                            <div class="col-span-2">
-                                                <label for="nama_toko"
-                                                    class="block mb-2 text-sm font-medium text-black">Nama Toko</label>
-                                                <input type="text" name="nama_toko" id="nama_toko"
-                                                    value="{{ $item->nama_toko }}"
-                                                    class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            class="fixed inset-0 z-50 flex items-center justify-center w-full p-4 overflow-x-hidden overflow-y-auto h-modal hidden">
+                            <div class="relative w-full max-w-full md:max-w-md h-full max-h-full md:h-auto">
+                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                    <button type="button"
+                                        class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:text-gray-500 dark:hover:bg-gray-600 dark:hover:text-white"
+                                        data-modal-hide="#edit-item-modal-{{ $item->id_daftar_toko }}">
+                                        <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                        <span class="sr-only">Close modal</span>
+                                    </button>
+                                    <div class="p-6 text-center">
+                                        <h3 class="text-lg font-semibold text-gray-900">Edit Toko {{ $item->nama_toko }}</h3>
+                                        <form action="{{ route('tokoSales.update', $item->id_daftar_toko) }}" method="POST" class="space-y-4">
+                                            @csrf
+                                            @method('PUT')
+                                            
+                                            <div class="text-left mt-4">
+                                                <label for="nama_toko" class="block text-sm font-medium text-gray-900">Nama Toko</label>
+                                                <input type="text" name="nama_toko" id="nama_toko" value="{{ $item->nama_toko }}"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-1"
                                                     required>
                                             </div>
-                                            <div class="col-span-2">
-                                                <label for="lokasi"
-                                                    class="block mb-2 text-sm font-medium text-black">Alamat Lengkap
-                                                    Toko</label>
-                                                <input type="text" name="lokasi" id="lokasi"
-                                                    value="{{ $item->lokasi }}"
-                                                    class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                        
+                                            <div class="text-left mt-4">
+                                                <label for="lokasi" class="block text-sm font-medium text-gray-900">Alamat Lengkap Toko</label>
+                                                <input type="text" name="lokasi" id="lokasi" value="{{ $item->lokasi }}"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-1"
                                                     required>
                                             </div>
-                                            <div class="col-span-2">
-                                                <label for="nama_pemilik"
-                                                    class="block mb-2 text-sm font-medium text-black">Nama Pemilik</label>
-                                                <input type="text" name="nama_pemilik" id="nama_pemilik"
-                                                    value="{{ $item->nama_pemilik }}"
-                                                    class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                        
+                                            <div class="text-left mt-4">
+                                                <label for="nama_pemilik" class="block text-sm font-medium text-gray-900">Nama Pemilik</label>
+                                                <input type="text" name="nama_pemilik" id="nama_pemilik" value="{{ $item->nama_pemilik }}"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-1"
                                                     required>
                                             </div>
-                                            <div class="col-span-2">
-                                                <label for="no_telp" class="block mb-2 text-sm font-medium text-black">No.
-                                                    Telepon</label>
-                                                <input type="text" name="no_telp" id="no_telp"
-                                                    value="{{ $item->no_telp }}"
-                                                    class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                        
+                                            <div class="text-left mt-4">
+                                                <label for="no_telp" class="block text-sm font-medium text-gray-900">No. Telepon</label>
+                                                <input type="text" name="no_telp" id="no_telp" value="{{ $item->no_telp }}"
+                                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-1"
                                                     required>
                                             </div>
-                                        </div>
-                                        <div class="flex justify-center">
+                        
                                             <button type="submit"
-                                                class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5">
+                                                class="bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300 font-medium text-sm my-2 mt-4">
                                                 Simpan
                                             </button>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                                                
                     @endforeach
                 </tbody>
             </table>
@@ -159,33 +151,33 @@
                         <div class="col-span-2">
                             <label for="nama_toko" class="block mb-2 text-sm font-medium text-black">Nama Toko</label>
                             <input type="text" name="nama_toko" id="nama_toko"
-                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Berkah Makmur"
                                 required>
                         </div>
                         <div class="col-span-2">
                             <label for="lokasi" class="block mb-2 text-sm font-medium text-black">Alamat Lengkap
                                 Toko</label>
                             <input type="text" name="lokasi" id="lokasi"
-                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Jl. Melati, Sidoarjo"
                                 required>
                         </div>
                         <div class="col-span-2">
                             <label for="nama_pemilik" class="block mb-2 text-sm font-medium text-black">Nama
                                 Pemilik</label>
                             <input type="text" name="nama_pemilik" id="nama_pemilik"
-                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Sujono"
                                 required>
                         </div>
                         <div class="col-span-2">
                             <label for="no_telp" class="block mb-2 text-sm font-medium text-black">No. Telepon</label>
                             <input type="text" name="no_telp" id="no_telp"
-                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="08xxxxxxxxxx"
                                 required>
                         </div>
                     </div>
                     <div class="flex justify-center">
                         <button type="submit"
-                            class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2.5">
+                            class="text-white inline-flex items-center bg-gray-800 hover:bg-gray-700 transition duration-300 font-medium rounded-lg text-sm px-4 py-2.5">
                             Simpan
                         </button>
                     </div>
