@@ -20,11 +20,11 @@ class BarangAgenController extends Controller
             $namaProduk = $barangAgen->id_master_barang;
 
             // Query the master_barang table for the corresponding record
-            $program = DB::table('master_barang')->where('id_master_barang', $namaProduk)->first();
+            $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProduk)->first();
 
             // Store the nama_rokok in the array
-            if ($program) {
-                $namaRokokList[] = $program->nama_rokok;
+            if ($orderValue) {
+                $namaRokokList[] = $orderValue->nama_rokok;
             } else {
                 $namaRokokList[] = null; // If no matching record is found
             }

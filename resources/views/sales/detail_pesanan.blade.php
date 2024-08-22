@@ -18,7 +18,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white">
-                        {{ $totalBarang = 0 }}
+                        
                         @foreach ($orders as $index => $order)
                         <tr class="border-b">
                             <td class="p-3 text-center"> {{ $namaRokokList[$index] }}</td>

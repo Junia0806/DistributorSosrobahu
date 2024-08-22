@@ -87,9 +87,10 @@ class OrderSaleController extends Controller
         }
 
         //ambil data semua buat data untuk tabel order lalu generate id order terbaru lalu jalankan foreach
+
         // Calculate total price
         $totalAmount = 0;
-
+        // Memasukkan data kedalan tabel Order Sales
         $orders = [
             'id_user_sales' => 1,
             'jumlah' => $request->total_items,
@@ -101,11 +102,12 @@ class OrderSaleController extends Controller
             'updated_at' => now(),
         ];
 
-        // Memasukan data Ke dalam tabel Order Sales
+        // Memasukan data Ke dalam tabel Detail Order Sales
         OrderSale::insert($orders);
         $id_order = OrderSale::latest('id_order')->first()->id_order;
         $orders = [];
         foreach ($request->input('quantities') as $productId => $quantity) {
+            $totalAmount = 0;
             $product = DB::table('tbl_barang_agen')->where('id_master_barang', $productId)->first();
             $totalAmount += $product->harga_agen * $quantity;
 
@@ -159,26 +161,30 @@ class OrderSaleController extends Controller
         return view('order_sales.nota', compact('orderSale'));
     }
 
+    public function showBayar($id_nota){
+        return view('sales.bayar',compact('id_nota') );
+    }
+
     /**
      * Function untuk Mengupdate ke database 
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id_nota)
     {
-        $request->validate([
-            'id_user_sales' => 'required|integer',
-            'jumlah' => 'required|integer',
-            'total' => 'required|integer',
-            'tanggal' => 'required|date',
-            'bukti_transfer' => 'required|string',
-            'status_pemesanan' => 'required|integer',
-            'nota' => 'required|string',
-        ]);
 
-        $orderSale = OrderSale::find($id);
-        $orderSale->update($request->all());
+        $editNota = OrderSale::find($id_nota);
+        if (!$editNota) {
+            return response()->json(['message' => 'Data not found'], 404);
+        } else {
+            if ($request->hasFile('bukti_transfer')) {
+                $gambarPath = $request->file('bukti_transfer')->store('images', 'public');
+                $editNota->bukti_transfer = $gambarPath;
+            }
+            $editNota->save();
+        }
+        
 
-        return redirect()->route('order_sales.index')
-            ->with('success', 'Order Sale updated successfully.');
+        return redirect()->route('riwayatOrder',)
+            ->with('success', 'Kunjungan toko berhasil diperbarui.');
     }
 
     /**
@@ -206,11 +212,11 @@ class OrderSaleController extends Controller
             $namaProdukint = intval($barangAgen);
 
             // Query the master_barang table for the corresponding record
-            $program = DB::table('master_barang')->where('id_master_barang', $namaProdukint)->first();
+            $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProdukint)->first();
 
             // Store the nama_rokok in the array
-            if ($program) {
-                $namaRokokList[] = $program->nama_rokok;
+            if ($orderValue) {
+                $namaRokokList[] = $orderValue->nama_rokok;
             } else {
                 $namaRokokList[] = null; // If no matching record is found
             }
@@ -247,5 +253,59 @@ class OrderSaleController extends Controller
 
         // Redirect dengan pesan sukses
         return redirect()->route('detail')->with('success', 'Pesanan Anda telah diproses. Terima kasih!');
+    }
+
+    
+    public function notaSales($idNota)  
+    {   
+        // Ganti dengan ID order yang ingin dicari
+        $orderDetailSales = OrderDetailSales::where('id_order', $idNota)->first();
+        $orderDetailSalesItem = OrderDetailSales::where('id_order', $idNota)->get();
+        $orderSale = OrderSale::where('id_order', $idNota)->first();
+        $namaAgen = DB::table('user_agen')->where('id_user_agen', $orderDetailSales->id_user_agen)->first();
+        $namaSales = DB::table('user_sales')->where('id_user_sales', $orderSale->id_user_sales)->first();
+
+        
+        $itemNota = [];
+        $nama_rokok = [];
+
+        foreach ($orderDetailSalesItem as $barangAgen) {
+            $product = DB::table('master_barang')->where('id_master_barang', $barangAgen->id_master_barang)->first();
+            $hargaSatuan = DB::table('tbl_barang_agen')->where('id_master_barang', $barangAgen->id_master_barang)->first();
+            if ($product) { // Cek apakah product ada dan memiliki properti nama_rokok
+                $nama_rokok[] = $product->nama_rokok;
+                $harga_satuan[] = $hargaSatuan->harga_agen;
+                $jumlah_item[] = $barangAgen->jumlah_produk;
+                $jumlah_harga[] = $barangAgen->jumlah_harga_item;
+            } else {
+                $nama_rokok[] = null; // Jika tidak ditemukan
+                $jumlah_item[] = null; // Jika tidak ditemukan
+                $jumlah_harga[] = null; // Jika tidak ditemukan
+                $harga_satuan[] = null; // Jika tidak ditemukan
+            }
+        
+            $itemNota[] = [
+                'nama_rokok' => end($nama_rokok), // Gunakan end() untuk mengambil elemen terakhir
+                'harga_satuan' => end($harga_satuan),
+                'jumlah_item' => end($jumlah_item),
+                'jumlah_harga' => end($jumlah_harga),
+            ];
+        }
+        
+        
+        $notaSales = [
+            'tanggal' => $orderSale->tanggal,
+            'id_order' => $orderSale->id_order,
+            'nama_agen' => $namaAgen->nama_lengkap,
+            'nama_sales' => $namaSales->nama_lengkap,
+            'no_telp' => $namaSales->no_telp,
+            'total_item' => $orderSale->jumlah,
+            'total_harga' => $orderSale->total,
+            'item_nota' => $itemNota
+        ];
+        
+
+        
+        return view('sales.nota', compact('notaSales'));
     }
 }
