@@ -18,7 +18,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white">
-                        {{ $totalBarang = 0 }}
+                        
                         @foreach ($orders as $index => $order)
                         <tr class="border-b">
                             <td class="p-3 text-center"> {{ $namaRokokList[$index] }}</td>
@@ -78,8 +78,8 @@
 
                 <!-- Tombol Pesan -->
                 <div class="text-right">
-                    <input type="text" id="total-amount-hidden" name="total_amount" value="{{ $totalAmount }}">
-                    <input type="text" id="total-items-hidden" name="total_items" value="0">
+                    <input type="hidden" id="total-amount-hidden" name="total_amount" value="{{ $totalAmount }}">
+                    <input type="hidden" id="total-items-hidden" name="total_items" value="0">
                     <button id="order-button" type="submit"
                         class="bg-gray-800 font-bold text-white py-2 px-10 mt-2 rounded-md hover:bg-gray-700 transition duration-300">
                         Kirim Pesanan

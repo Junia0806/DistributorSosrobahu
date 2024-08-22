@@ -57,16 +57,13 @@ Route::get('/detail', function () {
 
 // Rute untuk memilih barang
 Route::get('/sales/pesan_barang', [BarangAgenController::class, 'index'])->name('pesan_barang');
-
 Route::post('/sales/detail_pesanan', [OrderSaleController::class, 'detail'])->name('detail_pesanan');
-
 // Rute untuk menyimpan pesanan
 Route::post('/sales/riwayatOrder', [OrderSaleController::class, 'store'])->name('simpan_order');
 
 
 
 // Route untuk menampilkan riwayat pemesanan
-
 Route::get('/riwayatOrder', [OrderSaleController::class, 'index'])->name('riwayatOrder');
 // Route untuk menampilkan nota berdasarkan id_daftar_toko
 Route::get('order_sales/{id_daftar_toko}/nota', [OrderSaleController::class, 'showNota'])->name('nota');
@@ -77,6 +74,9 @@ Route::get('order_sales/{id_daftar_toko}/nota', [OrderSaleController::class, 'sh
 Route::get('/nota', function () {
     return view('sales.nota');
 })->name('nota');
+Route::get('/sales/nota/{idNota}', [OrderSaleController::class, 'notaSales'])->name('nota_sales');
+Route::get('/sales/bayar/{idNota}', [OrderSaleController::class, 'showBayar'])->name('bayar');
+Route::put('/sales/bayar/{idNota}', [OrderSaleController::class, 'update'])->name('bayar_nota');
 
 //DASHBOARD SALES
 Route::get('/dashboard', [OrderSaleController::class, 'dashboard'])->name('dashboard');
