@@ -19,10 +19,10 @@ class OrderSaleController extends Controller
         // Mengambil data total harga dari semua pemesanan
         $orderSales = OrderSale::all();
         $totalPrice = $orderSales->sum('total');
-    
+
         // Mengambil jumlah toko dari model
         $jumlahToko = DaftarToko::count();
-    
+
         // Mengirimkan variabel ke view
         return view('sales.dashboard', compact('totalPrice', 'jumlahToko'));
     }
@@ -32,12 +32,15 @@ class OrderSaleController extends Controller
      */
     public function index()
     {
-        // Membuat pagination dari order paling terbaru
-        $orderSales = OrderSale::orderBy('tanggal', 'desc')->paginate(10);
+        // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
+        $orderSales = OrderSale::orderBy('id_order', 'desc')->paginate(10);
 
+        // Mengonversi tanggal ke format Carbon
         foreach ($orderSales as $orderSale) {
             $orderSale->tanggal = Carbon::parse($orderSale->tanggal);
         }
+
+        // Mengirim data pesanan ke view
         return view('sales.riwayatOrder', compact('orderSales'));
     }
 
@@ -54,19 +57,19 @@ class OrderSaleController extends Controller
      */
     public function store(Request $request)
     {
-       
+
         // Validate the request
         // $validatedData = $request->validate([
         //     'payment-proof' => 'required|file|mimes:jpeg,png,pdf|max:2048',
         //     'quantities' => 'required|array',
         //     'quantities.*' => 'required|integer|min:1',
         // ]);
-       
+
         // Handle file upload
         if ($request->hasFile('payment_proof')) {
             $path = $request->file('payment_proof')->store('bukti_transfer', 'public');
         }
-        
+
         //ambil data semua buat data untuk tabel order lalu generate id order terbaru lalu jalankan foreach
         // Calculate total price
         $totalAmount = 0;
@@ -89,10 +92,10 @@ class OrderSaleController extends Controller
         foreach ($request->input('quantities') as $productId => $quantity) {
             $product = DB::table('tbl_barang_agen')->where('id_master_barang', $productId)->first();
             $totalAmount += $product->harga_agen * $quantity;
-            
+
 
             $orders[] = [
-                'id_order'=> $id_order,
+                'id_order' => $id_order,
                 'id_user_agen' => 1,
                 'id_user_sales' => 1,
                 'id_master_barang' => $productId,
@@ -102,9 +105,8 @@ class OrderSaleController extends Controller
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
-            
         }
-        
+
         // Memasukan data Ke dalam tabel Order Detail Sales
         OrderDetailSales::insert($orders);
 
@@ -197,7 +199,7 @@ class OrderSaleController extends Controller
                 $namaRokokList[] = null; // If no matching record is found
             }
         }
-        
+
         // Ambil detail pesanan berdasarkan ID produk yang dipilih
         $orders = BarangAgen::whereIn('id_master_barang', $selectedProductIds)->get();
 
@@ -210,7 +212,7 @@ class OrderSaleController extends Controller
         // Mengambil harga per produk
         $prices = $orders->pluck('harga_agen', 'id_master_barang')->toArray();
 
-        return view('sales.detail_pesanan', compact('orders', 'totalAmount', 'prices','namaRokokList'));
+        return view('sales.detail_pesanan', compact('orders', 'totalAmount', 'prices', 'namaRokokList'));
     }
 
 

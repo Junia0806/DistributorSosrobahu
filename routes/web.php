@@ -46,15 +46,6 @@ Route::post('/kunjunganToko/{id_daftar_toko}', [KunjunganTokoController::class, 
 Route::put('/kunjunganToko/update/{id_kunjungan_toko}', [KunjunganTokoController::class, 'update'])->name('kunjunganToko.update');
 Route::delete('/kunjunganToko/delete/{id_kunjungan_toko}', [KunjunganTokoController::class, 'destroy'])->name('kunjunganToko.destroy');
 
-
-Route::get('/pesan', function () {
-    return view('sales.pesan');
-})->name('pesan');;
-
-Route::get('/detail', function () {
-    return view('sales.detailpesan');
-})->name('detail');
-
 // Rute untuk memilih barang
 Route::get('/sales/pesan_barang', [BarangAgenController::class, 'index'])->name('pesan_barang');
 
@@ -62,21 +53,20 @@ Route::post('/sales/detail_pesanan', [OrderSaleController::class, 'detail'])->na
 
 // Rute untuk menyimpan pesanan
 Route::post('/sales/riwayatOrder', [OrderSaleController::class, 'store'])->name('simpan_order');
-
-
-
 // Route untuk menampilkan riwayat pemesanan
-
 Route::get('/riwayatOrder', [OrderSaleController::class, 'index'])->name('riwayatOrder');
 // Route untuk menampilkan nota berdasarkan id_daftar_toko
 Route::get('order_sales/{id_daftar_toko}/nota', [OrderSaleController::class, 'showNota'])->name('nota');
-// Route::get('/riwayat', function () {
-//     return view('sales.riwayat');
-// })->name('riwayat');
 
 Route::get('/nota', function () {
     return view('sales.nota');
 })->name('nota');
+
+
+Route::get('/edit', function () {
+    return view('sales.edit_pesanan');
+})->name('edit');
+
 
 //DASHBOARD SALES
 Route::get('/dashboard', [OrderSaleController::class, 'dashboard'])->name('dashboard');
@@ -151,4 +141,3 @@ Route::post('/login-agen', function () {
 Route::get('/dashboard-agen', function () {
     return view('agen.dashboard-agen');
 })->name('dashboard-agen');
-
