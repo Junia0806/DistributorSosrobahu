@@ -48,7 +48,8 @@
             </table>
             <div class="flex justify-end mb-8">
                 <div class="text-gray-700 mr-2">Total Keseluruhan:</div>
-                <div class="text-gray-700 font-bold text-xl">Rp {{ number_format($notaSales['total_harga'], 0, ',', '.') }}</div>
+                <div class="text-gray-700 font-bold text-xl">Rp {{ number_format($notaSales['total_harga'], 0, ',', '.') }}
+                </div>
             </div>
             <div class="border-t-2 border-gray-300 pt-8 mb-8">
                 <p class="text-gray-600 mb-2">Kami menghargai kepercayaan Anda dalam melakukan pembelian dengan kami.</p>
@@ -59,4 +60,29 @@
             </div>
         </div>
     </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script>
+        function downloadPDF() {
+            const element = document.querySelector('.bg-nota');
+            html2pdf()
+                .from(element)
+                .set({
+                    margin: 1,
+                    filename: 'nota-pesanan.pdf',
+                    html2canvas: {
+                        scale: 2,
+                        background: true,
+                        useCORS: true
+                    },
+                    jsPDF: {
+                        orientation: 'portrait',
+                        unit: 'in',
+                        format: 'letter',
+                        compressPDF: true
+                    }
+                })
+                .save();
+
+        }
+    </script>
 @endsection
