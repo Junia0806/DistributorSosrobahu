@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('daftar_toko', function (Blueprint $table) {
-            $table->timestamps(); // Menambahkan kolom created_at dan updated_at
+            $table->timestamps();
             $table->integer('id_daftar_toko', true);
             $table->string('nama_toko');
             $table->string('lokasi');

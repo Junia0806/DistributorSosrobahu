@@ -37,7 +37,7 @@
                                 <td class="p-2">{{ $visit->tanggal->format('d/m/Y') }}</td>
                                 <td class="p-2">{{ $visit->sisa_produk }}</td>
                                 <td class="p-2 align-middle">
-                                    <img src="{{ $visit->gambar }}" alt="Dokumentasi"
+                                    <img src="{{ asset('storage/toko/' . $gambarTokoList[$index]) }}" alt="Dokumentasi"
                                         class="w-20 h-20 object-cover rounded-lg mx-auto">
                                 </td>
                                 <td class="p-2">
