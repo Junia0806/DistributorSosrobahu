@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_agen', function (Blueprint $table) {
-            $table->timestamps(); // Menambahkan kolom created_at dan updated_at
-            $table->integer('id_user_agen', true);
+        Schema::create('user_distributor', function (Blueprint $table) {
+            $table->timestamps();
+            $table->integer('id_user_distributor', true);
             $table->string('nama_lengkap');
             $table->string('username');
             $table->string('password');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_agen');
+        Schema::dropIfExists('user_distributor');
     }
 };

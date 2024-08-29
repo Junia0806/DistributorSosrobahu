@@ -14,19 +14,30 @@ class KunjunganTokoController extends Controller
     public function index($id_toko)
     {
         $toko = DaftarToko::find($id_toko); // Ambil informasi toko jika diperlukan
+
         $kunjunganToko = KunjunganToko::where('id_daftar_toko', $id_toko)->get();
+        $gambarTokoList = [];
+
 
         if (!$toko) {
             return redirect()->back()->with('error', 'Toko tidak ditemukan');
         }
+    
+        $kunjunganToko = KunjunganToko::where('id_daftar_toko', $id_toko)
+            ->orderBy('tanggal', 'desc') // Urutkan berdasarkan tanggal terbaru di atas
+            ->get();
+    
+        // Jika kamu ingin mengubah format tanggal untuk ditampilkan di view
         foreach ($kunjunganToko as $visit) {
             $visit->tanggal = Carbon::parse($visit->tanggal);
+            $gambarTokoList [] = $visit->gambar;
         }
-        //  dd($toko->nama_toko);
+
         return view('sales.kunjunganToko', [
             'storeName' => $toko->nama_toko, // Nama toko untuk ditampilkan di view
             'kunjunganToko' => $kunjunganToko,
             'id_toko' => $id_toko,
+            'gambarTokoList' => $gambarTokoList
         ]);
     }
     // Function untuk menampilkan kunjungan toko berdasarkan id
@@ -43,14 +54,28 @@ class KunjunganTokoController extends Controller
      * Function untuk Menginput data ke database 
      */ public function store(Request $request)
     {
-        $request->validate([
-            'id_daftar_toko' => 'required|integer',
-            'tanggal' => 'required|date',
-            'sisa_produk' => 'required|integer',
-            'gambar' => 'required|string',
-        ]);
+        // $request->validate([
+        //     'id_daftar_toko' => 'required|integer',
+        //     'tanggal' => 'required|date',
+        //     'sisa_produk' => 'required|integer',
+        //     'gambar' => 'required|string',
+        // ]);
 
-        $kunjunganToko = KunjunganToko::create($request->all());
+        if ($request->hasFile('gambar')) {
+            // Simpan gambar ke folder public/storage/toko
+            $path = $request->file('gambar')->store('toko', 'public');
+        } else {
+            $imageName = null; // Jika tidak ada gambar yang diupload
+        }
+      
+
+
+        KunjunganToko::create([
+            'id_daftar_toko' => $request->id_daftar_toko,
+            'tanggal' => $request->tanggal,
+            'sisa_produk' => $request->sisa_produk,
+            'gambar' => $path, // Simpan nama gambar
+        ]);
 
         return redirect()->route('kunjunganToko', ['id_daftar_toko' => $request->id_daftar_toko])
             ->with('success', 'Toko berhasil ditambahkan.');
@@ -94,17 +119,21 @@ class KunjunganTokoController extends Controller
     /**
      * Function untuk Menghapus atau delete ke database
      */
+    
     public function destroy($id_kunjungan_toko)
-    {
-        $kunjunganToko = KunjunganToko::find($id_kunjungan_toko);
+{
+    $kunjunganToko = KunjunganToko::find($id_kunjungan_toko);
     
-        if ($kunjunganToko) {
-            $kunjunganToko->delete();
-            return redirect()->route('kunjunganToko', ['id_daftar_toko' => $kunjunganToko->id_daftar_toko])->with('success', 'Kunjungan toko berhasil dihapus.');
-        } else {
-            return redirect()->route('kunjunganToko', ['id_daftar_toko' => $kunjunganToko->id_daftar_toko])->with('error', 'Kunjungan toko tidak ditemukan.');
-        }
+    if ($kunjunganToko) {
+
+        $id_daftar_toko = $kunjunganToko->id_daftar_toko;
+        $kunjunganToko->delete();
+        return redirect()->route('kunjunganToko', ['id_daftar_toko' => $id_daftar_toko])->with('success', 'Kunjungan toko berhasil dihapus.');
+    } else {
+        return redirect()->back()->with('error', 'Kunjungan toko tidak ditemukan.');
     }
-    
+}
+
+
 
 }

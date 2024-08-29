@@ -49,7 +49,7 @@
 
             <!-- Payment Status -->
             <p class="mb-4 text-gray-700">Status Pembayaran: <span id="paymentStatus"
-                    class="font-bold text-green-600">Lunas</span></p>
+                    class="font-bold text-green-600">Terbayar</span></p>
             <p class="mb-4 text-gray-700">Status Pemesanan: <span id="orderStatus"
                     class="font-bold text-orange-600">Diproses</span></p>
 
@@ -57,7 +57,7 @@
             <div class="flex justify-end mt-6">
                 <button id="editButton"
                     class="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-500  transition-transform duration-200 shadow-lg focus:ring-4 focus:ring-red-400">
-                    <i class="fa-solid fa-pencil-alt mr-2"></i>Edit Status
+                    <i class="fa-solid fa-pencil-alt mr-2"></i>Edit Status Pesanan
                 </button>
             </div>
 
@@ -68,18 +68,8 @@
             <!-- Peringatan Saat Edit -->
             <div class="mb-6 p-4 bg-yellow-100 border border-yellow-400 rounded-lg flex items-center space-x-2">
                 <span><i class="fa-solid fa-exclamation-triangle h-4 w-4 text-yellow-600"></i></span>
-                <p class="text-gray-700">Pastikan semua perubahan status pesanan telah sesuai dengan bukti pembayaran yang
+                <p class="text-gray-700">Pastikan perubahan status pesanan telah sesuai dengan bukti pembayaran yang
                     diterima.</p>
-            </div>
-
-            <!-- Status Pembayaran -->
-            <div class="mb-4">
-                <label for="paymentStatusDropdown" class="block text-gray-700 font-medium mb-2">Status Pembayaran</label>
-                <select id="paymentStatusDropdown"
-                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <option value="Lunas">Lunas</option>
-                    <option value="Belum Lunas">Belum Lunas</option>
-                </select>
             </div>
 
             <!-- Status Pemesanan -->
