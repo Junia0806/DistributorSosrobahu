@@ -14,15 +14,20 @@ class KunjunganTokoController extends Controller
     public function index($id_toko)
     {
         $toko = DaftarToko::find($id_toko); // Ambil informasi toko jika diperlukan
-        $kunjunganToko = KunjunganToko::where('id_daftar_toko', $id_toko)->get();
 
         if (!$toko) {
             return redirect()->back()->with('error', 'Toko tidak ditemukan');
         }
+    
+        $kunjunganToko = KunjunganToko::where('id_daftar_toko', $id_toko)
+            ->orderBy('tanggal', 'desc') // Urutkan berdasarkan tanggal terbaru di atas
+            ->get();
+    
+        // Jika kamu ingin mengubah format tanggal untuk ditampilkan di view
         foreach ($kunjunganToko as $visit) {
             $visit->tanggal = Carbon::parse($visit->tanggal);
         }
-        //  dd($toko->nama_toko);
+    
         return view('sales.kunjunganToko', [
             'storeName' => $toko->nama_toko, // Nama toko untuk ditampilkan di view
             'kunjunganToko' => $kunjunganToko,
@@ -94,17 +99,6 @@ class KunjunganTokoController extends Controller
     /**
      * Function untuk Menghapus atau delete ke database
      */
-    // public function destroy($id_kunjungan_toko)
-    // {
-    //     $kunjunganToko = KunjunganToko::find($id_kunjungan_toko);
-    
-    //     if ($kunjunganToko) {
-    //         $kunjunganToko->delete();
-    //         return redirect()->route('kunjunganToko', ['id_daftar_toko' => $kunjunganToko->id_daftar_toko])->with('success', 'Kunjungan toko berhasil dihapus.');
-    //     } else {
-    //         return redirect()->route('kunjunganToko', ['id_daftar_toko' => $kunjunganToko->id_daftar_toko])->with('error', 'Kunjungan toko tidak ditemukan.');
-    //     }
-    // }
     
     public function destroy($id_kunjungan_toko)
 {
