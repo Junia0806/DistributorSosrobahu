@@ -94,17 +94,30 @@ class KunjunganTokoController extends Controller
     /**
      * Function untuk Menghapus atau delete ke database
      */
+    // public function destroy($id_kunjungan_toko)
+    // {
+    //     $kunjunganToko = KunjunganToko::find($id_kunjungan_toko);
+    
+    //     if ($kunjunganToko) {
+    //         $kunjunganToko->delete();
+    //         return redirect()->route('kunjunganToko', ['id_daftar_toko' => $kunjunganToko->id_daftar_toko])->with('success', 'Kunjungan toko berhasil dihapus.');
+    //     } else {
+    //         return redirect()->route('kunjunganToko', ['id_daftar_toko' => $kunjunganToko->id_daftar_toko])->with('error', 'Kunjungan toko tidak ditemukan.');
+    //     }
+    // }
+    
     public function destroy($id_kunjungan_toko)
-    {
-        $kunjunganToko = KunjunganToko::find($id_kunjungan_toko);
+{
+    $kunjunganToko = KunjunganToko::find($id_kunjungan_toko);
     
-        if ($kunjunganToko) {
-            $kunjunganToko->delete();
-            return redirect()->route('kunjunganToko', ['id_daftar_toko' => $kunjunganToko->id_daftar_toko])->with('success', 'Kunjungan toko berhasil dihapus.');
-        } else {
-            return redirect()->route('kunjunganToko', ['id_daftar_toko' => $kunjunganToko->id_daftar_toko])->with('error', 'Kunjungan toko tidak ditemukan.');
-        }
+    if ($kunjunganToko) {
+        $id_daftar_toko = $kunjunganToko->id_daftar_toko;
+        $kunjunganToko->delete();
+        return redirect()->route('kunjunganToko', ['id_daftar_toko' => $id_daftar_toko])->with('success', 'Kunjungan toko berhasil dihapus.');
+    } else {
+        return redirect()->back()->with('error', 'Kunjungan toko tidak ditemukan.');
     }
-    
+}
+
 
 }
