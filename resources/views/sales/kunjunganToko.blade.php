@@ -47,14 +47,14 @@
                                         <i class="fa-regular fa-pen-to-square text-lg"></i>
                                     </button>
 
-                                    <form id="delete-form"
+                                    <form id="delete-form-{{ $visit->id_kunjungan_toko }}"
                                         action="{{ route('kunjunganToko.destroy', $visit->id_kunjungan_toko) }}"
                                         method="POST" class="inline-block">
                                         @csrf
                                         @method('DELETE')
                                         <button type="button"
                                             class="inline-flex items-center justify-center w-10 h-10 text-white bg-red-700 border border-red-600 rounded-sm shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 ml-2"
-                                            onclick="confirmDelete('{{ $visit->tanggal->format('d/m/Y') }}')">
+                                            onclick="confirmDelete('{{ $visit->id_kunjungan_toko }}','{{ $visit->tanggal->format('d/m/Y') }}')">
                                             <i class="fa-regular fa-trash-can text-lg"></i>
                                         </button>
                                     </form>
@@ -210,7 +210,7 @@
         });
 
 
-        function confirmDelete(date) {
+        function confirmDelete(id, date) {
             Swal.fire({
                 title: 'Anda yakin?',
                 text: `Anda akan menghapus kunjungan toko pada ${date} ini.`,
@@ -222,7 +222,7 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    document.getElementById('delete-form').submit();
+                    document.getElementById('delete-form-' + id).submit();
                 }
             });
         }
