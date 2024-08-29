@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tbl_barang_disitributor', function (Blueprint $table) {
-            $table->timestamps(); // Menambahkan kolom created_at dan updated_at
+            $table->timestamps();
             $table->integer('id_barang_distributor', true);
             $table->integer('id_master_barang')->index('id_master_barang');
             $table->integer('id_user_distributor')->index('id_user_distributor');

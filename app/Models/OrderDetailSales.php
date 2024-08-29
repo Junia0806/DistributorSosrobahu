@@ -43,5 +43,9 @@ class OrderDetailSales extends Model
         'jumlah_harga_item' => 'integer',
     ];
 
-    // Menyediakan fungsi untuk relasi jika diperlukan
+    // Menyediakan fungsi untuk relasi ke OrderSale
+    public function orderSale()
+    {
+        return $this->belongsTo(OrderSale::class, 'id_order', 'id_order');
+    }
 }

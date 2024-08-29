@@ -37,7 +37,7 @@
                                 <td class="p-2">{{ $visit->tanggal->format('d/m/Y') }}</td>
                                 <td class="p-2">{{ $visit->sisa_produk }}</td>
                                 <td class="p-2 align-middle">
-                                    <img src="{{ $visit->gambar }}" alt="Dokumentasi"
+                                    <img src="{{ asset('storage/' . $gambarTokoList[$index]) }}" alt="Dokumentasi"
                                         class="w-20 h-20 object-cover rounded-lg mx-auto">
                                 </td>
                                 <td class="p-2">
@@ -153,7 +153,7 @@
                 </button>
                 <div class="p-6 text-center">
                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Tambah Kunjungan</h3>
-                    <form action="" method="POST" class="space-y-4">
+                    <form action="" enctype="multipart/form-data" method="POST" class="space-y-4">
                         @csrf
                         <div class="text-left">
 

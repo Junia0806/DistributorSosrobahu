@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('order_sales', function (Blueprint $table) {
-            $table->timestamps(); // Menambahkan kolom created_at dan updated_at
+            $table->timestamps();
             $table->integer('id_order', true);
             $table->integer('id_user_sales')->index('id_user_sales');
             $table->integer('jumlah');
@@ -20,7 +20,6 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('bukti_transfer');
             $table->integer('status_pemesanan');
-            $table->string('nota');
         });
     }
 
