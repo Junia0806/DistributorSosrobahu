@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\BarangAgen;
+use App\Models\MasterBarang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BarangAgenController extends Controller
 {
@@ -11,8 +13,33 @@ class BarangAgenController extends Controller
     public function index()
     {
         $barangAgens = BarangAgen::all();
-        return view('sales.pesan_barang', compact('barangAgens'));
+        $namaRokokList = [];
+        $gambarRokokList = [];
+
+        // Loop through each BarangAgen item
+        foreach ($barangAgens as $barangAgen) {
+            // Get the id_master_barang for the current BarangAgen item
+            $namaProduk = $barangAgen->id_master_barang;
+
+            // Query the master_barang table for the corresponding record
+            $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProduk)->first();
+
+            // Store the nama_rokok in the array
+            if ($orderValue) {
+                $namaRokokList[] = $orderValue->nama_rokok;
+                $gambarRokokList[] = $orderValue->gambar;
+            } else {
+                $namaRokokList[] = null; // If no matching record is found
+                $gambarRokokList[] = null;
+            }
+        }
+
+        
+
+        // Pass both barangAgens and namaRokokList to the view
+        return view('sales.pesan_barang', compact('barangAgens', 'namaRokokList','gambarRokokList'));
     }
+
 
     public function create()
     {
@@ -59,6 +86,8 @@ class BarangAgenController extends Controller
 
         return redirect()->route('barang_agen.index')->with('success', 'Barang Agen berhasil diperbarui.');
     }
+
+    
 
     public function destroy($id)
     {

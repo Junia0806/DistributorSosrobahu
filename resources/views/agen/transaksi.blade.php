@@ -27,7 +27,7 @@
                     <td class="p-2">Ismail bin Mail</td>
                     <td class="p-2">134.000</td>
                     <td class="p-2">Selesai</td>
-                    <td class="p-2">Lunas</td>
+                    <td class="p-2">Terbayar</td>
                     <td class="p-2">
                         <button type="button" data-sales="Ismail bin Mail" data-date="08 Agustus 2024"
                         onclick="window.location.href='{{ route('detail') }}?namaAgen=Ismail%20bin%20Mail&orderDate=08%20Agustus%202024'"
@@ -42,7 +42,7 @@
                     <td class="p-2">Xiao Mei Mei</td>
                     <td class="p-2">134.000</td>
                     <td class="p-2">Selesai</td>
-                    <td class="p-2">Lunas</td>
+                    <td class="p-2">Terbayar</td>
                     <td class="p-2">
                         <button type="button" data-sales="Xiao Mei Mei" data-date="09 Agustus 2024"
                         onclick="window.location.href='{{ route('detail') }}?namaAgen=Xiao%20Mei%20Mei&orderDate=10%20Agustus%202024'"
@@ -56,7 +56,7 @@
                     <td class="p-2">Mohd Amirul Zarizan</td>
                     <td class="p-2">134.000</td>
                     <td class="p-2">Diproses</td>
-                    <td class="p-2">Lunas</td>
+                    <td class="p-2">Belum Bayar</td>
                     <td class="p-2">
                         <button type="button" data-sales="Mohd Amirul Zarizan" data-date="10 Agustus 2024"
                         onclick="window.location.href='{{ route('detail') }}?namaAgen=Mohd%20Amirul%20Zarizan&orderDate=08%20Agustus%202024'"

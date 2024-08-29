@@ -4,7 +4,7 @@
     <section class="bg-gray-100 py-5 my-20">
         <div class="max-w-3xl mx-auto mb-4 flex justify-end">
             <button onclick="downloadPDF()"
-                 class="bg-gray-800 font-bold text-white py-2 px-10 mt-2 rounded-md hover:bg-gray-700 transition duration-300">
+                class="bg-gray-800 font-bold text-white py-2 px-10 mt-2 rounded-md hover:bg-gray-700 transition duration-300">
                 <i class="fa-solid fa-download"></i> Download PDF
             </button>
         </div>
@@ -15,15 +15,15 @@
                 </div>
                 <div class="text-gray-700 text-right">
                     <div class="font-bold text-2xl mb-2">NOTA PESANAN</div>
-                    <div class="text-sm">01/05/2023</div>
-                    <div class="text-sm">INVO/SOSRO/01 </div>
-                    <div class="text-sm">Agen Enrique Lazuardi</div>
+                    <div class="text-sm">{{ $notaSales['tanggal'] }}</div>
+                    <div class="text-sm">INVO/SOSRO/00{{ $notaSales['id_order'] }} </div>
+                    <div class="text-sm">Agen {{ $notaSales['nama_agen'] }}</div>
                 </div>
             </div>
             <div class="border-b-2 border-gray-300 pb-3 mb-3">
                 <h2 class="text-2xl font-bold mb-2">Pesanan Kepada:</h2>
-                <div class="text-gray-700 mb-0">Hari Supriadi</div>
-                <div class="text-gray-700 mb-0">0891-0875-8936</div>
+                <div class="text-gray-700 mb-0">{{ $notaSales['nama_sales'] }}</div>
+                <div class="text-gray-700 mb-0">{{ $notaSales['no_telp'] }}</div>
             </div>
 
             <table class="w-full text-left text-sm">
@@ -36,23 +36,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="py-4 text-gray-700">Sosrobahu Kopi Hitam</td>
-                        <td class="py-4 text-gray-700">Rp 100.000</td>
-                        <td class="py-4 text-gray-700">1</td>
-                        <td class="py-4 text-gray-700">Rp 100.000</td>
-                    </tr>
-                    <tr>
-                        <td class="py-4 text-gray-700">Sosrobahu D&H</td>
-                        <td class="py-4 text-gray-700">Rp 100.000</td>
-                        <td class="py-4 text-gray-700">1</td>
-                        <td class="py-4 text-gray-700">Rp 200.000</td>
-                    </tr>
+                    @foreach ($notaSales['item_nota'] as $item)
+                        <tr>
+                            <td class="py-4 text-gray-700">{{ $item['nama_rokok'] }}</td>
+                            <td class="py-4 text-gray-700">Rp {{ number_format($item['harga_satuan'], 0, ',', '.') }}</td>
+                            <td class="py-4 text-gray-700">{{ $item['jumlah_item'] }}</td>
+                            <td class="py-4 text-gray-700">Rp {{ number_format($item['jumlah_harga'], 0, ',', '.') }}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
             </table>
             <div class="flex justify-end mb-8">
                 <div class="text-gray-700 mr-2">Total Keseluruhan:</div>
-                <div class="text-gray-700 font-bold text-xl">Rp 300.000</div>
+                <div class="text-gray-700 font-bold text-xl">Rp {{ number_format($notaSales['total_harga'], 0, ',', '.') }}
+                </div>
             </div>
             <div class="border-t-2 border-gray-300 pt-8 mb-8">
                 <p class="text-gray-600 mb-2">Kami menghargai kepercayaan Anda dalam melakukan pembelian dengan kami.</p>
@@ -63,4 +60,29 @@
             </div>
         </div>
     </section>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script>
+        function downloadPDF() {
+            const element = document.querySelector('.bg-nota');
+            html2pdf()
+                .from(element)
+                .set({
+                    margin: 1,
+                    filename: 'nota-pesanan.pdf',
+                    html2canvas: {
+                        scale: 2,
+                        background: true,
+                        useCORS: true
+                    },
+                    jsPDF: {
+                        orientation: 'portrait',
+                        unit: 'in',
+                        format: 'letter',
+                        compressPDF: true
+                    }
+                })
+                .save();
+
+        }
+    </script>
 @endsection
