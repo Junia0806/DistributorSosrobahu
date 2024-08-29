@@ -161,9 +161,45 @@ class OrderSaleController extends Controller
         return view('order_sales.nota', compact('orderSale'));
     }
 
-    public function showBayar($id_nota){
-        return view('sales.bayar',compact('id_nota') );
+    public function showBayar($id_nota)
+    {
+        // Ganti dengan ID order yang ingin dicari
+        $orderDetailSales = OrderDetailSales::where('id_order', $id_nota)->first();
+        $orderDetailSalesItem = OrderDetailSales::where('id_order', $id_nota)->get();
+        $orderSale = OrderSale::where('id_order', $id_nota)->first();
+        $namaAgen = DB::table('user_agen')->where('id_user_agen', $orderDetailSales->id_user_agen)->first();
+        $namaSales = DB::table('user_sales')->where('id_user_sales', $orderSale->id_user_sales)->first();
+    
+        $itemNota = [];
+    
+        foreach ($orderDetailSalesItem as $barangAgen) {
+            $product = DB::table('master_barang')->where('id_master_barang', $barangAgen->id_master_barang)->first();
+            $hargaSatuan = DB::table('tbl_barang_agen')->where('id_master_barang', $barangAgen->id_master_barang)->first();
+            
+            $itemNota[] = [
+                'nama_rokok' => $product ? $product->nama_rokok : null,
+                'harga_satuan' => $hargaSatuan ? $hargaSatuan->harga_agen : null,
+                'jumlah_item' => $barangAgen->jumlah_produk,
+                'jumlah_harga' => $barangAgen->jumlah_harga_item,
+            ];
+        }
+    
+        $formattedDate = Carbon::parse($orderSale->tanggal)->locale('id')->translatedFormat('j F Y');
+
+        $notaSales = [
+            'tanggal' => $formattedDate,
+            'id_order' => $orderSale->id_order,
+            'nama_agen' => $namaAgen->nama_lengkap,
+            'nama_sales' => $namaSales->nama_lengkap,
+            'no_telp' => $namaSales->no_telp,
+            'total_item' => $orderSale->jumlah,
+            'total_harga' => $orderSale->total,
+            'item_nota' => $itemNota
+        ];
+    
+        return view('sales.bayar', compact('notaSales', 'id_nota'));
     }
+    
 
     /**
      * Function untuk Mengupdate ke database 
