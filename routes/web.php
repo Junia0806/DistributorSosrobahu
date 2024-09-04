@@ -143,7 +143,8 @@ Route::get('/dashboard-agen', function () {
     return view('agen.dashboard-agen');
 })->name('dashboard-agen');
 
-// distributor
+
+//DISTRIBUTOR
 Route::get('/distributor/login', function () {
     return view('distributor.login');
 })->name('login-distributor');
@@ -187,3 +188,33 @@ Route::get('/transaksi/detail', function () {
 Route::get('/transaksi/detail/{namaAgen}', function ($namaAgen) {
     return view('distributor.detail-transaksi', ['namaAgen' => $namaAgen]);
 });
+
+
+Route::get('/distributor', function () {
+    return view('distributor.default');
+});
+
+Route::get('/distributor/pesan', function () {
+    return view('distributor.pesan');
+})->name('distributor-pesan');
+
+Route::get('/distributor/detailpesan', function () {
+    return view('distributor.detailpesan');
+})->name('distributor-detailpesan');
+
+Route::get('/distributor/riwayat', function () {
+    return view('distributor.riwayat');
+})->name('distributor-riwayat');
+
+Route::get('/distributor/nota', function () {
+    return view('distributor.nota');
+})->name('distributor-nota');
+
+Route::get('/distributor/pengaturan-harga', function () {
+    return view('distributor.pengaturan-harga');
+})->name('distributor-pengaturan-harga');
+
+Route::get('/distributor/rekening', function () {
+    return view('distributor.rekening');
+})->name('distributor-rekening');
+
