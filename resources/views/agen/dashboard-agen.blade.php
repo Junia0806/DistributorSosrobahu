@@ -11,7 +11,7 @@
                         <i class="fas fa-box-open fa-2x"></i>
                     </div>
                     <div class="ml-4">
-                        <h2 class="text-xl font-bold">185 slop</h2>
+                        <h2 class="text-xl font-bold">185 Slop</h2>
                         <p class="text-lg">Total Stok</p>
                     </div>
                 </div>
@@ -69,15 +69,15 @@
             </div>
         </div>
 
-        <!-- Tabel Peringkat Penjualan Agen -->
+        <!-- Tabel Peringkat Penjualan Sales -->
         <div class="p-6">
-            <h2 class="text-2xl font-bold mb-6 text-center">Peringkat Penjualan Agen</h2>
+            <h2 class="text-2xl font-bold mb-6 text-center">Peringkat Penjualan Sales</h2>
             <div class="overflow-x-auto">
                 <table class="min-w-full bg-white border border-gray-200 rounded-lg">
                     <thead class="bg-gray-800 text-white">
                         <tr>
                             <th class="py-2 px-4 border-b">Peringkat</th>
-                            <th class="py-2 px-4 border-b">Nama Agen</th>
+                            <th class="py-2 px-4 border-b">Nama Sales</th>
                             <th class="py-2 px-4 border-b">Total Penjualan</th>
                         </tr>
                     </thead>
@@ -85,8 +85,8 @@
                         @for ($j = 1; $j <= 5; $j++)
                             <tr class="border-t">
                                 <td class="py-2 px-4 border-b text-center">{{ $j }}</td>
-                                <td class="py-2 px-4 border-b text-center">Agen
-                                    {{ ['Abadi', 'Budaya', 'Cantika', 'Delima', 'Ekonomis', 'Fantastis'][$j - 1] }}</td>
+                                <td class="py-2 px-4 border-b text-center">Sales
+                                    {{ ['Upin', 'Ipin', 'Dzul', 'Mail', 'Nussa', 'Rara'][$j - 1] }}</td>
                                 <td class="py-2 px-4 border-b text-center">Rp.
                                     {{ number_format(rand(20000000, 40000000), 0, ',', '.') }}</td>
                             </tr>
