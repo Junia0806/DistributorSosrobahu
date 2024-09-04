@@ -145,6 +145,51 @@ Route::get('/dashboard-agen', function () {
 
 
 //DISTRIBUTOR
+Route::get('/distributor/login', function () {
+    return view('distributor.login');
+})->name('login-distributor');
+
+Route::post('/distributor/login', function () {
+    $username = request('username');
+    $password = request('password');
+
+    if ($username === 'distributor' && $password === '789') {
+        return redirect()->route('dashboard-agen');
+    }
+
+    return redirect()->route('login-distributor')->withErrors(['login' => 'Username atau password salah.']);
+})->name('login-post');
+
+Route::get('/distributor/dashboard', function () {
+    return view('distributor.dashboard');
+})->name('dashboard-agen');
+
+Route::get('/distributor/kelola-agen', function () {
+    return view('distributor.kelola-agen');
+})->name('kelola-agen');
+
+// Route untuk Laporan Transaksi
+Route::get('/distributor/transaksi', function () {
+    return view('distributor.transaksi');
+})->name('kelola-agen');
+
+// Route untuk Detail Transaksi dengan query parameters (namaAgen dan orderDate)
+Route::get('/transaksi/detail', function () {
+    $namaAgen = request('namaAgen');
+    $orderDate = request('orderDate');
+
+    return view('distributor.detail-transaksi', [
+        'namaAgen' => $namaAgen,
+        'orderDate' => $orderDate,
+    ]);
+})->name('detail.transaksi');
+
+// Route dengan parameter dinamis (tidak dipakai untuk saat ini, bisa dihapus atau disesuaikan)
+Route::get('/transaksi/detail/{namaAgen}', function ($namaAgen) {
+    return view('distributor.detail-transaksi', ['namaAgen' => $namaAgen]);
+});
+
+
 Route::get('/distributor', function () {
     return view('distributor.default');
 });

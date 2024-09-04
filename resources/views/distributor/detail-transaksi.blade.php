@@ -47,9 +47,7 @@
                 </tfoot>
             </table>
 
-            <!-- Payment Status -->
-            <p class="mb-4 text-gray-700">Status Pembayaran: <span id="paymentStatus"
-                    class="font-bold text-green-600">Terbayar</span></p>
+            <!-- Pemesanan Status -->
             <p class="mb-4 text-gray-700">Status Pemesanan: <span id="orderStatus"
                     class="font-bold text-orange-600">Diproses</span></p>
 
@@ -60,7 +58,6 @@
                     <i class="fa-solid fa-pencil-alt mr-2"></i>Edit Status Pesanan
                 </button>
             </div>
-
         </div>
 
         <!-- Edit Section -->
@@ -91,7 +88,6 @@
                 </button>
             </div>
         </div>
-
     </div>
 
     <!-- Modal for Payment Proof -->
@@ -105,18 +101,17 @@
                 class="w-full h-auto max-h-96 object-contain">
         </div>
     </div>
+    
 
     <script>
-        document.getElementById('editButton').addEventListener('click', function() {
-            document.getElementById('orderDetails').classList.add('hidden');
-            document.getElementById('editSection').classList.remove('hidden');
-            document.getElementById('pageTitle').textContent = "Edit Status Pesanan";
+        document.getElementById('editButton').addEventListener('click', function () {
+            document.getElementById('orderDetails').style.display = 'none';
+            document.getElementById('editSection').style.display = 'block';
+            document.getElementById('pageTitle').innerText = "Edit Status Pesanan";
         });
 
-        document.getElementById('saveButton').addEventListener('click', function() {
-            document.getElementById('orderDetails').classList.remove('hidden');
-            document.getElementById('editSection').classList.add('hidden');
-            document.getElementById('pageTitle').textContent = "Detail Pesanan";
+        document.getElementById('saveButton').addEventListener('click', function () {
+            alert('Status pesanan berhasil diperbarui!');
         });
 
         document.getElementById('viewProofButton').addEventListener('click', function () {
