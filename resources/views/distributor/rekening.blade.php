@@ -1,4 +1,4 @@
-@extends('agen.default')
+@extends('distributor.default')
 
 @section('content')
     <section class="container mx-auto p-6 relative my-20">
@@ -12,7 +12,8 @@
                 <div class="mb-6 p-4 bg-blue-100 border border-blue-400 rounded-lg flex items-center space-x-2">
                     <span><i class="fa-solid fa-info-circle h-6 w-6 text-blue-600"></i></span>
                     <p class="text-gray-700">
-                        Berikut adalah informasi rekening Anda sebagai Agen Rokok Sosrobahu. Semua transaksi dari Sales akan menggunakan nomor rekening ini.
+                        Berikut adalah informasi rekening Anda sebagai Distributor Rokok Sosrobahu. Semua transaksi dari
+                        Agen akan menggunakan nomor rekening ini.
                     </p>
                 </div>
                 <div class="mb-4">
