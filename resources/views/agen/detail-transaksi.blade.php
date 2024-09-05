@@ -9,7 +9,7 @@
         <hr class="border-gray-300 mb-0">
         <!-- Order Details -->
         <div id="orderDetails" class="p-6">
-            <p class="mb-2 text-gray-700">Nama: <span id="agenName" class="font-semibold">{{ $namaAgen }}</span></p>
+            <p class="mb-2 text-gray-700">Nama Sales: <span id="agenName" class="font-semibold">{{ $namaAgen }}</span></p>
             <p class="mb-2 text-gray-700">Tanggal Pemesanan: <span id="orderDate"
                     class="font-semibold">{{ $orderDate }}</span></p>
             <button id="viewProofButton"

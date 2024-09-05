@@ -69,21 +69,21 @@
                     <ul
                         class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li>
-                            <a
+                            <a href="{{ route('dashboard-distributor') }}"
                                 class="block py-2 px-3 rounded {{ Route::is('dashboard-distributor') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                                 id="dashboard-distributor">
                                 Dashboard
                             </a>
                         </li>
-                        <a
-                            class="block py-2 px-3 rounded {{ Route::is('kelola-sales') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                            id="kelola-sales">
+                        <a href="{{ route('kelola-agen') }}"
+                            class="block py-2 px-3 rounded {{ Route::is('kelola-agen') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            id="kelola-agen">
                             Agen
                         </a>
                         <li>
-                            <a 
-                                class="block py-2 px-3 rounded {{ Route::is('transaksi') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                                id="transaksi-link">
+                            <a  href="{{ route('distributor-transaksi') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('distributor-transaksi') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                                id="distributor-transaksi">
                                 Pesanan Masuk
                             </a>
                         </li>
@@ -163,12 +163,11 @@
     document.addEventListener('DOMContentLoaded', function() {
         const path = window.location.pathname;
         const links = {
-            '/dashboard-distributor': 'dashboard-distributor',
-            '/distributor/transaksi': 'transaksi-link',
-            '/distributor/kelola-sales': 'kelola-sales',
+            '/distributor/dashboard': 'dashboard-distributor',
+            '/distributor/kelola-agen': 'kelola-agen',
+            '/distributor/transaksi': 'distributor-transaksi',
             '/distributor/pesan': 'pesan-link',
             '/distributor/riwayat': 'riwayat-link',
-            '/toko': 'toko-link'
         };
 
         console.log('Current Path:', path);

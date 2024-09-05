@@ -1,5 +1,4 @@
-@extends('agen.default')
-
+@extends('distributor.default')
 @section('content')
 <div class="w-full max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-x-auto my-20">
     <div class="flex items-center justify-between p-6 border-b">

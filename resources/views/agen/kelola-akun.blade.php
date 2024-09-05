@@ -4,11 +4,11 @@
 <div class="w-full max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-x-auto my-20">
     <div class="flex items-center justify-between p-6 border-b">
         <div class="flex-1 text-center">
-            <h1 class="text-2xl font-bold text-black">Daftar Akun Sales</h1>
+            <h1 class="text-2xl font-bold text-black">Daftar Sales</h1>
         </div>
         <button data-modal-target="tambah-modal" data-modal-toggle="tambah-modal"
             class="bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300" type="button">
-            <i class="fa-regular fa-square-plus"></i> Tambah Akun
+            <i class="fa-regular fa-square-plus"></i> Akun Sales
         </button>
     </div>
 
@@ -23,6 +23,7 @@
                     <th class="p-2 text-center">Password</th>
                     <th class="p-2 text-center">No Telpon</th>
                     <th class="p-2 text-center">KTP</th>
+                    <th class="p-2 text-center">Penjualan</th>
                     <th class="p-2 text-center">Aksi</th>
                 </tr>
             </thead>
@@ -37,13 +38,14 @@
                         <button type="button" data-modal-target="ktp-modal-1" data-modal-toggle="ktp-modal-1"
                             class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">Lihat</button>
                     </td>
+                    <td class="p-2 font-semibold">Rp.5.880.000</td>
                     <td class="p-2">
                         <button type="button" data-modal-target="edit-akun-modal" data-modal-toggle="edit-akun-modal"
-                            class="inline-flex items-center justify-center w-10 h-10 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                            class="inline-flex items-center justify-center w-8 h-8 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
                             <i class="fa-regular fa-pen-to-square text-lg"></i>
                         </button>
                         <button type="button"
-                            class="inline-flex items-center justify-center w-10 h-10 text-white bg-red-700 border border-red-600 rounded-sm shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 ml-2">
+                            class="inline-flex items-center justify-center w-8 h-8 text-white bg-red-700 border border-red-600 rounded-sm shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 ml-2">
                             <i class="fa-regular fa-trash-can text-lg"></i>
                         </button>
                     </td>
@@ -59,13 +61,14 @@
                         <button type="button" data-modal-target="ktp-modal-1" data-modal-toggle="ktp-modal-1"
                             class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">Lihat</button>
                     </td>
+                    <td class="p-2 font-semibold">Rp.3.500.000</td>
                     <td class="p-2">
                         <button type="button" data-modal-target="edit-akun-modal" data-modal-toggle="edit-akun-modal"
-                            class="inline-flex items-center justify-center w-10 h-10 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                            class="inline-flex items-center justify-center w-8 h-8 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
                             <i class="fa-regular fa-pen-to-square text-lg"></i>
                         </button>
                         <button type="button"
-                            class="inline-flex items-center justify-center w-10 h-10 text-white bg-red-700 border border-red-600 rounded-sm shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 ml-2">
+                            class="inline-flex items-center justify-center w-8 h-8 text-white bg-red-700 border border-red-600 rounded-sm shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 ml-2">
                             <i class="fa-regular fa-trash-can text-lg"></i>
                         </button>
                     </td>

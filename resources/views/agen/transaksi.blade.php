@@ -4,7 +4,7 @@
 <div class="w-full max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-x-auto my-20">
     <div class="flex items-center justify-between p-6 border-b">
         <div class="flex-1 text-center">
-            <h1 class="text-2xl font-bold text-black text-center w-full">Laporan Transaksi Pesanan Sales</h1>
+            <h1 class="text-2xl font-bold text-black text-center w-full">Pesanan Masuk dari Sales</h1>
         </div>
     </div>
 

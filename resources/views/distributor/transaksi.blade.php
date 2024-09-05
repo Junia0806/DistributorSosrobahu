@@ -1,14 +1,13 @@
-@extends('agen.default')
+@extends('distributor.default')
 
 @section('content')
 <div class="w-full max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-x-auto my-20">
     <div class="flex items-center justify-between p-6 border-b">
         <div class="flex-1 text-center">
-            <h1 class="text-2xl font-bold text-black text-center w-full">Laporan Transaksi Pesanan Sales</h1>
+            <h1 class="text-2xl font-bold text-black text-center w-full">Pesanan Masuk dari Agen</h1>
         </div>
     </div>
 
-    <!-- Tabel List Transksi Pesanan Sales -->
     <div class="overflow-x-auto">
         <table class="w-full border-separate border-spacing-0 text-sm text-black">
             <thead class="bg-gray-800 text-white">
@@ -24,7 +23,7 @@
                 <tr class="border-b border-gray-200">
                     <td class="p-2">08/08/2024</td>
                     <td class="p-2">Joshua</td>
-                    <td class="p-2">134.000</td>
+                    <td class="p-2">Rp.134.000</td>
                     <td class="p-2">Selesai</td>
                     <td class="p-2">
                         <button type="button"
@@ -37,7 +36,7 @@
                 <tr class="border-b border-gray-200">
                     <td class="p-2">09/08/2024</td>
                     <td class="p-2">Xiao Mei Mei</td>
-                    <td class="p-2">134.000</td>
+                    <td class="p-2">Rp.134.000</td>
                     <td class="p-2">Selesai</td>
                     <td class="p-2">
                         <button type="button"
@@ -50,7 +49,7 @@
                 <tr class="border-b border-gray-200">
                     <td class="p-2">10/08/2024</td>
                     <td class="p-2">Mohd Amirul Zarizan</td>
-                    <td class="p-2">134.000</td>
+                    <td class="p-2">Rp.134.000</td>
                     <td class="p-2">Diproses</td>
                     <td class="p-2">
                         <button type="button"

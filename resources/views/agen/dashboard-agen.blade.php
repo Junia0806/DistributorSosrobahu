@@ -56,43 +56,16 @@
             <h2 class="text-2xl font-bold mb-6 text-center">Rincian Stok</h2>
             <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
                 @for ($i = 1; $i <= 6; $i++)
-                    <div class="bg-white border border-gray-200 rounded-lg shadow-md p-4">
+                    <div class="bg-white border border-gray-200 rounded-lg shadow-md p-2">
                         <img src="{{ asset('assets/images/produk' . $i . '.jpg') }}"
-                            alt="Sosrobahu Produk {{ $i }}" class="w-full h-40 object-cover rounded-t-lg mb-4">
-                        <div class="flex flex-col items-center">
-                            <h3 class="text-lg font-bold mb-2">Sosrobahu Produk {{ $i }}</h3>
-                            <p class="text-gray-700 text-lg">Stok: <span class="text-black font-bold">{{ rand(7, 50) }}
+                            alt="Sosrobahu Produk {{ $i }}" class="w-full h-40 object-cover rounded-t-lg mb-2">
+                        <div class="flex flex-col">
+                            <h3 class="text-md font-bold mb-0">Sosrobahu Produk {{ $i }}</h3>
+                            <p class="text-gray-700 text-md">Stok: <span class="text-black font-bold">{{ rand(7, 50) }}
                                     Slop</span></p>
                         </div>
                     </div>
                 @endfor
-            </div>
-        </div>
-
-        <!-- Tabel Peringkat Penjualan Sales -->
-        <div class="p-6">
-            <h2 class="text-2xl font-bold mb-6 text-center">Peringkat Penjualan Sales</h2>
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-                    <thead class="bg-gray-800 text-white">
-                        <tr>
-                            <th class="py-2 px-4 border-b">Peringkat</th>
-                            <th class="py-2 px-4 border-b">Nama Sales</th>
-                            <th class="py-2 px-4 border-b">Total Penjualan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for ($j = 1; $j <= 5; $j++)
-                            <tr class="border-t">
-                                <td class="py-2 px-4 border-b text-center">{{ $j }}</td>
-                                <td class="py-2 px-4 border-b text-center">Sales
-                                    {{ ['Upin', 'Ipin', 'Dzul', 'Mail', 'Nussa', 'Rara'][$j - 1] }}</td>
-                                <td class="py-2 px-4 border-b text-center">Rp.
-                                    {{ number_format(rand(20000000, 40000000), 0, ',', '.') }}</td>
-                            </tr>
-                        @endfor
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
