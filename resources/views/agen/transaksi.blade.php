@@ -35,7 +35,6 @@
                         Lihat
                         </button>
                     </td>
-                    
                 </tr>
                 <tr class="border-b border-gray-200">
                     <td class="p-2">09/08/2024</td>

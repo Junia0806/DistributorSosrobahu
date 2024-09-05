@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Sales\OrderSaleController;
 use App\Http\Controllers\Sales\DaftarTokoController;
 use App\Http\Controllers\Sales\KunjunganTokoController;
+use App\Http\Controllers\Agen\OrderAgenController;
+use App\Http\Controllers\Agen\PesananMasukAgenController;
+use App\Http\Controllers\BarangDistributorController;
 use App\Http\Controllers\MasterBarangController;
 use App\Http\Controllers\BarangAgenController;
 use App\Http\Controllers\OrderSalesController;
@@ -80,6 +83,10 @@ Route::get('/default', function () {
 Route::get('/agen/pesan', function () {
     return view('agen.pesan');
 })->name('agen-pesan');
+Route::get('/agen/pesanBarang', [BarangDistributorController::class, 'index'])->name('pesanBarang');
+Route::post('/agen/detailPesanan', [OrderAgenController::class, 'detail'])->name('detailPesanan');
+// Rute untuk menyimpan pesanan
+Route::post('riwayatAgen', [OrderAgenController::class, 'store'])->name('simpanOrder');
 
 Route::get('/agen/detailpesan', function () {
     return view('agen.detailpesan');
@@ -88,10 +95,13 @@ Route::get('/agen/detailpesan', function () {
 Route::get('/agen/riwayat', function () {
     return view('agen.riwayat');
 })->name('agen-riwayat');
+//Menampilkan Riwayat Agen
+Route::get('/riwayatAgen', [OrderAgenController::class, 'index'])->name('riwayatAgen');
 
 Route::get('/agen/nota', function () {
     return view('agen.nota');
 })->name('agen-nota');
+Route::get('/agen/nota/{idNota}', [OrderAgenController::class, 'notaAgen'])->name('notaAgen');
 
 Route::get('/agen/rekening', function () {
     return view('agen.rekening');
@@ -108,6 +118,7 @@ Route::get('/agen/kelola-sales', function () {
 Route::get('/agen/transaksi', function () {
     return view('agen.transaksi');
 })->name('transaksi');
+Route::get('agen/transaksiAgen', [PesananMasukAgenController::class, 'index'])->name('pesananMasuk');
 
 Route::get('/detail', function () {
     $namaAgen = request('namaAgen');
