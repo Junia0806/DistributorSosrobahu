@@ -119,6 +119,7 @@ Route::get('/agen/transaksi', function () {
     return view('agen.transaksi');
 })->name('transaksi');
 Route::get('agen/transaksiAgen', [PesananMasukAgenController::class, 'index'])->name('pesananMasuk');
+Route::get('/agen/detailPesanMasuk/{idPesanan}', [PesananMasukAgenController::class, 'detailPesanMasuk'])->name('detailPesanMasuk');
 
 Route::get('/detail', function () {
     $namaAgen = request('namaAgen');

@@ -36,7 +36,7 @@
                             <td class="p-2">
                                 @if($pesananMasuk->status_pemesanan == 0)
                                     <!-- Jika bukti_transfer ada dan status_pemesanan adalah 1, tampilkan tombol Tersedia -->
-                                    <button onclick="window.location.href='{{ route('detail', $pesananMasuk->id_order) }}'" class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">
+                                    <button onclick="window.location.href='{{ route('detailPesanMasuk', $pesananMasuk->id_order) }}'" class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">
                                         Lihat
                                     </button>
                                     @else
