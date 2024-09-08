@@ -40,15 +40,17 @@
                     </td>
                     <td class="p-2 font-semibold">Rp.5.880.000</td>
                     <td class="p-2">
+                    <div class="flex justify-center space-x-2">
                         <button type="button" data-modal-target="edit-akun-modal" data-modal-toggle="edit-akun-modal"
-                            class="inline-flex items-center justify-center w-8 h-8 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                            class="inline-flex items-center justify-center w-10 h-10 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
                             <i class="fa-regular fa-pen-to-square text-lg"></i>
                         </button>
                         <button type="button"
-                            class="inline-flex items-center justify-center w-8 h-8 text-white bg-red-700 border border-red-600 rounded-sm shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 ml-2">
+                            class="inline-flex items-center justify-center w-10 h-10 text-white bg-red-700 border border-red-600 rounded-sm shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500">
                             <i class="fa-regular fa-trash-can text-lg"></i>
                         </button>
-                    </td>
+                    </div>
+                </td>
                 </tr>
 
                 <tr class="border-b border-gray-200">
@@ -63,15 +65,17 @@
                     </td>
                     <td class="p-2 font-semibold">Rp.3.500.000</td>
                     <td class="p-2">
+                    <div class="flex justify-center space-x-2">
                         <button type="button" data-modal-target="edit-akun-modal" data-modal-toggle="edit-akun-modal"
-                            class="inline-flex items-center justify-center w-8 h-8 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                            class="inline-flex items-center justify-center w-10 h-10 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
                             <i class="fa-regular fa-pen-to-square text-lg"></i>
                         </button>
                         <button type="button"
-                            class="inline-flex items-center justify-center w-8 h-8 text-white bg-red-700 border border-red-600 rounded-sm shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 ml-2">
+                            class="inline-flex items-center justify-center w-10 h-10 text-white bg-red-700 border border-red-600 rounded-sm shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500">
                             <i class="fa-regular fa-trash-can text-lg"></i>
                         </button>
-                    </td>
+                    </div>
+                </td>
                 </tr>
             </tbody>
         </table>

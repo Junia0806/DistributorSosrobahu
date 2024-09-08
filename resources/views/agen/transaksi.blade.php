@@ -26,8 +26,8 @@
                     <td class="p-2">08/08/2024</td>
                     <td class="p-2">Ismail bin Mail</td>
                     <td class="p-2">134.000</td>
-                    <td class="p-2">Selesai</td>
-                    <td class="p-2">Terbayar</td>
+                    <td class="p-2 text-green-600">Selesai</td>
+                    <td class="p-2 text-green-600">Lunas</td>
                     <td class="p-2">
                         <button type="button" 
                             onclick="window.location.href='{{ route('detail', ['namaAgen' => 'Ismail bin Mail', 'orderDate' => '08 Agustus 2024']) }}'"
@@ -40,8 +40,8 @@
                     <td class="p-2">09/08/2024</td>
                     <td class="p-2">Xiao Mei Mei</td>
                     <td class="p-2">134.000</td>
-                    <td class="p-2">Selesai</td>
-                    <td class="p-2">Terbayar</td>
+                    <td class="p-2 text-orange-600">Diproses</td>
+                    <td class="p-2 text-green-600">Lunas</td>
                     <td class="p-2">
                         <button type="button" 
                             onclick="window.location.href='{{ route('detail', ['namaAgen' => 'Xiao Mei Mei', 'orderDate' => '09 Agustus 2024']) }}'"
@@ -54,8 +54,8 @@
                     <td class="p-2">10/08/2024</td>
                     <td class="p-2">Mohd Amirul Zarizan</td>
                     <td class="p-2">134.000</td>
-                    <td class="p-2">Diproses</td>
-                    <td class="p-2">Belum Bayar</td>
+                    <td class="p-2 text-red-600">Ditolak</td>
+                    <td class="p-2 text-red-600">Belum Lunas</td>
                     <td class="p-2">
                         <button type="button" 
                             onclick="window.location.href='{{ route('detail', ['namaAgen' => 'Mohd Amirul Zarizan', 'orderDate' => '10 Agustus 2024']) }}'"

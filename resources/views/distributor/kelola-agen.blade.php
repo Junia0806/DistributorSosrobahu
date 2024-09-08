@@ -12,93 +12,71 @@
     </div>
 
     <!-- Tabel Toko -->
-    <div class="p-6">
-        <table class="w-full border-separate border-spacing-0 text-sm text-black">
-            <thead class="bg-gray-800 text-white">
-                <tr>
-                    <th class="p-2 text-center">No</th>
-                    <th class="p-2 text-center">Nama Lengkap</th>
-                    <th class="p-2 text-center">Username</th>
-                    <th class="p-2 text-center">Password</th>
-                    <th class="p-2 text-center">No Telpon</th>
-                    <th class="p-2 text-center">KTP</th>
-                    <th class="p-2 text-center">Aksi</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white text-center">
-                <tr class="border-b border-gray-200">
-                    <td class="p-2">1</td>
-                    <td class="p-2">Joshua</td>
-                    <td class="p-2">agen_hong</td>
-                    <td class="p-2">hongjisoo123</td>
-                    <td class="p-2">0897654321</td>
-                    <td class="p-2">
-                        <button type="button" data-modal-target="ktp-modal-1" data-modal-toggle="ktp-modal-1"
-                            class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">Lihat</button>
-                    </td>
-                    <td class="p-2">
+    <table class="w-full border-separate border-spacing-0 text-sm text-black">
+        <thead class="bg-gray-800 text-white">
+            <tr>
+                <th class="p-2 text-center">No</th>
+                <th class="p-2 text-center">Nama Lengkap</th>
+                <th class="p-2 text-center">Username</th>
+                <th class="p-2 text-center">Password</th>
+                <th class="p-2 text-center">No Telpon</th>
+                <th class="p-2 text-center">KTP</th>
+                <th class="p-2 text-center">Penjualan</th>
+                <th class="p-2 text-center">Aksi</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white text-center">
+            <tr class="border-b border-gray-200">
+                <td class="p-2">1</td>
+                <td class="p-2">Joshua</td>
+                <td class="p-2">agen_hong</td>
+                <td class="p-2">hongjisoo123</td>
+                <td class="p-2">0897654321</td>
+                <td class="p-2">
+                    <button type="button" data-modal-target="ktp-modal-1" data-modal-toggle="ktp-modal-1"
+                        class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">Lihat</button>
+                </td>
+                <td class="p-2 font-semibold">Rp.8.400.000</td>
+                <td class="p-2">
+                    <div class="flex justify-center space-x-2">
                         <button type="button" data-modal-target="edit-akun-modal" data-modal-toggle="edit-akun-modal"
                             class="inline-flex items-center justify-center w-10 h-10 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
                             <i class="fa-regular fa-pen-to-square text-lg"></i>
                         </button>
                         <button type="button"
-                            class="inline-flex items-center justify-center w-10 h-10 text-white bg-red-700 border border-red-600 rounded-sm shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 ml-2">
+                            class="inline-flex items-center justify-center w-10 h-10 text-white bg-red-700 border border-red-600 rounded-sm shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500">
                             <i class="fa-regular fa-trash-can text-lg"></i>
                         </button>
-                    </td>
-                </tr>
+                    </div>
+                </td>
+            </tr>
 
-                <tr class="border-b border-gray-200">
-                    <td class="p-2">2</td>
-                    <td class="p-2">Upin Ipin</td>
-                    <td class="p-2">agen_ui</td>
-                    <td class="p-2">upinipin12</td>
-                    <td class="p-2">0897654321</td>
-                    <td class="p-2">
-                        <button type="button" data-modal-target="ktp-modal-1" data-modal-toggle="ktp-modal-1"
-                            class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">Lihat</button>
-                    </td>
-                    <td class="p-2">
+            <tr class="border-b border-gray-200">
+                <td class="p-2">2</td>
+                <td class="p-2">Upin Ipin</td>
+                <td class="p-2">agen_ui</td>
+                <td class="p-2">upinipin12</td>
+                <td class="p-2">0897654321</td>
+                <td class="p-2">
+                    <button type="button" data-modal-target="ktp-modal-2" data-modal-toggle="ktp-modal-2"
+                        class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">Lihat</button>
+                </td>
+                <td class="p-2 font-semibold">Rp.3.000.000</td>
+                <td class="p-2">
+                    <div class="flex justify-center space-x-2">
                         <button type="button" data-modal-target="edit-akun-modal" data-modal-toggle="edit-akun-modal"
                             class="inline-flex items-center justify-center w-10 h-10 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
                             <i class="fa-regular fa-pen-to-square text-lg"></i>
                         </button>
                         <button type="button"
-                            class="inline-flex items-center justify-center w-10 h-10 text-white bg-red-700 border border-red-600 rounded-sm shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 ml-2">
+                            class="inline-flex items-center justify-center w-10 h-10 text-white bg-red-700 border border-red-600 rounded-sm shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500">
                             <i class="fa-regular fa-trash-can text-lg"></i>
                         </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- Tabel Peringkat Penjualan Agen -->
-<div class="w-full max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-x-auto my-20 border-t border-gray-200">
-    <div class="p-6">
-        <h2 class="text-2xl font-bold mb-6 text-center">Peringkat Penjualan Agen</h2>
-        <div class="overflow-x-auto">
-            <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-                <thead class="bg-gray-800 text-white">
-                    <tr>
-                        <th class="py-2 px-4 border-b">Peringkat</th>
-                        <th class="py-2 px-4 border-b">Nama Agen</th>
-                        <th class="py-2 px-4 border-b">Total Penjualan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for ($j = 1; $j <= 5; $j++)
-                        <tr class="border-t">
-                            <td class="py-2 px-4 border-b text-center">{{ $j }}</td>
-                            <td class="py-2 px-4 border-b text-center">Agen {{ ['Abadi', 'Budaya', 'Cantika', 'Delima', 'Ekonomis', 'Fantastis'][$j - 1] }}</td>
-                            <td class="py-2 px-4 border-b text-center">Rp. {{ number_format(rand(20000000, 40000000), 0, ',', '.') }}</td>
-                        </tr>
-                    @endfor
-                </tbody>
-            </table>
-        </div>
-    </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <!-- Modal Lihat KTP -->
