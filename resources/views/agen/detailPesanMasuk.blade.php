@@ -98,7 +98,7 @@
                 <h3 class="text-lg font-semibold text-gray-700">Bukti Pembayaran</h3>
                 <button id="closeProofModal" class="text-gray-500 hover:text-gray-800">&times;</button>
             </div>
-            <img src="https://i.pinimg.com/564x/26/4f/b6/264fb615836d96ae003543c18fa8454b.jpg" alt="Bukti Pembayaran"
+            <img src="{{ asset('storage/' .  $pesanMasukAgen['gambar']) }}"  alt="Bukti Pembayaran"
                 class="w-full h-auto max-h-96 object-contain">
         </div>
     </div>

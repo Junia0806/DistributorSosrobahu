@@ -73,7 +73,8 @@ class PesananMasukAgenController extends Controller
             'no_telp' => $namaSales->no_telp,
             'total_item' => $orderSales->jumlah,
             'total_harga' => $orderSales->total,
-            'item_nota' => $itemNota
+            'item_nota' => $itemNota,
+            'gambar' => $orderSales->bukti_transfer,
         ];
         
 
