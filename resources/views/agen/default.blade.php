@@ -81,22 +81,22 @@
                             Sales
                         </a>
                         <li>
-                            <a href="{{ route('transaksi') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('transaksi') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            <a href="{{ route('pesananMasuk') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('pesananMasuk') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                                 id="transaksi-link">
                                 Pesanan Masuk
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('agen-pesan') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('agen-pesan') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            <a href="{{ route('pesanBarang') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('pesanBarang') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                                 id="pesan-link">
                                 Order
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('agen-riwayat') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('agen-riwayat') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            <a href="{{ route('riwayatAgen') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('riwayatAgen') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                                 id="riwayat-link">
                                 Riwayat
                             </a>

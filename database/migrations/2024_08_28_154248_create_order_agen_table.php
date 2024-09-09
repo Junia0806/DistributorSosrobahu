@@ -20,7 +20,6 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('bukti_transfer');
             $table->integer('status_pemesanan');
-            $table->string('nota');
         });
     }
 
