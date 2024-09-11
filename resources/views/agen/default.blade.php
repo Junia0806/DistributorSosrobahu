@@ -75,7 +75,7 @@
                                 Dashboard
                             </a>
                         </li>
-                        <a href="{{ route('kelola-sales') }}"
+                        <a href="{{ route('pengaturanSales') }}"
                             class="block py-2 px-3 rounded {{ Route::is('kelola-sales') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                             id="kelola-sales">
                             Sales

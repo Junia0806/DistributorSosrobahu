@@ -7,6 +7,7 @@ use App\Http\Controllers\Sales\KunjunganTokoController;
 use App\Http\Controllers\Agen\OrderAgenController;
 use App\Http\Controllers\Agen\PesananMasukAgenController;
 use App\Http\Controllers\BarangDistributorController;
+use App\Http\Controllers\Agen\AkunSalesController;
 use App\Http\Controllers\MasterBarangController;
 use App\Http\Controllers\BarangAgenController;
 use App\Http\Controllers\OrderSalesController;
@@ -75,6 +76,7 @@ Route::get('/edit', function () {
 //DASHBOARD SALES
 Route::get('/dashboard', [OrderSaleController::class, 'dashboard'])->name('dashboard');
 
+
 //ROUTE AGEN
 Route::get('/default', function () {
     return view('agen.default');
@@ -114,6 +116,9 @@ Route::get('/agen/pengaturan', function () {
 Route::get('/agen/kelola-sales', function () {
     return view('agen.kelola-akun');
 })->name('kelola-sales');
+Route::get('/pengaturan-sales', [AkunSalesController::class, 'index'])->name('pengaturanSales');
+Route::put('/pengaturan-sales/update/{id}', [AkunSalesController::class, 'update'])->name('pengaturanSales.update');
+Route::post('/pengaturan-sales/input', [AkunSalesController::class, 'store'])->name('pengaturanSales.input');
 
 Route::get('/agen/transaksi', function () {
     return view('agen.transaksi');
