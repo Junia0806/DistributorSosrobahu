@@ -64,12 +64,12 @@ class AkunSalesController extends Controller
     public function update(Request $request, $id)
     {
         // Validasi input
-        $request->validate([
-            'nama_lengkap' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:user_sales,username,' . $id . ',id_user_sales',
-            'password' => 'nullable|string|min:8',
-            'no_telp' => 'required|string|max:15',
-        ]);
+        // $request->validate([
+        //     // 'nama_lengkap' => 'required|string|max:255',
+        //     // 'username' => 'required|string|max:255|unique:user_sales,username,' . $id . ',id_user_sales',
+        //     // 'password' => 'nullable|string|min:8',
+        //     // 'no_telp' => 'required|string|max:15',
+        // ]);
         
         // Mengambil data sales berdasarkan ID
         $sales = UserSales::find($id);

@@ -6,8 +6,10 @@ use App\Http\Controllers\Sales\DaftarTokoController;
 use App\Http\Controllers\Sales\KunjunganTokoController;
 use App\Http\Controllers\Agen\OrderAgenController;
 use App\Http\Controllers\Agen\PesananMasukAgenController;
-use App\Http\Controllers\BarangDistributorController;
 use App\Http\Controllers\Agen\AkunSalesController;
+use App\Http\Controllers\Agen\HargaAgenController;
+use App\Http\Controllers\Agen\PengaturanBankController;
+use App\Http\Controllers\BarangDistributorController;
 use App\Http\Controllers\MasterBarangController;
 use App\Http\Controllers\BarangAgenController;
 use App\Http\Controllers\OrderSalesController;
@@ -105,14 +107,21 @@ Route::get('/agen/nota', function () {
 })->name('agen-nota');
 Route::get('/agen/nota/{idNota}', [OrderAgenController::class, 'notaAgen'])->name('notaAgen');
 
+// Pengaturan Rekening Agen
 Route::get('/agen/rekening', function () {
     return view('agen.rekening');
 })->name('agen-rekening');
+Route::get('/pengaturan-bank/{idUser}', [PengaturanBankController::class, 'index'])->name('pengaturanBank');
+Route::put('/pengaturan-bank/{idUser}', [PengaturanBankController::class, 'update'])->name('rekeningBank.update');
 
+// Pengaturan Harga Agen
 Route::get('/agen/pengaturan', function () {
     return view('agen.pengaturan_harga');
 })->name('agen-pengaturan');
+Route::get('/pengaturan-harga', [HargaAgenController::class, 'index'])->name('pengaturanHarga');
+Route::put('/pengaturan-harga/update/{id}', [HargaAgenController::class, 'update'])->name('pengaturanHarga.update');
 
+// Pengaturan Akun Sales
 Route::get('/agen/kelola-sales', function () {
     return view('agen.kelola-akun');
 })->name('kelola-sales');
@@ -120,6 +129,7 @@ Route::get('/pengaturan-sales', [AkunSalesController::class, 'index'])->name('pe
 Route::put('/pengaturan-sales/update/{id}', [AkunSalesController::class, 'update'])->name('pengaturanSales.update');
 Route::post('/pengaturan-sales/input', [AkunSalesController::class, 'store'])->name('pengaturanSales.input');
 
+// Pesanan Masuk Agen
 Route::get('/agen/transaksi', function () {
     return view('agen.transaksi');
 })->name('transaksi');
