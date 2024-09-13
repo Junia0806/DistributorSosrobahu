@@ -17,17 +17,17 @@
         <table class="w-full border-separate border-spacing-0 text-sm text-black">
             <thead class="bg-gray-800 text-white">
                 <tr>
-                    <th class="p-2 text-center">No</th>
-                    <th class="p-2 text-center">Nama Lengkap</th>
-                    <th class="p-2 text-center">Username</th>
-                    <th class="p-2 text-center">Password</th>
-                    <th class="p-2 text-center">No Telpon</th>
-                    <th class="p-2 text-center">KTP</th>
-                    <th class="p-2 text-center">Penjualan</th>
-                    <th class="p-2 text-center">Aksi</th>
+                    <th class="p-2 text-left">No</th>
+                    <th class="p-2 text-left">Nama Lengkap</th>
+                    <th class="p-2 text-left">Username</th>
+                    <th class="p-2 text-left">Password</th>
+                    <th class="p-2 text-left">No Telpon</th>
+                    <th class="p-2 text-left">KTP</th>
+                    <th class="p-2 text-left">Penjualan</th>
+                    <th class="p-2 text-left">Aksi</th>
                 </tr>
             </thead>
-            <tbody class="bg-white text-center">
+            <tbody class="bg-white">
                 <tr class="border-b border-gray-200">
                     <td class="p-2">1</td>
                     <td class="p-2">Mark Lee</td>
@@ -40,7 +40,7 @@
                     </td>
                     <td class="p-2 font-semibold">Rp.5.880.000</td>
                     <td class="p-2">
-                    <div class="flex justify-center space-x-2">
+                    <div class="space-x-2">
                         <button type="button" data-modal-target="edit-akun-modal" data-modal-toggle="edit-akun-modal"
                             class="inline-flex items-center justify-center w-10 h-10 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
                             <i class="fa-regular fa-pen-to-square text-lg"></i>
@@ -65,7 +65,7 @@
                     </td>
                     <td class="p-2 font-semibold">Rp.3.500.000</td>
                     <td class="p-2">
-                    <div class="flex justify-center space-x-2">
+                    <div class="space-x-2">
                         <button type="button" data-modal-target="edit-akun-modal" data-modal-toggle="edit-akun-modal"
                             class="inline-flex items-center justify-center w-10 h-10 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
                             <i class="fa-regular fa-pen-to-square text-lg"></i>

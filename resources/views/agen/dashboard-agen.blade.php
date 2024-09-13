@@ -1,58 +1,58 @@
 @extends('agen.default')
 
 @section('content')
-    <div class="w-full max-w-6xl mx-auto bg-white overflow-x-auto my-20">
-        <!-- Atas -->
-        <div class="p-6">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Total Stok -->
-                <div class="bg-green-400 text-white rounded-lg shadow p-4 flex items-center">
-                    <div class="flex-shrink-0">
-                        <i class="fas fa-box-open fa-2x"></i>
-                    </div>
-                    <div class="ml-4">
-                        <h2 class="text-xl font-bold">185 Slop</h2>
-                        <p class="text-lg">Total Stok</p>
-                    </div>
+<div class="w-full max-w-6xl mx-auto bg-white overflow-x-auto my-20">
+    <!-- Atas -->
+    <div class="p-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Total Stok -->
+            <div class="bg-green-400 text-white rounded-lg shadow p-4 flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-box-open fa-2x"></i>
                 </div>
-
-                <!-- Produk Rokok Terlaris -->
-                <div class="bg-yellow-400 text-white rounded-lg shadow p-4 flex items-center">
-                    <div class="flex-shrink-0">
-                        <i class="fas fa-star fa-2x"></i>
-                    </div>
-                    <div class="ml-4">
-                        <h2 class="text-xl font-bold">Sosrobahu Premium</h2>
-                        <p class="text-lg">Produk Terlaris</p>
-                    </div>
+                <div class="ml-4">
+                    <h2 class="text-xl font-bold">{{ $finalStockSlop }} Slop</h2>
+                    <p class="text-lg">Total Stok</p>
                 </div>
+            </div>
 
-                <!-- Pendapatan Bulan Ini -->
-                <div class="bg-blue-400 text-white rounded-lg shadow p-4 flex items-center">
-                    <div class="flex-shrink-0">
-                        <i class="fas fa-money-bill-wave fa-2x"></i>
-                    </div>
-                    <div class="ml-4">
-                        <h2 class="text-xl font-bold">Rp 15.000.000</h2>
-                        <p class="text-lg">Pendapatan Bulan Ini</p>
-                    </div>
+            <!-- Produk Rokok Terlaris -->
+            <div class="bg-yellow-400 text-white rounded-lg shadow p-4 flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-star fa-2x"></i>
                 </div>
+                <div class="ml-4">
+                    <h2 class="text-xl font-bold">{{ $topProductName }}</h2>
+                    <p class="text-lg">Produk Terlaris</p>
+                </div>
+            </div>
 
-                <!-- Jumlah Toko -->
-                <div class="bg-orange-400 text-white rounded-lg shadow p-4 flex items-center">
-                    <div class="flex-shrink-0">
-                        <i class="fa-solid fa-user-tie fa-2x"></i>
-                    </div>
-                    <div class="ml-4">
-                        <h2 class="text-xl font-bold">25 Orang</h2>
-                        <p class="text-lg">Jumlah Sales</p>
-                    </div>
+            <!-- Total Pendapatan -->
+            <div class="bg-blue-400 text-white rounded-lg shadow p-4 flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-money-bill-wave fa-2x"></i>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-xl font-bold">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</h2>
+                    <p class="text-lg">Total Pendapatan</p>
+                </div>
+            </div>
+
+            <!-- Jumlah Sales -->
+            <div class="bg-orange-400 text-white rounded-lg shadow p-4 flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fa-solid fa-user-tie fa-2x"></i>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-xl font-bold">{{ $totalSales }} Orang</h2>
+                    <p class="text-lg">Jumlah Sales</p>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Stok per Produk -->
-        <div class="p-6">
+    <!-- Stok per Produk -->
+    <div class="p-6">
             <h2 class="text-2xl font-bold mb-6 text-center">Rincian Stok</h2>
             <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
                 @for ($i = 1; $i <= 6; $i++)
@@ -68,5 +68,5 @@
                 @endfor
             </div>
         </div>
-    </div>
+</div>
 @endsection

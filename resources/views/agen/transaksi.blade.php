@@ -13,15 +13,15 @@
         <table class="w-full border-separate border-spacing-0 text-sm text-black">
             <thead class="bg-gray-800 text-white">
                 <tr>
-                    <th class="p-2 text-center">Tanggal</th>
-                    <th class="p-2 text-center">Nama Sales</th>
-                    <th class="p-2 text-center">Total Harga</th>
-                    <th class="p-2 text-center">Status Pesanan</th>
-                    <th class="p-2 text-center">Status Pembayaran</th>
-                    <th class="p-2 text-center">Detail Pesanan</th>
+                    <th class="p-2 text-left">Tanggal</th>
+                    <th class="p-2 text-left">Nama Sales</th>
+                    <th class="p-2 text-left">Total Harga</th>
+                    <th class="p-2 text-left">Status Pesanan</th>
+                    <th class="p-2 text-left">Status Pembayaran</th>
+                    <th class="p-2 text-left">Detail Pesanan</th>
                 </tr>
             </thead>
-            <tbody class="bg-white text-center">
+            <tbody class="bg-white">
                 <tr class="border-b border-gray-200">
                     <td class="p-2">08/08/2024</td>
                     <td class="p-2">Ismail bin Mail</td>
