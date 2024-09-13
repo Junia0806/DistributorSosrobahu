@@ -4,7 +4,7 @@
 <div class="w-full max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-x-auto my-20">
     <div class="flex items-center justify-between p-6 border-b">
         <div class="flex-1 text-center">
-            <h1 class="text-2xl font-bold text-black text-center w-full">Pesanan Masuk dari Agen</h1>
+            <h1 class="text-2xl font-bold text-black text-center w-full">Laporan Transaksi Pesanan Agen</h1>
         </div>
     </div>
 
@@ -12,16 +12,16 @@
         <table class="w-full border-separate border-spacing-0 text-sm text-black">
             <thead class="bg-gray-800 text-white">
                 <tr>
-                    <th class="p-2 text-center">Tanggal</th>
-                    <th class="p-2 text-center">Nama Agen</th>
-                    <th class="p-2 text-center">Total Harga</th>
-                    <th class="p-2 text-center">Status Pesanan</th>
-                    <th class="p-2 text-center">Detail Pesanan</th>
+                    <th class="p-2 text-left">Tanggal</th>
+                    <th class="p-2 text-left">Nama Agen</th>
+                    <th class="p-2 text-left">Total Harga</th>
+                    <th class="p-2 text-left">Status Pesanan</th>
+                    <th class="p-2 text-left">Detail Pesanan</th>
                 </tr>
             </thead>
-            <tbody class="bg-white text-center">
+            <tbody class="bg-white">
                 <tr class="border-b border-gray-200">
-                    <td class="p-2">08/08/2024</td>
+                    <td class="p-2">31/12/2025</td>
                     <td class="p-2">Joshua</td>
                     <td class="p-2">Rp.134.000</td>
                     <td class="p-2 text-green-600">Selesai</td>

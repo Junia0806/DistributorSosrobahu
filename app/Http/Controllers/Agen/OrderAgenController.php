@@ -12,6 +12,58 @@ use App\Models\OrderDetailAgen;
 
 class OrderAgenController extends Controller
 {
+    public function dashboardData()
+    {
+        // Mengambil semua pesanan yang statusnya selesai
+        $completedOrders = OrderAgen::where('status_pemesanan', 1)->get();
+
+        // Mengambil detail pesanan
+        $orderDetails = OrderDetailAgen::whereIn('id_order', $completedOrders->pluck('id_order'))->get();
+
+        // Menghitung total stok (konversi dari karton ke slop, 1 karton = 10 slop)
+        $slopPerKarton = 10;
+        $totalStockKarton = $orderDetails->sum('jumlah_produk'); // Karton
+        $totalStockSlop = $totalStockKarton * $slopPerKarton;
+
+        // Pesanan masuk (yang sudah berhasil)
+        $incomingCompletedOrders = DB::table('order_detail_sales')
+            ->join('order_sales', 'order_sales.id_order', '=', 'order_detail_sales.id_order')
+            ->where('order_sales.status_pemesanan', 1)
+            ->sum('order_detail_sales.jumlah_produk'); // Slop
+
+        // Hitung stok yang disesuaikan (dikurangi pesanan masuk yang sudah berhasil)
+        $finalStockSlop = $totalStockSlop - $incomingCompletedOrders;
+
+        // Produk terlaris dari pesanan sales yang statusnya 1
+        $topProduct = DB::table('order_detail_sales')
+            ->join('order_sales', 'order_sales.id_order', '=', 'order_detail_sales.id_order')
+            ->where('order_sales.status_pemesanan', 1) // Status pesanan sales yang selesai
+            ->select('order_detail_sales.id_master_barang', DB::raw('SUM(order_detail_sales.jumlah_produk) as total_jumlah'))
+            ->groupBy('order_detail_sales.id_master_barang')
+            ->orderBy('total_jumlah', 'desc')
+            ->first();
+
+        $topProductName = $topProduct ? DB::table('master_barang')
+            ->where('id_master_barang', $topProduct->id_master_barang)
+            ->value('nama_rokok') : 'Tidak ada data';
+
+        // Total pendapatan dari pesanan sales yang statusnya 1
+        $totalPendapatan = DB::table('order_sales')
+            ->where('status_pemesanan', 1)
+            ->sum('total');
+
+        // Mengambil jumlah sales dari tabel user_sales
+        $totalSales = DB::table('user_sales')->count();
+
+        // Mengirim data ke view dashboard
+        return view('agen.dashboard-agen', [
+            'finalStockSlop' => $finalStockSlop,
+            'totalPendapatan' => $totalPendapatan,
+            'topProductName' => $topProductName,
+            'totalSales' => $totalSales,
+        ]);
+    }
+
     public function index()
     {
         // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
@@ -118,17 +170,17 @@ class OrderAgenController extends Controller
         return redirect()->route('riwayatAgen')->with('success', 'Pesanan berhasil dikirim!');
     }
 
-    public function notaAgen($idNota)  
-    {   
+    public function notaAgen($idNota)
+    {
         // Ganti dengan ID order yang ingin dicari
         $orderDetailAgen = OrderDetailAgen::where('id_order', $idNota)->first();
         $orderDetailAgenItem = OrderDetailAgen::where('id_order', $idNota)->get();
         $orderAgen = OrderAgen::where('id_order', $idNota)->first();
         $namaDistributor = DB::table('user_distributor')->where('id_user_distributor', $orderDetailAgen->id_user_distributor)->first();
         $namaAgen = DB::table('user_agen')->where('id_user_agen', $orderAgen->id_user_agen)->first();
-        
 
-        
+
+
         $itemNota = [];
         $nama_rokok = [];
 
@@ -146,7 +198,7 @@ class OrderAgenController extends Controller
                 $jumlah_harga[] = null; // Jika tidak ditemukan
                 $harga_satuan[] = null; // Jika tidak ditemukan
             }
-        
+
             $itemNota[] = [
                 'nama_rokok' => end($nama_rokok), // Gunakan end() untuk mengambil elemen terakhir
                 'harga_satuan' => end($harga_satuan),
@@ -154,8 +206,8 @@ class OrderAgenController extends Controller
                 'jumlah_harga' => end($jumlah_harga),
             ];
         }
-        
-        
+
+
         $notaAgen = [
             'tanggal' => $orderAgen->tanggal,
             'id_order' => $orderAgen->id_order,
@@ -166,9 +218,9 @@ class OrderAgenController extends Controller
             'total_harga' => $orderAgen->total,
             'item_nota' => $itemNota
         ];
-        
 
-        
+
+
         return view('agen.nota', compact('notaAgen'));
     }
 }

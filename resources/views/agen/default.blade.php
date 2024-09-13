@@ -27,15 +27,18 @@
                         data-dropdown-placement="bottom">
                         <span class="sr-only">Open user menu</span>
                         <img class="w-8 h-8 rounded-full"
-                            src="https://static.vecteezy.com/system/resources/previews/000/357/350/original/businessman-vector-icon.jpg"alt="user photo">
+                            src="https://static.vecteezy.com/system/resources/previews/000/357/350/original/businessman-vector-icon.jpg"
+                            alt="user photo">
                     </button>
                     <!-- Dropdown menu -->
                     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
                         id="user-dropdown">
                         <div class="px-4 py-3">
                             <span class="block text-sm text-gray-900 dark:text-white">Akun Agen</span>
-                            <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">Moch. Samsul
-                                Abidin</span>
+                            <span class="text-bold">{{ $userAgen->nama_lengkap ?? 'Nama Tidak Diketahui' }}</span>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">
+                                Peringkat: {{ $userAgen->level ?? 'Tidak Diketahui' }}
+                            </div>
                         </div>
                         <ul class="py-2" aria-labelledby="user-menu-button">
                             <li>
@@ -160,7 +163,7 @@
 <!-- SweetAlert2 CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const path = window.location.pathname;
         const links = {
             '/dashboard-agen': 'dashboard-agen',
@@ -187,7 +190,7 @@
         }
 
         // SweetAlert2 for logout confirmation
-        document.getElementById('logout-link').addEventListener('click', function(e) {
+        document.getElementById('logout-link').addEventListener('click', function (e) {
             e.preventDefault(); // Prevent default link behavior
             Swal.fire({
                 title: "Apakah Anda yakin?",
