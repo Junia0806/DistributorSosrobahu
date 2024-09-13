@@ -76,10 +76,7 @@ Route::get('/edit', function () {
 Route::get('/dashboard', [OrderSaleController::class, 'dashboard'])->name('dashboard');
 
 //ROUTE AGEN
-Route::get('/default', function () {
-    return view('agen.default');
-});
-
+Route::get('/dashboard-agen', [BarangAgenController::class, 'stockbarang'])->name('dashboard-agen');
 Route::get('/agen/pesan', function () {
     return view('agen.pesan');
 })->name('agen-pesan');
@@ -154,11 +151,6 @@ Route::post('/login-agen', function () {
 
     return redirect()->route('agen.login-agen')->withErrors('Username atau Password salah.');
 })->name('login.submit');
-
-Route::get('/dashboard-agen', function () {
-    return view('agen.dashboard-agen');
-})->name('dashboard-agen');
-
 
 //DISTRIBUTOR
 Route::get('/distributor/login', function () {
