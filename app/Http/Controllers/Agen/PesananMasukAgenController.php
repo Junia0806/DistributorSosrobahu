@@ -16,29 +16,29 @@ class PesananMasukAgenController extends Controller
     {
         // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
         $pesananMasuks = OrderSale::orderBy('id_order', 'desc')->paginate(10);
-        
+
 
         // Mengonversi tanggal ke format Carbon
         foreach ($pesananMasuks as $pesananMasuk) {
             $pesananMasuk->tanggal = Carbon::parse($pesananMasuk->tanggal);
         }
 
-       
+
 
         // Mengirim data pesanan ke view
         return view('agen.transaksiAgen', compact('pesananMasuks'));
     }
 
-    public function detailPesanMasuk($idPesanan)  
-    {   
+    public function detailPesanMasuk($idPesanan)
+    {
         // Ganti dengan ID order yang ingin dicari
         $orderDetailSales = OrderDetailSales::where('id_order', $idPesanan)->first();
         $orderDetailSalesItem = OrderDetailSales::where('id_order', $idPesanan)->get();
         $orderSales = OrderSale::where('id_order', $idPesanan)->first();
         $namaSales = DB::table('user_sales')->where('id_user_sales', $orderSales->id_user_sales)->first();
-        
 
-        
+
+
         $itemNota = [];
         $nama_rokok = [];
 
@@ -56,7 +56,7 @@ class PesananMasukAgenController extends Controller
                 $jumlah_harga[] = null; // Jika tidak ditemukan
                 $harga_satuan[] = null; // Jika tidak ditemukan
             }
-        
+
             $itemNota[] = [
                 'nama_rokok' => end($nama_rokok), // Gunakan end() untuk mengambil elemen terakhir
                 'harga_satuan' => end($harga_satuan),
@@ -64,8 +64,8 @@ class PesananMasukAgenController extends Controller
                 'jumlah_harga' => end($jumlah_harga),
             ];
         }
-        
-        
+
+
         $pesanMasukAgen = [
             'tanggal' => $orderSales->tanggal,
             'id_order' => $orderSales->id_order,
@@ -75,12 +75,38 @@ class PesananMasukAgenController extends Controller
             'total_harga' => $orderSales->total,
             'item_nota' => $itemNota,
             'gambar' => $orderSales->bukti_transfer,
+            'status' => $orderSales->status_pemesanan,
         ];
-        
+
 
         // dd($pesanMasukAgen);
         return view('agen.detailPesanMasuk', compact('pesanMasukAgen'));
     }
 
-    
+    public function editStatus($id)
+    {
+        // Mengambil data pesanan berdasarkan ID
+        $pesanMasukAgen = OrderSale::findOrFail($id);
+
+        // Mengirim data pesanan ke view
+        return view('agen.editStatusPesanan', compact('pesanMasukAgen'));
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        // Validasi input dari form
+        $request->validate([
+            'status' => 'required|integer|in:0,1,2',
+        ]);
+
+        // Mengambil data pesanan berdasarkan ID
+        $pesanMasukAgen = OrderSale::findOrFail($id);
+
+        // Mengupdate status pesanan
+        $pesanMasukAgen->status_pemesanan = $request->input('status');
+        $pesanMasukAgen->save();
+
+        // Redirect atau kembali dengan pesan sukses
+        return redirect()->route('pesananMasuk')->with('success', 'Status pesanan berhasil diperbarui!');
+    }
 }
