@@ -18,33 +18,36 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white">
-                        
+
                         @foreach ($orders as $index => $order)
-                        <tr class="border-b">
-                            <td class="p-3 text-center"> {{ $namaRokokList[$index] }}</td>
-                            <td class="p-3 text-center">Rp {{ number_format($order->harga_distributor, 0, ',', '.') }}</td>
-                            <td class="p-3 text-center">
-                                <div class="flex items-center justify-center space-x-2">
-                                    <button type="button" class="bg-gray-700 text-white text-sm px-2 py-0.5 rounded hover:bg-gray-600"
-                                        onclick="changeQuantity('{{ $order->id_master_barang }}', -1)">-</button>
-                                    <input type="number" id="{{ $order->id_master_barang }}-quantity"
-                                        name="quantities[{{ $order->id_master_barang }}]"
-                                        class="w-16 sm:w-24 text-center py-1 border rounded" value="{{ $order->jumlah }}" min="1"
-                                        oninput="updatePrices()">
-                                    <button type="button" class="bg-gray-700 text-white text-sm px-2 py-0.5 rounded hover:bg-gray-600"
-                                        onclick="changeQuantity('{{ $order->id_master_barang }}', 1)">+</button>
-                                </div>
-                            </td>
-                            
-                            
-                            <td class="p-3 text-center" id="{{ $order->id_master_barang }}-total">
-                                Rp {{ number_format($order->harga_distributor * $order->jumlah, 0, ',', '.') }}
-                            </td>
-                        </tr>
+                            <tr class="border-b">
+                                <td class="p-3 text-center"> {{ $namaRokokList[$index] }}</td>
+                                <td class="p-3 text-center">Rp {{ number_format($order->harga_distributor, 0, ',', '.') }}
+                                </td>
+                                <td class="p-3 text-center">
+                                    <div class="flex items-center justify-center space-x-2">
+                                        <button type="button"
+                                            class="bg-gray-700 text-white text-sm px-2 py-0.5 rounded hover:bg-gray-600"
+                                            onclick="changeQuantity('{{ $order->id_master_barang }}', -1)">-</button>
+                                        <input type="number" id="{{ $order->id_master_barang }}-quantity"
+                                            name="quantities[{{ $order->id_master_barang }}]"
+                                            class="w-16 sm:w-24 text-center py-1 border rounded"
+                                            value="{{ $order->jumlah }}" min="1" oninput="updatePrices()">
+                                        <button type="button"
+                                            class="bg-gray-700 text-white text-sm px-2 py-0.5 rounded hover:bg-gray-600"
+                                            onclick="changeQuantity('{{ $order->id_master_barang }}', 1)">+</button>
+                                    </div>
+                                </td>
+
+
+                                <td class="p-3 text-center" id="{{ $order->id_master_barang }}-total">
+                                    Rp {{ number_format($order->harga_distributor * $order->jumlah, 0, ',', '.') }}
+                                </td>
+                            </tr>
                         @endforeach
                         <!-- Baris untuk harga keseluruhan -->
                         <tr class="bg-white font-semibold">
-                            
+
                             <td colspan="3" class="p-3 text-right">Harga Keseluruhan</td>
                             <td class="p-3 text-center" id="total-amount">Rp {{ number_format(0, 0, ',', '.') }}</td>
                         </tr>
@@ -58,7 +61,8 @@
                 <!-- Himbauan Pembayaran -->
                 <div class="mb-4 p-4 bg-yellow-100 border border-yellow-400 rounded-lg flex items-center space-x-3">
                     <i class="fa-solid fa-triangle-exclamation h-6 w-6 text-yellow-600"></i>
-                    <p class="text-gray-700">Harap melakukan pembayaran sejumlah <span id="total-amount2">Rp {{ number_format($totalAmount, 0, ',', '.') }}</span>
+                    <p class="text-gray-700">Harap melakukan pembayaran sejumlah <span id="total-amount2">Rp
+                            {{ number_format($totalAmount, 0, ',', '.') }}</span>
                         melalui transfer BRI 981-628-262 a/n Bapak Adi Sucipto dan upload bukti pembayaran di bawah ini.</p>
                 </div>
 
@@ -74,6 +78,8 @@
                         </span>
                     </div>
                     <p class="mt-2 text-sm text-gray-500">Supported file types: JPEG, PNG, PDF</p>
+                    <p id="file-error" class="mt-2 text-sm text-red-500 hidden">Harap upload bukti pembayaran sebelum kirim
+                        pesanan.</p>
                 </div>
 
                 <!-- Tombol Pesan -->
@@ -146,8 +152,21 @@
         });
 
 
+
         // Fungsi untuk memvalidasi input file dan menampilkan konfirmasi
         function validateAndSubmit() {
+
+            const fileInput = document.getElementById('payment-proof');
+            const fileError = document.getElementById('file-error');
+
+            if (fileInput.files.length === 0) {
+                fileError.classList.remove('hidden');
+                fileInput.classList.add('border-red-500');
+                return;
+            } else {
+                fileError.classList.add('hidden');
+                fileInput.classList.remove('border-red-500');
+            }
             Swal.fire({
                 title: "Apakah Anda yakin?",
                 text: "Anda tidak akan bisa membatalkan pesanan ini!",
@@ -174,5 +193,4 @@
         // Panggil updatePrices saat halaman dimuat
         document.addEventListener('DOMContentLoaded', updatePrices);
     </script>
-    
 @endsection

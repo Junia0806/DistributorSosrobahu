@@ -12,7 +12,8 @@
 </head>
 
 <body class="flex flex-col min-h-screen">
-    <header class="fixed top-0 w-full z-50 bg-gray-300 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-md">
+    <header
+        class="fixed top-0 w-full z-50 bg-gray-300 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-md">
         <nav class="bg-white border-gray-200 dark:bg-gray-900">
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -25,8 +26,9 @@
                             src="https://static.vecteezy.com/system/resources/previews/000/357/350/original/businessman-vector-icon.jpg"
                             alt="User Avatar">
                         <div class="flex flex-col items-start">
-                            <span class="font-bold">Hari Supriadi</span>
-                            <span class="text-xs text-gray-500 dark:text-gray-400">Peringkat: 5</span>
+                            <span class="font-bold">{{ $userSales->nama_lengkap ?? 'Nama Tidak Diketahui' }}</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">Peringkat:
+                                {{ $userSales->level ?? 'Tidak Diketahui' }}</span>
                         </div>
                     </button>
                     <!-- Dropdown -->
@@ -39,7 +41,7 @@
                                     role="menuitem">
                                     Keluar Akun<i class="fa-solid fa-right-from-bracket ml-2"></i>
                                 </a>
-                        
+
                         </ul>
                     </div>
                     <button data-collapse-toggle="navbar-language" type="button"
