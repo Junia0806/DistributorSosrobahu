@@ -86,7 +86,7 @@
                         <li>
                             <a href="{{ route('pesananMasuk') }}"
                                 class="block py-2 px-3 rounded {{ Route::is('pesananMasuk') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                                id="transaksi-link">
+                                id="pesananMasuk">
                                 Pesanan Masuk
                             </a>
                         </li>
@@ -167,7 +167,7 @@
         const path = window.location.pathname;
         const links = {
             '/dashboard-agen': 'dashboard-agen',
-            '/agen/transaksi': 'transaksi-link',
+            '/agen/pesananMasuk': 'pesananMasuk',
             '/agen/kelola-sales': 'kelola-sales',
             '/agen/pesan': 'pesan-link',
             '/agen/riwayat': 'riwayat-link',

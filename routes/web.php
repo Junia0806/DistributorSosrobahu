@@ -76,15 +76,14 @@ Route::get('/edit', function () {
 Route::get('/dashboard', [OrderSaleController::class, 'dashboard'])->name('dashboard');
 
 //ROUTE AGEN
-Route::get('/default', function () {
-    return view('agen.default');
-});
-
+Route::get('/dashboard-agen', [BarangAgenController::class, 'stockbarang'])->name('dashboard-agen');
 Route::get('/agen/pesan', function () {
     return view('agen.pesan');
 })->name('agen-pesan');
 Route::get('/agen/pesanBarang', [BarangDistributorController::class, 'index'])->name('pesanBarang');
 Route::post('/agen/detailPesanan', [OrderAgenController::class, 'detail'])->name('detailPesanan');
+
+
 // Rute untuk menyimpan pesanan
 Route::post('riwayatAgen', [OrderAgenController::class, 'store'])->name('simpanOrder');
 
@@ -115,11 +114,13 @@ Route::get('/agen/kelola-sales', function () {
     return view('agen.kelola-akun');
 })->name('kelola-sales');
 
-Route::get('/agen/transaksi', function () {
-    return view('agen.transaksi');
-})->name('transaksi');
-Route::get('agen/transaksiAgen', [PesananMasukAgenController::class, 'index'])->name('pesananMasuk');
+Route::get('/agen/pesananMasuk', [PesananMasukAgenController::class, 'index'])->name('pesananMasuk');
 Route::get('/agen/detailPesanMasuk/{idPesanan}', [PesananMasukAgenController::class, 'detailPesanMasuk'])->name('detailPesanMasuk');
+// Rute untuk menampilkan form edit status
+Route::get('/pesan-masuk/edit-status/{id}', [PesananMasukAgenController::class, 'editStatus'])->name('editStatusPesanan');
+// Rute untuk memproses pembaruan status
+Route::put('/pesan-masuk/update-status/{id}', [PesananMasukAgenController::class, 'updateStatus'])->name('updateStatusPesanan');
+
 
 Route::get('/detail', function () {
     $namaAgen = request('namaAgen');
@@ -223,4 +224,3 @@ Route::get('/distributor/pengaturan-harga', function () {
 Route::get('/distributor/rekening', function () {
     return view('distributor.rekening');
 })->name('distributor-rekening');
-
