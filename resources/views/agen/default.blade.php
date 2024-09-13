@@ -42,7 +42,7 @@
                         </div>
                         <ul class="py-2" aria-labelledby="user-menu-button">
                             <li>
-                                <a href="{{ route('agen-pengaturan') }}"
+                                <a href="{{ route('pengaturanHarga') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Kelola
                                     Harga</a>
                             </li>
@@ -78,7 +78,7 @@
                                 Dashboard
                             </a>
                         </li>
-                        <a href="{{ route('kelola-sales') }}"
+                        <a href="{{ route('pengaturanSales') }}"
                             class="block py-2 px-3 rounded {{ Route::is('kelola-sales') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                             id="kelola-sales">
                             Sales

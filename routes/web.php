@@ -6,6 +6,9 @@ use App\Http\Controllers\Sales\DaftarTokoController;
 use App\Http\Controllers\Sales\KunjunganTokoController;
 use App\Http\Controllers\Agen\OrderAgenController;
 use App\Http\Controllers\Agen\PesananMasukAgenController;
+use App\Http\Controllers\Agen\AkunSalesController;
+use App\Http\Controllers\Agen\HargaAgenController;
+use App\Http\Controllers\Agen\PengaturanBankController;
 use App\Http\Controllers\BarangDistributorController;
 use App\Http\Controllers\MasterBarangController;
 use App\Http\Controllers\BarangAgenController;
@@ -75,6 +78,7 @@ Route::get('/edit', function () {
 //DASHBOARD SALES
 Route::get('/dashboard', [OrderSaleController::class, 'dashboard'])->name('dashboard');
 
+
 //ROUTE AGEN
 Route::get('/dashboard-agen', [BarangAgenController::class, 'stockbarang'])->name('dashboard-agen');
 Route::get('/agen/pesan', function () {
@@ -102,17 +106,28 @@ Route::get('/agen/nota', function () {
 })->name('agen-nota');
 Route::get('/agen/nota/{idNota}', [OrderAgenController::class, 'notaAgen'])->name('notaAgen');
 
+// Pengaturan Rekening Agen
 Route::get('/agen/rekening', function () {
     return view('agen.rekening');
 })->name('agen-rekening');
+Route::get('/pengaturan-bank/{idUser}', [PengaturanBankController::class, 'index'])->name('pengaturanBank');
+Route::put('/pengaturan-bank/{idUser}', [PengaturanBankController::class, 'update'])->name('rekeningBank.update');
 
+// Pengaturan Harga Agen
 Route::get('/agen/pengaturan', function () {
     return view('agen.pengaturan_harga');
 })->name('agen-pengaturan');
+Route::get('/pengaturan-harga', [HargaAgenController::class, 'index'])->name('pengaturanHarga');
+Route::put('/pengaturan-harga/update/{id}', [HargaAgenController::class, 'update'])->name('pengaturanHarga.update');
 
+// Pengaturan Akun Sales
 Route::get('/agen/kelola-sales', function () {
     return view('agen.kelola-akun');
 })->name('kelola-sales');
+Route::get('/pengaturan-sales', [AkunSalesController::class, 'index'])->name('pengaturanSales');
+Route::put('/pengaturan-sales/update/{id}', [AkunSalesController::class, 'update'])->name('pengaturanSales.update');
+Route::post('/pengaturan-sales/input', [AkunSalesController::class, 'store'])->name('pengaturanSales.input');
+
 
 Route::get('/agen/pesananMasuk', [PesananMasukAgenController::class, 'index'])->name('pesananMasuk');
 Route::get('/agen/detailPesanMasuk/{idPesanan}', [PesananMasukAgenController::class, 'detailPesanMasuk'])->name('detailPesanMasuk');
