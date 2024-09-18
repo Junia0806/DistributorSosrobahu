@@ -46,10 +46,17 @@
                                 class="inline-flex items-center justify-center w-10 h-10 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
                                 <i class="fa-regular fa-pen-to-square text-lg"></i>
                             </button>
-                            <button type="button"
-                                class="inline-flex items-center justify-center w-10 h-10 text-white bg-red-700 border border-red-600 rounded-sm shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500">
-                                <i class="fa-regular fa-trash-can text-lg"></i>
-                            </button>
+                            <form id="delete-form-{{ $akunSale->id_user_sales }}"
+                                action="{{ route('pengaturanSales.delete', $akunSale->id_user_sales) }}" method="POST"
+                                class="inline-block">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button"
+                                    class="inline-flex items-center justify-center w-10 h-10 text-white bg-red-700 border border-red-600 rounded shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 ml-1"
+                                    onclick="confirmDelete('{{ $akunSale->id_user_sales }}', '{{ $akunSale->nama_lengkap }}')">
+                                    <i class="fa-regular fa-trash-can text-base"></i>
+                                </button>
+                            </form>
                         </div>
                     </td>
                 </tr>
@@ -214,10 +221,10 @@
     });
 
 
-    function confirmDelete(id, date) {
+    function confirmDelete(id, namaUser) {
         Swal.fire({
             title: 'Anda yakin?',
-            text: `Anda akan menghapus kunjungan toko pada ${date} ini.`,
+            text: `Anda akan menghapus akun ${namaUser} ini.`,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

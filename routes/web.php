@@ -127,6 +127,7 @@ Route::get('/agen/kelola-sales', function () {
 Route::get('/pengaturan-sales', [AkunSalesController::class, 'index'])->name('pengaturanSales');
 Route::put('/pengaturan-sales/update/{id}', [AkunSalesController::class, 'update'])->name('pengaturanSales.update');
 Route::post('/pengaturan-sales/input', [AkunSalesController::class, 'store'])->name('pengaturanSales.input');
+Route::delete('/pengaturan-sales/delete/{id_user_sales}', [AkunSalesController::class, 'destroy'])->name('pengaturanSales.delete');
 
 
 Route::get('/agen/pesananMasuk', [PesananMasukAgenController::class, 'index'])->name('pesananMasuk');

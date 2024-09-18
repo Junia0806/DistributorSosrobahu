@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\UserSales;
 use App\Models\OrderSale;
+use Illuminate\Foundation\Auth\User;
 
 class AkunSalesController extends Controller
 {   
@@ -39,10 +40,17 @@ class AkunSalesController extends Controller
         // ]);
 
         // Menangani upload file jika ada
+        // if ($request->hasFile('gambar_ktp')) {
+        //     $file = $request->file('gambar_ktp');
+        //     $ktpPath = $file->store('ktp', 'public'); // Simpan file di storage/app/public/ktp
+        // }
+
         if ($request->hasFile('gambar_ktp')) {
             $file = $request->file('gambar_ktp');
-            $ktpPath = $file->store('ktp', 'public'); // Simpan file di storage/app/public/ktp
+            $imageName = time() . '.' . $file->extension(); // Membuat nama file dengan timestamp
+            $file->storeAs('ktp', $imageName, 'public'); // Simpan file di storage/app/public/ktp // Simpan nama file saja di database
         }
+        
 
         // Simpan data ke database
         UserSales::create([
@@ -53,7 +61,7 @@ class AkunSalesController extends Controller
             'no_telp' => $request->no_telp,
             'status' => 1,
             'level' => 1,
-            'gambar_ktp' => $ktpPath // Simpan nama gambar
+            'gambar_ktp' => $imageName // Simpan nama gambar
         ]);
 
 
@@ -102,6 +110,20 @@ class AkunSalesController extends Controller
         $sales->save();
         // Redirect dengan pesan sukses
         return redirect()->route('pengaturanSales')->with('success', 'Akun sales berhasil diperbarui.');
+    }
+
+    public function destroy($id_user_sales)
+    {
+        $daftarUser = UserSales::find($id_user_sales);
+
+        if ($daftarUser) {
+            // Hapus toko
+            $daftarUser->delete();
+
+            return redirect()->route('pengaturanSales')->with('success', 'User sales terkait berhasil dihapus.');
+        } else {
+            return redirect()->route('pengaturanSales')->with('error', 'User tidak ditemukan.');
+        }
     }
 
 
