@@ -26,7 +26,7 @@
                             src="https://static.vecteezy.com/system/resources/previews/000/357/350/original/businessman-vector-icon.jpg"
                             alt="User Avatar">
                         <div class="flex flex-col items-start">
-                            <span class="font-bold">{{ $userSales->nama_lengkap ?? 'Nama Tidak Diketahui' }}</span>
+                            <span class="font-bold"> Nama : {{ session('nama_lengkap') }}</span>
                             <span class="text-xs text-gray-500 dark:text-gray-400">Peringkat:
                                 {{ $userSales->level ?? 'Tidak Diketahui' }}</span>
                         </div>
@@ -36,7 +36,7 @@
                         id="language-dropdown-menu">
                         <ul class="py-2 font-medium" role="none">
                             <li>
-                                <a href="#" id="logout-link"
+                                <a href="{{ route('logoutSales') }}" id="logout-link"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
                                     role="menuitem">
                                     Keluar Akun<i class="fa-solid fa-right-from-bracket ml-2"></i>
@@ -180,7 +180,7 @@
                         icon: "success"
                     }).then(() => {
                         // Redirect to login page or home
-                        window.location.href = '/'; // Adjust the URL as needed
+                        window.location.href = '/sales/halamanLogin'; // Adjust the URL as needed
                     });
                 }
             });

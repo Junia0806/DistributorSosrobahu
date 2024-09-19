@@ -4,33 +4,41 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Sales\OrderSaleController;
 use App\Http\Controllers\Sales\DaftarTokoController;
 use App\Http\Controllers\Sales\KunjunganTokoController;
+use App\Http\Controllers\Sales\LoginSalesController;
 use App\Http\Controllers\Agen\OrderAgenController;
 use App\Http\Controllers\Agen\PesananMasukAgenController;
 use App\Http\Controllers\Agen\AkunSalesController;
 use App\Http\Controllers\Agen\HargaAgenController;
 use App\Http\Controllers\Agen\PengaturanBankController;
+use App\Http\Controllers\Agen\LoginAgenController;
 use App\Http\Controllers\BarangDistributorController;
 use App\Http\Controllers\MasterBarangController;
 use App\Http\Controllers\BarangAgenController;
 use App\Http\Controllers\OrderSalesController;
 
-Route::get('/', function () {
-    return view('sales.login');
-});
+// Route::get('/', function () {
+//     return view('sales.login');
+// });
 
-Route::post('/', function () {
-    $username = request('username');
-    $password = request('password');
+// Route::post('/', function () {
+//     $username = request('username');
+//     $password = request('password');
 
-    $validUsername = 'sales';
-    $validPassword = '123';
+//     $validUsername = 'sales';
+//     $validPassword = '123';
 
-    if ($username === $validUsername && $password === $validPassword) {
-        return redirect('/dashboard');
-    } else {
-        return redirect('/')->with('error', 'Username atau password salah');
-    }
-});
+//     if ($username === $validUsername && $password === $validPassword) {
+//         return redirect('/dashboard');
+//     } else {
+//         return redirect('/')->with('error', 'Username atau password salah');
+//     }
+// });
+
+Route::get('/sales/halamanLogin', [LoginSalesController::class, 'showLoginForm'])->name('halamanLogin');
+Route::post('/sales/login', [LoginSalesController::class, 'loginSales'])->name('loginSales');
+Route::post('/sales/logout', [LoginSalesController::class, 'logoutSales'])->name('logoutSales');
+
+
 
 // CRUD SAlES
 Route::resource('order_sales', OrderSaleController::class);
@@ -80,7 +88,7 @@ Route::get('/dashboard', [OrderSaleController::class, 'dashboard'])->name('dashb
 
 
 //ROUTE AGEN
-Route::get('/dashboar-agen', [BarangAgenController::class, 'stockbarang'])->name('dashboard-agen');
+Route::get('/dashboard-agen', [BarangAgenController::class, 'stockbarang'])->name('dashboard-agen');
 Route::get('/agen/pesan', function () {
     return view('agen.pesan');
 })->name('agen-pesan');
@@ -153,20 +161,23 @@ Route::get('/detail/{namaAgen}', function ($namaAgen) {
 });
 
 
-Route::get('/login-agen', function () {
-    return view('agen.login-agen');
-})->name('login');
+// Route::get('/login-agen', function () {
+//     return view('agen.login-agen');
+// })->name('login');
 
-Route::post('/login-agen', function () {
-    $username = request('username');
-    $password = request('password');
+// Route::post('/login-agen', function () {
+//     $username = request('username');
+//     $password = request('password');
 
-    if ($username === 'agen' && $password === '456') {
-        return redirect()->route('dashboard-agen');
-    }
+//     if ($username === 'agen' && $password === '456') {
+//         return redirect()->route('dashboard-agen');
+//     }
 
-    return redirect()->route('agen.login-agen')->withErrors('Username atau Password salah.');
-})->name('login.submit');
+//     return redirect()->route('agen.login-agen')->withErrors('Username atau Password salah.');
+// })->name('login.submit');
+Route::get('/agen/halamanLogin', [LoginAgenController::class, 'showLoginForm'])->name('halamanLogin');
+Route::post('/agen/login', [LoginAgenController::class, 'loginAgen'])->name('loginAgen');
+Route::post('/agen/logout', [LoginAgenController::class, 'logoutAgen'])->name('logoutAgen');
 
 
 
