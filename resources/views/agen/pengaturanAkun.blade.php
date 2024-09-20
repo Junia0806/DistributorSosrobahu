@@ -12,6 +12,7 @@
             </button>
         </div>
 
+
         <!-- Tabel Toko -->
         <div class="overflow-x-auto">
             <table class="w-full border-separate border-spacing-0 text-sm text-black">
@@ -159,6 +160,7 @@
                                                 </button>
                                             </div>
                                         </div>
+
                                     </form>
                                 </div>
                             </div>
@@ -169,7 +171,6 @@
             </table>
         </div>
     </div>
-
 
 
 
@@ -234,6 +235,39 @@
                 </form>
             </div>
         </div>
+        <form action="{{ route('pengaturanSales.input') }}" method="POST" enctype="multipart/form-data"
+            class="p-2 space-y-4">
+            @csrf
+            <div>
+                <label for="nama_lengkap" class="block mb-2 text-sm font-medium text-black">Nama Lengkap</label>
+                <input type="text" name="nama_lengkap" id="nama_lengkap" placeholder="Mohd Amirul Zarizan"
+                    class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5" required>
+            </div>
+            <div>
+                <label for="username" class="block mb-2 text-sm font-medium text-black">Username</label>
+                <input type="text" name="username" id="username" placeholder="sales_dzul"
+                    class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5" required>
+            </div>
+            <div>
+                <label for="password" class="block mb-2 text-sm font-medium text-black">Password</label>
+                <input type="password" name="password" id="password" placeholder="dzul123"
+                    class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5" required>
+            </div>
+            <div>
+                <label for="no_telp" class="block mb-2 text-sm font-medium text-black">No. Telepon</label>
+                <input type="tel" name="no_telp" id="no_telp" placeholder="08xxxxxxxxxx"
+                    class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5" required>
+            </div>
+            <div>
+                <label for="gambar_ktp" class="block mb-2 text-sm font-medium text-black">KTP</label>
+                <input type="file" id="gambar_ktp" name="gambar_ktp"
+                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" />
+            </div>
+            <div class="flex justify-center">
+                <button type="submit"
+                    class="bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300">Simpan</button>
+            </div>
+        </form>
     </div>
 
     <!-- Custom Pagination -->
@@ -271,6 +305,7 @@
                 const modalId = button.getAttribute('data-modal-target');
                 document.querySelector(modalId).classList.remove('hidden');
             });
+
         });
 
     function confirmDelete(id, namaUser) {
