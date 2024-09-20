@@ -45,4 +45,9 @@ class UserSales extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($value);
     }
+
+    public function orderSales()
+    {
+        return $this->hasMany(OrderSale::class, 'id_user_sales');
+    }
 }

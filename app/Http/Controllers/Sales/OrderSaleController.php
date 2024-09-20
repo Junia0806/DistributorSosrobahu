@@ -10,6 +10,7 @@ use App\Models\OrderSale;
 use Illuminate\Http\Request;
 use App\Models\OrderDetailSales;
 use App\Models\KunjunganToko;
+use App\Models\UserAgen;
 use Carbon\Carbon;
 
 class OrderSaleController extends Controller
@@ -115,6 +116,7 @@ class OrderSaleController extends Controller
             $totalAmount = 0;
             $product = DB::table('tbl_barang_agen')->where('id_master_barang', $productId)->first();
             $totalAmount += $product->harga_agen * $quantity;
+            
 
 
             $orders[] = [
@@ -245,6 +247,14 @@ class OrderSaleController extends Controller
     {
         $selectedProductIds = $request->input('products', []); // Mengambil ID produk yang dipilih dari request
         $namaRokokList = [];
+        $idAgen = 3;
+        $getAgen = UserAgen::where('id_user_agen', $idAgen)->first();
+
+        $namaAgen = [
+            'nama_agen' => $getAgen->nama_lengkap,
+            'no_rek' => $getAgen->no_rek,
+            'nama_bank' => $getAgen->nama_bank,
+        ];
 
         // Loop through each selected product ID
         foreach ($selectedProductIds as $barangAgen) {
@@ -275,7 +285,7 @@ class OrderSaleController extends Controller
         // Mengambil harga per produk
         $prices = $orders->pluck('harga_agen', 'id_master_barang')->toArray();
 
-        return view('sales.detail_pesanan', compact('orders', 'totalAmount', 'prices', 'namaRokokList'));
+        return view('sales.detail_pesanan', compact('orders', 'totalAmount', 'prices', 'namaRokokList','namaAgen'));
     }
 
 

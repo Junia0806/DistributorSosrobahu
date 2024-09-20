@@ -13,7 +13,7 @@ class PengaturanBankController extends Controller
     public function index($idUser)  
     {   
         // Ganti dengan ID order yang ingin dicari
-        $idUser = 1;
+        $idUser = 4;
         $orderAgen = UserAgen::where('id_user_agen', $idUser)->first();
         
         $userAgen = [

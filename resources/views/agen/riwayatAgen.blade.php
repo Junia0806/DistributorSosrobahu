@@ -22,21 +22,24 @@
                                 <td class="p-2">Rp. {{ number_format($orderAgen->total, 0, ',', '.') }}</td>
                                 <td class="p-2">{{ $orderAgen->jumlah }} Karton</td>
                                 <td
-                                    class="p-2 {{ $orderAgen->status_pemesanan == 1 ? 'text-green-600' : 'text-red-600' }} font-semibold">
+                                    class="p-2 {{ $orderAgen->status_pemesanan == 1 ? 'text-green-600' : 'text-red-600' }} ">
                                     {{ $orderAgen->status_pemesanan == 1 ? 'Selesai' : ($orderAgen->status_pemesanan == 2 ? 'Ditolak' : 'Diproses') }}
                                 </td>
 
                                 <td class="p-2">
                                     @if ($orderAgen->status_pemesanan == 1)
-                                        <!-- Jika bukti_transfer ada dan status_pemesanan adalah 1, tampilkan tombol Tersedia -->
+                                        <!--  status_pemesanan adalah 1/Selesai tampilkan tombol Tersedia -->
                                         <button
                                             onclick="window.location.href='{{ route('notaAgen', $orderAgen->id_order) }}'"
                                             class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">
                                             Tersedia
                                         </button>
+                                        @elseif ($orderAgen->status_pemesanan == 2)
+                                        <!-- Jika status_pemesanan adalah 2/Ditolak, tidak tersedia -->
+                                        <span class="text-gray-600 ">Tidak Tersedia</span>
                                     @else
                                         <!-- Jika kondisi lain, tampilkan teks Diproses -->
-                                        <span class="text-gray-600 font-semibold">Diproses</span>
+                                        <span class="text-gray-600 ">Diproses</span>
                                     @endif
                                 </td>
                             </tr>
@@ -48,7 +51,7 @@
         </div>
 
         <!-- Custom Pagination -->
-        @if ($orderAgens->total() > 10)
+        @if ($orderAgens->total() > 5)
             <div class="flex flex-col items-center my-6">
                 <!-- Help text -->
                 <span class="text-sm text-gray-700 dark:text-gray-400">

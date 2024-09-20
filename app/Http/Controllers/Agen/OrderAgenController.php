@@ -67,7 +67,7 @@ class OrderAgenController extends Controller
     public function index()
     {
         // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
-        $orderAgens = OrderAgen::orderBy('id_order', 'desc')->paginate(10);
+        $orderAgens = OrderAgen::orderBy('id_order', 'desc')->paginate(5);
 
         // Mengonversi tanggal ke format Carbon
         foreach ($orderAgens as $orderAgen) {
