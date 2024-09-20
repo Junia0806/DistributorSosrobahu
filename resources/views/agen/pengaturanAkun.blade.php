@@ -86,6 +86,7 @@
                                             alt="KTP {{ $akunSale['nama_lengkap'] }}" class="w-full rounded-lg">
                                     </div>
                                 </div>
+
                             </div>
                         </div>
 
@@ -272,11 +273,27 @@
             });
         });
 
+    function confirmDelete(id, namaUser) {
+        Swal.fire({
+            title: 'Anda yakin?',
+            text: `Anda akan menghapus akun ${namaUser} ini.`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+
         document.querySelectorAll('[data-modal-hide]').forEach(button => {
             button.addEventListener('click', () => {
                 const modalId = button.getAttribute('data-modal-hide');
                 document.querySelector(modalId).classList.add('hidden');
             });
+
         });
 
         document.addEventListener('DOMContentLoaded', function() {

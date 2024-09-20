@@ -35,7 +35,7 @@
                         id="user-dropdown">
                         <div class="px-4 py-3">
                             <span class="block text-sm text-gray-900 dark:text-white">Akun Agen</span>
-                            <span class="text-bold">{{ $userAgen->nama_lengkap ?? 'Nama Tidak Diketahui' }}</span>
+                            <span class="text-bold">Nama : {{ session('nama_lengkap') }}</span>
                             <div class="text-xs text-gray-500 dark:text-gray-400">
                                 Peringkat: {{ $userAgen->level ?? 'Tidak Diketahui' }}
                             </div>
@@ -51,7 +51,7 @@
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Rekening</a>
                             </li>
                             <li>
-                                <a href="#" id="logout-link"
+                                <a href="{{ route('logoutAgen') }}" id="logout-link"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Keluar<i
                                         class="fa-solid fa-right-from-bracket ml-2"></i></a>
                             </li>
@@ -208,7 +208,7 @@
                         icon: "success"
                     }).then(() => {
                         // Redirect to login page or home
-                        window.location.href = '/login-agen'; // Adjust the URL as needed
+                        window.location.href = '/agen/halamanLogin'; // Adjust the URL as needed
                     });
                 }
             });
