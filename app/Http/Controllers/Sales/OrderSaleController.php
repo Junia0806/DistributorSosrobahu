@@ -247,7 +247,7 @@ class OrderSaleController extends Controller
     {
         $selectedProductIds = $request->input('products', []); // Mengambil ID produk yang dipilih dari request
         $namaRokokList = [];
-        $idAgen = 3;
+        $idAgen = 4;
         $getAgen = UserAgen::where('id_user_agen', $idAgen)->first();
 
         $namaAgen = [
