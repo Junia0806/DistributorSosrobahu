@@ -32,10 +32,13 @@ class LoginSalesController extends Controller
              
             return redirect()->intended('/dashboard'); // ganti sesuai dengan route setelah login
         }
+        // dd($user, Hash::check($request->password, $user->password));
 
         return back()->withErrors([
             'username' => 'Username atau password salah.',
         ]);
+
+        
     }
 
     public function logoutSales()

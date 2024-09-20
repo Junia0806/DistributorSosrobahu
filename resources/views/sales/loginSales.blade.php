@@ -27,7 +27,7 @@
                 </div>
                 <div>
                     <label for="password" class="block mb-2 text-sm font-medium text-gray-800">Password</label>
-                    <input type="password" id="password" name="password"
+                    <input type="text" id="password" name="password"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500 block w-full p-3"
                         required />
                 </div>

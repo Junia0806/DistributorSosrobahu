@@ -98,7 +98,7 @@ class AkunSalesController extends Controller
         // Mengupdate data sales
         $sales->nama_lengkap = $request->nama_lengkap;
         $sales->username = $request->username;
-
+        $sales->status = $request->status;
         // Mengupdate password jika diisi
         if ($request->filled('password')) {
             $sales->password = bcrypt($request->password);

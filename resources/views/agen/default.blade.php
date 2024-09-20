@@ -168,7 +168,7 @@
         const links = {
             '/dashboard-agen': 'dashboard-agen',
             '/agen/pesananMasuk': 'pesananMasuk',
-            '/agen/kelola-sales': 'kelola-sales',
+            '/pengaturan-sales': 'kelola-sales',
             '/agen/pesan': 'pesan-link',
             '/agen/riwayat': 'riwayat-link',
             '/toko': 'toko-link'
