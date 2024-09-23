@@ -24,7 +24,7 @@ class LoginSalesController extends Controller
 
         $user = UserSales::where('username', $request->username)->first();
 
-        if ($user && Hash::check($request->password, $user->password)) {
+        if (Hash::check($request->password, $user->password)) {
             Auth::login($user);
 
              // Simpan nama_lengkap ke dalam session
@@ -37,7 +37,6 @@ class LoginSalesController extends Controller
         return back()->withErrors([
             'username' => 'Username atau password salah.',
         ]);
-
         
     }
 
