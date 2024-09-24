@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class UserAgen extends Authenticatable
+class UserDistributor extends Authenticatable
 {
     use HasFactory;
 
     // Nama tabel yang digunakan oleh model
-    protected $table = 'user_agen';
+    protected $table = 'user_distributor';
 
     // Primary key tabel
-    protected $primaryKey = 'id_user_agen';
+    protected $primaryKey = 'id_user_distributor';
 
     // Tipe primary key jika bukan increment (seperti UUID atau lainnya)
     public $incrementing = true;
@@ -30,8 +30,6 @@ class UserAgen extends Authenticatable
         'status',
         'level',
         'gambar_ktp',
-        'nama_bank',
-        'no_rek',
     ];
 
     // Kolom yang tidak ingin ditampilkan atau diproses
@@ -48,8 +46,9 @@ class UserAgen extends Authenticatable
         $this->attributes['password'] = bcrypt($value);
     }
 
-    public function orderAgens()
+    // Relasi ke model OrderDistributor
+    public function orderDistributors()
     {
-        return $this->hasMany(OrderAgen::class, 'id_user_agen');
+        return $this->hasMany(OrderDistributor::class, 'id_user_distributor');
     }
 }

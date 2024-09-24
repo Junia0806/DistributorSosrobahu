@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BarangDistributor;
 use Illuminate\Http\Request;
 use App\Models\MasterBarang;
 use Illuminate\Support\Facades\DB;
 
-class BarangDistributorController extends Controller
+class BarangPabrikController extends Controller
 {
     public function index()
     {
-        $barangDistributors = BarangDistributor::all();
+        $barangPabriks = MasterBarang::all();
         $namaRokokList = [];
         $gambarRokokList = [];
 
-        // Loop through each BarangDistributor item
-        foreach ($barangDistributors as $barangDistributor) {
-            // Get the id_master_barang for the current BarangDistributor item
-            $namaProduk = $barangDistributor->id_master_barang;
+        // Loop through each BarangPabrik item
+        foreach ($barangPabriks as $barangPabrik) {
+            // Get the id_master_barang for the current BarangPabrik item
+            $namaProduk = $barangPabrik->id_master_barang;
 
             // Query the master_barang table for the corresponding record
             $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProduk)->first();
@@ -35,10 +34,9 @@ class BarangDistributorController extends Controller
 
         
 
-        // menampilkan hasil dalam format view
-        // return view('agen.pesanBarang', compact('barangDistributors', 'namaRokokList','gambarRokokList'));
-
-        // Menampilkan hasil dalam format json
-        return response()->json([$barangDistributors,$namaRokokList,$gambarRokokList]);
+        // Pass both barangPabriks and namaRokokList to the view
+        // return view('agen.pesanBarang', compact('barangPabriks', 'namaRokokList','gambarRokokList'));
+        
+        return response()->json([$barangPabriks,$namaRokokList,$gambarRokokList]);
     }
 }
