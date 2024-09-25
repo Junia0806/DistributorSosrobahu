@@ -245,11 +245,12 @@
                             class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5" required>
                     </div>
                     <div class="relative">
-                        <input type="password" id="password-add" name="password" placeholder="Password"
+                        <label for="password" class="block mb-2 text-sm font-medium text-black">Password</label>
+                        <input type="password" id="password-add" name="password" placeholder="Masukkan Password"
                             class="w-full p-3 text-sm bg-gray-100 border border-gray-300 rounded-lg focus:ring-gray-500 focus:border-gray-500"
                             required />
                         <span id="togglePassword"
-                            class="text-gray-500 absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                            class="text-gray-500 absolute inset-y-0 right-0 flex items-center pr-3 pt-6 cursor-pointer"
                             onclick="togglePassword()">
                             <i class="fa-solid fa-eye-slash"></i>
                         </span>
