@@ -76,6 +76,7 @@ class OrderAgenController extends Controller
 
         // Mengirim data pesanan ke view
         return view('agen.riwayatAgen', compact('orderAgens'));
+        
     }
 
     //  memanipulasi jumlah barang Dihalaman Order Detail

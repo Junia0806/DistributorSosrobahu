@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Sales\OrderSaleController;
 use App\Http\Controllers\Sales\DaftarTokoController;
@@ -11,10 +12,16 @@ use App\Http\Controllers\Agen\AkunSalesController;
 use App\Http\Controllers\Agen\HargaAgenController;
 use App\Http\Controllers\Agen\PengaturanBankController;
 use App\Http\Controllers\Agen\LoginAgenController;
+use App\Http\Controllers\Distributor\OrderDistributorController;
+use App\Http\Controllers\Distributor\HargaDistributorController;
+use App\Http\Controllers\Distributor\AkunAgenController;
+use App\Http\Controllers\Distributor\LoginDistributorController;
 use App\Http\Controllers\BarangDistributorController;
 use App\Http\Controllers\MasterBarangController;
 use App\Http\Controllers\BarangAgenController;
+use App\Http\Controllers\BarangPabrikController;
 use App\Http\Controllers\OrderSalesController;
+use App\Models\OrderDistributor;
 
 // Route::get('/', function () {
 //     return view('sales.login');
@@ -119,15 +126,15 @@ Route::get('/agen/nota/{idNota}', [OrderAgenController::class, 'notaAgen'])->nam
 Route::get('/agen/rekening', function () {
     return view('agen.rekening');
 })->name('agen-rekening');
-Route::get('/pengaturan-bank/{idUser}', [PengaturanBankController::class, 'index'])->name('pengaturanBank');
-Route::put('/pengaturan-bank/{idUser}', [PengaturanBankController::class, 'update'])->name('rekeningBank.update');
+Route::get('/agen/pengaturan-bank/{idUser}', [PengaturanBankController::class, 'index'])->name('pengaturanBank');
+Route::put('/agen/pengaturan-bank/{idUser}', [PengaturanBankController::class, 'update'])->name('rekeningBank.update');
 
 // Pengaturan Harga Agen
 Route::get('/agen/pengaturan', function () {
     return view('agen.pengaturan_harga');
 })->name('agen-pengaturan');
-Route::get('/pengaturan-harga', [HargaAgenController::class, 'index'])->name('pengaturanHarga');
-Route::put('/pengaturan-harga/update/{id}', [HargaAgenController::class, 'update'])->name('pengaturanHarga.update');
+Route::get('/agen/pengaturan-harga', [HargaAgenController::class, 'index'])->name('pengaturanHarga');
+Route::put('/agen/pengaturan-harga/update/{id}', [HargaAgenController::class, 'update'])->name('pengaturanHarga.update');
 
 // Pengaturan Akun Sales
 Route::get('/agen/kelola-sales', function () {
@@ -182,29 +189,38 @@ Route::post('/agen/logout', [LoginAgenController::class, 'logoutAgen'])->name('l
 
 
 
-//DISTRIBUTOR
-Route::get('/distributor/login', function () {
-    return view('distributor.login');
-})->name('login-distributor');
+// //DISTRIBUTOR
+// Route::get('/distributor/login', function () {
+//     return view('distributor.login');
+// })->name('login-distributor');
 
-Route::post('/distributor/login', function () {
-    $username = request('username');
-    $password = request('password');
+// Route::post('/distributor/login', function () {
+//     $username = request('username');
+//     $password = request('password');
 
-    if ($username === 'distributor' && $password === '789') {
-        return redirect()->route('dashboard-distributor');
-    }
+//     if ($username === 'distributor' && $password === '789') {
+//         return redirect()->route('dashboard-distributor');
+//     }
 
-    return redirect()->route('login-distributor')->withErrors(['login' => 'Username atau password salah.']);
-})->name('login-post');
+//     return redirect()->route('login-distributor')->withErrors(['login' => 'Username atau password salah.']);
+// })->name('login-post');
 
 Route::get('/distributor/dashboard', function () {
     return view('distributor.dashboard');
 })->name('dashboard-distributor');
+Route::get('/distributor/halamanLogin', [LoginDistributorController::class, 'showLoginForm'])->name('halamanLogin');
+Route::post('/distributor/login', [LoginDistributorController::class, 'loginDistributor'])->name('loginDistributor');
+Route::post('/distributor/logout', [LoginDistributorController::class, 'logoutDistributor'])->name('logoutDistributor');
 
 Route::get('/distributor/kelola-agen', function () {
     return view('distributor.kelola-agen');
 })->name('kelola-agen');
+
+Route::get('/distributor/pengaturan-agen', [AkunAgenController::class, 'index'])->name('pengaturanAgen');
+// Buat view untuk Akun agen nya dahulu lalu aktifkan route nya
+// Route::put('/pengaturan-agen/update/{id}', [AkunAgenController::class, 'update'])->name('pengaturanAgen.update');
+// Route::post('/pengaturan-agen/input', [AkunAgenController::class, 'store'])->name('pengaturanAgen.input');
+// Route::delete('/pengaturan-agen/delete/{id_user_Agen}', [AkunAgenController::class, 'destroy'])->name('pengaturanAgen.delete');
 
 Route::get('/distributor/transaksi', function () {
     return view('distributor.transaksi');
@@ -228,6 +244,9 @@ Route::get('/transaksi/detail/{namaAgen}', function ($namaAgen) {
 Route::get('/distributor/pesan', function () {
     return view('distributor.pesan');
 })->name('distributor-pesan');
+Route::get('/distributor/pesanBarang', [BarangPabrikController::class, 'index'])->name('pesanBarangDistributor');
+// Masih Error karena belum ada view pesan barang buat view pesan barang dahulu
+// Route::post('/distributor/detailPesanan', [OrderDistributorController::class, 'detail'])->name('detailPesananDistributor');
 
 Route::get('/distributor/detailpesan', function () {
     return view('distributor.detailpesan');
@@ -236,6 +255,8 @@ Route::get('/distributor/detailpesan', function () {
 Route::get('/distributor/riwayat', function () {
     return view('distributor.riwayat');
 })->name('distributor-riwayat');
+Route::get('/distributor/riwayatDistributor', [OrderDistributorController::class, 'index'])->name('riwayatDistributor');
+Route::get('/distributor/nota/{idNota}', [OrderDistributorController::class, 'notaDistributor'])->name('notaDistributor');
 
 Route::get('/distributor/nota', function () {
     return view('distributor.nota');
@@ -244,6 +265,9 @@ Route::get('/distributor/nota', function () {
 Route::get('/distributor/pengaturan-harga', function () {
     return view('distributor.pengaturan-harga');
 })->name('distributor-pengaturan-harga');
+Route::get('/distributor/pengaturan-harga', [HargaDistributorController::class, 'index'])->name('pengaturanHargaDistributor');
+// Masih Error buat view pengaturan harga terlebih dahulu
+// Route::put('/distributor/pengaturan-harga/update/{id}', [HargaDistributorController::class, 'update'])->name('pengaturanHargaDistributor.update');
 
 Route::get('/distributor/rekening', function () {
     return view('distributor.rekening');
