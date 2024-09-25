@@ -180,20 +180,26 @@
                                                 </select>
                                             </div>
 
-                                            <div class="text-left">
-                                                <label for="edit-avatar"
-                                                    class="block mb-2 text-sm font-medium text-gray-90">KTP</label>
-                                                <input
-                                                    class="block mb-4 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                                                    aria-describedby="edit-avatar_help" name="gambar_ktp" id="gambar_ktp"
-                                                    type="file" />
-                                            </div>
-                                            <div class="col-span-2 text-center">
-                                                <button type="submit"
-                                                    class="inline-flex items-center bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300">
-                                                    Simpan Perubahan
-                                                </button>
-                                            </div>
+                                                <div class="text-left">
+                                                    <label for="edit-avatar"
+                                                     class="block mb-2 text-sm font-medium text-gray-90">KTP</label>
+                                                     <input
+                                                     class="block mb-2 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                                                     aria-describedby="edit-avatar_help" name="gambar_ktp"
+                                                     id="gambar_ktp-{{ $akunSale['id_user_sales'] }}" type="file" accept=".jpg, .jpeg, .png" />
+                                                     <!-- Menampilkan nama file KTP saat ini -->
+                                                     <p id="ktp-file-name-{{ $akunSale['id_user_sales'] }}" class="text-sm text-gray-500">
+                                                     File saat ini: {{ $akunSale['gambar_ktp'] ? $akunSale['gambar_ktp'] : 'Tidak ada file saat ini.' }}
+                                                    </p>
+                                                </div>
+
+                                                <div class="col-span-2 text-center">
+                                                    <button type="submit"
+                                                        class="inline-flex items-center bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300 mt-3">
+                                                        Simpan Perubahan
+                                                    </button>
+                                                </div>
+
                                         </form>
                                     </div>
                                 </div>
@@ -256,7 +262,8 @@
                     <div>
                         <label for="gambar_ktp" class="block mb-2 text-sm font-medium text-black">KTP</label>
                         <input type="file" id="gambar_ktp" name="gambar_ktp"
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" />
+                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" 
+                            accept=".jpg, .jpeg, .png"/>
                     </div>
                     <div class="flex justify-center">
                         <button type="submit"
@@ -268,42 +275,72 @@
 
     </div>
 
-    <!-- Custom Pagination -->
-    @if ($akunSales->total() > 10)
-        <div class="flex flex-col items-center my-6">
-            <!-- Help text -->
-            <span class="text-sm text-gray-700 dark:text-gray-400">
-                Menampilkan <span class="font-semibold text-gray-900 dark:text-white">{{ $akunSales->firstItem() }}</span>
-                sampai
-                <span class="font-semibold text-gray-900 dark:text-white">{{ $akunSales->lastItem() }}</span> dari
-                <span class="font-semibold text-gray-900 dark:text-white">{{ $akunSales->total() }}</span> transaksi
-            </span>
-            <!-- Buttons -->
-            <div class="inline-flex mt-2 xs:mt-0">
-                <!-- Previous Button -->
-                <button {{ $akunSales->onFirstPage() ? 'disabled' : '' }}
-                    class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    {{ $akunSales->previousPageUrl() ? 'onclick=window.location.href=\'' . $akunSales->previousPageUrl() . '\'' : '' }}>
-                    Sebelumnya
-                </button>
-                <!-- Next Button -->
-                <button {{ !$akunSales->hasMorePages() ? 'disabled' : '' }}
-                    class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                    {{ $akunSales->nextPageUrl() ? 'onclick=window.location.href=\'' . $akunSales->nextPageUrl() . '\'' : '' }}>
-                    Selanjutnya
-                </button>
+     <!-- Custom Pagination -->
+     @if ($akunSales->total() > 10)
+            <div class="flex flex-col items-center my-6">
+                <!-- Help text -->
+                <span class="text-sm text-gray-700 dark:text-gray-400">
+                    Menampilkan <span class="font-semibold text-gray-900 dark:text-white">{{ $akunSales->firstItem() }}</span>
+                    sampai
+                    <span class="font-semibold text-gray-900 dark:text-white">{{ $akunSales->lastItem() }}</span> dari
+                    <span class="font-semibold text-gray-900 dark:text-white">{{ $akunSales->total() }}</span> sales
+                </span>
+                <!-- Buttons -->
+                <div class="inline-flex mt-2 xs:mt-0">
+                    <!-- Previous Button -->
+                    <button {{ $akunSales->onFirstPage() ? 'disabled' : '' }}
+                        class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                        {{ $akunSales->previousPageUrl() ? 'onclick=window.location.href=\'' . $akunSales->previousPageUrl() . '\'' : '' }}>
+                        Sebelumnya
+                    </button>
+                    <!-- Next Button -->
+                    <button {{ !$akunSales->hasMorePages() ? 'disabled' : '' }}
+                        class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                        {{ $akunSales->nextPageUrl() ? 'onclick=window.location.href=\'' . $akunSales->nextPageUrl() . '\'' : '' }}>
+                        Selanjutnya
+                    </button>
+                </div>
             </div>
-        </div>
-    @endif
+        @endif
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+
+         document.querySelectorAll('input[type="file"][id^="gambar_ktp"]').forEach(input => {
+            input.addEventListener('change', function(event) {
+                const fileName = event.target.files[0]?.name;
+                const fileId = event.target.id.split('-')[1];  // Mengambil ID user dari elemen input
+
+                // Update teks nama file di elemen <p>
+                const currentFileNameElement = document.getElementById('ktp-file-name-' + fileId);
+
+                if (fileName) {
+                    // Jika ada file baru, tampilkan nama file baru
+                    currentFileNameElement.textContent = `File yang dipilih: ${fileName}`;
+                } else {
+                
+                    // Jika tidak ada file baru, tetap tampilkan nama file saat ini menggunakan data dari Blade
+                    const currentFile = @json($akunSale['gambar_ktp']);
+                    currentFileNameElement.textContent = `Saat ini: ${currentFile ? currentFile : 'Tidak ada file saat ini.'}`;
+                }
+            });
+        });
+
+        // Event listener untuk membuka modal
+        document.querySelectorAll('[data-modal-target]').forEach(button => {
+            button.addEventListener('click', () => {
+                const modalId = button.getAttribute('data-modal-target');
+                document.querySelector(modalId).classList.remove('hidden');
+            });
+        });
+
         function togglePassword() {
             const passwordInput = document.getElementById('password-add');
             const toggleIcon = document.getElementById('togglePassword').children[0];
 
             console.log('Toggle Password function called');
             console.log('Current type:', passwordInput.type);
+
 
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';

@@ -95,6 +95,7 @@ Route::get('/agen/pesan', function () {
 Route::get('/agen/pesanBarang', [BarangDistributorController::class, 'index'])->name('pesanBarang');
 Route::post('/agen/detailPesanan', [OrderAgenController::class, 'detail'])->name('detailPesanan');
 
+Route::get('/pengaturan-sales', [AkunSalesController::class, 'index'])->name('pengaturanSales');
 
 // Rute untuk menyimpan pesanan
 Route::post('riwayatAgen', [OrderAgenController::class, 'store'])->name('simpanOrder');

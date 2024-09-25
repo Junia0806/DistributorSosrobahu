@@ -29,19 +29,19 @@ class AkunSalesController extends Controller
     //     return view('agen.pengaturanAkun', compact('akunSales','totalPricePerSales'));
     // }
 
-    public function index()
+    public function index(Request $request)
     {
         // Mengambil data sales dengan total penjualan, urut berdasarkan total penjualan tertinggi
         $akunSales = UserSales::withSum('orderSales', 'total') // Mengambil total penjualan per sales
             ->orderBy('order_sales_sum_total', 'desc') // Urutkan berdasarkan total penjualan
             ->paginate(10); // Pagination
-    
+
         // Tidak perlu melakukan perhitungan manual lagi di sini, karena sudah dihitung dalam query
         $totalPricePerSales = $akunSales->pluck('order_sales_sum_total', 'id_user_sales')->toArray();
-    
+
         return view('agen.pengaturanAkun', compact('akunSales', 'totalPricePerSales'));
     }
-    
+
     public function store(Request $request)
     {
         // Validasi input dari form
@@ -52,13 +52,13 @@ class AkunSalesController extends Controller
             // 'no_telp' => 'required|string|max:15',
             // 'gambar_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
-    
+
         // Menangani upload file jika ada
         $ktpPath = null; // Default jika tidak ada file yang diupload
         if ($request->hasFile('gambar_ktp')) {
             $file = $request->file('gambar_ktp');
-            $imageName = time() . '.' . $file->extension(); // Membuat nama file dengan timestamp
-            $file->storeAs('ktp', $imageName, 'public'); // Simpan file di storage/app/public/ktp // Simpan nama file saja di database
+            $imageName = $request->username . '_ktp.' . $file->extension();
+            $file->storeAs('ktp', $imageName, 'public'); // Simpan file di storage/app/public/ktp  // Simpan nama file saja di database
         }
 
         // Simpan data ke database
@@ -70,12 +70,18 @@ class AkunSalesController extends Controller
             'no_telp' => $request->no_telp,
             'status' => 1,
             'level' => 1,
-            'gambar_ktp' => $imageName // Simpan nama gambar
+            'gambar_ktp' => $imageName, // Simpan nama gambar
         ]);
-    
-        return redirect()->back()->with('success', 'Akun berhasil ditambahkan.');
+
+        // Hitung total akun sales
+        $totalAkunSales = UserSales::count();
+        // Tentukan halaman baru yang harus dituju
+        $newPage = ceil($totalAkunSales / 10); // Asumsikan 10 akun per halaman
+
+        // Redirect ke halaman baru
+        return redirect()->route('pengaturanSales', ['page' => $newPage])->with('success', 'Akun berhasil ditambahkan.');
     }
-    
+
     // Untuk Mengupdate data Sales
     public function update(Request $request, $id)
     {
@@ -109,7 +115,7 @@ class AkunSalesController extends Controller
 
         // Mengupload dan mengupdate gambar KTP jika ada
         if ($request->hasFile('gambar_ktp')) {
-            $imageName = time() . '.' . $request->gambar_ktp->extension();
+            $imageName = $request->username . '_ktp.' . $request->gambar_ktp->extension();
             $request->gambar_ktp->storeAs('ktp', $imageName, 'public');
             $sales->gambar_ktp = $imageName;
         }
