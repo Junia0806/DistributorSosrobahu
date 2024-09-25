@@ -13,6 +13,18 @@
         </div>
 
         <div class="overflow-x-auto">
+            <div class="mb-4 flex justify-center">
+                <div class="relative w-1/2 mt-3">
+                    <input type="text" id="searchInput" onkeyup="searchTable()"
+                        placeholder="Cari nama, username, atau status sales."
+                        class="border border-gray-300 p-2 rounded-lg mx-5 w-full pl-10 placeholder-gray-500 focus:ring-2 focus:ring-gray-500 focus:border-transparent" />
+                    <span class="absolute left-8 top-2 text-gray-400">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                </div>
+            </div>
+            
+            
             <table class="w-full border-separate border-spacing-0 text-sm text-black">
                 <thead class="bg-gray-800 text-white">
                     <tr>
@@ -26,7 +38,7 @@
                         <th class="p-2 text-center">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white text-center">
+                <tbody class="bg-white text-center" id="tableBody">
                     @php
                         // Menghitung nomor urut awal untuk halaman saat ini
                         $startIndex = $akunSales->perPage() * ($akunSales->currentPage() - 1) + 1;
@@ -119,69 +131,69 @@
                                             class="space-y-4">
                                             @csrf
                                             @method('PUT')
-                                                <div class="text-left">
-                                                    <label for="edit-name"
-                                                        class="block mb-2 text-sm font-medium text-black">Nama</label>
-                                                    <input type="text" value="{{ $akunSale->nama_lengkap }}"
-                                                        name="nama_lengkap" id="nama_lengkap"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                        required>
-                                                </div>
+                                            <div class="text-left">
+                                                <label for="edit-name"
+                                                    class="block mb-2 text-sm font-medium text-black">Nama</label>
+                                                <input type="text" value="{{ $akunSale->nama_lengkap }}"
+                                                    name="nama_lengkap" id="nama_lengkap"
+                                                    class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                    required>
+                                            </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-username"
-                                                        class="block mb-2 text-sm font-medium text-black">Username</label>
-                                                    <input type="text" value="{{ $akunSale->username }}"
-                                                        name="username" id="username"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                        required>
-                                                </div>
+                                            <div class="text-left">
+                                                <label for="edit-username"
+                                                    class="block mb-2 text-sm font-medium text-black">Username</label>
+                                                <input type="text" value="{{ $akunSale->username }}" name="username"
+                                                    id="username"
+                                                    class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                    required>
+                                            </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-password"
-                                                        class="block mb-2 text-sm font-medium text-black">Password</label>
-                                                    <input type="text" placeholder="Masukkan Password Baru Anda"
-                                                        name="password" id="password"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                </div>
+                                            <div class="text-left">
+                                                <label for="edit-password"
+                                                    class="block mb-2 text-sm font-medium text-black">Password</label>
+                                                <input type="text" placeholder="Masukkan Password Baru Anda"
+                                                    name="password" id="password"
+                                                    class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                            </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-phone"
-                                                        class="block mb-2 text-sm font-medium text-black">No.
-                                                        Telepon</label>
-                                                    <input type="tel" value="{{ $akunSale->no_telp }}"
-                                                        name="no_telp" id="no_telp"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                        required>
-                                                </div>
+                                            <div class="text-left">
+                                                <label for="edit-phone"
+                                                    class="block mb-2 text-sm font-medium text-black">No.
+                                                    Telepon</label>
+                                                <input type="tel" value="{{ $akunSale->no_telp }}" name="no_telp"
+                                                    id="no_telp"
+                                                    class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                    required>
+                                            </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-status"
-                                                        class="block mb-2 text-sm font-medium text-black">Status</label>
-                                                    <select name="status" id="edit-status"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                        <option value="1"
-                                                            {{ $akunSale->status == 1 ? 'selected' : '' }}>Aktif
-                                                        </option>
-                                                        <option value="0"
-                                                            {{ $akunSale->status == 0 ? 'selected' : '' }}>Tidak Aktif</option>
-                                                    </select>
-                                                </div>
+                                            <div class="text-left">
+                                                <label for="edit-status"
+                                                    class="block mb-2 text-sm font-medium text-black">Status</label>
+                                                <select name="status" id="edit-status"
+                                                    class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                                    <option value="1" {{ $akunSale->status == 1 ? 'selected' : '' }}>
+                                                        Aktif
+                                                    </option>
+                                                    <option value="0" {{ $akunSale->status == 0 ? 'selected' : '' }}>
+                                                        Tidak Aktif</option>
+                                                </select>
+                                            </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-avatar"
-                                                        class="block mb-2 text-sm font-medium text-gray-90">KTP</label>
-                                                    <input
-                                                        class="block mb-4 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                                                        aria-describedby="edit-avatar_help" name="gambar_ktp"
-                                                        id="gambar_ktp" type="file" />
-                                                </div>
-                                                <div class="col-span-2 text-center">
-                                                    <button type="submit"
-                                                        class="inline-flex items-center bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300">
-                                                        Simpan Perubahan
-                                                    </button>
-                                                </div>
+                                            <div class="text-left">
+                                                <label for="edit-avatar"
+                                                    class="block mb-2 text-sm font-medium text-gray-90">KTP</label>
+                                                <input
+                                                    class="block mb-4 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                                                    aria-describedby="edit-avatar_help" name="gambar_ktp" id="gambar_ktp"
+                                                    type="file" />
+                                            </div>
+                                            <div class="col-span-2 text-center">
+                                                <button type="submit"
+                                                    class="inline-flex items-center bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300">
+                                                    Simpan Perubahan
+                                                </button>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
@@ -218,18 +230,23 @@
                     @csrf
                     <div>
                         <label for="nama_lengkap" class="block mb-2 text-sm font-medium text-black">Nama Lengkap</label>
-                        <input type="text" name="nama_lengkap" id="nama_lengkap" placeholder="Mohd Amirul Zarizan"
+                        <input type="text" name="nama_lengkap" id="nama_lengkap" placeholder="Masukkan nama lengkap"
                             class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5" required>
                     </div>
                     <div>
                         <label for="username" class="block mb-2 text-sm font-medium text-black">Username</label>
-                        <input type="text" name="username" id="username" placeholder="sales_dzul"
+                        <input type="text" name="username" id="username" placeholder="Masukkan username"
                             class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5" required>
                     </div>
-                    <div>
-                        <label for="password" class="block mb-2 text-sm font-medium text-black">Password</label>
-                        <input type="text" name="password" id="password" placeholder="Masukkan password"
-                            class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5" required>
+                    <div class="relative">
+                        <input type="password" id="password-add" name="password" placeholder="Password"
+                            class="w-full p-3 text-sm bg-gray-100 border border-gray-300 rounded-lg focus:ring-gray-500 focus:border-gray-500"
+                            required />
+                        <span id="togglePassword"
+                            class="text-gray-500 absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                            onclick="togglePassword()">
+                            <i class="fa-solid fa-eye-slash"></i>
+                        </span>
                     </div>
                     <div>
                         <label for="no_telp" class="block mb-2 text-sm font-medium text-black">No. Telepon</label>
@@ -281,14 +298,51 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // Event listener untuk membuka modal
-        document.querySelectorAll('[data-modal-target]').forEach(button => {
-            button.addEventListener('click', () => {
-                const modalId = button.getAttribute('data-modal-target');
-                document.querySelector(modalId).classList.remove('hidden');
-            });
-        });
+        function togglePassword() {
+            const passwordInput = document.getElementById('password-add');
+            const toggleIcon = document.getElementById('togglePassword').children[0];
 
+            console.log('Toggle Password function called');
+            console.log('Current type:', passwordInput.type);
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            }
+        }
+
+        function searchTable() {
+            const input = document.getElementById("searchInput");
+            const filter = input.value.toLowerCase();
+            const table = document.getElementById("tableBody");
+            const rows = table.getElementsByTagName("tr");
+
+            for (let i = 0; i < rows.length; i++) {
+                let cells = rows[i].getElementsByTagName("td");
+                let found = false;
+
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j]) {
+                        let cellValue = cells[j].textContent || cells[j].innerText;
+                        if (cellValue.toLowerCase().indexOf(filter) > -1) {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (found) {
+                    rows[i].style.display = ""; // Tampilkan baris
+                } else {
+                    rows[i].style.display = "none"; // Sembunyikan baris
+                }
+            }
+        }
         // Event listener untuk menutup modal
         document.querySelectorAll('[data-modal-hide]').forEach(button => {
             button.addEventListener('click', () => {
