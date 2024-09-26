@@ -36,9 +36,9 @@ class BarangDistributorController extends Controller
         
 
         // menampilkan hasil dalam format view
-        // return view('agen.pesanBarang', compact('barangDistributors', 'namaRokokList','gambarRokokList'));
+        return view('agen.pesanBarang', compact('barangDistributors', 'namaRokokList','gambarRokokList'));
 
         // Menampilkan hasil dalam format json
-        return response()->json([$barangDistributors,$namaRokokList,$gambarRokokList]);
+        // return response()->json([$barangDistributors,$namaRokokList,$gambarRokokList]);
     }
 }

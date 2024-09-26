@@ -159,6 +159,7 @@ class OrderAgenController extends Controller
                 'id_barang_distributor' => $product->id_barang_distributor,
                 'jumlah_produk' => $quantity,
                 'jumlah_harga_item' => $totalAmount,
+                'harga_tetap_nota' => $product->harga_distributor,
                 'created_at' => now(),
                 'updated_at' => now(),
             ];
@@ -190,7 +191,7 @@ class OrderAgenController extends Controller
             $hargaSatuan = DB::table('tbl_barang_disitributor')->where('id_master_barang', $barangAgen->id_master_barang)->first();
             if ($product) { // Cek apakah product ada dan memiliki properti nama_rokok
                 $nama_rokok[] = $product->nama_rokok;
-                $harga_satuan[] = $hargaSatuan->harga_distributor;
+                $harga_satuan[] = $barangAgen->harga_tetap_nota;
                 $jumlah_item[] = $barangAgen->jumlah_produk;
                 $jumlah_harga[] = $barangAgen->jumlah_harga_item;
             } else {
