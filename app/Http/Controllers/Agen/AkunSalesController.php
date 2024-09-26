@@ -31,18 +31,29 @@ class AkunSalesController extends Controller
 
     public function index(Request $request)
     {
-        // Mengambil data sales dengan total penjualan, urut berdasarkan total penjualan tertinggi
-        $akunSales = UserSales::withSum('orderSales', 'total') // Mengambil total penjualan per sales
-            ->orderBy('order_sales_sum_total', 'desc') // Urutkan berdasarkan total penjualan
+        $search = $request->input('search');
+    
+        // Query utama untuk mengambil data sales
+        $akunSales = UserSales::query()
+            ->withSum('orderSales', 'total') // Mengambil total penjualan per sales
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('nama_lengkap', 'like', '%' . $search . '%')
+                      ->orWhere('username', 'like', '%' . $search . '%')
+                      ->orWhere('no_telp', 'like', '%' . $search . '%')
+                      ->orWhere('status', 'like', '%' . $search . '%');
+                });
+            })
+            ->orderBy('order_sales_sum_total', 'desc')
             ->paginate(10); // Pagination
-
-        // Tidak perlu melakukan perhitungan manual lagi di sini, karena sudah dihitung dalam query
+    
+        // Membuat array total harga per sales
         $totalPricePerSales = $akunSales->pluck('order_sales_sum_total', 'id_user_sales')->toArray();
-
+    
         return view('agen.pengaturanAkun', compact('akunSales', 'totalPricePerSales'));
-        // return response()->json([$akunSales,$totalPricePerSales]);
     }
-
+    
+    
     public function store(Request $request)
     {
         // Validasi input dari form
