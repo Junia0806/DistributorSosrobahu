@@ -93,14 +93,14 @@
                         <li>
                             <a href="{{ route('pesanBarang') }}"
                                 class="block py-2 px-3 rounded {{ Route::is('pesanBarang') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                                id="pesan-link">
+                                id="pesanBarang">
                                 Order
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('riwayatAgen') }}"
                                 class="block py-2 px-3 rounded {{ Route::is('riwayatAgen') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                                id="riwayat-link">
+                                id="riwayatAgen">
                                 Riwayat
                             </a>
                         </li>
@@ -169,8 +169,8 @@
             '/dashboard-agen': 'dashboard-agen',
             '/agen/pesananMasuk': 'pesananMasuk',
             '/pengaturan-sales': 'kelola-sales',
-            '/agen/pesan': 'pesan-link',
-            '/agen/riwayat': 'riwayat-link',
+            '/agen/pesanBarang': 'pesanBarang',
+            '/riwayatAgen': 'riwayatAgen',
             '/toko': 'toko-link'
         };
 
