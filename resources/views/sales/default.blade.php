@@ -28,9 +28,10 @@
                         <div class="flex flex-col items-start">
                             <span class="font-bold"> Nama : {{ session('nama_lengkap') }}</span>
                             <span class="text-xs text-gray-500 dark:text-gray-400">Peringkat:
-                                {{ $userSales->level ?? 'Tidak Diketahui' }}</span>
+                                {{ session('peringkat') }}</span>
                         </div>
                     </button>
+
                     <!-- Dropdown -->
                     <div class="z-50 hidden my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700"
                         id="language-dropdown-menu">
@@ -146,7 +147,22 @@
 <!-- SweetAlert2 CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    // Panggil updateRanking saat halaman dimuat
+    window.onload = function () {
+        fetch('{{ route('sales.updateRanking') }}')
+            .then(response => response.json())
+            .then(data => {
+                if (data.peringkat) {
+                    // Update peringkat di tampilan
+                    document.querySelector('span.text-xs').innerText = 'Peringkat: ' + data.peringkat;
+                }
+            })
+            .catch(error => {
+                console.error('Error updating ranking:', error);
+            });
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
         const path = window.location.pathname;
         const links = {
             '/': 'dashboard-link',

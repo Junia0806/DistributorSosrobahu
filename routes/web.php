@@ -45,6 +45,7 @@ Route::get('/sales/halamanLogin', [LoginSalesController::class, 'showLoginForm']
 Route::post('/sales/login', [LoginSalesController::class, 'loginSales'])->name('loginSales');
 Route::post('/sales/logout', [LoginSalesController::class, 'logoutSales'])->name('logoutSales');
 
+Route::get('/sales/update-ranking', [LoginSalesController::class, 'updateRanking'])->name('sales.updateRanking');
 
 
 // CRUD SAlES

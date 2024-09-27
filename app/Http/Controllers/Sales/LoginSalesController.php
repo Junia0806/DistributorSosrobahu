@@ -40,6 +40,29 @@ class LoginSalesController extends Controller
         
     }
 
+    public function updateRanking()
+    {
+        // Ambil ID user yang sedang login
+        $userId = Auth::id(); // Pastikan pengguna sudah login
+
+        // Mengambil data sales dengan total penjualan, urut berdasarkan total penjualan tertinggi
+        $akunSales = UserSales::withSum('orderSales', 'total')
+            ->orderBy('order_sales_sum_total', 'desc')
+            ->get(); // Ambil semua data tanpa pagination
+
+        // Buat array untuk total penjualan
+        $totalPricePerSales = $akunSales->pluck('order_sales_sum_total', 'id_user_sales')->toArray();
+
+        // Hitung peringkat pengguna saat ini
+        $peringkat = array_search($userId, array_keys($totalPricePerSales)) + 1;
+
+        // Simpan peringkat ke dalam session
+        session(['peringkat' => $peringkat]);
+
+        return response()->json(['peringkat' => $peringkat]);
+    }
+
+
     public function logoutSales()
     {
         Auth::logout();
