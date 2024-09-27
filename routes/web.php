@@ -16,6 +16,8 @@ use App\Http\Controllers\Distributor\OrderDistributorController;
 use App\Http\Controllers\Distributor\HargaDistributorController;
 use App\Http\Controllers\Distributor\AkunAgenController;
 use App\Http\Controllers\Distributor\LoginDistributorController;
+use App\Http\Controllers\Distributor\PengaturanBankDistributorController;
+use App\Http\Controllers\Distributor\PesananMasukDistributorController;
 use App\Http\Controllers\BarangDistributorController;
 use App\Http\Controllers\MasterBarangController;
 use App\Http\Controllers\BarangAgenController;
@@ -253,6 +255,12 @@ Route::get('/distributor/pesanBarang', [BarangPabrikController::class, 'index'])
 Route::get('/distributor/detailpesan', function () {
     return view('distributor.detailpesan');
 })->name('distributor-detailpesan');
+Route::get('/distributor/pesananMasuk', [PesananMasukDistributorController::class, 'index'])->name('pesananMasukDistributor');
+Route::get('/distributor/detailPesanMasuk/{idPesanan}', [PesananMasukDistributorController::class, 'detailPesanMasuk'])->name('detailPesanMasukDistributor');
+// Rute untuk menampilkan form edit status
+Route::get('/distributor/pesan-masuk/edit-status/{id}', [PesananMasukDistributorController::class, 'editStatus'])->name('editStatusPesananDistributor');
+// Rute untuk memproses pembaruan status
+Route::put('/distributor/pesan-masuk/update-status/{id}', [PesananMasukDistributorController::class, 'updateStatus'])->name('updateStatusPesananDistributor');
 
 Route::get('/distributor/riwayat', function () {
     return view('distributor.riwayat');
@@ -274,3 +282,4 @@ Route::get('/distributor/pengaturan-harga', [HargaDistributorController::class, 
 Route::get('/distributor/rekening', function () {
     return view('distributor.rekening');
 })->name('distributor-rekening');
+Route::get('/distributor/pengaturan-bank/{idUser}', [PengaturanBankDistributorController::class, 'index'])->name('pengaturanBankDistributor');

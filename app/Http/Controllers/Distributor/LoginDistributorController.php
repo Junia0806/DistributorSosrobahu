@@ -25,12 +25,23 @@ class LoginDistributorController extends Controller
         $user = UserDistributor::where('username', $request->username)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
-            Auth::login($user);
 
-             // Simpan nama_lengkap ke dalam session
-             session(['nama_lengkap' => $user->nama_lengkap]);
-             
-            return redirect()->intended('/distributor/dashboard'); // ganti sesuai dengan route setelah login
+            // Cek status akun
+            if ($user->status == 1) {
+                // Login user
+                Auth::login($user);
+
+                // Simpan nama_lengkap ke dalam session
+                session(['nama_lengkap' => $user->nama_lengkap]);
+
+                // Redirect ke dashboard atau halaman lain
+                return redirect()->intended('/distributor/dashboard')->with('success', 'Selamat datang, ' . $user->nama_lengkap);
+            } else {
+                // Jika status akun tidak aktif (status == 0)
+                return back()->withErrors([
+                    'username' => 'Akun Anda tidak aktif. Silakan hubungi admin.',
+                ]);
+            }
         }
 
         return back()->withErrors([

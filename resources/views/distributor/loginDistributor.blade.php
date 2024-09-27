@@ -37,6 +37,12 @@
                         Login
                     </button>
                 </div>
+
+                @if ($errors->any())
+                    <div class="text-red-600 text-sm mt-3">
+                        <strong>{{ $errors->first() }}</strong>
+                    </div>
+                @endif
             </form>
             
         </div>
