@@ -32,28 +32,28 @@ class AkunSalesController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-    
+
         // Query utama untuk mengambil data sales
         $akunSales = UserSales::query()
             ->withSum('orderSales', 'total') // Mengambil total penjualan per sales
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('nama_lengkap', 'like', '%' . $search . '%')
-                      ->orWhere('username', 'like', '%' . $search . '%')
-                      ->orWhere('no_telp', 'like', '%' . $search . '%')
-                      ->orWhere('status', 'like', '%' . $search . '%');
+                        ->orWhere('username', 'like', '%' . $search . '%')
+                        ->orWhere('no_telp', 'like', '%' . $search . '%')
+                        ->orWhere('status', 'like', '%' . $search . '%');
                 });
             })
             ->orderBy('order_sales_sum_total', 'desc')
             ->paginate(10); // Pagination
-    
+
         // Membuat array total harga per sales
         $totalPricePerSales = $akunSales->pluck('order_sales_sum_total', 'id_user_sales')->toArray();
-    
+
         return view('agen.pengaturanAkun', compact('akunSales', 'totalPricePerSales'));
     }
-    
-    
+
+
     public function store(Request $request)
     {
         // Validasi input dari form
@@ -97,14 +97,6 @@ class AkunSalesController extends Controller
     // Untuk Mengupdate data Sales
     public function update(Request $request, $id)
     {
-        // Validasi input
-        // $request->validate([
-        //     // 'nama_lengkap' => 'required|string|max:255',
-        //     // 'username' => 'required|string|max:255|unique:user_sales,username,' . $id . ',id_user_sales',
-        //     // 'password' => 'nullable|string|min:8',
-        //     // 'no_telp' => 'required|string|max:15',
-        // ]);
-
         // Mengambil data sales berdasarkan ID
         $sales = UserSales::find($id);
 
@@ -134,8 +126,13 @@ class AkunSalesController extends Controller
 
         // Menyimpan perubahan
         $sales->save();
+
+        // Tentukan halaman baru yang harus dituju
+        $totalAkunSales = UserSales::count();
+        $newPage = ceil($totalAkunSales / 10); // Asumsikan 10 akun per halaman
+
         // Redirect dengan pesan sukses
-        return redirect()->route('pengaturanSales')->with('success', 'Akun sales berhasil diperbarui.');
+        return redirect()->route('pengaturanSales', ['page' => $newPage])->with('success', 'Akun sales berhasil diperbarui.');
     }
 
 
@@ -152,6 +149,4 @@ class AkunSalesController extends Controller
             return redirect()->route('pengaturanSales')->with('error', 'User tidak ditemukan.');
         }
     }
-
-
 }

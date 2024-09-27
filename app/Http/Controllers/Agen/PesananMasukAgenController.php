@@ -47,7 +47,7 @@ class PesananMasukAgenController extends Controller
             $hargaSatuan = DB::table('tbl_barang_agen')->where('id_master_barang', $barangSales->id_master_barang)->first();
             if ($product) { // Cek apakah product ada dan memiliki properti nama_rokok
                 $nama_rokok[] = $product->nama_rokok;
-                $harga_satuan[] = $hargaSatuan->harga_agen;
+                $harga_satuan[] = $barangSales->harga_tetap_nota;
                 $jumlah_item[] = $barangSales->jumlah_produk;
                 $jumlah_harga[] = $barangSales->jumlah_harga_item;
             } else {
