@@ -204,7 +204,7 @@
                         icon: "success"
                     }).then(() => {
                         // Redirect to login page or home
-                        window.location.href = '/login-distributor'; // Adjust the URL as needed
+                        window.location.href = '/distributor/halamanLogin'; // Adjust the URL as needed
                     });
                 }
             });

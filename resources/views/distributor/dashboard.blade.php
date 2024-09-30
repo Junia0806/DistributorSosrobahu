@@ -62,7 +62,7 @@
                         <div class="flex flex-col">
                             <h3 class="text-md font-bold mb-0">Sosrobahu Produk {{ $i }}</h3>
                             <p class="text-gray-700 text-md">Stok: <span class="text-black font-bold">{{ rand(7, 50) }}
-                                    Slop</span></p>
+                                    Karton</span></p>
                         </div>
                     </div>
                 @endfor
