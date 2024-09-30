@@ -54,7 +54,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="button"
-                                        class="inline-flex items-center justify-center w-8 h-8 text-white bg-red-700 border border-red-600 rounded shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 ml-1"
+                                        class="inline-flex items-center justify-center w-10 h-10 text-white bg-red-700 border border-red-600 rounded shadow-sm hover:bg-red-800 focus:outline-none focus:ring-2 focus:ring-red-500 ml-1"
                                         onclick="confirmDelete('{{ $item->id_daftar_toko }}', '{{ $item->nama_toko }}')">
                                         <i class="fa-regular fa-trash-can text-base"></i>
                                     </button>

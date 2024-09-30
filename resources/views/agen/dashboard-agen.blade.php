@@ -1,99 +1,76 @@
 @extends('agen.default')
 
 @section('content')
-    <div class="w-full max-w-6xl mx-auto bg-white overflow-x-auto my-20">
-        <!-- Atas -->
-        <div class="p-6">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Total Stok -->
-                <div class="bg-green-400 text-white rounded-lg shadow p-4 flex items-center">
-                    <div class="flex-shrink-0">
-                        <i class="fas fa-box-open fa-2x"></i>
-                    </div>
-                    <div class="ml-4">
-                        <h2 class="text-xl font-bold">185 slop</h2>
-                        <p class="text-lg">Total Stok</p>
-                    </div>
+<div class="w-full max-w-6xl mx-auto bg-white overflow-x-auto my-20">
+    <!-- Atas -->
+    <div class="p-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Total Stok -->
+            <div class="bg-green-400 text-white rounded-lg shadow p-4 flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-box-open fa-2x"></i>
                 </div>
-
-                <!-- Produk Rokok Terlaris -->
-                <div class="bg-yellow-400 text-white rounded-lg shadow p-4 flex items-center">
-                    <div class="flex-shrink-0">
-                        <i class="fas fa-star fa-2x"></i>
-                    </div>
-                    <div class="ml-4">
-                        <h2 class="text-xl font-bold">Sosrobahu Premium</h2>
-                        <p class="text-lg">Produk Terlaris</p>
-                    </div>
-                </div>
-
-                <!-- Pendapatan Bulan Ini -->
-                <div class="bg-blue-400 text-white rounded-lg shadow p-4 flex items-center">
-                    <div class="flex-shrink-0">
-                        <i class="fas fa-money-bill-wave fa-2x"></i>
-                    </div>
-                    <div class="ml-4">
-                        <h2 class="text-xl font-bold">Rp 15.000.000</h2>
-                        <p class="text-lg">Pendapatan Bulan Ini</p>
-                    </div>
-                </div>
-
-                <!-- Jumlah Toko -->
-                <div class="bg-orange-400 text-white rounded-lg shadow p-4 flex items-center">
-                    <div class="flex-shrink-0">
-                        <i class="fa-solid fa-user-tie fa-2x"></i>
-                    </div>
-                    <div class="ml-4">
-                        <h2 class="text-xl font-bold">25 Orang</h2>
-                        <p class="text-lg">Jumlah Sales</p>
-                    </div>
+                <div class="ml-4">
+                    <h2 class="text-xl font-bold">{{ $finalStockSlop }} Slop</h2>
+                    <p class="text-lg">Total Stok</p>
                 </div>
             </div>
-        </div>
 
-        <!-- Stok per Produk -->
-        <div class="p-6">
-            <h2 class="text-2xl font-bold mb-6 text-center">Rincian Stok</h2>
-            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
-                @for ($i = 1; $i <= 6; $i++)
-                    <div class="bg-white border border-gray-200 rounded-lg shadow-md p-4">
-                        <img src="{{ asset('assets/images/produk' . $i . '.jpg') }}"
-                            alt="Sosrobahu Produk {{ $i }}" class="w-full h-40 object-cover rounded-t-lg mb-4">
-                        <div class="flex flex-col items-center">
-                            <h3 class="text-lg font-bold mb-2">Sosrobahu Produk {{ $i }}</h3>
-                            <p class="text-gray-700 text-lg">Stok: <span class="text-black font-bold">{{ rand(7, 50) }}
-                                    Slop</span></p>
-                        </div>
-                    </div>
-                @endfor
+            <!-- Produk Rokok Terlaris -->
+            <div class="bg-yellow-400 text-white rounded-lg shadow p-4 flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-star fa-2x"></i>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-xl font-bold">{{ $topProductName }}</h2>
+                    <p class="text-lg">Produk Terlaris</p>
+                </div>
             </div>
-        </div>
 
-        <!-- Tabel Peringkat Penjualan Agen -->
-        <div class="p-6">
-            <h2 class="text-2xl font-bold mb-6 text-center">Peringkat Penjualan Agen</h2>
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-                    <thead class="bg-gray-800 text-white">
-                        <tr>
-                            <th class="py-2 px-4 border-b">Peringkat</th>
-                            <th class="py-2 px-4 border-b">Nama Agen</th>
-                            <th class="py-2 px-4 border-b">Total Penjualan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for ($j = 1; $j <= 5; $j++)
-                            <tr class="border-t">
-                                <td class="py-2 px-4 border-b text-center">{{ $j }}</td>
-                                <td class="py-2 px-4 border-b text-center">Agen
-                                    {{ ['Abadi', 'Budaya', 'Cantika', 'Delima', 'Ekonomis', 'Fantastis'][$j - 1] }}</td>
-                                <td class="py-2 px-4 border-b text-center">Rp.
-                                    {{ number_format(rand(20000000, 40000000), 0, ',', '.') }}</td>
-                            </tr>
-                        @endfor
-                    </tbody>
-                </table>
+            <!-- Total Pendapatan -->
+            <div class="bg-blue-400 text-white rounded-lg shadow p-4 flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-money-bill-wave fa-2x"></i>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-xl font-bold">Rp {{ number_format($totalPendapatan, 0, ',', '.') }}</h2>
+                    <p class="text-lg">Total Pendapatan</p>
+                </div>
+            </div>
+
+            <!-- Jumlah Sales -->
+            <div class="bg-orange-400 text-white rounded-lg shadow p-4 flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fa-solid fa-user-tie fa-2x"></i>
+                </div>
+                <div class="ml-4">
+                    <h2 class="text-xl font-bold">{{ $totalSales }} Orang</h2>
+                    <p class="text-lg">Jumlah Sales</p>
+                </div>
             </div>
         </div>
     </div>
+
+    <!-- Stok per Produk -->
+    <div class="p-6">
+        <h2 class="text-2xl font-bold mb-6 text-center">Rincian Stok</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+            @foreach ($barangAgens as $index => $barang)
+                <div
+                    class="bg-white p-3 rounded-lg border border-gray-200 shadow-md transition-colors duration-150 peer-checked:bg-gray-300 peer-checked:border-green-500 peer-checked:border-2 peer-checked:shadow-lg w-full max-w-[180px] mx-auto">
+                    <div class="relative mb-2">
+                        <img src="{{ asset('storage/produk/' . $gambarRokokList[$index]) }}"
+                            alt="{{ $barang->nama_rokok }}"
+                            class="w-full h-[200px] object-cover rounded-md border border-gray-200">
+                    </div>
+                    <div class="text-center">
+                        <h2 class="text-sm font-bold text-gray-800">{{ $namaRokokList[$index] }}</h2>
+                        <p class="text-gray-700 text-md">Stok: <span class="text-black font-bold">{{ $totalProdukList[$index] }}
+                                Slop</span></p>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</div>
 @endsection

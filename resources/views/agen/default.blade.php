@@ -18,6 +18,7 @@
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src="{{ asset('assets/images/logo.png') }}" class="h-8" alt="Flowbite Logo" />
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Agen</span>
                 </a>
                 <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                     <button type="button"
@@ -26,19 +27,22 @@
                         data-dropdown-placement="bottom">
                         <span class="sr-only">Open user menu</span>
                         <img class="w-8 h-8 rounded-full"
-                            src="https://static.vecteezy.com/system/resources/previews/000/357/350/original/businessman-vector-icon.jpg"alt="user photo">
+                            src="https://static.vecteezy.com/system/resources/previews/000/357/350/original/businessman-vector-icon.jpg"
+                            alt="user photo">
                     </button>
                     <!-- Dropdown menu -->
                     <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
                         id="user-dropdown">
                         <div class="px-4 py-3">
                             <span class="block text-sm text-gray-900 dark:text-white">Akun Agen</span>
-                            <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">Moch. Samsul
-                                Abidin</span>
+                            <span class="text-bold">Nama : {{ session('nama_lengkap') }}</span>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">
+                                Peringkat: {{ $userAgen->level ?? 'Tidak Diketahui' }}
+                            </div>
                         </div>
                         <ul class="py-2" aria-labelledby="user-menu-button">
                             <li>
-                                <a href="{{ route('agen-pengaturan') }}"
+                                <a href="{{ route('pengaturanHarga') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Kelola
                                     Harga</a>
                             </li>
@@ -47,7 +51,7 @@
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Rekening</a>
                             </li>
                             <li>
-                                <a href="#" id="logout-link"
+                                <a href="{{ route('logoutAgen') }}" id="logout-link"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Keluar<i
                                         class="fa-solid fa-right-from-bracket ml-2"></i></a>
                             </li>
@@ -74,29 +78,29 @@
                                 Dashboard
                             </a>
                         </li>
-                        <a href="{{ route('kelola-sales') }}"
+                        <a href="{{ route('pengaturanSales') }}"
                             class="block py-2 px-3 rounded {{ Route::is('kelola-sales') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                             id="kelola-sales">
                             Sales
                         </a>
                         <li>
-                            <a href="{{ route('transaksi') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('transaksi') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                                id="transaksi-link">
+                            <a href="{{ route('pesananMasuk') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('pesananMasuk') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                                id="pesananMasuk">
                                 Pesanan Masuk
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('agen-pesan') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('agen-pesan') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                                id="pesan-link">
+                            <a href="{{ route('pesanBarang') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('pesanBarang') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                                id="pesanBarang">
                                 Order
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('agen-riwayat') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('agen-riwayat') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                                id="riwayat-link">
+                            <a href="{{ route('riwayatAgen') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('riwayatAgen') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                                id="riwayatAgen">
                                 Riwayat
                             </a>
                         </li>
@@ -159,14 +163,14 @@
 <!-- SweetAlert2 CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const path = window.location.pathname;
         const links = {
             '/dashboard-agen': 'dashboard-agen',
-            '/agen/transaksi': 'transaksi-link',
-            '/agen/kelola-sales': 'kelola-sales',
-            '/agen/pesan': 'pesan-link',
-            '/agen/riwayat': 'riwayat-link',
+            '/agen/pesananMasuk': 'pesananMasuk',
+            '/pengaturan-sales': 'kelola-sales',
+            '/agen/pesanBarang': 'pesanBarang',
+            '/riwayatAgen': 'riwayatAgen',
             '/toko': 'toko-link'
         };
 
@@ -186,7 +190,7 @@
         }
 
         // SweetAlert2 for logout confirmation
-        document.getElementById('logout-link').addEventListener('click', function(e) {
+        document.getElementById('logout-link').addEventListener('click', function (e) {
             e.preventDefault(); // Prevent default link behavior
             Swal.fire({
                 title: "Apakah Anda yakin?",
@@ -204,7 +208,7 @@
                         icon: "success"
                     }).then(() => {
                         // Redirect to login page or home
-                        window.location.href = '/login-agen'; // Adjust the URL as needed
+                        window.location.href = '/agen/halamanLogin'; // Adjust the URL as needed
                     });
                 }
             });
