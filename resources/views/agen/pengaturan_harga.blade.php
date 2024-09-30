@@ -4,6 +4,14 @@
     <section class="container mx-auto p-6 my-20">
         <div class="bg-white shadow-lg rounded-lg max-w-full overflow-x-auto">
             <h2 class="text-2xl font-bold border-b-2 mb-3 pb-3 text-center">Pengaturan Harga</h2>
+            <div class="mb-6 p-4 bg-yellow-100 border border-yellow-400 rounded-lg flex items-center space-x-2"
+            role="alert">
+            <span><i class="fa-solid fa-exclamation-triangle h-6 w-6 text-yellow-600"></i></span>
+            <p class="text-gray-700">
+                Harga yang Anda tentukan akan menjadi
+                acuan bagi Sales Anda. Pastikan untuk memasukkan harga yang sesuai agar bisnis berjalan dengan lancar.
+            </p>
+        </div>
             <div class="overflow-x-auto">
                 <table class="w-full border-separate border-spacing-0">
                     <thead class="bg-gray-800 text-white">

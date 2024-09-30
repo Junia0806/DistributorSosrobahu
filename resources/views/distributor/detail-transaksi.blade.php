@@ -1,4 +1,4 @@
-@extends('agen.default')
+@extends('distributor.default')
 
 @section('content')
     <div class="w-full max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-x-auto my-20 text-md">
@@ -47,9 +47,7 @@
                 </tfoot>
             </table>
 
-            <!-- Payment Status -->
-            <p class="mb-4 text-gray-700">Status Pembayaran: <span id="paymentStatus"
-                    class="font-bold text-green-600">Terbayar</span></p>
+            <!-- Pemesanan Status -->
             <p class="mb-4 text-gray-700">Status Pemesanan: <span id="orderStatus"
                     class="font-bold text-orange-600">Diproses</span></p>
 
@@ -60,7 +58,6 @@
                     <i class="fa-solid fa-pencil-alt mr-2"></i>Edit Status Pesanan
                 </button>
             </div>
-
         </div>
 
         <!-- Edit Section -->
@@ -91,40 +88,38 @@
                 </button>
             </div>
         </div>
-
     </div>
 
     <!-- Modal for Payment Proof -->
-    <div id="proofModal" class="fixed inset-0 hidden z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
+    <div id="proofModal" class="fixed inset-0 hidden z-50 items-center justify-center bg-gray-900 bg-opacity-50">
         <div class="bg-white rounded-lg shadow-lg p-6 max-w-lg w-full">
             <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-semibold text-gray-700">Bukti Pembayaran</h3>
-                <button id="closeProofModal" class="text-gray-500 hover:text-gray-800">&times;</button>
+                <button id="closeProofModal" class="text-gray-500 hover:text-gray-800" style="font-size: 24px;">&times;</button>
             </div>
             <img src="https://i.pinimg.com/564x/26/4f/b6/264fb615836d96ae003543c18fa8454b.jpg" alt="Bukti Pembayaran"
                 class="w-full h-auto max-h-96 object-contain">
         </div>
     </div>
+    
 
     <script>
-        document.getElementById('editButton').addEventListener('click', function() {
-            document.getElementById('orderDetails').classList.add('hidden');
-            document.getElementById('editSection').classList.remove('hidden');
-            document.getElementById('pageTitle').textContent = "Edit Status Pesanan";
+        document.getElementById('editButton').addEventListener('click', function () {
+            document.getElementById('orderDetails').style.display = 'none';
+            document.getElementById('editSection').style.display = 'block';
+            document.getElementById('pageTitle').innerText = "Edit Status Pesanan";
         });
 
-        document.getElementById('saveButton').addEventListener('click', function() {
-            document.getElementById('orderDetails').classList.remove('hidden');
-            document.getElementById('editSection').classList.add('hidden');
-            document.getElementById('pageTitle').textContent = "Detail Pesanan";
+        document.getElementById('saveButton').addEventListener('click', function () {
+            alert('Status pesanan berhasil diperbarui!');
         });
 
-        document.getElementById('viewProofButton').addEventListener('click', function() {
-            document.getElementById('proofModal').classList.remove('hidden');
+        document.getElementById('viewProofButton').addEventListener('click', function () {
+            document.getElementById('proofModal').style.display = 'flex';
         });
 
-        document.getElementById('closeProofModal').addEventListener('click', function() {
-            document.getElementById('proofModal').classList.add('hidden');
+        document.getElementById('closeProofModal').addEventListener('click', function () {
+            document.getElementById('proofModal').style.display = 'none';
         });
     </script>
 @endsection

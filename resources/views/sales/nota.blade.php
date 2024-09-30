@@ -16,7 +16,7 @@
                 <div class="text-gray-700 text-right">
                     <div class="font-bold text-2xl mb-2">NOTA PESANAN</div>
                     <div class="text-sm">{{ $notaSales['tanggal'] }}</div>
-                    <div class="text-sm">INVO/SOSRO/00{{ $notaSales['id_order'] }} </div>
+                    <div class="text-sm">INVO/SALES/00{{ $notaSales['id_order'] }} </div>
                     <div class="text-sm">Agen {{ $notaSales['nama_agen'] }}</div>
                 </div>
             </div>

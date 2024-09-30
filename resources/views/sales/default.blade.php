@@ -12,7 +12,8 @@
 </head>
 
 <body class="flex flex-col min-h-screen">
-    <header class="fixed top-0 w-full z-50 bg-gray-300 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-md">
+    <header
+        class="fixed top-0 w-full z-50 bg-gray-300 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-md">
         <nav class="bg-white border-gray-200 dark:bg-gray-900">
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -25,21 +26,23 @@
                             src="https://static.vecteezy.com/system/resources/previews/000/357/350/original/businessman-vector-icon.jpg"
                             alt="User Avatar">
                         <div class="flex flex-col items-start">
-                            <span class="font-bold">Hari Supriadi</span>
-                            <span class="text-xs text-gray-500 dark:text-gray-400">Peringkat: 5</span>
+                            <span class="font-bold"> Nama : {{ session('nama_lengkap') }}</span>
+                            <span class="text-xs text-gray-500 dark:text-gray-400">Peringkat:
+                                {{ session('peringkat') }}</span>
                         </div>
                     </button>
+
                     <!-- Dropdown -->
                     <div class="z-50 hidden my-2 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700"
                         id="language-dropdown-menu">
                         <ul class="py-2 font-medium" role="none">
                             <li>
-                                <a href="#" id="logout-link"
+                                <a href="{{ route('logoutSales') }}" id="logout-link"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-600 dark:hover:text-white"
                                     role="menuitem">
                                     Keluar Akun<i class="fa-solid fa-right-from-bracket ml-2"></i>
                                 </a>
-                        
+
                         </ul>
                     </div>
                     <button data-collapse-toggle="navbar-language" type="button"
@@ -144,7 +147,22 @@
 <!-- SweetAlert2 CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    // Panggil updateRanking saat halaman dimuat
+    window.onload = function () {
+        fetch('{{ route('sales.updateRanking') }}')
+            .then(response => response.json())
+            .then(data => {
+                if (data.peringkat) {
+                    // Update peringkat di tampilan
+                    document.querySelector('span.text-xs').innerText = 'Peringkat: ' + data.peringkat;
+                }
+            })
+            .catch(error => {
+                console.error('Error updating ranking:', error);
+            });
+    };
+
+    document.addEventListener('DOMContentLoaded', function () {
         const path = window.location.pathname;
         const links = {
             '/': 'dashboard-link',
@@ -178,7 +196,7 @@
                         icon: "success"
                     }).then(() => {
                         // Redirect to login page or home
-                        window.location.href = '/'; // Adjust the URL as needed
+                        window.location.href = '/sales/halamanLogin'; // Adjust the URL as needed
                     });
                 }
             });

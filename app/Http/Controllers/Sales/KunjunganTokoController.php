@@ -90,8 +90,7 @@ class KunjunganTokoController extends Controller
         $request->validate([
             'id_daftar_toko' => 'required|integer',
             'tanggal' => 'required|date',
-            'sisa_produk' => 'required|integer',
-            'gambar' => 'nullable|file|mimes:jpg,png,jpeg|max:2048',
+            'sisa_produk' => 'required|integer'
         ]);
 
         // Debugging request
