@@ -33,6 +33,7 @@ class LoginAgenController extends Controller
 
                 // Simpan nama_lengkap ke dalam session
                 session(['nama_lengkap' => $user->nama_lengkap]);
+                session(['id_user_agen' => $user->id_user_agen]);
 
                 // Redirect ke dashboard atau halaman lain
                 return redirect()->intended('/dashboard-agen')->with('success', 'Selamat datang, ' . $user->nama_lengkap);

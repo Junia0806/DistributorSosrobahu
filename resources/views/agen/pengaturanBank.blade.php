@@ -34,7 +34,7 @@
             </div>
 
             <!-- Form Rekening Bank -->
-            <form id="account-form" class="hidden" method="POST" >
+            <form action="{{ route('rekeningBank.update') }}" id="account-form" class="hidden" method="POST" >
                 @csrf
                 @method('PUT')
 
