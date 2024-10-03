@@ -13,6 +13,58 @@ use App\Models\MasterBarang;
 
 class OrderDistributorController extends Controller
 {
+    public function dashboardData()
+    {
+        // Mengambil semua pesanan yang statusnya selesai
+        $completedOrders = OrderDistributor::where('status_pemesanan', 1)->get();
+
+        // Mengambil detail pesanan
+        $orderDetails = OrderDetailDistributor::whereIn('id_order', $completedOrders->pluck('id_order'))->get();
+
+        // Menghitung total stok (konversi dari karton ke slop, 1 karton = 10 slop)
+        $slopPerKarton = 10;
+        $totalStockKarton = $orderDetails->sum('jumlah_produk'); // Karton
+        $totalStockSlop = $totalStockKarton * $slopPerKarton;
+
+        // Pesanan masuk (yang sudah berhasil)
+        $incomingCompletedOrders = DB::table('order_detail_agen')
+            ->join('order_agen', 'order_agen.id_order', '=', 'order_detail_agen.id_order')
+            ->where('order_agen.status_pemesanan', 1)
+            ->sum('order_detail_agen.jumlah_produk'); // Slop
+
+        // Hitung stok yang disesuaikan (dikurangi pesanan masuk yang sudah berhasil)
+        $finalStockSlop = $totalStockSlop - $incomingCompletedOrders;
+
+        // Produk terlaris dari pesanan sales yang statusnya 1
+        $topProduct = DB::table('order_detail_agen')
+            ->join('order_agen', 'order_agen.id_order', '=', 'order_detail_agen.id_order')
+            ->where('order_agen.status_pemesanan', 1) // Status pesanan sales yang selesai
+            ->select('order_detail_agen.id_master_barang', DB::raw('SUM(order_detail_agen.jumlah_produk) as total_jumlah'))
+            ->groupBy('order_detail_agen.id_master_barang')
+            ->orderBy('total_jumlah', 'desc')
+            ->first();
+
+        $topProductName = $topProduct ? DB::table('master_barang')
+            ->where('id_master_barang', $topProduct->id_master_barang)
+            ->value('nama_rokok') : 'Tidak ada data';
+
+        // Total pendapatan dari pesanan sales yang statusnya 1
+        $totalPendapatan = DB::table('order_distributor')
+            ->where('status_pemesanan', 1)
+            ->sum('total');
+
+        // Mengambil jumlah sales dari tabel user_sales
+        $totalAgen = DB::table('user_agen')->count();
+
+        // Mengirim data ke view dashboard
+        return view('agen.dashboard-agen', [
+            'finalStockSlop' => $finalStockSlop,
+            'totalPendapatan' => $totalPendapatan,
+            'topProductName' => $topProductName,
+            'totalSales' => $totalAgen,
+        ]);
+    }
+
     public function index()
     {
         // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar

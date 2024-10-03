@@ -110,7 +110,16 @@ class BarangAgenController extends Controller
             'topProductName' => $topProductName,
             'totalSales' => $totalSales,
         ]);
-        
+        // return response()->json([
+        //     $barangAgens,
+        //     $namaRokokList,
+        //     $gambarRokokList,
+        //     $totalProdukList,
+        //     $finalStockSlop,
+        //     $totalPendapatan,
+        //     $topProductName,
+        //     $totalSales
+        // ]);
     }
     
     //Menampilkan semua barang pada order sales
