@@ -16,7 +16,7 @@
                 <div class="text-gray-700 text-right">
                     <div class="font-bold text-2xl mb-2">DETAIL PESANAN</div>
                     <div class="text-sm">10 Agustus 2024</div>
-                    <div class="text-sm">INVO/DISTRIBUTOR/001</div>
+                    <div class="text-sm">INVO/PABRIK/001</div>
                     <div class="text-sm">Pabrik</div>
                 </div>
             </div>

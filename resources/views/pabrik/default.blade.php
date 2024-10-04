@@ -16,7 +16,7 @@
         class="fixed top-0 w-full z-50 bg-gray-300 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 shadow-md">
         <nav class="bg-white border-gray-200 dark:bg-gray-900">
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
+                <a href="{{ route('dashboard-pabrik') }}" class="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src="{{ asset('assets/images/logo.png') }}" class="h-8" alt="Sosrobahu Logo" />
                     <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">PABRIK</span>
                 </a>
@@ -34,7 +34,7 @@
                         id="user-dropdown">
                         <div class="px-4 py-3">
                             <span class="block text-sm text-gray-900 dark:text-white">Official Pabrik</span>
-                          
+
                         </div>
                         <ul class="py-2" aria-labelledby="user-menu-button">
                             <li>
@@ -67,25 +67,24 @@
                 <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
                     <ul
                         class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                        <li>
-                            <a href="{{ route('dashboard-distributor') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('dashboard-distributor') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                                id="dashboard-distributor">
-                                Dashboard
-                            </a>
-                        </li>
-                        <a href="{{ route('kelola-agen') }}"
-                            class="block py-2 px-3 rounded {{ Route::is('kelola-agen') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                            id="kelola-agen">
+
+                        <a href="{{ route('kelola-distributor-pabrik') }}"
+                            class="block py-2 px-3 rounded {{ Route::is('kelola-distributor-pabrik') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            id="kelola-distributor-pabrik">
                             Distributor
                         </a>
                         <li>
-                            <a  href="{{ route('pabrik-transaksi') }}"
+                            <a href="{{ route('pabrik-transaksi') }}"
                                 class="block py-2 px-3 rounded {{ Route::is('pabrik-transaksi') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                                 id="pabrik-transaksi">
                                 Pesanan Masuk
                             </a>
                         </li>
+                        <a href="{{ route('laporan-pabrik') }}"
+                            class="block py-2 px-3 rounded {{ Route::is('laporan-pabrik') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            id="laporan-pabrik">
+                            Omset
+                        </a>
                         <li>
                             <a href="{{ route('pabrik-restock') }}"
                                 class="block py-2 px-3 rounded {{ Route::is('pabrik-restock') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
@@ -162,8 +161,8 @@
     document.addEventListener('DOMContentLoaded', function() {
         const path = window.location.pathname;
         const links = {
-            '/distributor/dashboard': 'dashboard-distributor',
-            '/distributor/kelola-agen': 'kelola-agen',
+            '/pabrik/laporan': 'laporan-pabrik',
+            '/pabrik/distributor': 'kelola-distributor-pabrik',
             '/pabrik/pesanan-masuk': 'pabrik-transaksi',
             '/pabrik/restock': 'pabrik-restock',
             '/pabrik/riwayat-restock': 'pabrik-riwayat-restock',
@@ -203,7 +202,8 @@
                         icon: "success"
                     }).then(() => {
                         // Redirect to login page or home
-                        window.location.href = '/distributor/halamanLogin'; // Adjust the URL as needed
+                        window.location.href =
+                        '/distributor/halamanLogin'; // Adjust the URL as needed
                     });
                 }
             });

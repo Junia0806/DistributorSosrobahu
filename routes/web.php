@@ -286,7 +286,6 @@ Route::get('/distributor/rekening', function () {
 })->name('distributor-rekening');
 Route::get('/distributor/pengaturan-bank', [PengaturanBankController::class, 'index'])->name('pengaturanBankDistributor');
 Route::put('/distributor/pengaturan-bank/update', [PengaturanBankController::class, 'update'])->name('rekeningBankDIstributor.update');
-
 Route::get('/distributor/pengaturan-bank/{idUser}', [PengaturanBankDistributorController::class, 'index'])->name('pengaturanBankDistributor');
 
 // pabrik
@@ -311,7 +310,7 @@ Route::get('/pabrik/dashboard', function () {
 
 Route::get('/pabrik/distributor', function () {
     return view('pabrik.kelola-akun');
-})->name('kelola-pabrik');
+})->name('kelola-distributor-pabrik');
 
 Route::get('/pabrik/laporan', function () {
     return view('pabrik.laporan');
