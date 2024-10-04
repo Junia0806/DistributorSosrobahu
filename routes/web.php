@@ -284,7 +284,38 @@ Route::get('/distributor/rekening', function () {
 })->name('distributor-rekening');
 Route::get('/distributor/pengaturan-bank/{idUser}', [PengaturanBankDistributorController::class, 'index'])->name('pengaturanBankDistributor');
 
-//ROUTE PABRIK
+// pabrik
+Route::get('/pabrik/login', function () {
+    return view('pabrik.login');
+})->name('login-pabrik');
+
+Route::post('/pabrik/login', function () {
+    $username = request('username');
+    $password = request('password');
+
+    if ($username === 'pabrik' && $password === '123') {
+        return redirect()->route('dashboard-pabrik');
+    }
+
+    return redirect()->route('login-pabrik')->withErrors(['login' => 'Username atau password salah.']);
+})->name('login-post');
+
+Route::get('/pabrik/dashboard', function () {
+    return view('pabrik.dashboard');
+})->name('dashboard-pabrik');
+
+Route::get('/pabrik/distributor', function () {
+    return view('pabrik.kelola-akun');
+})->name('kelola-pabrik');
+
+Route::get('/pabrik/laporan', function () {
+    return view('pabrik.laporan');
+})->name('laporan-pabrik');
+
+Route::get('/pabrik/detail-laporan', function () {
+    return view('pabrik.detail-laporan');
+})->name('detailLaporan-pabrik');
+
 Route::get('/pabrik/pesanan-masuk', function () {
     return view('pabrik.transaksi');
 })->name('pabrik-transaksi');
@@ -329,3 +360,4 @@ Route::get('/pabrik/kelola-produk', function () {
 Route::get('/pabrik/rekening', function () {
     return view('pabrik.rekening');
 })->name('pabrik-rekening');
+
