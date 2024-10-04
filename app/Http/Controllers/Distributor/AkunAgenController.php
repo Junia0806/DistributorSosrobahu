@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Distributor;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\UserAgen;
@@ -10,17 +11,29 @@ use App\Models\UserAgen;
 class AkunAgenController extends Controller
 {
     // Menampilkan Akun Agen
-    public function index()
+    public function index(Request $request)
     {
-        $akunAgen = UserAgen::withSum('orderAgens', 'total') // Mengambil total penjualan per sales
-            ->orderBy('order_agen_sum_total', 'desc') // Urutkan berdasarkan total penjualan
+        $search = $request->input('search');
+
+        // Query utama untuk mengambil data sales
+        $akunAgen = UserAgen::query()
+            ->withSum('orderAgens', 'total') // Mengambil total penjualan per sales
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('nama_lengkap', 'like', '%' . $search . '%')
+                        ->orWhere('username', 'like', '%' . $search . '%')
+                        ->orWhere('no_telp', 'like', '%' . $search . '%')
+                        ->orWhere('status', 'like', '%' . $search . '%');
+                });
+            })
+            ->orderBy('order_agens_sum_total', 'desc')
             ->paginate(10); // Pagination
-    
-        // Tidak perlu melakukan perhitungan manual lagi di sini, karena sudah dihitung dalam query
-        $totalPricePerAgen = $akunAgen->pluck('order_agen_sum_total', 'id_user_agen')->toArray();
-    
-        // return view('agen.pengaturanAkun', compact('akunAgen', 'totalPricePerSales'));
-        return response()->json([$akunAgen,$totalPricePerAgen]);
+
+        // Membuat array total harga per sales
+        $totalPricePerAgens = $akunAgen->pluck('order_agens_sum_total', 'id_user_agen')->toArray();
+
+        // return view('agen.pengaturanAkun', compact('akunAgen', 'totalPricePerAgens'));
+        return response()->json([$akunAgen,$totalPricePerAgens]);
     }
 
     // menginputkan Akun agen baru

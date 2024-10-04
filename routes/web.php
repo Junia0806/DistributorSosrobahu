@@ -130,8 +130,9 @@ Route::get('/agen/nota/{idNota}', [OrderAgenController::class, 'notaAgen'])->nam
 Route::get('/agen/rekening', function () {
     return view('agen.rekening');
 })->name('agen-rekening');
-Route::get('/agen/pengaturan-bank/{idUser}', [PengaturanBankController::class, 'index'])->name('pengaturanBank');
-Route::put('/agen/pengaturan-bank/{idUser}', [PengaturanBankController::class, 'update'])->name('rekeningBank.update');
+Route::get('/agen/pengaturan-bank', [PengaturanBankController::class, 'index'])->name('pengaturanBank');
+Route::put('/agen/pengaturan-bank/update', [PengaturanBankController::class, 'update'])->name('rekeningBank.update');
+
 
 // Pengaturan Harga Agen
 Route::get('/agen/pengaturan', function () {
@@ -212,6 +213,7 @@ Route::post('/agen/logout', [LoginAgenController::class, 'logoutAgen'])->name('l
 Route::get('/distributor/dashboard', function () {
     return view('distributor.dashboard');
 })->name('dashboard-distributor');
+Route::get('/distributor/dashboard-distributor', [BarangDistributorController::class, 'stockbarang'])->name('dashboard-distributor');
 Route::get('/distributor/halamanLogin', [LoginDistributorController::class, 'showLoginForm'])->name('halamanLogin');
 Route::post('/distributor/login', [LoginDistributorController::class, 'loginDistributor'])->name('loginDistributor');
 Route::post('/distributor/logout', [LoginDistributorController::class, 'logoutDistributor'])->name('logoutDistributor');
@@ -282,6 +284,9 @@ Route::get('/distributor/pengaturan-harga', [HargaDistributorController::class, 
 Route::get('/distributor/rekening', function () {
     return view('distributor.rekening');
 })->name('distributor-rekening');
+Route::get('/distributor/pengaturan-bank', [PengaturanBankController::class, 'index'])->name('pengaturanBankDistributor');
+Route::put('/distributor/pengaturan-bank/update', [PengaturanBankController::class, 'update'])->name('rekeningBankDIstributor.update');
+
 Route::get('/distributor/pengaturan-bank/{idUser}', [PengaturanBankDistributorController::class, 'index'])->name('pengaturanBankDistributor');
 
 // pabrik

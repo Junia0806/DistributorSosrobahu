@@ -51,6 +51,7 @@ class AkunSalesController extends Controller
         $totalPricePerSales = $akunSales->pluck('order_sales_sum_total', 'id_user_sales')->toArray();
 
         return view('agen.pengaturanAkun', compact('akunSales', 'totalPricePerSales'));
+        // return response()->json([$akunSales,$totalPricePerSales]);
     }
 
 

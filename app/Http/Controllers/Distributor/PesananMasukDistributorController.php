@@ -13,22 +13,25 @@ use Carbon\Carbon;
 class PesananMasukDistributorController extends Controller
 {
     public function index()
-    {
-        // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
-        $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')->paginate(10);
+{
+    // Mengambil semua pesanan dan mengonversi tanggal ke format Carbon
+    $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')->get();
+    
+    // Mengelompokkan pesanan berdasarkan bulan dan melakukan penotalan omset per bulan
+    $pesananPerBulan = $pesananMasuks->groupBy(function($item) {
+        // Mengelompokkan berdasarkan bulan dan tahun (misalnya, "2024-10")
+        return Carbon::parse($item->tanggal)->format('Y-m');
+    })->map(function($group) {
+        // Menambahkan total omset untuk setiap kelompok bulan
+        return [
+            'pesanan' => $group,
+            'total_omset' => $group->sum('total'),
+        ];
+    });
 
-
-        // Mengonversi tanggal ke format Carbon
-        foreach ($pesananMasuks as $pesananMasuk) {
-            $pesananMasuk->tanggal = Carbon::parse($pesananMasuk->tanggal);
-        }
-
-
-
-        // Mengirim data pesanan ke view
-        // return view('agen.transaksiAgen', compact('pesananMasuks'));
-        return response()->json($pesananMasuks);
-    }
+    // Mengirim data yang dikelompokkan dan total omset ke view
+    return response()->json([$pesananMasuks,$pesananPerBulan]);
+}
 
     public function detailPesanMasuk($idPesanan)
     {
