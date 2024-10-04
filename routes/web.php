@@ -283,3 +283,49 @@ Route::get('/distributor/rekening', function () {
     return view('distributor.rekening');
 })->name('distributor-rekening');
 Route::get('/distributor/pengaturan-bank/{idUser}', [PengaturanBankDistributorController::class, 'index'])->name('pengaturanBankDistributor');
+
+//ROUTE PABRIK
+Route::get('/pabrik/pesanan-masuk', function () {
+    return view('pabrik.transaksi');
+})->name('pabrik-transaksi');
+
+Route::get('/pabrik/pesanan-masuk/detail', function () {
+    $namaDistributor = request('namaDistributor');
+    $orderDate = request('orderDate');
+
+    return view('pabrik.detail-transaksi', [
+        'namaDistributor' => $namaDistributor,
+        'orderDate' => $orderDate,
+    ]);
+})->name('pabrik-detail-transaksi');
+
+Route::get('/pabrik/restock', function () {
+    return view('pabrik.restock');
+})->name('pabrik-restock');
+
+Route::get('/pabrik/detailrestock', function () {
+    return view('pabrik.detail-restock');
+})->name('pabrik-detailrestock');
+
+Route::get('/pabrik/riwayat-restock', function () {
+    return view('pabrik.riwayat-restock');
+})->name('pabrik-riwayat-restock');
+
+
+Route::get('/pabrik/riwayat/detail', function () {
+    $namaDistributor = request('namaDistributor');
+    $orderDate = request('orderDate');
+
+    return view('pabrik.detail-riwayat', [
+        'namaDistributor' => $namaDistributor,
+        'orderDate' => $orderDate,
+    ]);
+})->name('pabrik-detail-riwayat');
+
+Route::get('/pabrik/kelola-produk', function () {
+    return view('pabrik.kelola-produk');
+})->name('pabrik-kelola-produk');
+
+Route::get('/pabrik/rekening', function () {
+    return view('pabrik.rekening');
+})->name('pabrik-rekening');
