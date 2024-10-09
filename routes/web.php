@@ -18,6 +18,8 @@ use App\Http\Controllers\Distributor\AkunAgenController;
 use App\Http\Controllers\Distributor\LoginDistributorController;
 use App\Http\Controllers\Distributor\PengaturanBankDistributorController;
 use App\Http\Controllers\Distributor\PesananMasukDistributorController;
+use App\Http\Controllers\Pabrik\AkunDistributorController;
+use App\Http\Controllers\Pabrik\PesananMasukPabrikController;
 use App\Http\Controllers\BarangDistributorController;
 use App\Http\Controllers\MasterBarangController;
 use App\Http\Controllers\BarangAgenController;
@@ -312,6 +314,11 @@ Route::get('/pabrik/distributor', function () {
     return view('pabrik.kelola-akun');
 })->name('kelola-distributor-pabrik');
 
+Route::get('/pabrik/pengaturan-distributor', [AkunDistributorController::class, 'index'])->name('pengaturanDistributor');
+// Route::put('/pabrik/pengaturan-Distributor/update/{id}', [AkunDistributorController::class, 'update'])->name('pengaturanDistributor.update');
+// Route::post('/pabrik/pengaturan-distributor/input', [AkunDistributorController::class, 'store'])->name('pengaturanDistributor.input');
+// Route::delete('/pabrik/pengaturan-distributor/delete/{id_user_distributor}', [AkunDistributorController::class, 'destroy'])->name('pengaturanDistributor.delete');
+
 Route::get('/pabrik/laporan', function () {
     return view('pabrik.laporan');
 })->name('laporan-pabrik');
@@ -323,6 +330,12 @@ Route::get('/pabrik/detail-laporan', function () {
 Route::get('/pabrik/pesanan-masuk', function () {
     return view('pabrik.transaksi');
 })->name('pabrik-transaksi');
+Route::get('/pabrik/pesananMasuk', [PesananMasukPabrikController::class, 'index'])->name('pesananMasukPabrik');
+Route::get('/pabrik/detailPesanMasuk/{idPesanan}', [PesananMasukPabrikController::class, 'detailPesanMasuk'])->name('detailPesanMasukPabriik');
+// Rute untuk menampilkan form edit status
+Route::get('/pabrik/pesan-masuk/edit-status/{id}', [PesananMasukPabrikController::class, 'editStatus'])->name('editStatusPesananPabrik');
+// Rute untuk memproses pembaruan status
+Route::put('/pabrik/pesan-masuk/update-status/{id}', [PesananMasukPabrikController::class, 'updateStatus'])->name('updateStatusPesananPabrik');
 
 Route::get('/pabrik/pesanan-masuk/detail', function () {
     $namaDistributor = request('namaDistributor');
@@ -337,6 +350,7 @@ Route::get('/pabrik/pesanan-masuk/detail', function () {
 Route::get('/pabrik/restock', function () {
     return view('pabrik.restock');
 })->name('pabrik-restock');
+Route::get('/pabrik/restockBarang', [BarangPabrikController::class, 'index'])->name('restockBarang');
 
 Route::get('/pabrik/detailrestock', function () {
     return view('pabrik.detail-restock');
