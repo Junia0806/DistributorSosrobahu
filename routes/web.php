@@ -20,6 +20,7 @@ use App\Http\Controllers\Distributor\PengaturanBankDistributorController;
 use App\Http\Controllers\Distributor\PesananMasukDistributorController;
 use App\Http\Controllers\Pabrik\AkunDistributorController;
 use App\Http\Controllers\Pabrik\PesananMasukPabrikController;
+use App\Http\Controllers\Pabrik\RestockPabrikController;
 use App\Http\Controllers\BarangDistributorController;
 use App\Http\Controllers\MasterBarangController;
 use App\Http\Controllers\BarangAgenController;
@@ -359,6 +360,8 @@ Route::get('/pabrik/detailrestock', function () {
 Route::get('/pabrik/riwayat-restock', function () {
     return view('pabrik.riwayat-restock');
 })->name('pabrik-riwayat-restock');
+Route::get('/pabrik/riwayatPabrik', [RestockPabrikController::class, 'index'])->name('riwayatPabrik');
+Route::get('/pabrik/nota/{idNota}', [RestockPabrikController::class, 'notaPabrik'])->name('notaPabrik');
 
 
 Route::get('/pabrik/riwayat/detail', function () {
