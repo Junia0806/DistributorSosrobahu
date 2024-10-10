@@ -21,6 +21,9 @@ use App\Http\Controllers\Distributor\PesananMasukDistributorController;
 use App\Http\Controllers\Pabrik\AkunDistributorController;
 use App\Http\Controllers\Pabrik\PesananMasukPabrikController;
 use App\Http\Controllers\Pabrik\RestockPabrikController;
+use App\Http\Controllers\Pabrik\LoginPabrikController;
+use App\Http\Controllers\Pabrik\HargaPabrikController;
+use App\Http\Controllers\Pabrik\PengaturanBankPabrikController;
 use App\Http\Controllers\BarangDistributorController;
 use App\Http\Controllers\MasterBarangController;
 use App\Http\Controllers\BarangAgenController;
@@ -292,20 +295,24 @@ Route::put('/distributor/pengaturan-bank/update', [PengaturanBankController::cla
 Route::get('/distributor/pengaturan-bank/{idUser}', [PengaturanBankDistributorController::class, 'index'])->name('pengaturanBankDistributor');
 
 // pabrik
-Route::get('/pabrik/login', function () {
-    return view('pabrik.login');
-})->name('login-pabrik');
+// Route::get('/pabrik/login', function () {
+//     return view('pabrik.login');
+// })->name('login-pabrik');
 
-Route::post('/pabrik/login', function () {
-    $username = request('username');
-    $password = request('password');
+// Route::post('/pabrik/login', function () {
+//     $username = request('username');
+//     $password = request('password');
 
-    if ($username === 'pabrik' && $password === '123') {
-        return redirect()->route('dashboard-pabrik');
-    }
+//     if ($username === 'pabrik' && $password === '123') {
+//         return redirect()->route('dashboard-pabrik');
+//     }
 
-    return redirect()->route('login-pabrik')->withErrors(['login' => 'Username atau password salah.']);
-})->name('login-post');
+//     return redirect()->route('login-pabrik')->withErrors(['login' => 'Username atau password salah.']);
+// })->name('login-post');
+
+Route::get('/pabrik/halamanLogin', [LoginPabrikController::class, 'showLoginForm'])->name('halamanLogin');
+Route::post('/pabrik/login', [LoginPabrikController::class, 'loginPabrik'])->name('loginPabrik');
+Route::post('/pabrik/logout', [LoginPabrikController::class, 'logoutPabrik'])->name('logoutPabrik');
 
 Route::get('/pabrik/dashboard', function () {
     return view('pabrik.dashboard');
@@ -377,8 +384,13 @@ Route::get('/pabrik/riwayat/detail', function () {
 Route::get('/pabrik/kelola-produk', function () {
     return view('pabrik.kelola-produk');
 })->name('pabrik-kelola-produk');
+Route::get('/pabrik/pengaturan-harga', [HargaPabrikController::class, 'index'])->name('pengaturanHargaPabrik');
+// Route::put('/pabrik/pengaturan-harga/update/{id}', [HargaPabrikController::class, 'update'])->name('pengaturanHargaPabrik.update');
+// Route::delete('/pabrik/pengaturan-harga/delete/{id_master_barang}', [HargaPabrikController::class, 'destroy'])->name('pengaturanHargaPabrik.delete');
 
 Route::get('/pabrik/rekening', function () {
     return view('pabrik.rekening');
 })->name('pabrik-rekening');
+Route::get('/pabrik/pengaturan-bank', [PengaturanBankPabrikController::class, 'index'])->name('pengaturanBankPabrik');
+Route::put('/pabrik/pengaturan-bank/update', [PengaturanBankPabrikController::class, 'update'])->name('rekeningBankPabrik.update');
 

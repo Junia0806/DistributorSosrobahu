@@ -34,20 +34,20 @@
                         id="user-dropdown">
                         <div class="px-4 py-3">
                             <span class="block text-sm text-gray-900 dark:text-white">Official Pabrik</span>
-
+                            <span class="text-bold">Nama : {{ session('nama_lengkap') }}</span>
                         </div>
                         <ul class="py-2" aria-labelledby="user-menu-button">
                             <li>
-                                <a href="{{ route('pabrik-kelola-produk') }}"
+                                <a href="{{ route('pengaturanHargaPabrik') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Kelola
                                     Produk</a>
                             </li>
                             <li>
-                                <a href="{{ route('pabrik-rekening') }}"
+                                <a href="{{ route('pengaturanBankPabrik') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Rekening</a>
                             </li>
                             <li>
-                                <a href="#" id="logout-link"
+                                <a href="{{ route('logoutPabrik') }}" id="logout-link"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Keluar<i
                                         class="fa-solid fa-right-from-bracket ml-2"></i></a>
                             </li>
@@ -68,15 +68,15 @@
                     <ul
                         class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
 
-                        <a href="{{ route('kelola-distributor-pabrik') }}"
-                            class="block py-2 px-3 rounded {{ Route::is('kelola-distributor-pabrik') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                            id="kelola-distributor-pabrik">
+                        <a href="{{ route('pengaturanDistributor') }}"
+                            class="block py-2 px-3 rounded {{ Route::is('pengaturanDistributor') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            id="pengaturanDistributor">
                             Distributor
                         </a>
                         <li>
-                            <a href="{{ route('pabrik-transaksi') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('pabrik-transaksi') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                                id="pabrik-transaksi">
+                            <a href="{{ route('pesananMasukPabrik') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('pesananMasukPabrik') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                                id="pesananMasukPabrik">
                                 Pesanan Masuk
                             </a>
                         </li>
@@ -86,16 +86,16 @@
                             Omset
                         </a>
                         <li>
-                            <a href="{{ route('pabrik-restock') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('pabrik-restock') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                                id="pabrik-restock">
+                            <a href="{{ route('restockBarang') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('restockBarang') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                                id="restockBarang">
                                 Restock
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('pabrik-riwayat-restock') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('pabrik-riwayat-restock') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                                id="pabrik-riwayat-restock">
+                            <a href="{{ route('riwayatPabrik') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('riwayatPabrik') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                                id="riwayatPabrik">
                                 Riwayat
                             </a>
                         </li>
@@ -203,7 +203,7 @@
                     }).then(() => {
                         // Redirect to login page or home
                         window.location.href =
-                        '/distributor/halamanLogin'; // Adjust the URL as needed
+                        '/pabrik/halamanLogin'; // Adjust the URL as needed
                     });
                 }
             });
