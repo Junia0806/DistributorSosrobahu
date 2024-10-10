@@ -120,112 +120,116 @@
                             </div>
 
                             <!-- Modal Edit Akun -->
-                            <div id="edit-akun-modal-{{ $akunSale['id_user_sales'] }}" tabindex="-1" aria-hidden="true"
-                                class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-modal">
-                                <div class="relative w-full max-w-full md:max-w-md h-full max-h-full md:h-auto">
-                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                        <button type="button"
-                                            class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:text-gray-500 dark:hover:bg-gray-600 dark:hover:text-white"
-                                            data-modal-hide="edit-akun-modal-{{ $akunSale->id_user_sales }}">
-                                            <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M6 18L18 6M6 6l12 12"></path>
-                                            </svg>
-                                            <span class="sr-only">Close modal</span>
-                                        </button>
+<div id="edit-akun-modal-{{ $akunSale['id_user_sales'] }}" tabindex="-1" aria-hidden="true"
+    class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-modal">
+    <div class="relative w-full max-w-full md:max-w-md h-full max-h-full md:h-auto">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button"
+                class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:text-gray-500 dark:hover:bg-gray-600 dark:hover:text-white"
+                data-modal-hide="edit-akun-modal-{{ $akunSale->id_user_sales }}">
+                <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
 
-                                        <div class="p-6 text-center">
-                                            <h3 class="text-lg font-semibold text-gray-900">Edit Akun</h3>
-                                            <form action="{{ route('pengaturanSales.update', $akunSale->id_user_sales) }}"
-                                                id="edit-akun-form" method="POST" enctype="multipart/form-data"
-                                                class="space-y-4">
-                                                @csrf
-                                                @method('PUT')
-                                                <div class="text-left">
-                                                    <label for="edit-name"
-                                                        class="block mb-2 text-sm font-medium text-black">Nama</label>
-                                                    <input type="text" value="{{ $akunSale->nama_lengkap }}"
-                                                        name="nama_lengkap" id="nama_lengkap"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                        required>
-                                                </div>
+            <div class="p-6 text-center">
+                <h3 class="text-lg font-semibold text-gray-900">Edit Akun</h3>
+                <form action="{{ route('pengaturanSales.update', $akunSale->id_user_sales) }}"
+                    id="edit-akun-form" method="POST" enctype="multipart/form-data"
+                    class="space-y-4">
+                    @csrf
+                    @method('PUT')
 
-                                                <div class="text-left">
-                                                    <label for="edit-username"
-                                                        class="block mb-2 text-sm font-medium text-black">Username</label>
-                                                    <input type="text" value="{{ $akunSale->username }}"
-                                                        name="username" id="username"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                        required>
-                                                </div>
+                    <!-- Input tersembunyi untuk halaman saat ini -->
+                    <input type="hidden" name="page" value="{{ request()->input('page', 1) }}">
 
-                                                <div class="text-left">
-                                                    <label for="edit-password"
-                                                        class="block mb-2 text-sm font-medium text-black">Password</label>
-                                                    <input type="text" placeholder="Masukkan Password Baru Anda"
-                                                        name="password" id="password"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                </div>
+                    <div class="text-left">
+                        <label for="edit-name"
+                            class="block mb-2 text-sm font-medium text-black">Nama</label>
+                        <input type="text" value="{{ $akunSale->nama_lengkap }}"
+                            name="nama_lengkap" id="nama_lengkap"
+                            class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            required>
+                    </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-phone"
-                                                        class="block mb-2 text-sm font-medium text-black">No.
-                                                        Telepon</label>
-                                                    <input type="tel" value="{{ $akunSale->no_telp }}"
-                                                        name="no_telp" id="no_telp"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                        required>
-                                                </div>
+                    <div class="text-left">
+                        <label for="edit-username"
+                            class="block mb-2 text-sm font-medium text-black">Username</label>
+                        <input type="text" value="{{ $akunSale->username }}"
+                            name="username" id="username"
+                            class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            required>
+                    </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-status"
-                                                        class="block mb-2 text-sm font-medium text-black">Status</label>
-                                                    <select name="status" id="edit-status"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                        <option value="1"
-                                                            {{ $akunSale->status == 1 ? 'selected' : '' }}>
-                                                            Aktif
-                                                        </option>
-                                                        <option value="0"
-                                                            {{ $akunSale->status == 0 ? 'selected' : '' }}>
-                                                            Tidak Aktif</option>
-                                                    </select>
-                                                </div>
+                    <div class="text-left">
+                        <label for="edit-password"
+                            class="block mb-2 text-sm font-medium text-black">Password</label>
+                        <input type="text" placeholder="Masukkan Password Baru Anda"
+                            name="password" id="password"
+                            class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                    </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-avatar"
-                                                        class="block mb-2 text-sm font-medium text-gray-90">KTP</label>
-                                                    <input
-                                                        class="block mb-2 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                                                        aria-describedby="edit-avatar_help" name="gambar_ktp"
-                                                        id="gambar_ktp-{{ $akunSale['id_user_sales'] }}" type="file"
-                                                        accept=".jpg, .jpeg, .png" />
-                                                    <!-- Menampilkan nama file KTP saat ini -->
-                                                    <p id="ktp-file-name-{{ $akunSale['id_user_sales'] }}"
-                                                        class="text-sm text-gray-500">
-                                                        File saat ini:
-                                                        {{ $akunSale['gambar_ktp'] ? $akunSale['gambar_ktp'] : 'Tidak ada file saat ini.' }}
-                                                    </p>
-                                                </div>
+                    <div class="text-left">
+                        <label for="edit-phone"
+                            class="block mb-2 text-sm font-medium text-black">No.
+                            Telepon</label>
+                        <input type="tel" value="{{ $akunSale->no_telp }}"
+                            name="no_telp" id="no_telp"
+                            class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                            required>
+                    </div>
 
-                                                <div class="col-span-2 text-center">
-                                                    <button type="submit"
-                                                        class="inline-flex items-center bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300 mt-3">
-                                                        Simpan Perubahan
-                                                    </button>
-                                                </div>
+                    <div class="text-left">
+                        <label for="edit-status"
+                            class="block mb-2 text-sm font-medium text-black">Status</label>
+                        <select name="status" id="edit-status"
+                            class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                            <option value="1"
+                                {{ $akunSale->status == 1 ? 'selected' : '' }}>
+                                Aktif
+                            </option>
+                            <option value="0"
+                                {{ $akunSale->status == 0 ? 'selected' : '' }}>
+                                Tidak Aktif</option>
+                        </select>
+                    </div>
 
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                        @endforeach
-                </tbody>
-                @endif
-            </table>
+                    <div class="text-left">
+                        <label for="edit-avatar"
+                            class="block mb-2 text-sm font-medium text-gray-90">KTP</label>
+                        <input
+                            class="block mb-2 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                            aria-describedby="edit-avatar_help" name="gambar_ktp"
+                            id="gambar_ktp-{{ $akunSale['id_user_sales'] }}" type="file"
+                            accept=".jpg, .jpeg, .png" />
+                        <!-- Menampilkan nama file KTP saat ini -->
+                        <p id="ktp-file-name-{{ $akunSale['id_user_sales'] }}"
+                            class="text-sm text-gray-500">
+                            File saat ini:
+                            {{ $akunSale['gambar_ktp'] ? $akunSale['gambar_ktp'] : 'Tidak ada file saat ini.' }}
+                        </p>
+                    </div>
+
+                    <div class="col-span-2 text-center">
+                        <button type="submit"
+                            class="inline-flex items-center bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300 mt-3">
+                            Simpan Perubahan
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
+</div>
+@endforeach
+</tbody>
+@endif
+</table>
+</div>
+</div>
 
 
 

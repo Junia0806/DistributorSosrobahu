@@ -100,42 +100,41 @@ class AkunSalesController extends Controller
     {
         // Mengambil data sales berdasarkan ID
         $sales = UserSales::find($id);
-
+    
         // Jika data sales tidak ditemukan
         if (!$sales) {
             return redirect()->route('pengaturanSales')->with('error', 'Akun sales tidak ditemukan.');
         }
-
+    
         // Mengupdate data sales
         $sales->nama_lengkap = $request->nama_lengkap;
         $sales->username = $request->username;
         $sales->status = $request->status;
+    
         // Mengupdate password jika diisi
         if ($request->filled('password')) {
             $sales->password = bcrypt($request->password);
         }
-
+    
         // Mengupdate no telepon
         $sales->no_telp = $request->no_telp;
-
+    
         // Mengupload dan mengupdate gambar KTP jika ada
         if ($request->hasFile('gambar_ktp')) {
             $imageName = $request->username . '_ktp.' . $request->gambar_ktp->extension();
             $request->gambar_ktp->storeAs('ktp', $imageName, 'public');
             $sales->gambar_ktp = $imageName;
         }
-
+    
         // Menyimpan perubahan
         $sales->save();
-
-        // Tentukan halaman baru yang harus dituju
-        $totalAkunSales = UserSales::count();
-        $newPage = ceil($totalAkunSales / 10); // Asumsikan 10 akun per halaman
-
-        // Redirect dengan pesan sukses
-        return redirect()->route('pengaturanSales', ['page' => $newPage])->with('success', 'Akun sales berhasil diperbarui.');
+    
+        // Ambil parameter page dari request (jika ada)
+        $currentPage = $request->input('page', 1); // Default ke halaman 1 jika tidak ada parameter page
+    
+        // Redirect dengan pesan sukses ke halaman yang sesuai
+        return redirect()->route('pengaturanSales', ['page' => $currentPage])->with('success', 'Akun sales berhasil diperbarui.');
     }
-
 
     public function destroy($id_user_sales)
     {
