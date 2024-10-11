@@ -192,7 +192,7 @@
                         <div class="col-span-2">
                             <label for="edit-avatar" class="block text-sm font-medium text-black mb-2">KTP</label>
                             <input type="file" id="edit-avatar"
-                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg cursor-pointer block w-full" />
+                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg cursor-pointer block w-full" accept="image/*"/>
                         </div>
 
                         <!-- Simpan Perubahan Button -->
@@ -240,11 +240,16 @@
                                 class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                 required>
                         </div>
-                        <div class="col-span-2">
+                        <div class="relative col-span-2">
                             <label for="password" class="block mb-2 text-sm font-medium text-black">Password</label>
-                            <input type="password" name="password" id="password" placeholder="dzul123"
-                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                required>
+                            <input type="password" id="password-add" name="password" placeholder="Masukkan Password"
+                                class="w-full p-3 text-sm bg-gray-100 border border-gray-300 rounded-lg focus:ring-gray-500 focus:border-gray-500"
+                                required />
+                            <span id="togglePassword"
+                                class="text-gray-500 absolute inset-y-0 right-0 flex items-center pr-3 pt-6 cursor-pointer"
+                                onclick="togglePassword()">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </span>
                         </div>
                         <div class="col-span-2">
                             <label for="phone" class="block mb-2 text-sm font-medium text-black">No. Telepon</label>
@@ -255,7 +260,7 @@
                         <div class="col-span-2">
                             <label for="identity" class="block mb-2 text-sm font-medium text-black">KTP</label>
                             <input type="file" id="identity" name="identity"
-                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" />
+                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" accept="image/*"/>
                         </div>
                     </div>
                     <div class="flex justify-center">

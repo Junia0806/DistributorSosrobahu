@@ -34,8 +34,7 @@
                         id="user-dropdown">
                         <div class="px-4 py-3">
                             <span class="block text-sm text-gray-900 dark:text-white">Akun Distributor</span>
-                            <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">Moch. Samsul
-                                Abidin</span>
+                            <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">Nama : {{ session('nama_lengkap') }}</span>
                         </div>
                         <ul class="py-2" aria-labelledby="user-menu-button">
                             <li>
@@ -88,15 +87,15 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('distributor-pesan') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('distributor-pesan') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            <a href="{{ route('pesanBarangDistributor') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('pesanBarangDistributor') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                                 id="pesan-link">
                                 Order
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('distributor-riwayat') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('distributor-riwayat') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            <a href="{{ route('riwayatDistributor') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('riwayatDistributor') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                                 id="riwayat-link">
                                 Riwayat
                             </a>
