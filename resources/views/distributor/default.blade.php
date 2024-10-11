@@ -163,10 +163,10 @@
         const path = window.location.pathname;
         const links = {
             '/distributor/dashboard': 'dashboard-distributor',
-            '/distributor/kelola-agen': 'pengaturanAgen',
+            '/pengaturan-agen': 'pengaturanAgen',
             '/distributor/pesananMasuk': 'pesananMasukDistributor',
-            '/distributor/pesan': 'pesan-link',
-            '/distributor/riwayat': 'riwayat-link',
+            '/distributor/pesanBarang': 'pesan-link',
+            '/distributor/riwayatDistributor': 'riwayat-link',
         };
 
         console.log('Current Path:', path);

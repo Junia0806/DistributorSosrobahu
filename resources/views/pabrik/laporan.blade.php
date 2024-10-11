@@ -83,9 +83,10 @@
 
                 <!-- Baris untuk Total Keseluruhan -->
                 <tr class="bg-gray-100 font-bold">
-                    <td colspan="3" class="p-2 text-right">Total Keseluruhan:</td>
+                    <td colspan="2" class="p-2 text-right">Total Keseluruhan:</td>
+                    <td class="p-2">12 karton</td>
                     <td class="p-2">Rp. 12.000.000</td>
-                    <td class="p-2"></td>
+                   
                 </tr>
             </tbody>
         </table>

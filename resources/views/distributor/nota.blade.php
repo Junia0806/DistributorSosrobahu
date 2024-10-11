@@ -17,7 +17,7 @@
                 <div class="font-bold text-2xl mb-1">NOTA PESANAN</div>
                 <div class="text-sm">{{ $notaDistributor['tanggal'] }}</div>
                 <div class="text-sm">INVO/SOSRO/00{{ $notaDistributor['id_order'] }} </div>
-                <div class="text-sm">Pabrik</div>
+                <div class="text-sm font-bold">Official CV. Santoso Jaya Tembakau </div>
             </div>
         </div>
         <div class="border-b-2 border-gray-300 pb-3 mb-3">

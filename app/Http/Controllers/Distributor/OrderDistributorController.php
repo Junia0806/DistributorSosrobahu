@@ -134,7 +134,7 @@ class OrderDistributorController extends Controller
            $totalAmount = 0;
            // Memasukkan data kedalan tabel Order DIstributor
            $orders = [
-               'id_user_distributor' => 1,
+               'id_user_distributor' => 6,
                'jumlah' => $request->total_items,
                'total' => $request->total_amount,
                'tanggal' => now(),
