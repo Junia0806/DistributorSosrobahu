@@ -218,15 +218,12 @@ Route::get('/distributor/halamanLogin', [LoginDistributorController::class, 'sho
 Route::post('/distributor/login', [LoginDistributorController::class, 'loginDistributor'])->name('loginDistributor');
 Route::post('/distributor/logout', [LoginDistributorController::class, 'logoutDistributor'])->name('logoutDistributor');
 
-Route::get('/distributor/kelola-agen', function () {
-    return view('distributor.kelola-agen');
-})->name('kelola-agen');
 
-Route::get('/distributor/pengaturan-agen', [AkunAgenController::class, 'index'])->name('pengaturanAgen');
+Route::get('/pengaturan-agen', [AkunAgenController::class, 'index'])->name('pengaturanAgen');
 // Buat view untuk Akun agen nya dahulu lalu aktifkan route nya
-// Route::put('/pengaturan-agen/update/{id}', [AkunAgenController::class, 'update'])->name('pengaturanAgen.update');
-// Route::post('/pengaturan-agen/input', [AkunAgenController::class, 'store'])->name('pengaturanAgen.input');
-// Route::delete('/pengaturan-agen/delete/{id_user_Agen}', [AkunAgenController::class, 'destroy'])->name('pengaturanAgen.delete');
+Route::put('/pengaturan-agen/update/{id}', [AkunAgenController::class, 'update'])->name('pengaturanAgen.update');
+Route::post('/pengaturan-agen/input', [AkunAgenController::class, 'store'])->name('pengaturanAgen.input');
+Route::delete('/pengaturan-agen/delete/{id_user_Agen}', [AkunAgenController::class, 'destroy'])->name('pengaturanAgen.delete');
 
 Route::get('/distributor/transaksi', function () {
     return view('distributor.transaksi');
@@ -254,9 +251,11 @@ Route::get('/distributor/pesanBarang', [BarangPabrikController::class, 'index'])
 // Masih Error karena belum ada view pesan barang buat view pesan barang dahulu
 Route::post('/distributor/detailPesanan', [OrderDistributorController::class, 'detail'])->name('detailPesananDistributor');
 
+
 // Route::get('/distributor/detailpesan', function () {
 //     return view('distributor.detailpesan');
 // })->name('distributor-detailpesan');
+
 Route::get('/distributor/pesananMasuk', [PesananMasukDistributorController::class, 'index'])->name('pesananMasukDistributor');
 Route::get('/distributor/detailPesanMasuk/{idPesanan}', [PesananMasukDistributorController::class, 'detailPesanMasuk'])->name('detailPesanMasukDistributor');
 // Rute untuk menampilkan form edit status

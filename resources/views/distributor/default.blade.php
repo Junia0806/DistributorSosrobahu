@@ -74,15 +74,15 @@
                                 Dashboard
                             </a>
                         </li>
-                        <a href="{{ route('kelola-agen') }}"
-                            class="block py-2 px-3 rounded {{ Route::is('kelola-agen') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                            id="kelola-agen">
+                        <a href="{{ route('pengaturanAgen') }}"
+                            class="block py-2 px-3 rounded {{ Route::is('pengaturanAgen') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            id="pengaturanAgen">
                             Agen
                         </a>
                         <li>
-                            <a  href="{{ route('distributor-transaksi') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('distributor-transaksi') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                                id="distributor-transaksi">
+                            <a  href="{{ route('pesananMasukDistributor') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('pesananMasukDistributor') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                                id="pesananMasukDistributor">
                                 Pesanan Masuk
                             </a>
                         </li>
@@ -163,8 +163,8 @@
         const path = window.location.pathname;
         const links = {
             '/distributor/dashboard': 'dashboard-distributor',
-            '/distributor/kelola-agen': 'kelola-agen',
-            '/distributor/transaksi': 'distributor-transaksi',
+            '/distributor/kelola-agen': 'pengaturanAgen',
+            '/distributor/pesananMasuk': 'pesananMasukDistributor',
             '/distributor/pesan': 'pesan-link',
             '/distributor/riwayat': 'riwayat-link',
         };
