@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class UserDistributor extends Authenticatable
+class UserPabrik extends Authenticatable
 {
     use HasFactory;
 
     // Nama tabel yang digunakan oleh model
-    protected $table = 'user_distributor';
+    protected $table = 'user_pabrik';
 
     // Primary key tabel
-    protected $primaryKey = 'id_user_distributor';
+    protected $primaryKey = 'id_user_pabrik';
 
     // Tipe primary key jika bukan increment (seperti UUID atau lainnya)
     public $incrementing = true;
@@ -29,7 +29,6 @@ class UserDistributor extends Authenticatable
         'no_telp',
         'status',
         'level',
-        'gambar_ktp',
         'nama_bank',
         'no_rek',
     ];
@@ -49,8 +48,8 @@ class UserDistributor extends Authenticatable
     }
 
     // Relasi ke model OrderDistributor
-    public function orderDistributors()
+    public function restockPabrik()
     {
-        return $this->hasMany(OrderDistributor::class, 'id_user_distributor');
+        return $this->hasMany(RestockPabrik::class, 'id_user_distributor');
     }
 }
