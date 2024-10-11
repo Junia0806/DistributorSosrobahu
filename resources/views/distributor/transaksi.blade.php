@@ -1,66 +1,108 @@
 @extends('distributor.default')
 
 @section('content')
-<div class="w-full max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-x-auto my-20">
-    <div class="flex items-center justify-between p-6 border-b">
-        <div class="flex-1 text-center">
-            <h1 class="text-2xl font-bold text-black text-center w-full">Pesanan Masuk dari Agen</h1>
+    <div class="w-full max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden my-20">
+        <div class="flex items-center justify-between p-6 border-b">
+            <div class="flex-1 text-center">
+                <h1 class="text-2xl font-bold text-black">Pesanan Masuk dari Agen</h1>
+            </div>
+        </div>
+
+        <div class="flex flex-col md:flex-row p-4 space-y-4 md:space-y-0 md:space-x-4">
+            <!-- Menampilkan Total Omset per Bulan -->
+            <div class="w-full md:w-1/4 bg-white rounded-lg shadow border">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full border border-gray-200">
+                        <thead class="bg-gray-800 text-white text-xs uppercase">
+                            <tr>
+                                <th class="p-1 text-left">Bulan</th>
+                                <th class="p-1 text-left">Total Omset</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-xs text-black">
+                            @foreach ($pesananPerBulan as $bulan => $data)
+                                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                    <td class="p-1">{{ \Carbon\Carbon::parse($bulan . '-01')->format('F Y') }}</td>
+                                    <td class="p-1">Rp. {{ number_format($data['total_omset'], 0, ',', '.') }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabel Pesanan Masuk -->
+            <div class="w-full md:w-3/4 overflow-x-auto bg-white rounded-lg shadow border">
+                <table class="w-full border-separate border-spacing-0 text-sm text-black">
+                    <thead class="bg-gray-800 text-white">
+                        <tr>
+                            <th class="p-2 text-left">Tanggal</th>
+                            <th class="p-2 text-left">Nama Agen</th>
+                            <th class="p-2 text-left">Total Harga</th>
+                            <th class="p-2 text-left">Status Pesanan</th>
+                            <th class="p-2 text-left">Detail Pesanan</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white text-sm">
+                        @foreach ($pesananMasuks as $pesananMasuk)
+                            <tr class="border-b border-gray-200">
+                                <td class="p-2">
+                                    @if ($pesananMasuk->tanggal)
+                                        {{ \Carbon\Carbon::parse($pesananMasuk->tanggal)->format('d/m/Y') }}
+                                    @else
+                                        Tidak ada tanggal
+                                    @endif
+                                </td>
+                                <td class="p-2">{{ $pesananMasuk->id_user_agen }}</td>
+                                <td class="p-2">Rp. {{ number_format($pesananMasuk->total, 0, ',', '.') }}</td>
+                                <td class="p-2 {{ $pesananMasuk->status_pemesanan == 1 ? 'text-green-600' : 'text-red-600' }}">
+                                    {{ $pesananMasuk->status_pemesanan == 1 ? 'Selesai' : ($pesananMasuk->status_pemesanan == 2 ? 'Ditolak' : 'Diproses') }}
+                                </td>
+                                <td class="p-2">
+                                    @if (empty($pesananMasuk->bukti_transfer))
+                                        <p class="text-gray-600">Menunggu pembayaran</p>
+                                    @elseif ($pesananMasuk->status_pemesanan == 0)
+                                        <button
+                                            onclick="window.location.href='{{ route('detailPesanMasukDistributor', $pesananMasuk->id_order) }}'"
+                                            class="bg-orange-600 text-white font-bold py-1 px-3 rounded hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">
+                                            Edit
+                                        </button>
+                                    @else
+                                        <button
+                                            onclick="window.location.href='{{ route('detailPesanMasukDistributor', $pesananMasuk->id_order) }}'"
+                                            class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">
+                                            Lihat
+                                        </button>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Custom Pagination -->
+        <div class="flex flex-col items-center my-6">
+            <span class="text-sm text-gray-700">
+                Menampilkan <span class="font-semibold text-gray-900">{{ $pesananMasuks->firstItem() }}</span>
+                sampai
+                <span class="font-semibold text-gray-900">{{ $pesananMasuks->lastItem() }}</span> dari
+                <span class="font-semibold text-gray-900">{{ $pesananMasuks->total() }}</span>
+                transaksi
+            </span>
+            <div class="inline-flex mt-2">
+                <button {{ $pesananMasuks->onFirstPage() ? 'disabled' : '' }}
+                    class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-l hover:bg-gray-900"
+                    {{ $pesananMasuks->previousPageUrl() ? 'onclick=window.location.href=\'' . $pesananMasuks->previousPageUrl() . '\'' : '' }}>
+                    Sebelumnya
+                </button>
+                <button {{ !$pesananMasuks->hasMorePages() ? 'disabled' : '' }}
+                    class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-r hover:bg-gray-900"
+                    {{ $pesananMasuks->nextPageUrl() ? 'onclick=window.location.href=\'' . $pesananMasuks->nextPageUrl() . '\'' : '' }}>
+                    Selanjutnya
+                </button>
+            </div>
         </div>
     </div>
-
-    <div class="overflow-x-auto">
-        <table class="w-full border-separate border-spacing-0 text-sm text-black">
-            <thead class="bg-gray-800 text-white">
-                <tr>
-                    <th class="p-2 text-left">Tanggal</th>
-                    <th class="p-2 text-left">Nama Agen</th>
-                    <th class="p-2 text-left">Total Harga</th>
-                    <th class="p-2 text-left">Status Pesanan</th>
-                    <th class="p-2 text-left">Detail Pesanan</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white">
-                <tr class="border-b border-gray-200">
-                    <td class="p-2">31/12/2025</td>
-                    <td class="p-2">Joshua</td>
-                    <td class="p-2">Rp.134.000</td>
-                    <td class="p-2 text-green-600">Selesai</td>
-                    <td class="p-2">
-                        <button type="button"
-                            onclick="window.location.href='{{ route('detail.transaksi', ['namaAgen' => 'Joshua', 'orderDate' => '08 Agustus 2024']) }}'"
-                            class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">
-                            Lihat
-                        </button>
-                    </td>
-                </tr>
-                <tr class="border-b border-gray-200">
-                    <td class="p-2">09/08/2024</td>
-                    <td class="p-2">Xiao Mei Mei</td>
-                    <td class="p-2">Rp.134.000</td>
-                    <td class="p-2 text-green-600">Selesai</td>
-                    <td class="p-2">
-                        <button type="button"
-                            onclick="window.location.href='{{ route('detail.transaksi', ['namaAgen' => 'Xiao Mei Mei', 'orderDate' => '09 Agustus 2024']) }}'"
-                            class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">
-                            Lihat
-                        </button>
-                    </td>
-                </tr>
-                <tr class="border-b border-gray-200">
-                    <td class="p-2">10/08/2024</td>
-                    <td class="p-2">Mohd Amirul Zarizan</td>
-                    <td class="p-2">Rp.134.000</td>
-                    <td class="p-2 text-orange-600">Diproses</td>
-                    <td class="p-2">
-                        <button type="button"
-                            onclick="window.location.href='{{ route('detail.transaksi', ['namaAgen' => 'Mohd Amirul Zarizan', 'orderDate' => '10 Agustus 2024']) }}'"
-                            class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">
-                            Lihat
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
 @endsection

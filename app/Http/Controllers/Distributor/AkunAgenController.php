@@ -15,9 +15,9 @@ class AkunAgenController extends Controller
     {
         $search = $request->input('search');
 
-        // Query utama untuk mengambil data sales
+        // Query utama untuk mengambil data agen
         $akunAgen = UserAgen::query()
-            ->withSum('orderAgens', 'total') // Mengambil total penjualan per sales
+            ->withSum('orderAgens', 'total') // Mengambil total penjualan per agen
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('nama_lengkap', 'like', '%' . $search . '%')
@@ -27,13 +27,13 @@ class AkunAgenController extends Controller
                 });
             })
             ->orderBy('order_agens_sum_total', 'desc')
-            ->paginate(10); // Pagination
+            ->paginate(5); // Pagination
 
-        // Membuat array total harga per sales
+        // Membuat array total harga per agen
         $totalPricePerAgens = $akunAgen->pluck('order_agens_sum_total', 'id_user_agen')->toArray();
 
-        // return view('agen.pengaturanAkun', compact('akunAgen', 'totalPricePerAgens'));
-        return response()->json([$akunAgen,$totalPricePerAgens]);
+        return view('distributor.kelola-agen', compact('akunAgen', 'totalPricePerAgens'));
+        // return response()->json([$akunAgen,$totalPricePerAgens]);
     }
 
     // menginputkan Akun agen baru
@@ -42,7 +42,7 @@ class AkunAgenController extends Controller
         // Validasi input dari form
         $validated = $request->validate([
             // 'nama_lengkap' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:user_sales,username'
+            'username' => 'required|string|max:255|unique:user_agen,username'
             // 'password' => 'required|string|min:6',
             // 'no_telp' => 'required|string|max:15',
             // 'gambar_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -52,10 +52,9 @@ class AkunAgenController extends Controller
         $ktpPath = null; // Default jika tidak ada file yang diupload
         if ($request->hasFile('gambar_ktp')) {
             $file = $request->file('gambar_ktp');
-            $imageName = time() . '.' . $file->extension(); // Membuat nama file dengan timestamp
-            $file->storeAs('ktp', $imageName, 'public'); // Simpan file di storage/app/public/ktp // Simpan nama file saja di database
+            $imageName = $request->username . '_ktp.' . $file->extension();
+            $file->storeAs('ktp', $imageName, 'public'); // Simpan file di storage/app/public/ktp  // Simpan nama file saja di database
         }
-
         // Simpan data ke database
         UserAgen::create([
             'id_user_agen' => $request->id_user_agen,
@@ -66,7 +65,7 @@ class AkunAgenController extends Controller
             'status' => 1,
             'level' => 1,
             'gambar_ktp' => $imageName, // Simpan nama gambar
-            // tolong tambahkan input formnya juga buat nama bank sama no rek di viewnya karena beda dengan akun sales
+            // tolong tambahkan input formnya juga buat nama bank sama no rek di viewnya karena beda dengan akun agen
             'nama_bank' => $request->nama_bank,
             'no_rek' => $request->no_rek,
         ]);
@@ -80,12 +79,12 @@ class AkunAgenController extends Controller
         // Validasi input
         // $request->validate([
         //     // 'nama_lengkap' => 'required|string|max:255',
-        //     // 'username' => 'required|string|max:255|unique:user_sales,username,' . $id . ',id_user_sales',
+        //     // 'username' => 'required|string|max:255|unique:user_agen,username,' . $id . ',id_user_agen',
         //     // 'password' => 'nullable|string|min:8',
         //     // 'no_telp' => 'required|string|max:15',
         // ]);
 
-        // Mengambil data sales berdasarkan ID
+        // Mengambil data agen berdasarkan ID
         $agen = UserAgen::find($id);
 
         // Jika data agen tidak ditemukan
@@ -106,15 +105,22 @@ class AkunAgenController extends Controller
         $agen->no_telp = $request->no_telp;
 
         // Mengupload dan mengupdate gambar KTP jika ada
+        // if ($request->hasFile('gambar_ktp')) {
+        //     $imageName = time() . '.' . $request->gambar_ktp->extension();
+        //     $request->gambar_ktp->storeAs('ktp', $imageName, 'public');
+        //     $agen->gambar_ktp = $imageName;
+        // }
+
         if ($request->hasFile('gambar_ktp')) {
-            $imageName = time() . '.' . $request->gambar_ktp->extension();
+            $imageName = $request->username . '_ktp.' . $request->gambar_ktp->extension();
             $request->gambar_ktp->storeAs('ktp', $imageName, 'public');
             $agen->gambar_ktp = $imageName;
         }
 
+
         // ini juga Minta tolong tambahin edit formnya buat nama bank sama no rek
-        $agen->nama_bank = $request->nama_bank;
-        $agen->no_rek = $request->no_rek;
+        // $agen->nama_bank = $request->nama_bank;
+        // $agen->no_rek = $request->no_rek;
 
         // Menyimpan perubahan
         $agen->save();
@@ -131,7 +137,7 @@ class AkunAgenController extends Controller
             // Hapus toko
             $daftarUser->delete();
 
-            return redirect()->route('pengaturanAgen')->with('success', 'User sales terkait berhasil dihapus.');
+            return redirect()->route('pengaturanAgen')->with('success', 'User agen terkait berhasil dihapus.');
         } else {
             return redirect()->route('pengaturanAgen')->with('error', 'User tidak ditemukan.');
         }
