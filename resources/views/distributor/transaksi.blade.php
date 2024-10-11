@@ -9,30 +9,9 @@
         </div>
 
         <div class="flex flex-col md:flex-row p-4 space-y-4 md:space-y-0 md:space-x-4">
-            <!-- Menampilkan Total Omset per Bulan -->
-            <div class="w-full md:w-1/4 bg-white rounded-lg shadow border">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full border border-gray-200">
-                        <thead class="bg-gray-800 text-white text-xs uppercase">
-                            <tr>
-                                <th class="p-1 text-left">Bulan</th>
-                                <th class="p-1 text-left">Total Omset</th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-xs text-black">
-                            @foreach ($pesananPerBulan as $bulan => $data)
-                                <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                    <td class="p-1">{{ \Carbon\Carbon::parse($bulan . '-01')->format('F Y') }}</td>
-                                    <td class="p-1">Rp. {{ number_format($data['total_omset'], 0, ',', '.') }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
+         
             <!-- Tabel Pesanan Masuk -->
-            <div class="w-full md:w-3/4 overflow-x-auto bg-white rounded-lg shadow border">
+            <div class="w-full overflow-x-auto bg-white rounded-lg shadow border">
                 <table class="w-full border-separate border-spacing-0 text-sm text-black">
                     <thead class="bg-gray-800 text-white">
                         <tr>
