@@ -34,7 +34,7 @@ class BarangPabrikController extends Controller
 
 
     // Pass both barangPabriks and namaRokokList to the view
-    // return view('distributor.pesan', compact('barangPabriks', 'namaRokokList', 'gambarRokokList'));
-    return response()->json([$barangPabriks,$namaRokokList,$gambarRokokList]);
+    return view('distributor.pesan', compact('barangPabriks', 'namaRokokList', 'gambarRokokList'));
+    // return response()->json([$barangPabriks,$namaRokokList,$gambarRokokList]);
     }
 }
