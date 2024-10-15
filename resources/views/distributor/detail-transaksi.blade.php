@@ -21,8 +21,8 @@
                 <thead class="bg-gray-800 text-white">
                     <tr>
                         <th class="p-2 text-left">Nama Produk</th>
-                        <th class="p-2 text-center">Jumlah</th>
-                        <th class="p-2 text-center">Harga per Slop</th>
+                        <th class="p-2 text-center">Jumlah (Karton)</th>
+                        <th class="p-2 text-center">Harga per Karton</th>
                         <th class="p-2 text-right">Total Harga</th>
                     </tr>
                 </thead>

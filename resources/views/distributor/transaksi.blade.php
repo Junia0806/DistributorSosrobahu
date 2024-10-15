@@ -32,7 +32,7 @@
                                         Tidak ada tanggal
                                     @endif
                                 </td>
-                                <td class="p-2">{{ $pesananMasuk->id_user_agen }}</td>
+                                <td class="p-2">{{ $pesananMasuk->nama_agen }}</td>
                                 <td class="p-2">Rp. {{ number_format($pesananMasuk->total, 0, ',', '.') }}</td>
                                 <td class="p-2 {{ $pesananMasuk->status_pemesanan == 1 ? 'text-green-600' : 'text-red-600' }}">
                                     {{ $pesananMasuk->status_pemesanan == 1 ? 'Selesai' : ($pesananMasuk->status_pemesanan == 2 ? 'Ditolak' : 'Diproses') }}

@@ -162,7 +162,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const path = window.location.pathname;
         const links = {
-            '/distributor/dashboard': 'dashboard-distributor',
+            '/distributor/dashboard-distributor': 'dashboard-distributor',
             '/pengaturan-agen': 'pengaturanAgen',
             '/distributor/pesananMasuk': 'pesananMasukDistributor',
             '/distributor/pesanBarang': 'pesan-link',

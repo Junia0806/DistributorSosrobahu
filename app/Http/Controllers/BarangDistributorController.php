@@ -82,7 +82,7 @@ class BarangDistributorController extends Controller
             if ($orderValue) {
                 $namaRokokList[] = $orderValue->nama_rokok;
                 $gambarRokokList[] = $orderValue->gambar;
-                $totalProdukList[] = ($totalProduk * 10) - $totalProdukTerjual; // Perhitungan total produk yang tersedia
+                $totalProdukList[] = $totalProduk - $totalProdukTerjual; 
             } else {
                 $namaRokokList[] = null; 
                 $gambarRokokList[] = null;
@@ -97,19 +97,17 @@ class BarangDistributorController extends Controller
         // Mengambil detail pesanan
         $orderDetails = OrderDetailDistributor::whereIn('id_order', $completedOrders->pluck('id_order'))->get();
 
-        // Menghitung total stok (konversi dari karton ke slop, 1 karton = 10 slop)
-        $slopPerKarton = 10;
         $totalStockKarton = $orderDetails->sum('jumlah_produk'); // Karton
-        $totalStockSlop = $totalStockKarton * $slopPerKarton;
 
         // Pesanan masuk (yang sudah berhasil)
         $incomingCompletedOrders = DB::table('order_detail_agen')
             ->join('order_agen', 'order_agen.id_order', '=', 'order_detail_agen.id_order')
             ->where('order_agen.status_pemesanan', 1)
-            ->sum('order_detail_agen.jumlah_produk'); // Slop
+            ->sum('order_detail_agen.jumlah_produk'); 
 
         // Hitung stok yang disesuaikan (dikurangi pesanan masuk yang sudah berhasil)
-        $finalStockSlop = $totalStockSlop - $incomingCompletedOrders;
+        $finalStockKarton = $totalStockKarton - $incomingCompletedOrders;
+
 
         // Produk terlaris dari pesanan sales yang statusnya 1
         $topProduct = DB::table('order_detail_agen')
@@ -130,30 +128,30 @@ class BarangDistributorController extends Controller
             ->sum('total');
 
         // Mengambil jumlah sales dari tabel user_agen
-        $totalSales = DB::table('user_agen')->count();
+        $totalAgen = DB::table('user_agen')->count();
 
         // Kirim data ke view
-        // return view('agen.dashboard-agen', [
-        //     'barangDistributors' => $barangDistributors,
-        //     'namaRokokList' => $namaRokokList,
-        //     'gambarRokokList' => $gambarRokokList,
-        //     'totalProdukList' => $totalProdukList,
-        //     'finalStockSlop' => $finalStockSlop,
-        //     'totalPendapatan' => $totalPendapatan,
-        //     'topProductName' => $topProductName,
-        //     'totalSales' => $totalSales,
-        // ]);
-
-        return response()->json([
-            $barangDistributors,
-            $namaRokokList,
-            $gambarRokokList,
-            $totalProdukList,
-            $finalStockSlop,
-            $totalPendapatan,
-            $topProductName,
-            $totalSales
+        return view('distributor.dashboard', [
+            'barangDistributors' => $barangDistributors,
+            'namaRokokList' => $namaRokokList,
+            'gambarRokokList' => $gambarRokokList,
+            'totalProdukList' => $totalProdukList,
+            'finalStockKarton' => $finalStockKarton,
+            'totalPendapatan' => $totalPendapatan,
+            'topProductName' => $topProductName,
+            'totalAgen' => $totalAgen,
         ]);
+
+        // return response()->json([
+        //     $barangDistributors,
+        //     $namaRokokList,
+        //     $gambarRokokList,
+        //     $totalProdukList,
+        //     $finalStockKarton,
+        //     $totalPendapatan,
+        //     $topProductName,
+        //     $totalAgen
+        // ]);
         
     }
 }

@@ -142,6 +142,10 @@
                                                 class="space-y-4">
                                                 @csrf
                                                 @method('PUT')
+                                                <!-- Input tersembunyi untuk halaman saat ini -->
+                                                <input type="hidden" name="page"
+                                                    value="{{ request()->input('page', 1) }}">
+
                                                 <div class="text-left">
                                                     <label for="edit-name"
                                                         class="block mb-2 text-sm font-medium text-black">Nama</label>
@@ -300,7 +304,7 @@
 
     </div>
     <!-- Custom Pagination -->
-    @if ($akunAgen->total() > 5)
+    @if ($akunAgen->total() > 10)
         <div class="flex flex-col items-center my-6">
             <!-- Help text -->
             <span class="text-sm text-gray-700 dark:text-gray-400">

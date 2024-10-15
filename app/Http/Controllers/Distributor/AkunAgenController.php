@@ -27,7 +27,7 @@ class AkunAgenController extends Controller
                 });
             })
             ->orderBy('order_agens_sum_total', 'desc')
-            ->paginate(5); // Pagination
+            ->paginate(10); // Pagination
 
         // Membuat array total harga per agen
         $totalPricePerAgens = $akunAgen->pluck('order_agens_sum_total', 'id_user_agen')->toArray();
@@ -47,7 +47,7 @@ class AkunAgenController extends Controller
             // 'no_telp' => 'required|string|max:15',
             // 'gambar_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
-    
+
         // Menangani upload file jika ada
         $ktpPath = null; // Default jika tidak ada file yang diupload
         if ($request->hasFile('gambar_ktp')) {
@@ -69,21 +69,16 @@ class AkunAgenController extends Controller
             'nama_bank' => $request->nama_bank,
             'no_rek' => $request->no_rek,
         ]);
-    
-        return redirect()->back()->with('success', 'Akun berhasil ditambahkan.');
+
+        $totalAkunAgen = UserAgen::count();
+        $newPage = ceil($totalAkunAgen / 10);
+        return redirect()->route('pengaturanAgen', ['page' => $newPage])->with('success', 'Akun berhasil ditambahkan.');
     }
-    
+
     // Mengupdate Akun Agen
     public function update(Request $request, $id)
     {
-        // Validasi input
-        // $request->validate([
-        //     // 'nama_lengkap' => 'required|string|max:255',
-        //     // 'username' => 'required|string|max:255|unique:user_agen,username,' . $id . ',id_user_agen',
-        //     // 'password' => 'nullable|string|min:8',
-        //     // 'no_telp' => 'required|string|max:15',
-        // ]);
-
+    
         // Mengambil data agen berdasarkan ID
         $agen = UserAgen::find($id);
 
@@ -105,11 +100,6 @@ class AkunAgenController extends Controller
         $agen->no_telp = $request->no_telp;
 
         // Mengupload dan mengupdate gambar KTP jika ada
-        // if ($request->hasFile('gambar_ktp')) {
-        //     $imageName = time() . '.' . $request->gambar_ktp->extension();
-        //     $request->gambar_ktp->storeAs('ktp', $imageName, 'public');
-        //     $agen->gambar_ktp = $imageName;
-        // }
 
         if ($request->hasFile('gambar_ktp')) {
             $imageName = $request->username . '_ktp.' . $request->gambar_ktp->extension();
@@ -124,8 +114,11 @@ class AkunAgenController extends Controller
 
         // Menyimpan perubahan
         $agen->save();
+
+        // Ambil parameter page dari request (jika ada)
+        $currentPage = $request->input('page', 1); // Default ke halaman 1 jika tidak ada parameter page
         // Redirect dengan pesan sukses
-        return redirect()->route('pengaturanAgen')->with('success', 'Akun agen berhasil diperbarui.');
+        return redirect()->route('pengaturanAgen', ['page' => $currentPage])->with('success', 'Akun agen berhasil diperbarui.');
     }
 
     // Menghapus Akun Agen

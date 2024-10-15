@@ -16,6 +16,14 @@ class PesananMasukDistributorController extends Controller
     {
         // Mengambil pesanan masuk dan mengurutkan berdasarkan id_order secara menurun
         $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')->paginate(10);
+         // Mengonversi tanggal ke format Carbon
+         foreach ($pesananMasuks as $pesananMasuk) {
+            $pesananMasuk->tanggal = Carbon::parse($pesananMasuk->tanggal);
+         // Mengambil nama user sales berdasarkan id_user_sales
+         $namaAgen = DB::table('user_agen')->where('id_user_agen', $pesananMasuk->id_user_agen)->first();
+         $pesananMasuk->nama_agen = $namaAgen ? $namaAgen->nama_lengkap : 'Tidak Ditemukan';
+        }
+
     
         // Mengelompokkan pesanan berdasarkan bulan dan tahun, serta menghitung total omset per bulan
         $pesananPerBulan = $pesananMasuks->groupBy(function ($item) {

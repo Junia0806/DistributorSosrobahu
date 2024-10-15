@@ -57,11 +57,11 @@ class OrderDistributorController extends Controller
         $totalAgen = DB::table('user_agen')->count();
 
         // Mengirim data ke view dashboard
-        return view('agen.dashboard-agen', [
+        return view('distributor.dashboard', [
             'finalStockSlop' => $finalStockSlop,
             'totalPendapatan' => $totalPendapatan,
             'topProductName' => $topProductName,
-            'totalSales' => $totalAgen,
+            'totalAgen' => $totalAgen,
         ]);
     }
 
