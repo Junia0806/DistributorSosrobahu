@@ -24,6 +24,7 @@ use App\Http\Controllers\Pabrik\RestockPabrikController;
 use App\Http\Controllers\Pabrik\LoginPabrikController;
 use App\Http\Controllers\Pabrik\HargaPabrikController;
 use App\Http\Controllers\Pabrik\PengaturanBankPabrikController;
+use App\Http\Controllers\Pabrik\OmsetPabrikController;
 use App\Http\Controllers\BarangDistributorController;
 use App\Http\Controllers\MasterBarangController;
 use App\Http\Controllers\BarangAgenController;
@@ -317,6 +318,7 @@ Route::post('/pabrik/logout', [LoginPabrikController::class, 'logoutPabrik'])->n
 Route::get('/pabrik/dashboard', function () {
     return view('pabrik.dashboard');
 })->name('dashboard-pabrik');
+Route::get('/pabrik/dashboard-pabrik', [BarangPabrikController::class, 'stockbarang'])->name('dashboard-pabrik');
 
 Route::get('/pabrik/distributor', function () {
     return view('pabrik.kelola-akun');
@@ -330,6 +332,7 @@ Route::get('/pabrik/pengaturan-distributor', [AkunDistributorController::class, 
 Route::get('/pabrik/laporan', function () {
     return view('pabrik.laporan');
 })->name('laporan-pabrik');
+Route::get('/pabrik/omset-pabrik', [OmsetPabrikController::class, 'omset'])->name('omsetPabrik');
 
 Route::get('/pabrik/detail-laporan', function () {
     return view('pabrik.detail-laporan');

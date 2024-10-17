@@ -18,19 +18,10 @@ class PesananMasukDistributorController extends Controller
     $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')->get();
     
     // Mengelompokkan pesanan berdasarkan bulan dan melakukan penotalan omset per bulan
-    $pesananPerBulan = $pesananMasuks->groupBy(function($item) {
-        // Mengelompokkan berdasarkan bulan dan tahun (misalnya, "2024-10")
-        return Carbon::parse($item->tanggal)->format('Y-m');
-    })->map(function($group) {
-        // Menambahkan total omset untuk setiap kelompok bulan
-        return [
-            'pesanan' => $group,
-            'total_omset' => $group->sum('total'),
-        ];
-    });
+    
 
     // Mengirim data yang dikelompokkan dan total omset ke view
-    return response()->json([$pesananMasuks,$pesananPerBulan]);
+    return response()->json([$pesananMasuks]);
 }
 
     public function detailPesanMasuk($idPesanan)

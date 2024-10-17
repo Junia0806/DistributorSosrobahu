@@ -8,6 +8,8 @@ use App\Models\MasterBarang;
 use App\Models\OrderDetailDistributor;
 use App\Models\OrderDistributor;
 use Illuminate\Support\Facades\DB;
+use App\Models\OrderAgen;
+use Carbon\Carbon;
 
 class BarangDistributorController extends Controller
 {
@@ -48,6 +50,20 @@ class BarangDistributorController extends Controller
     {
         // Ambil semua barang agen
         $barangDistributors = BarangDistributor::all();
+
+        $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')->get();;
+    
+    // Mengelompokkan pesanan berdasarkan bulan dan melakukan penotalan omset per bulan
+        $pesananPerBulan = $pesananMasuks->groupBy(function($item) {
+            // Mengelompokkan berdasarkan bulan dan tahun (misalnya, "2024-10")
+            return Carbon::parse($item->tanggal)->format('Y-m');
+        })->map(function($group) {
+            // Menambahkan total omset untuk setiap kelompok bulan
+            return [
+                'pesanan' => $group,
+                'total_omset' => $group->sum('total'),
+            ];
+        });
         
         // Siapkan array untuk menyimpan data
         $namaRokokList = [];
@@ -152,7 +168,8 @@ class BarangDistributorController extends Controller
             $finalStockSlop,
             $totalPendapatan,
             $topProductName,
-            $totalSales
+            $totalSales,
+            $pesananPerBulan
         ]);
         
     }

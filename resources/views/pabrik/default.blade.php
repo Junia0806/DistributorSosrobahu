@@ -80,9 +80,9 @@
                                 Pesanan Masuk
                             </a>
                         </li>
-                        <a href="{{ route('laporan-pabrik') }}"
-                            class="block py-2 px-3 rounded {{ Route::is('laporan-pabrik') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                            id="laporan-pabrik">
+                        <a href="{{ route('omsetPabrik') }}"
+                            class="block py-2 px-3 rounded {{ Route::is('omsetPabrik') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            id="omsetPabrik">
                             Omset
                         </a>
                         <li>
@@ -161,7 +161,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const path = window.location.pathname;
         const links = {
-            '/pabrik/laporan': 'laporan-pabrik',
+            '/pabrik/omset-pabrik': 'omsetPabrik',
             '/pabrik/distributor': 'kelola-distributor-pabrik',
             '/pabrik/pesanan-masuk': 'pabrik-transaksi',
             '/pabrik/restock': 'pabrik-restock',
