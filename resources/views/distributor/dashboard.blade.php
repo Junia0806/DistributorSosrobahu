@@ -88,7 +88,7 @@
 
                 <!-- Grafik Omset -->
                 <div class="mb-8">
-                    <h2 class="text-xl font-bold mb-2 text-center">Grafik Omset per Bulan</h2>
+                    <h2 class="text-xl font-bold mb-2 text-center">Grafik Omset</h2>
                     <div class="relative">
                         <canvas id="omsetChart" class="w-full h-64 bg-white rounded-lg shadow-lg p-4"></canvas>
                     </div>
@@ -96,7 +96,7 @@
 
                 <!-- Grafik Produk Terjual (Karton) -->
                 <div>
-                    <h2 class="text-xl font-bold mb-2 text-center">Grafik Produk Terjual (Karton) per Bulan</h2>
+                    <h2 class="text-xl font-bold mb-2 text-center">Grafik Produk Terjual (Karton)</h2>
                     <div class="relative">
                         <canvas id="productChart" class="w-full h-64 bg-white rounded-lg shadow-lg p-4"></canvas>
                     </div>

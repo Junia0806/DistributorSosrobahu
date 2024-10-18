@@ -217,10 +217,7 @@ Route::post('/agen/logout', [LoginAgenController::class, 'logoutAgen'])->name('l
 //     return redirect()->route('login-distributor')->withErrors(['login' => 'Username atau password salah.']);
 // })->name('login-post');
 
-Route::get('/distributor/dashboard', function () {
-    return view('distributor.dashboard');
-})->name('dashboard-distributor');
-Route::get('/distributor/dashboard-distributor', [BarangDistributorController::class, 'stockbarang'])->name('dashboard-distributor');
+Route::get('/distributor/dashboard', [BarangDistributorController::class, 'stockbarang'])->name('dashboard-distributor');
 Route::get('/distributor/halamanLogin', [LoginDistributorController::class, 'showLoginForm'])->name('halamanLogin');
 Route::post('/distributor/login', [LoginDistributorController::class, 'loginDistributor'])->name('loginDistributor');
 Route::post('/distributor/logout', [LoginDistributorController::class, 'logoutDistributor'])->name('logoutDistributor');
