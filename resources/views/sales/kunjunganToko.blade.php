@@ -14,8 +14,9 @@
         <div class="overflow-x-auto">
             <!-- Pesan jika belum ada kunjungan -->
             @if ($kunjunganToko->isEmpty())
-                <div class="text-center p-6 my-6 mx-6 bg-yellow-100 border border-yellow-300 text-yellow-800 rounded-lg mb-6">
-                    <p class="text-lg font-semibold">Belum ada kunjungan untuk toko  {{ $storeName }}.</p>
+                <div
+                    class="text-center p-6 my-6 mx-6 bg-yellow-100 border border-yellow-300 text-yellow-800 rounded-lg mb-6">
+                    <p class="text-lg font-semibold">Belum ada kunjungan untuk toko {{ $storeName }}.</p>
                     <p class="mt-2">Silakan tambahkan kunjungan dengan menekan tombol "Tambah Kunjungan" di atas.</p>
                 </div>
             @else
@@ -29,11 +30,14 @@
                             <th class="p-2 text-center">Aksi</th>
                         </tr>
                     </thead>
-
+                    @php
+                        // Menghitung nomor urut awal untuk halaman saat ini
+                        $startIndex = $kunjunganToko->perPage() * ($kunjunganToko->currentPage() - 1) + 1;
+                    @endphp
                     @foreach ($kunjunganToko as $index => $visit)
                         <tbody class="bg-white text-center">
                             <tr class="border-b border-gray-200">
-                                <td class="p-2">{{ $index + 1 }}</td>
+                                <td class="p-2">{{ $startIndex + $index }}</td>
                                 <td class="p-2">{{ $visit->tanggal->format('d/m/Y') }}</td>
                                 <td class="p-2">{{ $visit->sisa_produk }}</td>
                                 <td class="p-2 align-middle">
@@ -101,7 +105,8 @@
 
                                                 <div class="text-left">
                                                     <label for="sisa_produk"
-                                                        class="block text-sm font-medium text-gray-900">Produk Terjual</label>
+                                                        class="block text-sm font-medium text-gray-900">Produk
+                                                        Terjual</label>
                                                     <input type="number" id="sisa_produk" name="sisa_produk"
                                                         value="{{ $visit->sisa_produk }}"
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
@@ -109,11 +114,25 @@
                                                 </div>
 
                                                 <div class="text-left">
-                                                    <label for="gambar"
+                                                    <label for="gambar" id="file-input-label"
                                                         class="block text-sm font-medium text-gray-900">Dokumentasi</label>
-                                                    <input type="file" id="gambar" name="gambar"
+
+                                                    <p id="file-error-{{ $visit->id_kunjungan_toko }}"
+                                                        class="mt-1 text-sm text-red-500" style="display:none;">Gambar tidak
+                                                        boleh berukuran lebih dari 1 MB.</p>
+
+                                                    <input type="file"
+                                                        id="gambar-{{ $visit->id_kunjungan_toko }}"name="gambar"
+                                                        accept=".jpg, .jpeg, .png"
                                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                         required>
+
+                                                    <p id="ktp-file-name-{{ $visit->id_kunjungan_toko }}"
+                                                        class="text-sm text-gray-500">
+                                                        File saat ini:
+                                                        {{ $visit['gambar'] ? basename($visit['gambar']) : 'Tidak ada file saat ini.' }}
+                                                    </p>
+
                                                 </div>
 
                                                 <button type="submit"
@@ -176,9 +195,11 @@
                                 required>
                         </div>
                         <div class="text-left">
-                            <label for="gambar"
+                            <label for="gambar" id="file-input-label"
                                 class="block text-sm font-medium text-gray-900 dark:text-gray-300">Dokumentasi</label>
-                            <input type="file" id="gambar" name="gambar"
+                            <p id="file-error" class="mt-1 text-sm text-red-500" style="display:none;">Gambar tidak
+                                boleh berukuran lebih dari 1 MB.</p>
+                            <input type="file" id="gambar" name="gambar" accept=".jpg, .jpeg, .png"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 required>
                         </div>
@@ -191,8 +212,37 @@
                 </div>
             </div>
         </div>
-    </div>
 
+    </div>
+    <!-- Custom Pagination -->
+    @if ($kunjunganToko->total() > 5)
+        <div class="flex flex-col items-center my-6">
+            <!-- Help text -->
+            <span class="text-sm text-gray-700 dark:text-gray-400">
+                Menampilkan <span
+                    class="font-semibold text-gray-900 dark:text-white">{{ $kunjunganToko->firstItem() }}</span>
+                sampai
+                <span class="font-semibold text-gray-900 dark:text-white">{{ $kunjunganToko->lastItem() }}</span> dari
+                <span class="font-semibold text-gray-900 dark:text-white">{{ $kunjunganToko->total() }}</span>
+                kunjungan
+            </span>
+            <!-- Buttons -->
+            <div class="inline-flex mt-2 xs:mt-0">
+                <!-- Previous Button -->
+                <button {{ $kunjunganToko->onFirstPage() ? 'disabled' : '' }}
+                    class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    {{ $kunjunganToko->previousPageUrl() ? 'onclick=window.location.href=\'' . $kunjunganToko->previousPageUrl() . '\'' : '' }}>
+                    Sebelumnya
+                </button>
+                <!-- Next Button -->
+                <button {{ !$kunjunganToko->hasMorePages() ? 'disabled' : '' }}
+                    class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    {{ $kunjunganToko->nextPageUrl() ? 'onclick=window.location.href=\'' . $kunjunganToko->nextPageUrl() . '\'' : '' }}>
+                    Selanjutnya
+                </button>
+            </div>
+        </div>
+    @endif
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.querySelectorAll('[data-modal-target]').forEach(button => {
@@ -206,6 +256,35 @@
             button.addEventListener('click', () => {
                 const modalId = button.getAttribute('data-modal-hide');
                 document.querySelector(modalId).classList.add('hidden');
+            });
+        });
+        document.querySelectorAll('input[type="file"]').forEach(input => {
+            input.addEventListener('change', function() {
+                const file = this.files[0];
+                const fileError = document.getElementById('file-error-' + this.id.split('-')[
+                    1]);
+                if (file && file.size > 1048576) {
+                    fileError.style.display = 'block';
+                    this.value = '';
+                    this.classList.add('border-red-500');
+                } else {
+                    this.classList.remove('border-red-500');
+                    fileError.style.display = 'none';
+                }
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    const fileInput = this.querySelector('input[type="file"]');
+                    const fileError = document.getElementById('file-error-' + fileInput.id.split(
+                        '-')[1]);
+
+                    if (fileError.style.display === 'block' || fileInput.value === '') {
+                        event.preventDefault();
+                        fileError.style.display = 'block';
+                    }
+                });
             });
         });
 

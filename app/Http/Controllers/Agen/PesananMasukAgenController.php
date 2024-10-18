@@ -21,6 +21,9 @@ class PesananMasukAgenController extends Controller
         // Mengonversi tanggal ke format Carbon
         foreach ($pesananMasuks as $pesananMasuk) {
             $pesananMasuk->tanggal = Carbon::parse($pesananMasuk->tanggal);
+         // Mengambil nama user sales berdasarkan id_user_sales
+         $namaSales = DB::table('user_sales')->where('id_user_sales', $pesananMasuk->id_user_sales)->first();
+         $pesananMasuk->nama_sales = $namaSales ? $namaSales->nama_lengkap : 'Tidak Ditemukan';
         }
 
 

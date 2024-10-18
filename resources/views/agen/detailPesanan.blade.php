@@ -71,13 +71,13 @@
                     <label for="payment-proof" class="block text-gray-800 text-lg font-semibold mb-2">Upload Bukti
                         Pembayaran:</label>
                     <div class="relative">
-                        <input type="file" id="payment-proof" name="payment_proof" accept="image/*,application/pdf"
+                        <input type="file" id="payment-proof" name="payment_proof" accept="image/*"
                             class="border border-gray-300 rounded-lg py-2 px-3 w-full bg-white text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         <span class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500">
                             <i class="fa-solid fa-upload"></i>
                         </span>
                     </div>
-                    <p class="mt-2 text-sm text-gray-500">Supported file types: JPEG, PNG, PDF</p>
+                    <p class="mt-2 text-sm text-gray-500">Supported file types: JPEG, PNG, JPG</p>
                     <p id="file-error" class="mt-2 text-sm text-red-500 hidden">Harap upload bukti pembayaran sebelum kirim
                         pesanan.</p>
                 </div>

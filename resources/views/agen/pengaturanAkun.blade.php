@@ -142,6 +142,11 @@
                                                 class="space-y-4">
                                                 @csrf
                                                 @method('PUT')
+
+                                                <!-- Input tersembunyi untuk halaman saat ini -->
+                                                <input type="hidden" name="page"
+                                                    value="{{ request()->input('page', 1) }}">
+
                                                 <div class="text-left">
                                                     <label for="edit-name"
                                                         class="block mb-2 text-sm font-medium text-black">Nama</label>
@@ -215,11 +220,11 @@
                                                         Simpan Perubahan
                                                     </button>
                                                 </div>
-
                                             </form>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         @endforeach
                 </tbody>
                 @endif
@@ -280,7 +285,7 @@
                         <label for="gambar_ktp" class="block mb-2 text-sm font-medium text-black">KTP</label>
                         <input type="file" id="gambar_ktp" name="gambar_ktp"
                             class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                            accept=".jpg, .jpeg, .png" required/>
+                            accept=".jpg, .jpeg, .png" required />
                     </div>
                     <div class="flex justify-center">
                         <button type="submit"
@@ -340,7 +345,7 @@
                 document.querySelector(modalId).classList.remove('hidden');
             });
         });
-   
+
 
         function togglePassword() {
             const passwordInput = document.getElementById('password-add');

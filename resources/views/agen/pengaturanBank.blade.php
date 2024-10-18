@@ -34,7 +34,7 @@
             </div>
 
             <!-- Form Rekening Bank -->
-            <form id="account-form" class="hidden" method="POST" >
+            <form action="{{ route('rekeningBank.update') }}" id="account-form" class="hidden" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -61,6 +61,8 @@
                     <input type="text" id="account_number" name="account_number"
                         class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         placeholder="Masukkan Nomor Rekening" value="{{ $userAgen['no_rek'] }}" required>
+                    <!-- Tempat Pesan Error -->
+                    <p id="account_number_error" class="text-red-600 text-sm mt-1 hidden">Nomor rekening tidak boleh mengandung spasi, huruf, atau tanda baca.</p>
                 </div>
 
                 <!-- Atas Nama -->
@@ -80,10 +82,49 @@
         </section>
     </section>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        document.getElementById('edit-button').addEventListener('click', function() {
+        document.getElementById('edit-button').addEventListener('click', function () {
             document.getElementById('account-info').classList.add('hidden');
             document.getElementById('account-form').classList.remove('hidden');
+        });
+
+        document.getElementById('account-form').addEventListener('submit', function (e) {
+            var accountNumber = document.getElementById('account_number').value;
+            var regex = /^[0-9]+$/;  // Hanya mengizinkan angka tanpa spasi, huruf, atau tanda baca
+
+            if (!regex.test(accountNumber)) {
+                e.preventDefault(); // Mencegah form disubmit
+                // Menampilkan pesan error
+                document.getElementById('account_number_error').classList.remove('hidden');
+
+                // SweetAlert Peringatan
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Nomor rekening tidak boleh mengandung spasi, huruf, atau tanda baca!',
+                });
+            } else {
+                document.getElementById('account_number_error').classList.add('hidden');
+                // SweetAlert Konfirmasi
+                e.preventDefault(); // Mencegah form dikirim langsung
+
+                Swal.fire({
+                    title: 'Konfirmasi',
+                    text: 'Apakah Anda yakin ingin mengubah nomor rekening?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, ubah',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Jika dikonfirmasi, submit form
+                        document.getElementById('account-form').submit();
+                    }
+                });
+            }
         });
     </script>
 @endsection

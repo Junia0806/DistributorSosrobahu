@@ -13,22 +13,18 @@ use Carbon\Carbon;
 class PesananMasukDistributorController extends Controller
 {
     public function index()
-    {
-        // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
-        $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')->paginate(10);
 
+{
+    // Mengambil semua pesanan dan mengonversi tanggal ke format Carbon
+    $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')->paginate(10);
+    
+    // Mengelompokkan pesanan berdasarkan bulan dan melakukan penotalan omset per bulan
+    
 
-        // Mengonversi tanggal ke format Carbon
-        foreach ($pesananMasuks as $pesananMasuk) {
-            $pesananMasuk->tanggal = Carbon::parse($pesananMasuk->tanggal);
-        }
+       // Mengirim data yang dikelompokkan dan total omset ke view
+        return view('distributor.transaksi', compact('pesananMasuks'));
+}
 
-
-
-        // Mengirim data pesanan ke view
-        // return view('agen.transaksiAgen', compact('pesananMasuks'));
-        return response()->json($pesananMasuks);
-    }
 
     public function detailPesanMasuk($idPesanan)
     {
@@ -81,8 +77,8 @@ class PesananMasukDistributorController extends Controller
 
 
         // dd($pesanMasukDistributor);
-        // return view('agen.detailPesanMasuk', compact('pesanMasukDistributor'));
-        return response()->json(data: $pesanMasukDistributor);
+        return view('distributor.detail-transaksi', compact('pesanMasukDistributor'));
+        // return response()->json(data: $pesanMasukDistributor);
     }
 
     public function editStatus($id)
