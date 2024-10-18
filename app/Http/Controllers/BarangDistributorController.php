@@ -37,10 +37,10 @@ class BarangDistributorController extends Controller
             }
         }
 
-        
+
 
         // menampilkan hasil dalam format view
-        return view('agen.pesanBarang', compact('barangDistributors', 'namaRokokList','gambarRokokList'));
+        return view('agen.pesanBarang', compact('barangDistributors', 'namaRokokList', 'gambarRokokList'));
 
         // Menampilkan hasil dalam format json
         // return response()->json([$barangDistributors,$namaRokokList,$gambarRokokList]);
@@ -50,34 +50,40 @@ class BarangDistributorController extends Controller
     {
         // Ambil semua barang agen
         $barangDistributors = BarangDistributor::all();
-
+        // Mengambil semua tahun dari tabel pesanan agen berdasarkan tanggal pesanan
+        $availableYears = DB::table('order_agen')
+            ->select(DB::raw('YEAR(tanggal) as year'))
+            ->distinct()
+            ->orderBy('year', 'desc')
+            ->pluck('year');
         $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')->get();;
-    
-    // Mengelompokkan pesanan berdasarkan bulan dan melakukan penotalan omset per bulan
-        $pesananPerBulan = $pesananMasuks->groupBy(function($item) {
+
+        // Mengelompokkan pesanan berdasarkan bulan dan melakukan penotalan omset per bulan
+        $pesananPerBulan = $pesananMasuks->groupBy(function ($item) {
             // Mengelompokkan berdasarkan bulan dan tahun (misalnya, "2024-10")
             return Carbon::parse($item->tanggal)->format('Y-m');
-        })->map(function($group) {
+        })->map(function ($group) {
             // Menambahkan total omset untuk setiap kelompok bulan
             return [
                 'pesanan' => $group,
                 'total_omset' => $group->sum('total'),
+                'total_karton'  => $group->sum('jumlah'),
             ];
         });
-        
+
         // Siapkan array untuk menyimpan data
         $namaRokokList = [];
         $gambarRokokList = [];
-        $totalProdukList = []; 
-        
+        $totalProdukList = [];
+
         // Loop untuk setiap barang agen
         foreach ($barangDistributors as $barangDistributor) {
             $idMasterBarang = $barangDistributor->id_master_barang;
             $idUserDistributor = $barangDistributor->id_user_distributor;
-        
+
             // Ambil data dari master_barang berdasarkan id_master_barang
             $orderValue = DB::table('master_barang')->where('id_master_barang', $idMasterBarang)->first();
-        
+
             // Hitung total jumlah produk berdasarkan id_master_barang, id_user_distributor, dan status_pemesanan dari order_detail_distributor
             $totalProduk = DB::table('order_detail_distributor')
                 ->join('order_distributor', 'order_detail_distributor.id_order', '=', 'order_distributor.id_order')
@@ -85,7 +91,7 @@ class BarangDistributorController extends Controller
                 ->where('order_detail_distributor.id_user_distributor', $idUserDistributor)
                 ->where('order_distributor.status_pemesanan', 1)
                 ->sum('order_detail_distributor.jumlah_produk');
-        
+
             // Hitung total produk terjual berdasarkan id_master_barang, id_user_distributor, dan status_pemesanan dari order_detail_agen
             $totalProdukTerjual = DB::table('order_detail_agen')
                 ->join('order_agen', 'order_detail_agen.id_order', '=', 'order_agen.id_order')
@@ -93,19 +99,19 @@ class BarangDistributorController extends Controller
                 ->where('order_detail_agen.id_user_distributor', $idUserDistributor)
                 ->where('order_agen.status_pemesanan', 1)
                 ->sum('order_detail_agen.jumlah_produk');
-    
+
             // Simpan data ke dalam array
             if ($orderValue) {
                 $namaRokokList[] = $orderValue->nama_rokok;
                 $gambarRokokList[] = $orderValue->gambar;
-                $totalProdukList[] = $totalProduk - $totalProdukTerjual; 
+                $totalProdukList[] = $totalProduk - $totalProdukTerjual;
             } else {
-                $namaRokokList[] = null; 
+                $namaRokokList[] = null;
                 $gambarRokokList[] = null;
-                $totalProdukList[] = 0 ; 
+                $totalProdukList[] = 0;
             }
         }
-        
+
 
         // Mengambil semua pesanan yang statusnya selesai
         $completedOrders = OrderDistributor::where('status_pemesanan', 1)->get();
@@ -119,7 +125,7 @@ class BarangDistributorController extends Controller
         $incomingCompletedOrders = DB::table('order_detail_agen')
             ->join('order_agen', 'order_agen.id_order', '=', 'order_detail_agen.id_order')
             ->where('order_agen.status_pemesanan', 1)
-            ->sum('order_detail_agen.jumlah_produk'); 
+            ->sum('order_detail_agen.jumlah_produk');
 
         // Hitung stok yang disesuaikan (dikurangi pesanan masuk yang sudah berhasil)
         $finalStockKarton = $totalStockKarton - $incomingCompletedOrders;
@@ -149,17 +155,6 @@ class BarangDistributorController extends Controller
         // Kirim data ke view
 
 
-//         return response()->json([
-//             $barangDistributors,
-//             $namaRokokList,
-//             $gambarRokokList,
-//             $totalProdukList,
-//             $finalStockSlop,
-//             $totalPendapatan,
-//             $topProductName,
-//             $totalSales,
-//             $pesananPerBulan
-
         return view('distributor.dashboard', [
             'barangDistributors' => $barangDistributors,
             'namaRokokList' => $namaRokokList,
@@ -169,9 +164,23 @@ class BarangDistributorController extends Controller
             'totalPendapatan' => $totalPendapatan,
             'topProductName' => $topProductName,
             'totalAgen' => $totalAgen,
+            'pesananPerBulan' => $pesananPerBulan,
+            'availableYears' => $availableYears
 
         ]);
 
+        // return response()->json([
+        //     'barangDistributors' => $barangDistributors,
+        //     'namaRokokList' => $namaRokokList,
+        //     'gambarRokokList' => $gambarRokokList,
+        //     'totalProdukList' => $totalProdukList,
+        //     'finalStockKarton' => $finalStockKarton,
+        //     'totalPendapatan' => $totalPendapatan,
+        //     'topProductName' => $topProductName,
+        //     'totalAgen' => $totalAgen,
+        //     'pesananPerBulan' => $pesananPerBulan,
+        //     'availableYears' => $availableYears
 
+        // ]);
     }
 }

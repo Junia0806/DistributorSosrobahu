@@ -93,7 +93,7 @@ class BarangPabrikController extends Controller
             if ($orderValue) {
                 $namaRokokList[] = $orderValue->nama_rokok;
                 $gambarRokokList[] = $orderValue->gambar;
-                $totalProdukList[] = ($totalProduk * 10) - $totalProdukTerjual; // Perhitungan total produk yang tersedia
+                $totalProdukList[] = $totalProduk - $totalProdukTerjual; // Perhitungan total produk yang tersedia
             } else {
                 $namaRokokList[] = null; 
                 $gambarRokokList[] = null;
@@ -157,15 +157,15 @@ class BarangPabrikController extends Controller
         // ]);
 
         return response()->json([
-            $barangPabriks,
-            $namaRokokList,
-            $gambarRokokList,
-            $totalProdukList,
-            $finalStockSlop,
-            $totalPendapatan,
-            $topProductName,
-            $totalDistributor,
-            $pesananPerBulan
+            'barang_pabriks' => $barangPabriks,
+            'nama_rokok_list' => $namaRokokList,
+            'gambar_rokok_list' => $gambarRokokList,
+            'total_produk_list' => $totalProdukList,
+            'final_stock_slop' => $finalStockSlop,
+            'total_pendapatan' => $totalPendapatan,
+            'top_product_name' => $topProductName,
+            'total_distributor' => $totalDistributor,
+            'pesanan_per_bulan' => $pesananPerBulan
         ]);
         
     }
