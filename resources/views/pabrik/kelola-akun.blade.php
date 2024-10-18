@@ -159,14 +159,18 @@
                                 required>
                         </div>
 
-                        <!-- Password -->
-                        <div class="col-span-2">
+                        <!-- Password edit -->
+                        <div class="relative col-span-2">
                             <label for="edit-password" class="block text-sm font-medium text-black mb-2">Password
                                 Baru</label>
                             <input type="password" id="edit-password" name="edit-password"
                                 placeholder="Masukkan password baru Anda"
                                 class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                 required>
+                            <span data-target="edit-password"
+                                class="text-gray-500 absolute inset-y-0 right-0 flex items-center pr-3 pt-6 cursor-pointer toggle-password">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </span>
                         </div>
 
                         <!-- No Telpon -->
@@ -192,7 +196,8 @@
                         <div class="col-span-2">
                             <label for="edit-avatar" class="block text-sm font-medium text-black mb-2">KTP</label>
                             <input type="file" id="edit-avatar"
-                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg cursor-pointer block w-full" accept="image/*"/>
+                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg cursor-pointer block w-full"
+                                accept="image/*" />
                         </div>
 
                         <!-- Simpan Perubahan Button -->
@@ -236,7 +241,7 @@
                         </div>
                         <div class="col-span-2">
                             <label for="username" class="block mb-2 text-sm font-medium text-black">Username</label>
-                            <input type="text" name="username" id="username" placeholder="agen_hong"
+                            <input type="text" name="username" id="username" placeholder="hongshua"
                                 class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                                 required>
                         </div>
@@ -245,9 +250,8 @@
                             <input type="password" id="password-add" name="password" placeholder="Masukkan Password"
                                 class="w-full p-3 text-sm bg-gray-100 border border-gray-300 rounded-lg focus:ring-gray-500 focus:border-gray-500"
                                 required />
-                            <span id="togglePassword"
-                                class="text-gray-500 absolute inset-y-0 right-0 flex items-center pr-3 pt-6 cursor-pointer"
-                                onclick="togglePassword()">
+                            <span data-target="password-add"
+                                class="text-gray-500 absolute inset-y-0 right-0 flex items-center pr-3 pt-6 cursor-pointer toggle-password">
                                 <i class="fa-solid fa-eye-slash"></i>
                             </span>
                         </div>
@@ -260,7 +264,8 @@
                         <div class="col-span-2">
                             <label for="identity" class="block mb-2 text-sm font-medium text-black">KTP</label>
                             <input type="file" id="identity" name="identity"
-                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50" accept="image/*"/>
+                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                                accept="image/*" />
                         </div>
                     </div>
                     <div class="flex justify-center">
@@ -296,25 +301,22 @@
             });
         });
 
+        document.querySelectorAll('.toggle-password').forEach(toggleIcon => {
+            toggleIcon.addEventListener('click', function () {
+                const target = document.getElementById(this.getAttribute('data-target'));
+                const icon = this.children[0];
 
-        function togglePassword() {
-            const passwordInput = document.getElementById('password-add');
-            const toggleIcon = document.getElementById('togglePassword').children[0];
-
-            console.log('Toggle Password function called');
-            console.log('Current type:', passwordInput.type);
-
-
-            if (passwordInput.type === 'password') {
-                passwordInput.type = 'text';
-                toggleIcon.classList.remove('fa-eye-slash');
-                toggleIcon.classList.add('fa-eye');
-            } else {
-                passwordInput.type = 'password';
-                toggleIcon.classList.remove('fa-eye');
-                toggleIcon.classList.add('fa-eye-slash');
-            }
-        }
+                if (target.type === 'password') {
+                    target.type = 'text';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                } else {
+                    target.type = 'password';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                }
+            });
+        });
 
         // Event listener untuk menutup modal
         document.querySelectorAll('[data-modal-hide]').forEach(button => {
