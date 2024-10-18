@@ -64,6 +64,7 @@ class OrderAgenController extends Controller
         ]);
     }
 
+    // Riwayat  Agen
     public function index()
     {
         // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar

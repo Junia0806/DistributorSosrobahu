@@ -78,39 +78,49 @@
                                         <span class="sr-only">Close modal</span>
                                     </button>
                                     <div class="p-6 text-center">
-                                        <h3 class="text-lg font-semibold text-gray-900">Edit Toko {{ $item->nama_toko }}</h3>
-                                        <form action="{{ route('tokoSales.update', $item->id_daftar_toko) }}" method="POST" class="space-y-4">
+                                        <h3 class="text-lg font-semibold text-gray-900">Edit Toko {{ $item->nama_toko }}
+                                        </h3>
+                                        <form action="{{ route('tokoSales.update', $item->id_daftar_toko) }}"
+                                            method="POST" class="space-y-4">
                                             @csrf
                                             @method('PUT')
-                                            
+
                                             <div class="text-left mt-4">
-                                                <label for="nama_toko" class="block text-sm font-medium text-gray-900">Nama Toko</label>
-                                                <input type="text" name="nama_toko" id="nama_toko" value="{{ $item->nama_toko }}"
+                                                <label for="nama_toko" class="block text-sm font-medium text-gray-900">Nama
+                                                    Toko</label>
+                                                <input type="text" name="nama_toko" id="nama_toko"
+                                                    value="{{ $item->nama_toko }}"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-1"
                                                     required>
                                             </div>
-                        
+
                                             <div class="text-left mt-4">
-                                                <label for="lokasi" class="block text-sm font-medium text-gray-900">Alamat Lengkap Toko</label>
-                                                <input type="text" name="lokasi" id="lokasi" value="{{ $item->lokasi }}"
+                                                <label for="lokasi" class="block text-sm font-medium text-gray-900">Alamat
+                                                    Lengkap Toko</label>
+                                                <input type="text" name="lokasi" id="lokasi"
+                                                    value="{{ $item->lokasi }}"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-1"
                                                     required>
                                             </div>
-                        
+
                                             <div class="text-left mt-4">
-                                                <label for="nama_pemilik" class="block text-sm font-medium text-gray-900">Nama Pemilik</label>
-                                                <input type="text" name="nama_pemilik" id="nama_pemilik" value="{{ $item->nama_pemilik }}"
+                                                <label for="nama_pemilik"
+                                                    class="block text-sm font-medium text-gray-900">Nama Pemilik</label>
+                                                <input type="text" name="nama_pemilik" id="nama_pemilik"
+                                                    value="{{ $item->nama_pemilik }}"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-1"
                                                     required>
                                             </div>
-                        
+
                                             <div class="text-left mt-4">
-                                                <label for="no_telp" class="block text-sm font-medium text-gray-900">No. Telepon</label>
-                                                <input type="text" name="no_telp" id="no_telp" value="{{ $item->no_telp }}"
+                                                <label for="no_telp" class="block text-sm font-medium text-gray-900">No.
+                                                    Telepon</label>
+                                                <input type="text" name="no_telp" id="no_telp"
+                                                    value="{{ $item->no_telp }}"
                                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 mt-1"
                                                     required>
                                             </div>
-                        
+
                                             <button type="submit"
                                                 class="bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300 font-medium text-sm my-2 mt-4">
                                                 Simpan
@@ -120,7 +130,6 @@
                                 </div>
                             </div>
                         </div>
-                                                
                     @endforeach
                 </tbody>
             </table>
@@ -151,28 +160,28 @@
                         <div class="col-span-2">
                             <label for="nama_toko" class="block mb-2 text-sm font-medium text-black">Nama Toko</label>
                             <input type="text" name="nama_toko" id="nama_toko"
-                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Berkah Makmur"
-                                required>
+                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                placeholder="Berkah Makmur" required>
                         </div>
                         <div class="col-span-2">
                             <label for="lokasi" class="block mb-2 text-sm font-medium text-black">Alamat Lengkap
                                 Toko</label>
                             <input type="text" name="lokasi" id="lokasi"
-                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Jl. Melati, Sidoarjo"
-                                required>
+                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                placeholder="Jl. Melati, Sidoarjo" required>
                         </div>
                         <div class="col-span-2">
                             <label for="nama_pemilik" class="block mb-2 text-sm font-medium text-black">Nama
                                 Pemilik</label>
                             <input type="text" name="nama_pemilik" id="nama_pemilik"
-                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="Sujono"
-                                required>
+                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                placeholder="Sujono" required>
                         </div>
                         <div class="col-span-2">
                             <label for="no_telp" class="block mb-2 text-sm font-medium text-black">No. Telepon</label>
                             <input type="text" name="no_telp" id="no_telp"
-                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" placeholder="08xxxxxxxxxx"
-                                required>
+                                class="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                placeholder="08xxxxxxxxxx" required>
                         </div>
                     </div>
                     <div class="flex justify-center">
@@ -188,30 +197,32 @@
     </div>
 
     <!-- Custom Pagination -->
-    <div class="flex flex-col items-center my-6">
-        <!-- Help text -->
-        <span class="text-sm text-gray-700 dark:text-gray-400">
-            Menampilkan <span class="font-semibold text-gray-900 dark:text-white">{{ $toko->firstItem() }}</span> sampai
-            <span class="font-semibold text-gray-900 dark:text-white">{{ $toko->lastItem() }}</span> dari <span
-                class="font-semibold text-gray-900 dark:text-white">{{ $toko->total() }}</span> toko
-        </span>
-        <!-- Buttons -->
-        <div class="inline-flex mt-2 xs:mt-0">
-            <!-- Previous Button -->
-            <button {{ $toko->onFirstPage() ? 'disabled' : '' }}
-                class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                {{ $toko->previousPageUrl() ? 'onclick=window.location.href=\'' . $toko->previousPageUrl() . '\'' : '' }}>
-                Sebelumnya
-            </button>
-            <!-- Next Button -->
-            <button {{ !$toko->hasMorePages() ? 'disabled' : '' }}
-                class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                {{ $toko->nextPageUrl() ? 'onclick=window.location.href=\'' . $toko->nextPageUrl() . '\'' : '' }}>
-                Selanjutnya
-            </button>
+    @if ($toko->total() > 5)
+        <div class="flex flex-col items-center my-6">
+            <!-- Help text -->
+            <span class="text-sm text-gray-700 dark:text-gray-400">
+                Menampilkan <span class="font-semibold text-gray-900 dark:text-white">{{ $toko->firstItem() }}</span>
+                sampai
+                <span class="font-semibold text-gray-900 dark:text-white">{{ $toko->lastItem() }}</span> dari <span
+                    class="font-semibold text-gray-900 dark:text-white">{{ $toko->total() }}</span> toko
+            </span>
+            <!-- Buttons -->
+            <div class="inline-flex mt-2 xs:mt-0">
+                <!-- Previous Button -->
+                <button {{ $toko->onFirstPage() ? 'disabled' : '' }}
+                    class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    {{ $toko->previousPageUrl() ? 'onclick=window.location.href=\'' . $toko->previousPageUrl() . '\'' : '' }}>
+                    Sebelumnya
+                </button>
+                <!-- Next Button -->
+                <button {{ !$toko->hasMorePages() ? 'disabled' : '' }}
+                    class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    {{ $toko->nextPageUrl() ? 'onclick=window.location.href=\'' . $toko->nextPageUrl() . '\'' : '' }}>
+                    Selanjutnya
+                </button>
+            </div>
         </div>
-    </div>
-
+    @endif
     </div>
     <script>
         document.querySelectorAll('[data-modal-target]').forEach(button => {

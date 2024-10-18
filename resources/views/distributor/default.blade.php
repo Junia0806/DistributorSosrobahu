@@ -34,8 +34,7 @@
                         id="user-dropdown">
                         <div class="px-4 py-3">
                             <span class="block text-sm text-gray-900 dark:text-white">Akun Distributor</span>
-                            <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">Moch. Samsul
-                                Abidin</span>
+                            <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">Nama : {{ session('nama_lengkap') }}</span>
                         </div>
                         <ul class="py-2" aria-labelledby="user-menu-button">
                             <li>
@@ -44,7 +43,7 @@
                                     Harga</a>
                             </li>
                             <li>
-                                <a href="{{ route('distributor-rekening') }}"
+                                <a href="{{ route('pengaturanBankDistributor') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Rekening</a>
                             </li>
                             <li>
@@ -75,28 +74,28 @@
                                 Dashboard
                             </a>
                         </li>
-                        <a href="{{ route('kelola-agen') }}"
-                            class="block py-2 px-3 rounded {{ Route::is('kelola-agen') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                            id="kelola-agen">
+                        <a href="{{ route('pengaturanAgen') }}"
+                            class="block py-2 px-3 rounded {{ Route::is('pengaturanAgen') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            id="pengaturanAgen">
                             Agen
                         </a>
                         <li>
-                            <a  href="{{ route('distributor-transaksi') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('distributor-transaksi') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
-                                id="distributor-transaksi">
+                            <a  href="{{ route('pesananMasukDistributor') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('pesananMasukDistributor') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                                id="pesananMasukDistributor">
                                 Pesanan Masuk
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('distributor-pesan') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('distributor-pesan') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            <a href="{{ route('pesanBarangDistributor') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('pesanBarangDistributor') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                                 id="pesan-link">
                                 Order
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('distributor-riwayat') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('distributor-riwayat') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            <a href="{{ route('riwayatDistributor') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('riwayatDistributor') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                                 id="riwayat-link">
                                 Riwayat
                             </a>
@@ -164,10 +163,10 @@
         const path = window.location.pathname;
         const links = {
             '/distributor/dashboard': 'dashboard-distributor',
-            '/distributor/kelola-agen': 'kelola-agen',
-            '/distributor/transaksi': 'distributor-transaksi',
-            '/distributor/pesan': 'pesan-link',
-            '/distributor/riwayat': 'riwayat-link',
+            '/pengaturan-agen': 'pengaturanAgen',
+            '/distributor/pesananMasuk': 'pesananMasukDistributor',
+            '/distributor/pesanBarang': 'pesan-link',
+            '/distributor/riwayatDistributor': 'riwayat-link',
         };
 
         console.log('Current Path:', path);
