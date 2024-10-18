@@ -286,18 +286,18 @@ Route::get('/distributor/riwayatDistributor', [OrderDistributorController::class
 // })->name('distributor-nota');
 
 Route::get('/distributor/pengaturan-harga', function () {
-    return view('distributor.pengaturan-harga');
+    return view('distributor.pengaturanHarga');
 })->name('distributor-pengaturan-harga');
 Route::get('/distributor/pengaturan-harga', [HargaDistributorController::class, 'index'])->name('pengaturanHargaDistributor');
 // Masih Error buat view pengaturan harga terlebih dahulu
-// Route::put('/distributor/pengaturan-harga/update/{id}', [HargaDistributorController::class, 'update'])->name('pengaturanHargaDistributor.update');
+Route::put('/distributor/pengaturan-harga/update/{id}', [HargaDistributorController::class, 'update'])->name('pengaturanHargaDistributor.update');
 
 Route::get('/distributor/rekening', function () {
     return view('distributor.rekening');
 })->name('distributor-rekening');
-Route::get('/distributor/pengaturan-bank', [PengaturanBankController::class, 'index'])->name('pengaturanBankDistributor');
-Route::put('/distributor/pengaturan-bank/update', [PengaturanBankController::class, 'update'])->name('rekeningBankDIstributor.update');
-Route::get('/distributor/pengaturan-bank/{idUser}', [PengaturanBankDistributorController::class, 'index'])->name('pengaturanBankDistributor');
+Route::get('/distributor/pengaturan-bank', [PengaturanBankDistributorController::class, 'index'])->name('pengaturanBankDistributor');
+Route::put('/distributor/pengaturan-bank/update', [PengaturanBankDistributorController::class, 'update'])->name('rekeningBankDistributor.update');
+// Route::get('/distributor/pengaturan-bank/{idUser}', [PengaturanBankDistributorController::class, 'index'])->name('pengaturanBankDistributor');
 
 // pabrik
 // Route::get('/pabrik/login', function () {

@@ -28,8 +28,8 @@ class HargaDistributorController extends Controller
             }
         }
         // Mengambil total penjualan untuk setiap sales
-        // return view('agen.pengaturanHarga', compact('rokokDistributors','namaRokokList'));
-        return response()->json([$rokokDistributors,$namaRokokList]);
+         return view('distributor.pengaturanHarga', compact('rokokDistributors','namaRokokList'));
+        //return response()->json([$rokokDistributors,$namaRokokList]);
     }
 
     public function update(Request $request, $id)

@@ -20,17 +20,17 @@ class PengaturanBankDistributorController extends Controller
     }
 
     // Cari data agen berdasarkan id_user_agen
-    $orderAgen = UserDistributor::where('id_user_distributor', $idUser)->first();
+    $orderDistributor = UserDistributor::where('id_user_distributor', $idUser)->first();
 
-    if ($orderAgen) {
+    if ($orderDistributor) {
         $userDistributor = [
-            'nama_bank' => $orderAgen->nama_bank,
-            'no_rek' => $orderAgen->no_rek,
-            'nama_distributor' => $orderAgen->nama_lengkap,
+            'nama_bank' => $orderDistributor->nama_bank,
+            'no_rek' => $orderDistributor->no_rek,
+            'nama_distributor' => $orderDistributor->nama_lengkap,
         ];
 
         // Kirim data ke view
-        return view('distributor.pengaturanBankDistributor', compact('userDistributor'));
+        return view('distributor.pengaturanBank', compact('userDistributor'));
     }
 
     // Jika data agen tidak ditemukan, redirect dengan pesan error
@@ -45,7 +45,7 @@ class PengaturanBankDistributorController extends Controller
 
         // Jika data user agen tidak ditemukan
         if (!$userDistributor) {
-            return redirect()->back()->with('error', 'Data agen tidak ditemukan.');
+            return redirect()->back()->with('error', 'Data distributor tidak ditemukan.');
         }
 
         // Mengirim data user agen ke view untuk ditampilkan
@@ -74,7 +74,7 @@ class PengaturanBankDistributorController extends Controller
 
         // Jika data user agen tidak ditemukan
         if (!$userDistributor) {
-            return redirect()->back()->with('error', 'Data agen tidak ditemukan.');
+            return redirect()->back()->with('error', 'Data distributor tidak ditemukan.');
         }
 
         // Memperbarui data rekening agen
