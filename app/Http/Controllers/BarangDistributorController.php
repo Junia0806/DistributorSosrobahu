@@ -8,6 +8,8 @@ use App\Models\MasterBarang;
 use App\Models\OrderDetailDistributor;
 use App\Models\OrderDistributor;
 use Illuminate\Support\Facades\DB;
+use App\Models\OrderAgen;
+use Carbon\Carbon;
 
 class BarangDistributorController extends Controller
 {
@@ -48,6 +50,20 @@ class BarangDistributorController extends Controller
     {
         // Ambil semua barang agen
         $barangDistributors = BarangDistributor::all();
+
+        $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')->get();;
+    
+    // Mengelompokkan pesanan berdasarkan bulan dan melakukan penotalan omset per bulan
+        $pesananPerBulan = $pesananMasuks->groupBy(function($item) {
+            // Mengelompokkan berdasarkan bulan dan tahun (misalnya, "2024-10")
+            return Carbon::parse($item->tanggal)->format('Y-m');
+        })->map(function($group) {
+            // Menambahkan total omset untuk setiap kelompok bulan
+            return [
+                'pesanan' => $group,
+                'total_omset' => $group->sum('total'),
+            ];
+        });
         
         // Siapkan array untuk menyimpan data
         $namaRokokList = [];
@@ -131,6 +147,19 @@ class BarangDistributorController extends Controller
         $totalAgen = DB::table('user_agen')->count();
 
         // Kirim data ke view
+
+
+//         return response()->json([
+//             $barangDistributors,
+//             $namaRokokList,
+//             $gambarRokokList,
+//             $totalProdukList,
+//             $finalStockSlop,
+//             $totalPendapatan,
+//             $topProductName,
+//             $totalSales,
+//             $pesananPerBulan
+
         return view('distributor.dashboard', [
             'barangDistributors' => $barangDistributors,
             'namaRokokList' => $namaRokokList,
@@ -140,18 +169,9 @@ class BarangDistributorController extends Controller
             'totalPendapatan' => $totalPendapatan,
             'topProductName' => $topProductName,
             'totalAgen' => $totalAgen,
+
         ]);
 
-        // return response()->json([
-        //     $barangDistributors,
-        //     $namaRokokList,
-        //     $gambarRokokList,
-        //     $totalProdukList,
-        //     $finalStockKarton,
-        //     $totalPendapatan,
-        //     $topProductName,
-        //     $totalAgen
-        // ]);
-        
+
     }
 }
