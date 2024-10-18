@@ -164,7 +164,7 @@
             '/pabrik/omset-pabrik': 'omsetPabrik',
             '/pabrik/distributor': 'kelola-distributor-pabrik',
             '/pabrik/pesanan-masuk': 'pabrik-transaksi',
-            '/pabrik/restock': 'pabrik-restock',
+            '/pabrik/restockBarang': 'restockBarang',
             '/pabrik/riwayat-restock': 'pabrik-riwayat-restock',
         };
 

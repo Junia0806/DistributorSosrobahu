@@ -23,14 +23,17 @@
                         @foreach ($notaSales['item_nota'] as $item)
                             <tr class="border-b">
                                 <td class="py-3 px-4 text-left">{{ $item['nama_rokok'] }}</td>
-                                <td class="py-3 px-4 text-center">Rp {{ number_format($item['harga_satuan'], 0, ',', '.') }}</td>
+                                <td class="py-3 px-4 text-center">Rp {{ number_format($item['harga_satuan'], 0, ',', '.') }}
+                                </td>
                                 <td class="py-3 px-4 text-center">{{ $item['jumlah_item'] }}</td>
-                                <td class="py-3 px-4 text-right">Rp {{ number_format($item['jumlah_harga'], 0, ',', '.') }}</td>
+                                <td class="py-3 px-4 text-right">Rp {{ number_format($item['jumlah_harga'], 0, ',', '.') }}
+                                </td>
                             </tr>
                         @endforeach
                         <tr>
                             <td colspan="3" class="py-3 px-4 text-right font-semibold">Harga Keseluruhan</td>
-                            <td class="py-3 px-4 text-right font-semibold">Rp {{ number_format($notaSales['total_harga'], 0, ',', '.') }}</td>
+                            <td class="py-3 px-4 text-right font-semibold">Rp
+                                {{ number_format($notaSales['total_harga'], 0, ',', '.') }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -59,23 +62,31 @@
 
                 <!-- Form Upload Bukti Pembayaran -->
                 <div id="upload-section" class="mt-6 hidden">
-                    <form id="upload-form" class="space-y-4" action="{{ route('bayar_nota', $id_nota) }}" method="POST" enctype="multipart/form-data">
+                    <form id="upload-form" class="space-y-4" action="{{ route('bayar_nota', $id_nota) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="text-center">
-                            <p class="text-gray-600">Silakan unggah bukti transfer Anda dalam format JPEG, JPG, atau PNG.</p>
+                            <p class="text-gray-600">Silakan unggah bukti transfer Anda dalam format JPEG, JPG, atau PNG
+                            </p>
+                            <p id="file-error" class="mt-2 text-sm text-red-500" style="display:none;">Gambar yang Anda
+                                submit tidak
+                                boleh berukuran lebih dari 1 MB</p>
                         </div>
                         <div class="flex justify-center">
                             <label for="gambar"
-                                class="w-full max-w-md flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide uppercase border border-blue-600 cursor-pointer hover:bg-blue-50">
+                                class="w-full max-w-md flex flex-col items-center px-4 py-6 bg-white rounded-md shadow-md tracking-wide uppercase border border-blue-600 cursor-pointer hover:bg-blue-50"
+                                id="file-input-label">
                                 <i class="fas fa-cloud-upload-alt text-blue-600 text-3xl mb-3"></i>
                                 <span id="file-name" class="mt-2 text-base leading-normal text-gray-600">Pilih File</span>
-                                <input type="file" name="bukti_transfer" id="gambar" class="hidden">
+                                <input type="file" accept=".jpg, .jpeg, .png" name="bukti_transfer" id="gambar"
+                                    class="hidden">
                             </label>
                         </div>
 
                         <div class="text-center">
-                            <button type="button" id="submit-button" class="bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300">
+                            <button type="button" id="submit-button"
+                                class="bg-green-600 text-white px-5 py-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition duration-300">
                                 <i class="fas fa-save mr-2"></i>Simpan Bukti Pembayaran
                             </button>
                         </div>
@@ -88,8 +99,23 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.getElementById('gambar').addEventListener('change', function() {
-            const fileName = this.files.length > 0 ? this.files[0].name : 'Pilih File';
-            document.getElementById('file-name').textContent = fileName;
+            const file = this.files[0];
+            const fileName = 'Pilih File'; 
+            const fileError = document.getElementById('file-error');
+            const fileInputLabel = document.getElementById('file-input-label');
+
+            // Cek jika ukuran file lebih dari 1MB (1048576 bytes)
+            if (file && file.size > 1048576) {
+                fileError.style.display = 'block'; 
+                fileInputLabel.classList.add('border-red-600'); 
+                this.value = ''; 
+                document.getElementById('file-name').textContent = fileName; 
+            } else {
+                fileError.style.display = 'none'; 
+                fileInputLabel.classList.remove('border-red-600'); 
+                document.getElementById('file-name').textContent = file ? file.name :
+                fileName; 
+            }
         });
 
         function showUploadSection() {

@@ -25,7 +25,7 @@
                     @foreach ($pesananMasuks as $pesananMasuk)
                         <tr class="border-b border-gray-200">
                             <td class="p-2">{{ $pesananMasuk->tanggal->format('d/m/Y') }}</td>
-                            <td class="p-2">{{ $pesananMasuk->id_user_sales }}</td>
+                            <td class="p-2">{{ $pesananMasuk->nama_sales }}</td>
                             <td class="p-2">Rp. {{ number_format($pesananMasuk->total, 0, ',', '.') }}</td>
                             <td class="p-2 {{ $pesananMasuk->status_pemesanan == 1 ? 'text-green-600' : 'text-red-600' }}">
                                 {{ $pesananMasuk->status_pemesanan == 1 ? 'Selesai' : ($pesananMasuk->status_pemesanan == 2 ? 'Ditolak' : 'Diproses') }}

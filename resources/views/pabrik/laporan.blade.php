@@ -80,7 +80,15 @@
                             class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">Detail</a>
                     </td>
                 </tr>
+
+                <!-- Baris untuk Total Keseluruhan -->
+                <tr class="bg-gray-100 font-bold">
+                    <td colspan="2" class="p-2 text-right">Total Keseluruhan:</td>
+                    <td class="p-2">12 karton</td>
+                    <td class="p-2">Rp. 12.000.000</td>
+                   
+                </tr>
             </tbody>
         </table>
     </div>
-    @endsection
+@endsection

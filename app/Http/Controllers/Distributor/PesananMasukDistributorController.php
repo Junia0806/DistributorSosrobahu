@@ -13,16 +13,18 @@ use Carbon\Carbon;
 class PesananMasukDistributorController extends Controller
 {
     public function index()
+
 {
     // Mengambil semua pesanan dan mengonversi tanggal ke format Carbon
-    $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')->get();
+    $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')->paginate(10);
     
     // Mengelompokkan pesanan berdasarkan bulan dan melakukan penotalan omset per bulan
     
 
-    // Mengirim data yang dikelompokkan dan total omset ke view
-    return response()->json([$pesananMasuks]);
+       // Mengirim data yang dikelompokkan dan total omset ke view
+        return view('distributor.transaksi', compact('pesananMasuks'));
 }
+
 
     public function detailPesanMasuk($idPesanan)
     {
@@ -75,8 +77,8 @@ class PesananMasukDistributorController extends Controller
 
 
         // dd($pesanMasukDistributor);
-        // return view('agen.detailPesanMasuk', compact('pesanMasukDistributor'));
-        return response()->json(data: $pesanMasukDistributor);
+        return view('distributor.detail-transaksi', compact('pesanMasukDistributor'));
+        // return response()->json(data: $pesanMasukDistributor);
     }
 
     public function editStatus($id)
