@@ -101,7 +101,7 @@ class BarangPabrikController extends Controller
         }
         
 
-    $slopPerKarton = 10;
+    // $slopPerKarton = 10;
 
     // Menghitung total stok karton dari pesanan yang selesai (tanpa mengambil semua pesanan)
     $totalStockKarton = DB::table('restock_detail_pabrik')
@@ -109,8 +109,8 @@ class BarangPabrikController extends Controller
         ->where('order_distributor.status_pemesanan', 1) // Pesanan yang selesai
         ->sum('restock_detail_pabrik.jumlah_produk'); // Jumlah produk dalam karton
 
-    // Konversi stok karton menjadi slop
-    $totalStockSlop = $totalStockKarton * $slopPerKarton;
+    // // Konversi stok karton menjadi slop
+    // $totalStockSlop = $totalStockKarton * $slopPerKarton;
 
     // Pesanan masuk (yang sudah berhasil) dalam slop
     $incomingCompletedOrders = DB::table('order_detail_distributor')
@@ -119,7 +119,7 @@ class BarangPabrikController extends Controller
         ->sum('order_detail_distributor.jumlah_produk'); // Jumlah produk dalam slop
 
     // Hitung stok akhir (stok dikurangi pesanan masuk yang sudah berhasil)
-    $finalStockSlop = $totalStockSlop - $incomingCompletedOrders;
+    $finalStockKarton = $totalStockKarton - $incomingCompletedOrders;
 
     // Produk terlaris dari pesanan yang selesai
     $topProduct = DB::table('order_detail_distributor')
@@ -161,7 +161,7 @@ class BarangPabrikController extends Controller
             'namaRokokList'     => $namaRokokList,
             'gambarRokokList'   => $gambarRokokList,
             'totalProdukList'   => $totalProdukList,
-            'finalStockSlop'    => $finalStockSlop,
+            'finalStockKarton'    => $finalStockKarton,
             'totalPendapatan'   => $totalPendapatan,
             'topProductName'    => $topProductName,
             'totalDistributor'  => $totalDistributor,
