@@ -92,7 +92,7 @@ class BarangPabrikController extends Controller
             if ($orderValue) {
                 $namaRokokList[] = $orderValue->nama_rokok;
                 $gambarRokokList[] = $orderValue->gambar;
-                $totalProdukList[] = ($totalProduk * 10) - $totalProdukTerjual; // Perhitungan total produk yang tersedia
+                $totalProdukList[] = $totalProduk - $totalProdukTerjual; // Perhitungan total produk yang tersedia
             } else {
                 $namaRokokList[] = null; 
                 $gambarRokokList[] = null;
@@ -156,6 +156,7 @@ class BarangPabrikController extends Controller
         // ]);
 
         return response()->json([
+
             'barangPabriks'     => $barangPabriks,
             'namaRokokList'     => $namaRokokList,
             'gambarRokokList'   => $gambarRokokList,

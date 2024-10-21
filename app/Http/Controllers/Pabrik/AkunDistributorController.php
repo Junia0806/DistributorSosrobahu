@@ -30,8 +30,8 @@ class AkunDistributorController extends Controller
         // Membuat array total harga per distributor
         $totalPricePerDistributors = $akunDistributor->pluck('order_distributors_sum_total', 'id_user_distributor')->toArray();
 
-        // return view('agen.pengaturanAkun', compact('akunDistributor', 'totalPricePerDistributors'));
-        return response()->json([$akunDistributor,$totalPricePerDistributors]);
+         return view('pabrik.kelola-akun', compact('akunDistributor', 'totalPricePerDistributors'));
+        //return response()->json([$akunDistributor,$totalPricePerDistributors]);
     }
 
     // menginputkan Akun Distributor baru
