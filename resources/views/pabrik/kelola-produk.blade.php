@@ -58,37 +58,49 @@
     <!-- Modal Edit Produk -->
     <div id="editModal" style="display: none;"
         class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-3xl relative"> <!-- Mengubah ukuran modal -->
             <h3 class="text-2xl font-semibold mb-4">Edit Produk</h3>
-            <form id="editForm">
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Foto Produk</label>
-                    <img id="editProductImage" alt="Product Image" class="w-16 h-16 object-cover mb-2">
-                    <input type="file" id="productImageInput" class="mt-1 block w-full border border-gray-300 rounded-md"
-                        accept="image/*">
+            <div class="flex space-x-6"> <!-- Flex untuk membagi menjadi 2 kolom -->
+                <!-- Bagian kiri untuk Foto Produk -->
+                <div class="w-1/2 flex flex-col items-center"> <!-- Menggunakan w-1/2 untuk 50% lebar -->
+                    <img id="editProductImage" alt="Product Image" class="w-64 h-80 object-cover mb-4">
                 </div>
-                <div class="mb-4">
-                    <label for="productNameInput" class="block text-sm font-medium text-gray-700">Nama Produk</label>
-                    <input type="text" id="productNameInput"
-                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
+                <!-- Bagian kanan untuk Form -->
+                <div class="w-1/2"> <!-- Menggunakan w-1/2 untuk 50% lebar -->
+                    <form id="editForm">
+                        <div class="mb-4">
+                            <label for="productNameInput" class="block text-sm font-medium text-gray-700">Nama
+                                Produk</label>
+                            <input type="text" id="productNameInput"
+                                class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="productSlop" class="block text-sm font-medium text-gray-700">Isian (slop)</label>
+                            <input type="number" id="productSlop"
+                                class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="productPrice" class="block text-sm font-medium text-gray-700">Harga Jual</label>
+                            <input type="number" id="productPrice"
+                                class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="productImageInput" class="block text-sm font-medium text-gray-700">Foto
+                                Produk</label>
+                            <input type="file" id="productImageInput"
+                                class="mt-1 block w-full border border-gray-300 rounded-md" accept="image/*">
+                        </div>
+
+
+                        <div class="flex justify-end space-x-2 mt-4">
+                            <button type="submit"
+                                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Simpan</button>
+                            <button type="button" class="bg-red-800 text-white px-4 py-2 rounded hover:bg-red-700"
+                                onclick="closeEditModal()">Batal</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="mb-4">
-                    <label for="productSlop" class="block text-sm font-medium text-gray-700">Isian (slop)</label>
-                    <input type="number" id="productSlop" class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                        required>
-                </div>
-                <div class="mb-4">
-                    <label for="productPrice" class="block text-sm font-medium text-gray-700">Harga Jual</label>
-                    <input type="number" id="productPrice" class="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                        required>
-                </div>
-                <div class="flex justify-end space-x-2 mt-4">
-                    <button type="submit"
-                        class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Simpan</button>
-                    <button type="button" class="bg-red-800 text-white px-4 py-2 rounded hover:bg-red-700"
-                        onclick="closeEditModal()">Batal</button>
-                </div>
-            </form>
+            </div>
             <button class="absolute top-2 right-2 text-gray-500 hover:text-gray-700" onclick="closeEditModal()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor">
