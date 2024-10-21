@@ -86,8 +86,8 @@
                             Omset
                         </a>
                         <li>
-                            <a href="{{ route('restockBarang') }}"
-                                class="block py-2 px-3 rounded {{ Route::is('restockBarang') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
+                            <a href="{{ route('pabrik-restock') }}"
+                                class="block py-2 px-3 rounded {{ Route::is('pabrik-restock') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                                 id="restockBarang">
                                 Restock
                             </a>
