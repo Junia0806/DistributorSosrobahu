@@ -78,7 +78,6 @@ class BarangPabrikController extends Controller
             $totalProduk = DB::table(table: 'restock_detail_pabrik')
                 ->join('restock_pabrik', 'restock_detail_pabrik.id_restock', '=', 'restock_pabrik.id_restock')
                 ->where('restock_detail_pabrik.id_master_barang', $idMasterBarang)
-                ->where('restock_detail_pabrik.id_user_pabrik', $idUserPabrik)
                 ->sum('restock_detail_pabrik.jumlah_produk');
         
             // Hitung total produk terjual berdasarkan id_master_barang, id_user_pabrik, dan status_pemesanan dari order_detail_distributor
@@ -157,15 +156,17 @@ class BarangPabrikController extends Controller
         // ]);
 
         return response()->json([
-            'barang_pabriks' => $barangPabriks,
-            'nama_rokok_list' => $namaRokokList,
-            'gambar_rokok_list' => $gambarRokokList,
-            'total_produk_list' => $totalProdukList,
-            'final_stock_slop' => $finalStockSlop,
-            'total_pendapatan' => $totalPendapatan,
-            'top_product_name' => $topProductName,
-            'total_distributor' => $totalDistributor,
-            'pesanan_per_bulan' => $pesananPerBulan
+
+            'barangPabriks'     => $barangPabriks,
+            'namaRokokList'     => $namaRokokList,
+            'gambarRokokList'   => $gambarRokokList,
+            'totalProdukList'   => $totalProdukList,
+            'finalStockSlop'    => $finalStockSlop,
+            'totalPendapatan'   => $totalPendapatan,
+            'topProductName'    => $topProductName,
+            'totalDistributor'  => $totalDistributor,
+            'pesananPerbulan'  =>$pesananPerBulan
+
         ]);
         
     }
