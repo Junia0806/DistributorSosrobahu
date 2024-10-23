@@ -67,8 +67,11 @@ class OrderAgenController extends Controller
     // Riwayat  Agen
     public function index()
     {
+        $id_user_agen = session('id_user_agen');
         // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
-        $orderAgens = OrderAgen::orderBy('id_order', 'desc')->paginate(5);
+        $orderAgens = OrderAgen::where('id_user_agen', $id_user_agen)
+            ->orderBy('id_order', 'desc')
+            ->paginate(10);
 
         // Mengonversi tanggal ke format Carbon
         foreach ($orderAgens as $orderAgen) {
@@ -130,9 +133,10 @@ class OrderAgenController extends Controller
 
         // Calculate total price
         $totalAmount = 0;
+        $id_user_agen = session('id_user_agen');
         // Memasukkan data kedalan tabel Order Sales
         $orders = [
-            'id_user_agen' => 1,
+            'id_user_agen' => $id_user_agen,
             'jumlah' => $request->total_items,
             'total' => $request->total_amount,
             'tanggal' => now(),
@@ -155,7 +159,7 @@ class OrderAgenController extends Controller
             $orders[] = [
                 'id_order' => $id_order,
                 'id_user_distributor' => 6,
-                'id_user_agen' => 1,
+                'id_user_agen' => $id_user_agen,
                 'id_master_barang' => $productId,
                 'id_barang_distributor' => $product->id_barang_distributor,
                 'jumlah_produk' => $quantity,
