@@ -14,10 +14,13 @@ class DaftarTokoController extends Controller
      */
     public function index()
     {
-        $toko = DaftarToko::paginate(5); // Mengambil 5 data per halaman
+        $id_user_sales = session('id_user_sales');
+
+        $toko = DaftarToko::where('id_user_sales', $id_user_sales)
+            ->paginate(5); // Mengambil 5 data per halaman
         return view('sales.tokoSales', compact('toko'));
     }
-    
+
     /**
      * Function untuk menampilkan kunjungan toko berdasarkan id daftar toko
      */
@@ -50,7 +53,7 @@ class DaftarTokoController extends Controller
      */
     public function store(Request $request)
     {
-
+        // Validasi inputan
         $request->validate([
             'nama_toko' => 'required|string|max:255',
             'lokasi' => 'required|string|max:255',
@@ -58,11 +61,20 @@ class DaftarTokoController extends Controller
             'no_telp' => 'required|string|max:100',
         ]);
 
-        // dd($request->all());
-        DaftarToko::create($request->all());
+        // Ambil id_user_sales dari session
+        $id_user_sales = session('id_user_sales');
 
+        // Tambahkan id_user_sales ke dalam inputan data
+        $data = $request->all();
+        $data['id_user_sales'] = $id_user_sales;
+
+        // Simpan data ke tabel daftar_toko
+        DaftarToko::create($data);
+
+        // Redirect ke route tokoSales dengan pesan sukses
         return redirect()->route('tokoSales')->with('success', 'Toko berhasil ditambahkan.');
     }
+
 
     // Function untuk memanggil halaman/view toko
     public function showtoko(DaftarToko $daftarToko)
