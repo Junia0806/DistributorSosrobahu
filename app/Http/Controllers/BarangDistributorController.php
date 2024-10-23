@@ -48,8 +48,9 @@ class BarangDistributorController extends Controller
 
     public function stockbarang()
     {
+        $id_user_distributor = session('id_user_distributor');
         // Ambil semua barang agen
-        $barangDistributors = BarangDistributor::all();
+        $barangDistributors = BarangDistributor::where('id_user_distributor', $id_user_distributor)->get();
         // Mengambil semua tahun dari tabel pesanan agen berdasarkan tanggal pesanan
         $availableYears = DB::table('order_agen')
             ->select(DB::raw('YEAR(tanggal) as year'))
