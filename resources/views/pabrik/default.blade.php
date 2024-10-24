@@ -203,7 +203,7 @@
                     }).then(() => {
                         // Redirect to login page or home
                         window.location.href =
-                        '/pabrik/halamanLogin'; // Adjust the URL as needed
+                        '/pabrik/logout'; // Adjust the URL as needed
                     });
                 }
             });

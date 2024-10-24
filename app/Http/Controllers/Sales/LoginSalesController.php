@@ -23,14 +23,14 @@ class LoginSalesController extends Controller
             'password' => 'required|string',
         ]);
 
+        // Ambil user dari model UserSales
         $user = UserSales::where('username', $request->username)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
-
             // Cek status akun
             if ($user->status == 1) {
-                // Login user
-                Auth::login($user);
+                // Login user menggunakan guard sales
+                Auth::guard('sales')->login($user);
 
                 // Simpan nama_lengkap ke dalam session
                 session(['nama_lengkap' => $user->nama_lengkap]);
@@ -39,35 +39,18 @@ class LoginSalesController extends Controller
                 // Redirect ke dashboard atau halaman lain
                 return redirect()->intended('/dashboard')->with('success', 'Selamat datang, ' . $user->nama_lengkap);
             } else {
-                // Jika status akun tidak aktif (status == 0)
+                // Jika status akun tidak aktif
                 return back()->withErrors([
                     'username' => 'Akun Anda tidak aktif. Silakan hubungi admin.',
                 ]);
             }
         }
-        // dd($user, Hash::check($request->password, $user->password));
 
         return back()->withErrors([
             'username' => 'Username atau password salah.',
         ]);
-
-        // $credentials = $request->validate([
-        //     'username' => ['required'],
-        //     'password' => ['required'],
-        // ]);
-        
-        
-        // if (Auth::attempt($credentials)) {
-        //     $request->session()->regenerate();
- 
-        //     return redirect()->intended('dashboard');
-        // }
- 
-        // return back()->withErrors([
-        //     'email' => 'The provided credentials do not match our records.',
-        // ])->onlyInput('email');
-
     }
+
 
     public function updateRanking()
     {
@@ -94,7 +77,11 @@ class LoginSalesController extends Controller
 
     public function logoutSales()
     {
-        Auth::logout();
-        return redirect('/login');
+        Auth::guard('sales')->logout(); // Logout menggunakan guard 'sales'
+
+        // Kosongkan session pengguna
+        session()->flush();
+        // Redirect ke halaman login
+        return redirect()->route('halamanLoginSales')->with('success', 'Anda telah berhasil logout.');
     }
 }

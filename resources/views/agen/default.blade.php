@@ -208,7 +208,7 @@
                         icon: "success"
                     }).then(() => {
                         // Redirect to login page or home
-                        window.location.href = '/agen/halamanLogin'; // Adjust the URL as needed
+                        window.location.href = '/agen/logout'; // Adjust the URL as needed
                     });
                 }
             });

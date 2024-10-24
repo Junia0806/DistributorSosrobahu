@@ -29,7 +29,7 @@ class LoginAgenController extends Controller
             // Cek status akun
             if ($user->status == 1) {
                 // Login user
-                Auth::login($user);
+                Auth::guard('agen')->login($user);
 
                 // Simpan nama_lengkap ke dalam session
                 session(['nama_lengkap' => $user->nama_lengkap]);
@@ -52,7 +52,11 @@ class LoginAgenController extends Controller
 
     public function logoutAgen()
     {
-        Auth::logout();
-        return redirect('/login');
+        Auth::guard('agen')->logout(); // Logout menggunakan guard 'sales'
+
+        // Kosongkan session pengguna
+        session()->flush();
+        // Redirect ke halaman login
+        return redirect()->route('halamanLoginAgen')->with('success', 'Anda telah berhasil logout.');
     }
 }
