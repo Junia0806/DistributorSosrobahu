@@ -196,7 +196,7 @@
                         icon: "success"
                     }).then(() => {
                         // Redirect to login page or home
-                        window.location.href = '/sales/halamanLogin'; // Adjust the URL as needed
+                        window.location.href = '/sales/logout'; // Adjust the URL as needed
                     });
                 }
             });
