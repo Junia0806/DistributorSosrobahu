@@ -10,7 +10,12 @@ class MasterBarangController extends Controller
     public function index()
     {
         $masterBarangs = MasterBarang::all();
-        return view('master_barang.index', compact('masterBarangs'));
+        $namaRokokList = [];
+    $gambarRokokList = [];
+    
+        //return view('master_barang.index', compact('masterBarangs'));
+        
+    return view('pabrik.restock', compact('masterBarangs', 'namaRokokList', 'gambarRokokList'));
     }
 
     public function create()

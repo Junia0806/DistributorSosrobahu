@@ -10,12 +10,40 @@ use App\Models\MasterBarang;
 class HargaPabrikController extends Controller
 {
     public function index()
-    {   
+    {
+
+        $namaRokokList = [];
+        $gambarRokokList = [];
+        $stokKartonList = [];
+        $stokSlopList = [];
+
         // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
         $rokokPabriks = MasterBarang::orderBy('id_master_barang', 'desc')->paginate(10);
-        
-        // return view('pabrik.pengaturanHargaPabrik', compact('rokokPabriks','namaRokokList'));
-        return response()->json([$rokokPabriks]);
+        foreach ($rokokPabriks as $barangPabrik) {
+            // Get the id_master_barang for the current Barang Distributor item
+            $namaProduk = $barangPabrik->id_master_barang;
+
+            // Query the master_barang table for the corresponding record
+            $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProduk)->first();
+
+            // Store the nama_rokok in the array
+            if ($orderValue) {
+                $namaRokokList[] = $orderValue->nama_rokok;
+                $gambarRokokList[] = $orderValue->gambar;
+                $stokKartonList[] = $orderValue->stok_karton;
+                $stokSlopList[] = $orderValue->stok_slop;
+            } else {
+                $namaRokokList[] = null; // If no matching record is found
+                $gambarRokokList[] = null;
+                $stokKartonList[] = null;
+                $stokSlopList[] = null;
+            }
+        }
+        // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
+        $rokokPabriks = MasterBarang::orderBy('id_master_barang', 'desc')->paginate(10);
+
+        return view('pabrik.pengaturanHarga', compact('rokokPabriks', 'namaRokokList', 'gambarRokokList', 'stokKartonList', 'stokSlopList'));
+        //return response()->json([$rokokPabriks]);
     }
 
     public function update(Request $request, $id)
@@ -24,17 +52,17 @@ class HargaPabrikController extends Controller
         $request->validate([
             // 'harga_distributor' => 'required|string|max:255'
         ]);
-        
-        
+
+
         $setting = MasterBarang::find($id);
 
-        
+
         if (!$setting) {
-            return redirect()->route('pengaturanHargaDistributor')->with('error', 'Akun sales tidak ditemukan.');
+            return redirect()->route('pengaturanHargaPabrik')->with('error', 'Akun sales tidak ditemukan.');
         }
 
-        
-        $setting->harga_distributor = $request->harga_distributor;
+        $setting->nama_rokok = $request->nama_produk;
+        $setting->harga_karton_pabrik = $request->harga_karton_pabrik;
         $setting->stok_slop = $request->stok_slop;
         if ($request->hasFile('gambar')) {
             $imageName = $request->username . '_produk.' . $request->gambar->extension();
@@ -45,7 +73,7 @@ class HargaPabrikController extends Controller
         // Menyimpan perubahan
         $setting->save();
         // Redirect dengan pesan sukses
-        return redirect()->route('pengaturanHargaDistributor')->with('success', 'Akun sales berhasil diperbarui.');
+        return redirect()->route('pengaturanHargaPabrik')->with('success', 'Akun sales berhasil diperbarui.');
     }
 
     public function destroy($id_master_barang)
@@ -53,12 +81,48 @@ class HargaPabrikController extends Controller
         $daftarBarang = MasterBarang::find($id_master_barang);
 
         if ($daftarBarang) {
-            // Hapus toko
+            // Hapus barang
             $daftarBarang->delete();
 
-            return redirect()->route('pengaturanHargaPabrik')->with('success', 'User sales terkait berhasil dihapus.');
+            return redirect()->route('pengaturanHargaPabrik')->with('success', 'Produk berhasil dihapus.');
         } else {
-            return redirect()->route('pengaturanHargaPabrik')->with('error', 'User tidak ditemukan.');
+            return redirect()->route('pengaturanHargaPabrik')->with('error', 'Produk tidak ditemukan.');
         }
+    }
+
+    public function store(Request $request)
+    {
+        // Validasi data
+        $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'harga_karton_pabrik' => 'required|numeric',
+            'stok_karton' => 'required|numeric',
+            'stok_slop' => 'required|numeric',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        // Simpan file gambar produk
+        if ($request->hasFile('gambar')) {
+            $gambar = $request->file('gambar');
+
+            // Mengubah nama file gambar sesuai dengan nama produk
+            $nama_produk = $request->input('nama_produk');
+            $nama_file_gambar = strtolower(str_replace(' ', '_', $nama_produk)) . '.' . $gambar->getClientOriginalExtension();
+
+            // Simpan file gambar dengan nama baru
+            $imagePath = $gambar->storeAs( $nama_file_gambar);
+        }
+
+        // Simpan data ke database
+        $newProduct = new MasterBarang();
+        $newProduct->nama_rokok = $request->input('nama_produk');
+        $newProduct->harga_karton_pabrik = $request->input('harga_karton_pabrik');
+        $newProduct->stok_karton = $request->input('stok_karton');
+        $newProduct->stok_slop = $request->input('stok_slop');
+        $newProduct->gambar = $imagePath;
+        $newProduct->save();
+
+        // Redirect setelah produk ditambahkan
+        return redirect()->route('pengaturanHargaPabrik')->with('success', 'Produk berhasil ditambahkan');
     }
 }

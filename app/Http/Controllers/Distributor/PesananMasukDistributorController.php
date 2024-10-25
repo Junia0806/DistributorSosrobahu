@@ -13,7 +13,6 @@ use Carbon\Carbon;
 class PesananMasukDistributorController extends Controller
 {
     public function index()
-
     {
         // Mengambil semua pesanan dan mengonversi tanggal ke format Carbon
         $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')->paginate(10);
@@ -27,6 +26,7 @@ class PesananMasukDistributorController extends Controller
         }
 
         // Mengirim data yang dikelompokkan dan total omset ke view
+
         return view('distributor.transaksi', compact('pesananMasuks'));
     }
 
