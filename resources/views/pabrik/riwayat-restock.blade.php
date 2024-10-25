@@ -28,37 +28,49 @@
                     </tr>
                 </thead>
                 <tbody class="text-gray-700">
-                    @for ($i = 0; $i < 8; $i++)
+                    @foreach ($restockPabriks as $restockPabrik)
                         <tr class="border-b border-gray-200 hover:bg-gray-50 transition ease-in-out duration-150">
-                            <td class="p-3">RST1234{{ $i }}</td> <!-- ID Restock -->
-                            <td class="p-3">01/08/2024</td>
-                            <td class="p-3">15</td>
+                            <td class="p-3">RST1234{{ $restockPabrik->id_restock }}</td> <!-- ID Restock -->
+                            <td class="p-3">{{ $restockPabrik->tanggal->format('d/m/Y') }}</td>
+                            <td class="p-3">{{ $restockPabrik->jumlah }} Karton</td>
                             <td class="p-3">
-                                <button onclick="window.location.href='{{ route('pabrik-detail-riwayat') }}'"
+                                <button onclick="window.location.href='{{ route('notaPabrik', $restockPabrik->id_restock) }}'"
                                     class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">
                                     Lihat
                                 </button>
                             </td>
                         </tr>
-                    @endfor
+                    @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 
     <!-- Pagination -->
-    <div class="flex flex-col items-center mt-8">
-        <span class="text-sm text-gray-600">
-            Menampilkan <span class="font-semibold text-gray-900">1</span> sampai <span class="font-semibold text-gray-900">10</span> dari <span class="font-semibold text-gray-900">100</span> data
+@if ($restockPabriks->total() > 10)
+    <div class="flex flex-col items-center my-6">
+        <!-- Help text -->
+        <span class="text-sm text-gray-700 dark:text-gray-400">
+            Menampilkan <span class="font-semibold text-gray-900 dark:text-white">{{ $restockPabriks->firstItem() }}</span> sampai
+            <span class="font-semibold text-gray-900 dark:text-white">{{ $restockPabriks->lastItem() }}</span> dari
+            <span class="font-semibold text-gray-900 dark:text-white">{{ $restockPabriks->total() }}</span> transaksi
         </span>
-        <div class="inline-flex mt-4 xs:mt-0">
-            <button class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-l-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400">
-                <i class="fa-solid fa-angles-left text-lg mr-2"></i> Sebelumnya
+        <!-- Buttons -->
+        <div class="inline-flex mt-2 xs:mt-0">
+            <!-- Previous Button -->
+            <button {{ $restockPabriks->onFirstPage() ? 'disabled' : '' }}
+                class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                {{ $restockPabriks->previousPageUrl() ? 'onclick=window.location.href=\'' . $restockPabriks->previousPageUrl() . '\'' : '' }}>
+                Sebelumnya
             </button>
-            <button class="flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-gray-800 rounded-r-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400">
-                Berikutnya <i class="fa-solid fa-angles-right text-lg ml-2"></i>
+            <!-- Next Button -->
+            <button {{ !$restockPabriks->hasMorePages() ? 'disabled' : '' }}
+                class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                {{ $restockPabriks->nextPageUrl() ? 'onclick=window.location.href=\'' . $restockPabriks->nextPageUrl() . '\'' : '' }}>
+                Selanjutnya
             </button>
         </div>
     </div>
+@endif
 </section>
 @endsection
