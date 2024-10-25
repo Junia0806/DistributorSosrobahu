@@ -13,17 +13,16 @@ use Carbon\Carbon;
 class PesananMasukDistributorController extends Controller
 {
     public function index()
+    {
 
-{
-    // Mengambil semua pesanan dan mengonversi tanggal ke format Carbon
-    $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')->paginate(10);
-    
-    // Mengelompokkan pesanan berdasarkan bulan dan melakukan penotalan omset per bulan
-    
-
-       // Mengirim data yang dikelompokkan dan total omset ke view
+        $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')->paginate(10);
+        foreach ($pesananMasuks as $pesananMasuk) {
+            $pesananMasuk->tanggal = Carbon::parse($pesananMasuk->tanggal);
+            $namaAgen = DB::table('user_agen')->where('id_user_agen', $pesananMasuk->id_user_agen)->first();
+            $pesananMasuk->nama_agen = $namaAgen ? $namaAgen->nama_lengkap : 'Tidak Ditemukan';
+        }
         return view('distributor.transaksi', compact('pesananMasuks'));
-}
+    }
 
 
     public function detailPesanMasuk($idPesanan)
