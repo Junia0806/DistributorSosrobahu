@@ -280,7 +280,6 @@ Route::get('/pabrik/riwayat/detail', function () {
     ]);
 })->name('pabrik-detail-riwayat');
 
-})->name('pabrik-pengaturan-harga');
 Route::get('/pabrik/pengaturan-harga', function () {
     return view('pabrik.pengaturanHarga');
 })->name('pabrik-pengaturan-harga');
