@@ -179,6 +179,7 @@ class OrderAgenController extends Controller
 
     public function notaAgen($idNota)
     {
+        Carbon::setLocale('id');
         // Ganti dengan ID order yang ingin dicari
         $orderDetailAgen = OrderDetailAgen::where('id_order', $idNota)->first();
         $orderDetailAgenItem = OrderDetailAgen::where('id_order', $idNota)->get();
@@ -216,7 +217,7 @@ class OrderAgenController extends Controller
 
 
         $notaAgen = [
-            'tanggal' => $orderAgen->tanggal,
+            'tanggal' => Carbon::parse($orderAgen->tanggal)->translatedFormat('d F Y'),
             'id_order' => $orderAgen->id_order,
             'nama_distributor' => $namaDistributor->nama_lengkap,
             'nama_agen' => $namaAgen->nama_lengkap,
