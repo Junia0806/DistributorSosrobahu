@@ -68,10 +68,11 @@ class KunjunganTokoController extends Controller
             $imageName = null; // Jika tidak ada gambar yang diupload
         }
 
-
+        $id_user_sales = session('id_user_sales');
 
         KunjunganToko::create([
             'id_daftar_toko' => $request->id_daftar_toko,
+            'id_user_sales' => $id_user_sales,
             'tanggal' => $request->tanggal,
             'sisa_produk' => $request->sisa_produk,
             'gambar' => $path, // Simpan nama gambar

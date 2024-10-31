@@ -86,11 +86,13 @@ class BarangAgenController extends Controller
         // Produk terlaris dari pesanan sales yang statusnya 1 dan sesuai id_user_agen
         $topProduct = DB::table('order_detail_sales')
             ->join('order_sales', 'order_sales.id_order', '=', 'order_detail_sales.id_order')
+            ->where('order_sales.id_user_agen', $id_user_agen) // Menambahkan alias tabel
             ->where('order_sales.status_pemesanan', 1) // Status pesanan sales yang selesai
             ->select('order_detail_sales.id_master_barang', DB::raw('SUM(order_detail_sales.jumlah_produk) as total_jumlah'))
             ->groupBy('order_detail_sales.id_master_barang')
             ->orderBy('total_jumlah', 'desc')
             ->first();
+
 
         $topProductName = $topProduct ? DB::table('master_barang')
             ->where('id_master_barang', $topProduct->id_master_barang)
@@ -98,11 +100,14 @@ class BarangAgenController extends Controller
 
         // Total pendapatan dari pesanan sales yang statusnya 1 sesuai id_user_agen
         $totalPendapatan = DB::table('order_sales')
+            ->where('id_user_agen', $id_user_agen)->get()
             ->where('status_pemesanan', 1)
             ->sum('total');
 
         // Mengambil jumlah sales dari tabel user_sales
-        $totalSales = DB::table('user_sales')->count();
+        $totalSales = DB::table('user_sales')
+            ->where('id_user_agen', $id_user_agen)->get()
+            ->count();
 
         // Kirim data ke view
         return view('agen.dashboard-agen', [
@@ -121,7 +126,8 @@ class BarangAgenController extends Controller
     //Menampilkan semua barang pada order sales
     public function index()
     {
-        $barangAgens = BarangAgen::all();
+        $id_user_agen = session('id_user_agen');
+        $barangAgens = BarangAgen::where('id_user_agen', $id_user_agen)->get();
         $namaRokokList = [];
         $gambarRokokList = [];
 

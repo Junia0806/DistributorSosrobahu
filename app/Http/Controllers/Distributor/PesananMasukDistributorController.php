@@ -15,7 +15,9 @@ class PesananMasukDistributorController extends Controller
     public function index()
     {
         // Mengambil semua pesanan dan mengonversi tanggal ke format Carbon
-        $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')->paginate(10);
+        $id_user_distributor = session('id_user_distributor');
+        $pesananMasuks = OrderAgen::where('id_user_distributor', $id_user_distributor)
+            ->orderBy('id_order', 'desc')->paginate(10);
 
         // Mengelompokkan pesanan berdasarkan bulan dan melakukan penotalan omset per bulan
         foreach ($pesananMasuks as $pesananMasuk) {

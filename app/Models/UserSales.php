@@ -26,6 +26,7 @@ class UserSales extends Authenticatable
 
     // Mass assignable attributes
     protected $fillable = [
+        'id_user_agen',
         'nama_lengkap',
         'username',
         'password',

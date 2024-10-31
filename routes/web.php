@@ -84,6 +84,7 @@ Route::get('/agen/logout', [LoginAgenController::class, 'logoutAgen'])->name('lo
 Route::middleware('auth.agen')->group(function () {
     // DASHBOARD AGEN
     Route::get('/dashboard-agen', [BarangAgenController::class, 'stockbarang'])->name('dashboard-agen');
+    Route::get('/agen/update-ranking', [LoginAgenController::class, 'updateRanking'])->name('agen.updateRanking');
 
     // PENGATURAN AKUN SALES
     Route::get('/pengaturan-sales', [AkunSalesController::class, 'index'])->name('pengaturanSales');

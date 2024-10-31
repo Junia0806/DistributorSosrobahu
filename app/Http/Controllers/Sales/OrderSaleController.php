@@ -50,11 +50,12 @@ class OrderSaleController extends Controller
     })->sum(DB::raw('jumlah_produk * 10')); // Mengonversi slop ke pcs
 
     // Menghitung total penjualan (sisa produk) sesuai dengan id_user_sales
-    $totalPenjualan = KunjunganToko::sum('sisa_produk'); // Total produk yang terjual
+    $totalPenjualan = KunjunganToko::where('id_user_sales', $id_user_sales)->sum('sisa_produk'); // Total produk yang terjual
     $totalStok -= $totalPenjualan; // Mengurangi stok berdasarkan produk yang terjual
 
     // Mengirimkan variabel ke view
     return view('sales.dashboard', compact('totalPrice', 'jumlahToko', 'topProductName', 'totalStok'));
+  
 }
 
 
@@ -112,9 +113,11 @@ class OrderSaleController extends Controller
         // Calculate total price
         $totalAmount = 0;
         $id_user_sales = session('id_user_sales');
+        $id_user_agen = session('id_user_agen');
         // Memasukkan data kedalan tabel Order Sales
         $orders = [
             'id_user_sales' => $id_user_sales,
+            'id_user_agen' => $id_user_agen,
             'jumlah' => $request->total_items,
             'total' => $request->total_amount,
             'tanggal' => now(),

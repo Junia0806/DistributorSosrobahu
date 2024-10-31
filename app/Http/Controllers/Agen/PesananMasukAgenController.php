@@ -15,7 +15,9 @@ class PesananMasukAgenController extends Controller
     public function index()
     {
         // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
-        $pesananMasuks = OrderSale::orderBy('id_order', 'desc')->paginate(10);
+        $id_user_agen = session('id_user_agen');
+        $pesananMasuks = OrderSale::where('id_user_agen', $id_user_agen)
+            ->orderBy('id_order', 'desc')->paginate(10);
 
 
         // Mengonversi tanggal ke format Carbon
