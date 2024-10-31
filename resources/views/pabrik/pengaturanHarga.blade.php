@@ -100,7 +100,7 @@
                     <div class="mb-4">
                         <label for="productImageInput" class="block text-sm font-medium text-gray-700">Foto
                             Produk</label>
-                        <input type="file" id="productImageInput"
+                        <input type="file" name="gambar_barang" id="productImageInput"
                             class="mt-1 block w-full border border-gray-300 rounded-md" accept="image/*">
                     </div>
                     <div class="flex justify-end space-x-2 mt-4">

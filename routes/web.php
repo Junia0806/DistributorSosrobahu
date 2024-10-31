@@ -175,6 +175,7 @@ Route::get('/pabrik/logout', [LoginPabrikController::class, 'logoutPabrik'])->na
 Route::middleware('auth.pabrik')->group(function () {
 
     // DASHBOARD PABRIK
+    Route::get('/pabrik/dashboard', [BarangPabrikController::class, 'stockbarang'])->name('dashboard-pabrik');
     Route::get('/pabrik/dashboard-pabrik', [BarangPabrikController::class, 'stockbarang'])->name('dashboard-pabrik');
 
     // PENGATURAN AKUN DISTRIBUTOR
@@ -214,7 +215,7 @@ Route::middleware('auth.pabrik')->group(function () {
 
 
 
-Route::get('/pabrik/dashboard', [BarangPabrikController::class, 'stockbarang'])->name('dashboard-pabrik');
+
 
 
 Route::get('/pabrik/distributor', function () {
@@ -280,7 +281,7 @@ Route::get('/pabrik/riwayat/detail', function () {
     ]);
 })->name('pabrik-detail-riwayat');
 
-})->name('pabrik-pengaturan-harga');
+
 Route::get('/pabrik/pengaturan-harga', function () {
     return view('pabrik.pengaturanHarga');
 })->name('pabrik-pengaturan-harga');
