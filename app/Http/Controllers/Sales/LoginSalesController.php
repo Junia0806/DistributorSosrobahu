@@ -35,6 +35,7 @@ class LoginSalesController extends Controller
                 // Simpan nama_lengkap ke dalam session
                 session(['nama_lengkap' => $user->nama_lengkap]);
                 session(['id_user_sales' => $user->id_user_sales]);
+                session(['id_user_agen' => $user->id_user_agen]);
 
                 // Redirect ke dashboard atau halaman lain
                 return redirect()->intended('/dashboard')->with('success', 'Selamat datang, ' . $user->nama_lengkap);
@@ -55,7 +56,7 @@ class LoginSalesController extends Controller
     public function updateRanking()
     {
         // Ambil ID user yang sedang login
-        $userId = Auth::id(); // Pastikan pengguna sudah login
+        $userId = Auth::guard('sales')->id(); // Pastikan pengguna sudah login
 
         // Mengambil data sales dengan total penjualan, urut berdasarkan total penjualan tertinggi
         $akunSales = UserSales::withSum('orderSales', 'total')

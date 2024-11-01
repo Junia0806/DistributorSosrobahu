@@ -73,13 +73,17 @@ class KunjunganTokoController extends Controller
         $path = null; // Jika tidak ada gambar yang diupload
     }
 
-    // Simpan data kunjungan
-    $kunjunganBaru = KunjunganToko::create([
-        'id_daftar_toko' => $request->id_daftar_toko,
-        'tanggal' => $request->tanggal,
-        'sisa_produk' => $request->sisa_produk,
-        'gambar' => $path,
-    ]);
+
+        $id_user_sales = session('id_user_sales');
+
+         $kunjunganBaru =  KunjunganToko::create([
+            'id_daftar_toko' => $request->id_daftar_toko,
+            'id_user_sales' => $id_user_sales,
+            'tanggal' => $request->tanggal,
+            'sisa_produk' => $request->sisa_produk,
+            'gambar' => $path, // Simpan nama gambar
+        ]);
+
 
     // Ambil semua kunjungan untuk toko ini, urutkan berdasarkan tanggal terbaru
     $kunjunganToko = KunjunganToko::where('id_daftar_toko', $request->id_daftar_toko)
@@ -90,6 +94,7 @@ class KunjunganTokoController extends Controller
     $index = $kunjunganToko->search(function ($kunjungan) use ($kunjunganBaru) {
         return $kunjungan->id_kunjungan_toko === $kunjunganBaru->id_kunjungan_toko;
     });
+
 
     // Hitung nomor halaman untuk kunjungan baru
     $perPage = 5; // Jumlah kunjungan per halaman

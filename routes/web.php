@@ -84,6 +84,7 @@ Route::get('/agen/logout', [LoginAgenController::class, 'logoutAgen'])->name('lo
 Route::middleware('auth.agen')->group(function () {
     // DASHBOARD AGEN
     Route::get('/dashboard-agen', [BarangAgenController::class, 'stockbarang'])->name('dashboard-agen');
+    Route::get('/agen/update-ranking', [LoginAgenController::class, 'updateRanking'])->name('agen.updateRanking');
 
     // PENGATURAN AKUN SALES
     Route::get('/pengaturan-sales', [AkunSalesController::class, 'index'])->name('pengaturanSales');
@@ -175,6 +176,7 @@ Route::get('/pabrik/logout', [LoginPabrikController::class, 'logoutPabrik'])->na
 Route::middleware('auth.pabrik')->group(function () {
 
     // DASHBOARD PABRIK
+    Route::get('/pabrik/dashboard', [BarangPabrikController::class, 'stockbarang'])->name('dashboard-pabrik');
     Route::get('/pabrik/dashboard-pabrik', [BarangPabrikController::class, 'stockbarang'])->name('dashboard-pabrik');
 
     // PENGATURAN AKUN DISTRIBUTOR
@@ -214,7 +216,7 @@ Route::middleware('auth.pabrik')->group(function () {
 
 
 
-Route::get('/pabrik/dashboard', [BarangPabrikController::class, 'stockbarang'])->name('dashboard-pabrik');
+
 
 
 Route::get('/pabrik/distributor', function () {
@@ -279,6 +281,7 @@ Route::get('/pabrik/riwayat/detail', function () {
         'orderDate' => $orderDate,
     ]);
 })->name('pabrik-detail-riwayat');
+
 
 Route::get('/pabrik/pengaturan-harga', function () {
     return view('pabrik.pengaturanHarga');

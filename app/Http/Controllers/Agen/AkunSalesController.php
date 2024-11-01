@@ -14,9 +14,10 @@ class AkunSalesController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-
+        $id_user_agen = session('id_user_agen');
         // Query utama untuk mengambil data sales
         $akunSales = UserSales::query()
+            ->where('id_user_agen', $id_user_agen)
             ->withSum('orderSales', 'total') // Mengambil total penjualan per sales
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {
@@ -47,6 +48,7 @@ class AkunSalesController extends Controller
             // 'no_telp' => 'required|string|max:15',
             // 'gambar_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+        $id_user_agen = session('id_user_agen');
 
         // Menangani upload file jika ada
         $ktpPath = null; // Default jika tidak ada file yang diupload
@@ -59,6 +61,7 @@ class AkunSalesController extends Controller
         // Simpan data ke database
         UserSales::create([
             'id_user_sales' => $request->id_user_sales,
+            'id_user_agen' => $id_user_agen,
             'nama_lengkap' => $request->nama_lengkap,
             'username' => $request->username,
             'password' => bcrypt($request->password), // Enkripsi password

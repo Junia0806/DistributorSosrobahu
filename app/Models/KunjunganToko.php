@@ -14,6 +14,7 @@ class KunjunganToko extends Model
     public $timestamps = false; // jika tidak menggunakan timestamps
     protected $fillable = [
         'id_daftar_toko',
+        'id_user_sales',
         'tanggal',
         'sisa_produk',
         'gambar',

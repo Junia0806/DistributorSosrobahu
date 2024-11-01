@@ -134,9 +134,11 @@ class OrderAgenController extends Controller
         // Calculate total price
         $totalAmount = 0;
         $id_user_agen = session('id_user_agen');
+        $id_user_distributor = session('id_user_distributor');
         // Memasukkan data kedalan tabel Order Sales
         $orders = [
             'id_user_agen' => $id_user_agen,
+            'id_user_distributor' => $id_user_distributor,
             'jumlah' => $request->total_items,
             'total' => $request->total_amount,
             'tanggal' => now(),
@@ -158,7 +160,7 @@ class OrderAgenController extends Controller
 
             $orders[] = [
                 'id_order' => $id_order,
-                'id_user_distributor' => 6,
+                'id_user_distributor' => $id_user_distributor,
                 'id_user_agen' => $id_user_agen,
                 'id_master_barang' => $productId,
                 'id_barang_distributor' => $product->id_barang_distributor,

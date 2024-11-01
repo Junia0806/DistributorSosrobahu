@@ -64,11 +64,15 @@ class HargaPabrikController extends Controller
         $setting->nama_rokok = $request->nama_produk;
         $setting->harga_karton_pabrik = $request->harga_karton_pabrik;
         $setting->stok_slop = $request->stok_slop;
-        if ($request->hasFile('gambar')) {
-            $imageName = $request->username . '_produk.' . $request->gambar->extension();
-            $request->gambar->storeAs('produk', $imageName, 'public');
-            $setting->gambar = $imageName;
+
+        if ($request->hasFile('gambar_barang')) {
+            $file = $request->file('gambar_barang');
+            $nama_produk = $request->input('nama_produk');
+            $nama_file_gambar = strtolower(str_replace(' ', '_', $nama_produk)) . '.' . $file->getClientOriginalExtension();
+            $request->gambar_barang->storeAs('produk', $nama_file_gambar, 'public');
+            $setting->gambar = $nama_file_gambar;
         }
+
         // dd($setting);
         // Menyimpan perubahan
         $setting->save();
@@ -100,18 +104,15 @@ class HargaPabrikController extends Controller
             'stok_slop' => 'required|numeric',
             'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ]);
-
-        // Simpan file gambar produk
+        
         if ($request->hasFile('gambar')) {
-            $gambar = $request->file('gambar');
-
-            // Mengubah nama file gambar sesuai dengan nama produk
+            $file = $request->file('gambar');
             $nama_produk = $request->input('nama_produk');
-            $nama_file_gambar = strtolower(str_replace(' ', '_', $nama_produk)) . '.' . $gambar->getClientOriginalExtension();
-
-            // Simpan file gambar dengan nama baru
-            $imagePath = $gambar->storeAs( $nama_file_gambar);
+            $nama_file_gambar = strtolower(str_replace(' ', '_', $nama_produk)) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('produk', $nama_file_gambar, 'public'); // Simpan file di storage/app/public/ktp  // Simpan nama file saja di database
         }
+
+
 
         // Simpan data ke database
         $newProduct = new MasterBarang();
@@ -119,7 +120,7 @@ class HargaPabrikController extends Controller
         $newProduct->harga_karton_pabrik = $request->input('harga_karton_pabrik');
         $newProduct->stok_karton = $request->input('stok_karton');
         $newProduct->stok_slop = $request->input('stok_slop');
-        $newProduct->gambar = $imagePath;
+        $newProduct->gambar = $nama_file_gambar;
         $newProduct->save();
 
         // Redirect setelah produk ditambahkan

@@ -37,7 +37,7 @@
                             <span class="block text-sm text-gray-900 dark:text-white">Akun Agen</span>
                             <span class="text-bold">Nama : {{ session('nama_lengkap') }}</span>
                             <div class="text-xs text-gray-500 dark:text-gray-400">
-                                Peringkat: {{ $userAgen->level ?? 'Tidak Diketahui' }}
+                                Peringkat: {{ session('peringkat') }}
                             </div>
                         </div>
                         <ul class="py-2" aria-labelledby="user-menu-button">
@@ -188,6 +188,20 @@
                 }
             }
         }
+        window.onload = function () {
+        fetch('{{ route('agen.updateRanking') }}')
+            .then(response => response.json())
+            .then(data => {
+                if (data.peringkat) {
+                    // Update peringkat di tampilan
+                    document.querySelector('span.text-xs').innerText = 'Peringkat: ' + data.peringkat;
+                }
+            })
+            .catch(error => {
+                console.error('Error updating ranking:', error);
+            });
+    };
+
 
         // SweetAlert2 for logout confirmation
         document.getElementById('logout-link').addEventListener('click', function (e) {
