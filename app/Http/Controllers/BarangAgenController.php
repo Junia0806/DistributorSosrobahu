@@ -109,7 +109,7 @@ class BarangAgenController extends Controller
     public function index()
     {
         $id_user_agen = session('id_user_agen');
-        $barangAgens = BarangAgen::where('id_user_agen', $id_user_agen)->get();
+        $barangAgens = BarangAgen::all();
         $namaRokokList = [];
         $gambarRokokList = [];
 

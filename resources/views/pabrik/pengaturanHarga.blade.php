@@ -175,6 +175,7 @@
 </div>
 
 <script>
+    
     function previewImage(event, currentImageUrl) {
     const image = document.getElementById('editProductImage');
     const file = event.target.files[0];

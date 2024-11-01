@@ -63,8 +63,8 @@
                     <i class="fa-solid fa-triangle-exclamation h-6 w-6 text-yellow-600"></i>
                     <p class="text-gray-700">Harap melakukan pembayaran sejumlah <span id="total-amount2">Rp
                             {{ number_format($totalAmount, 0, ',', '.') }}</span>
-                        melalui transfer {{ $namaAgen['nama_bank'] }} {{ $namaAgen['no_rek'] }} a/n
-                        {{ $namaAgen['nama_agen'] }} dan upload bukti pembayaran di bawah ini.</p>
+                        melalui transfer{{ $namaAgen['nama_bank'] }} {{ $namaAgen['no_rek'] }} a/n
+                        {{ session('id_user_agen') }} dan upload bukti pembayaran di bawah ini.</p>
                 </div>
 
                 <!-- Upload Bukti Pembayaran -->
