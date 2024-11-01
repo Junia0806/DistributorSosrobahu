@@ -264,7 +264,7 @@ class OrderSaleController extends Controller
     {
         $selectedProductIds = $request->input('products', []); // Mengambil ID produk yang dipilih dari request
         $namaRokokList = [];
-        $idAgen = 4;
+        $idAgen = 1;
         $getAgen = UserAgen::where('id_user_agen', $idAgen)->first();
 
         $namaAgen = [
@@ -360,9 +360,10 @@ class OrderSaleController extends Controller
             ];
         }
 
+        $formattedDate = Carbon::parse($orderSale->tanggal)->locale('id')->translatedFormat('j F Y');
 
         $notaSales = [
-            'tanggal' => $orderSale->tanggal,
+            'tanggal' => $formattedDate,
             'id_order' => $orderSale->id_order,
             'nama_agen' => $namaAgen->nama_lengkap,
             'nama_sales' => $namaSales->nama_lengkap,

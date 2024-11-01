@@ -73,7 +73,10 @@
             <!-- Flex untuk membagi menjadi 2 kolom pada layar besar -->
             <!-- Bagian kiri untuk Foto Produk -->
             <div class="w-full md:w-1/2 flex flex-col items-center mb-4 md:mb-0">
-                <img id="editProductImage" alt="Product Image" class="w-64 h-80 object-cover mb-4">
+                <img id="editProductImage" 
+                    class="w-64 h-80 object-cover mb-4" 
+                    src="{{ asset('storage/produk/' . $gambarRokokList[$index] ?? 'default.jpg') }}" 
+                    alt="{{ $namaRokokList[$index] }}">
             </div>
             <!-- Bagian kanan untuk Form -->
             <div class="w-full md:w-1/2">
@@ -98,10 +101,11 @@
                             class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
                     </div>
                     <div class="mb-4">
-                        <label for="productImageInput" class="block text-sm font-medium text-gray-700">Foto
-                            Produk</label>
+                        <label for="productImageInput" class="block text-sm font-medium text-gray-700">Foto Produk</label>
                         <input type="file" id="productImageInput"
-                            class="mt-1 block w-full border border-gray-300 rounded-md" accept="image/*">
+                            class="mt-1 block w-full border border-gray-300 rounded-md" 
+                            accept="image/*" 
+                            onchange="previewImage(event, '{{ asset('storage/produk/' . $gambarRokokList[$index] ?? 'default.jpg') }}')">
                     </div>
                     <div class="flex justify-end space-x-2 mt-4">
                         <button type="submit"
@@ -171,6 +175,19 @@
 </div>
 
 <script>
+    function previewImage(event, currentImageUrl) {
+    const image = document.getElementById('editProductImage');
+    const file = event.target.files[0];
+    
+        // Jika ada gambar baru yang dipilih, gunakan gambar baru
+         if (file) {
+            image.src = URL.createObjectURL(file);
+         } else {
+        // Jika tidak ada gambar baru yang dipilih, gunakan gambar yang sudah tersimpan
+            image.src = currentImageUrl;
+        }
+    }
+
     // Fungsi untuk membuka modal edit produk
     function openModal(nama_produk, harga_karton_pabrik, stok_slop, productId) {
         document.getElementById('nama_produk').value = nama_produk;
