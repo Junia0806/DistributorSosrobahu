@@ -158,6 +158,22 @@
 </div>
 
 <script>
+    const productImageInput = document.getElementById('productImageInput');
+    const editProductImage = document.getElementById('editProductImage');
+
+    // Fungsi untuk memperbarui src gambar
+    productImageInput.addEventListener('change', (event) => {
+        const file = event.target.files[0]; // Ambil file dari input
+
+        // Jika ada file yang di-upload
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                editProductImage.src = e.target.result; // Set src img menjadi file yang di-upload
+            };
+            reader.readAsDataURL(file); // Baca file sebagai Data URL
+        }
+    });
     function openEditModal(productName, productPrice, productImage, productSlop) {
         document.getElementById('productNameInput').value = productName;
         document.getElementById('productPrice').value = productPrice;

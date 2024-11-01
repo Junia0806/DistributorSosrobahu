@@ -125,110 +125,86 @@
                                 </div>
                             </div>
                             <!-- Modal Edit Akun -->
-                            <div id="edit-akun-modal-{{ $akunDistributors['id_user_distributor'] }}" tabindex="-1"
-                                aria-hidden="true"
-                                class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-modal">
-                                <div class="relative w-full max-w-full md:max-w-md h-full max-h-full md:h-auto">
-                                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                        <button type="button"
-                                            class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:text-gray-500 dark:hover:bg-gray-600 dark:hover:text-white"
-                                            data-modal-hide="edit-akun-modal-{{ $akunDistributors->id_user_distributor }}">
-                                            <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M6 18L18 6M6 6l12 12"></path>
-                                            </svg>
-                                            <span class="sr-only">Close modal</span>
-                                        </button>
+                             <div id="edit-akun-modal-{{ $akunDistributors['id_user_distributor'] }}" tabindex="-1" aria-hidden="true"
+                                class="hidden fixed inset-0 z-50 flex items-center justify-center w-full p-4 h-screen bg-gray-900 bg-opacity-50">
+                                <div class="relative w-full max-w-md bg-white rounded-lg shadow-lg">
+                                    <button type="button"
+                                        class="absolute top-4 right-4 text-gray-400 hover:text-gray-900 hover:bg-gray-200 p-2 rounded-lg"
+                                        data-modal-hide="edit-akun-modal-{{ $akunDistributors->id_user_distributor }}">
+                                        <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                             xmlns="http://www.w3.org/2000/svg">
+                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                        <span class="sr-only">Close modal</span>
+                                    </button>
+                                    <div class="p-6 text-center">
+                                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Edit Akun</h3>
+                                        <form action="{{ route('pengaturanDistributor.update', $akunDistributors->id_user_distributor) }}"
+                                            id="edit-akun-form" method="POST" enctype="multipart/form-data" class="space-y-4">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="hidden" name="page" value="{{ request()->input('page', 1) }}">
 
-                                        <div class="p-6 text-center">
-                                            <h3 class="text-lg font-semibold text-gray-900">Edit Akun</h3>
-                                            <form
-                                                action="{{ route('pengaturanDistributor.update', $akunDistributors->id_user_distributor) }}"
-                                                id="edit-akun-form" method="POST" enctype="multipart/form-data"
-                                                class="space-y-4">
-                                                @csrf
-                                                @method('PUT')
-                                                <!-- Input tersembunyi untuk halaman saat ini -->
-                                                <input type="hidden" name="page"
-                                                    value="{{ request()->input('page', 1) }}">
+                                            <div class="text-left">
+                                                <label for="edit-name" class="block mb-2 text-sm font-medium text-gray-700">Nama</label>
+                                                <input type="text" value="{{ $akunDistributors->nama_lengkap }}" name="nama_lengkap"
+                                                    id="nama_lengkap"
+                                                    class="mb-4 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                                                    required>
+                                            </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-name"
-                                                        class="block mb-2 text-sm font-medium text-black">Nama</label>
-                                                    <input type="text" value="{{ $akunDistributors->nama_lengkap }}"
-                                                        name="nama_lengkap" id="nama_lengkap"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                        required>
-                                                </div>
+                                            <div class="text-left">
+                                                <label for="edit-username" class="block mb-2 text-sm font-medium text-gray-700">Username</label>
+                                                <input type="text" value="{{ $akunDistributors->username }}" name="username" id="username"
+                                                    class="mb-4 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                                                    required>
+                                            </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-username"
-                                                        class="block mb-2 text-sm font-medium text-black">Username</label>
-                                                    <input type="text" value="{{ $akunDistributors->username }}"
-                                                        name="username" id="username"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                        required>
-                                                </div>
+                                            <div class="relative text-left">
+                                                <label for="edit-password" class="block mb-2 text-sm font-medium text-black">Password</label>
+                                                <input type="password" placeholder="Masukkan Password Baru Anda" name="password" id="password-edit"
+                                                    class="mb-4 w-full p-3 pr-10 text-sm bg-gray-100 border border-gray-300 rounded-lg focus:ring-gray-500 focus:border-gray-500">
+                                                <span id="toggleEditPassword"
+                                                    class="text-gray-500 absolute right-3 top-[57%] transform -translate-y-1/2 cursor-pointer"
+                                                    onclick="togglePassword('password-edit', 'toggleEditPassword')">
+                                                    <i class="fa-solid fa-eye-slash"></i>
+                                                </span>
+                                            </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-password"
-                                                        class="block mb-2 text-sm font-medium text-black">Password</label>
-                                                    <input type="text" placeholder="Masukkan Password Baru Anda"
-                                                        name="password" id="password"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-phone"
-                                                        class="block mb-2 text-sm font-medium text-black">No.
-                                                        Telepon</label>
-                                                    <input type="tel" value="{{ $akunDistributors->no_telp }}"
-                                                        name="no_telp" id="no_telp"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                        required>
-                                                </div>
+                                            <div class="text-left">
+                                                <label for="edit-phone" class="block mb-2 text-sm font-medium text-gray-700">No. Telepon</label>
+                                                <input type="tel" value="{{ $akunDistributors->no_telp }}" name="no_telp" id="no_telp"
+                                                    class="mb-4 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                                                    required>
+                                            </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-status"
-                                                        class="block mb-2 text-sm font-medium text-black">Status</label>
-                                                    <select name="status" id="edit-status"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                        <option value="1"
-                                                            {{ $akunDistributors->status == 1 ? 'selected' : '' }}>
-                                                            Aktif
-                                                        </option>
-                                                        <option value="0"
-                                                            {{ $akunDistributors->status == 0 ? 'selected' : '' }}>
-                                                            Tidak Aktif</option>
-                                                    </select>
-                                                </div>
+                                            <div class="text-left">
+                                                <label for="edit-status" class="block mb-2 text-sm font-medium text-gray-700">Status</label>
+                                                <select name="status" id="edit-status"
+                                                    class="mb-4 w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                                                    <option value="1" {{ $akunDistributors->status == 1 ? 'selected' : '' }}>Aktif</option>
+                                                    <option value="0" {{ $akunDistributors->status == 0 ? 'selected' : '' }}>Tidak Aktif</option>
+                                                </select>
+                                            </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-avatar"
-                                                        class="block mb-2 text-sm font-medium text-gray-90">KTP</label>
-                                                    <input
-                                                        class="block mb-2 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                                                        aria-describedby="edit-avatar_help" name="gambar_ktp"
-                                                        id="gambar_ktp-{{ $akunDistributors['id_user_distributor'] }}"
-                                                        type="file" accept=".jpg, .jpeg, .png" />
-                                                    <!-- Menampilkan nama file KTP saat ini -->
-                                                    <p id="ktp-file-name-{{ $akunDistributors['id_user_distributor'] }}"
-                                                        class="text-sm text-gray-500">
-                                                        File saat ini:
-                                                        {{ $akunDistributors['gambar_ktp'] ? $akunDistributors['gambar_ktp'] : 'Tidak ada file saat ini.' }}
-                                                    </p>
-                                                </div>
+                                            <div class="text-left">
+                                                <label for="edit-avatar" class="block mb-2 text-sm font-medium text-gray-700">KTP</label>
+                                                <input class="mb-4 w-full text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 p-2.5"
+                                                    aria-describedby="edit-avatar_help" name="gambar_ktp" id="gambar_ktp-{{ $akunDistributors['id_user_distributor'] }}"
+                                                    type="file" accept=".jpg, .jpeg, .png" />
+                                                <p id="ktp-file-name-{{ $akunDistributors['id_user_distributor'] }}" class="text-sm text-gray-500 mt-1">
+                                                    File saat ini: {{ $akunDistributors['gambar_ktp'] ? $akunDistributors['gambar_ktp'] : 'Tidak ada file saat ini.' }}
+                                                </p>
+                                            </div>
 
-                                                <div class="col-span-2 text-center">
-                                                    <button type="submit"
-                                                        class="inline-flex items-center bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300 mt-3">
-                                                        Simpan Perubahan
-                                                    </button>
-                                                </div>
-
-                                            </form>
-                                        </div>
+                                            <div class="text-center mt-6">
+                                                <button type="submit"
+                                                    class="w-full bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500">
+                                                    Simpan Perubahan
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -324,85 +300,82 @@
         <div id="tambah-modal" tabindex="-1" aria-hidden="true"
             class="@if ($errors->has('username')) flex @else hidden @endif overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
             <div class="relative p-4 w-full max-w-md max-h-full">
-                <div class="relative bg-white rounded-lg shadow">
-                    <div class="flex items-center justify-between p-4 border-b border-gray-600">
-                        <h3 class="text-lg font-semibold text-black">Tambah Akun</h3>
-                        <button type="button"
-                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
+                <div class="relative bg-white rounded-lg shadow-lg border border-gray-200">
+                    <div class="flex items-center justify-between p-5 border-b border-gray-200">
+                        <h3 class="text-xl font-semibold text-gray-800">Tambah Akun</h3>
+                        <button type="button" class="text-gray-500 hover:text-gray-700 transition"
                             data-modal-toggle="tambah-modal">
-                            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                viewBox="0 0 14 14">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14"
+                                aria-hidden="true">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                             </svg>
                             <span class="sr-only">Close modal</span>
                         </button>
                     </div>
-                    <form action="{{ route('pengaturanDistributor.input') }}" method="POST"
-                        enctype="multipart/form-data" class="p-2 space-y-4">
+                    <form action="{{ route('pengaturanDistributor.input') }}" method="POST" enctype="multipart/form-data"
+                        class="p-6 space-y-4">
                         @csrf
-                        <label for="nama_lengkap" class="block mb-2 text-sm font-medium text-black">Nama Lengkap</label>
-                        <input type="text" name="nama_lengkap" id="nama_lengkap" placeholder="Masukkan nama lengkap"
-                            class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5"
-                            value="{{ old('nama_lengkap') }}" required>
-
                         <div>
-                            <label for="username" class="block text-sm font-medium text-black">Username</label>
-                            <!-- Pesan error username ditampilkan di sini -->
+                            <label for="nama_lengkap" class="block text-sm font-medium text-gray-700">Nama Lengkap</label>
+                            <input type="text" name="nama_lengkap" id="nama_lengkap" placeholder="Masukkan nama lengkap"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-800 rounded-md p-2.5 focus:ring-gray-500 focus:border-gray-500"
+                                value="{{ old('nama_lengkap') }}" required>
+                        </div>
+                        <div>
+                            <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
                             @if ($errors->has('username'))
-                                <span class="text-sm text-red-600">Username telah digunakan</span>
+                                <span class="text-sm text-red-500">Username telah digunakan</span>
                             @endif
                             <input type="text" name="username" id="username" placeholder="Masukkan username"
-                                class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-800 rounded-md p-2.5 focus:ring-gray-500 focus:border-gray-500"
                                 value="{{ old('username') }}" required>
-
                         </div>
                         <div class="relative">
-                            <label for="password" class="block mb-2 text-sm font-medium text-black">Password</label>
+                            <label for="password-add" class="block mb-2 text-sm font-medium text-black">Password</label>
                             <input type="password" id="password-add" name="password" placeholder="Masukkan Password"
                                 class="w-full p-3 text-sm bg-gray-100 border border-gray-300 rounded-lg focus:ring-gray-500 focus:border-gray-500"
                                 required />
-                            <span id="togglePassword"
-                                class="text-gray-500 absolute inset-y-0 right-0 flex items-center pr-3 pt-6 cursor-pointer"
-                                onclick="togglePassword()">
+                            <span id="togglePasswordAdd"
+                                class="text-gray-500 absolute right-3 top-[33%] transform -translate-y-1/2 cursor-pointer"
+                                onclick="togglePassword('password-add', 'togglePasswordAdd')" style="transform: translateY(12px);">
                                 <i class="fa-solid fa-eye-slash"></i>
                             </span>
                         </div>
                         <div>
-                            <label for="no_telp" class="block mb-2 text-sm font-medium text-black">No. Telepon</label>
+                            <label for="no_telp" class="block text-sm font-medium text-gray-700">No. Telepon</label>
                             <input type="tel" name="no_telp" id="no_telp" placeholder="08xxxxxxxxxx"
-                                class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-800 rounded-md p-2.5 focus:ring-gray-500 focus:border-gray-500"
                                 value="{{ old('no_telp') }}" required>
                         </div>
                         <div>
-                            <label for="nama_bank" class="block mb-2 text-sm font-medium text-black">Bank</label>
+                            <label for="nama_bank" class="block text-sm font-medium text-gray-700">Bank</label>
                             <input type="text" name="nama_bank" id="nama_bank" placeholder="Masukkan nama Bank"
-                                class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-800 rounded-md p-2.5 focus:ring-gray-500 focus:border-gray-500"
                                 value="{{ old('nama_bank') }}" required>
                         </div>
                         <div>
-                            <label for="no_rek" class="block mb-2 text-sm font-medium text-black">No. Rekening</label>
+                            <label for="no_rek" class="block text-sm font-medium text-gray-700">No. Rekening</label>
                             <input type="text" name="no_rek" id="no_rek" placeholder="Masukkan nomor rekening"
-                                class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-800 rounded-md p-2.5 focus:ring-gray-500 focus:border-gray-500"
                                 value="{{ old('no_rek') }}" required>
                         </div>
                         <div>
-                            <label for="gambar_ktp" class="block mb-2 text-sm font-medium text-black">KTP</label>
+                            <label for="gambar_ktp" class="block text-sm font-medium text-gray-700">KTP</label>
                             <input type="file" id="gambar_ktp" name="gambar_ktp"
-                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                                accept=".jpg, .jpeg, .png" required />
+                                class="block w-full text-gray-800 border border-gray-300 rounded-md cursor-pointer bg-gray-50 focus:outline-none"
+                                accept=".jpg, .jpeg, .png" required>
                         </div>
-
-                        <!-- Konten lainnya di modal -->
                         <div class="flex justify-center">
                             <button type="submit"
-                                class="bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300">Simpan</button>
+                                class="bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300">
+                                Simpan
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-
     </div>
 
     <!-- Custom Pagination -->
@@ -455,22 +428,20 @@
             });
         });
 
-        document.querySelectorAll('.toggle-password').forEach(toggleIcon => {
-            toggleIcon.addEventListener('click', function() {
-                const target = document.getElementById(this.getAttribute('data-target'));
-                const icon = this.children[0];
-
-                if (target.type === 'password') {
-                    target.type = 'text';
-                    icon.classList.remove('fa-eye-slash');
-                    icon.classList.add('fa-eye');
-                } else {
-                    target.type = 'password';
-                    icon.classList.remove('fa-eye');
-                    icon.classList.add('fa-eye-slash');
-                }
-            });
-        });
+        function togglePassword(inputId, toggleId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(toggleId).querySelector('i');
+    
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            }
+        }
 
         // Event listener untuk menutup modal
         document.querySelectorAll('[data-modal-hide]').forEach(button => {

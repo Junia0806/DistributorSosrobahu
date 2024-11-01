@@ -11,24 +11,6 @@ use Illuminate\Foundation\Auth\User;
 
 class AkunSalesController extends Controller
 {
-    // Menampilkan Data Sales
-    // public function index()
-    // {
-    //     // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
-    //     $akunSales = UserSales::orderBy('id_user_sales', 'desc')->paginate(10);
-    //     // $totalOrderSales = OrderSale::where('id_user_sales', 'desc')->paginate(10);
-    //     $totalPricePerSales = [];
-
-    //     // Mengambil total penjualan untuk setiap sales
-    //     foreach ($akunSales as $sales) {
-    //         // Menghitung total harga berdasarkan id_user_sales
-    //         $totalOrderSales = OrderSale::where('id_user_sales', $sales->id_user_sales)->get();
-    //         $totalPricePerSales[$sales->id_user_sales] = $totalOrderSales->sum('total');
-    //     }
-
-    //     return view('agen.pengaturanAkun', compact('akunSales','totalPricePerSales'));
-    // }
-
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -73,7 +55,7 @@ class AkunSalesController extends Controller
         if ($request->hasFile('gambar_ktp')) {
             $file = $request->file('gambar_ktp');
             $imageName = $request->username . '_ktp.' . $file->extension();
-            $file->storeAs('ktp', $imageName, 'public'); // Simpan file di storage/app/public/ktp  // Simpan nama file saja di database
+            $file->storeAs('ktp', $imageName, 'public'); 
         }
 
         // Simpan data ke database

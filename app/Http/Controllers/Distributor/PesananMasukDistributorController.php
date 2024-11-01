@@ -35,6 +35,7 @@ class PesananMasukDistributorController extends Controller
 
     public function detailPesanMasuk($idPesanan)
     {
+        Carbon::setLocale('id');
         // Ganti dengan ID order yang ingin dicari
         $orderDetailAgen = OrderDetailAgen::where('id_order', $idPesanan)->first();
         $orderDetailAgenItem = OrderDetailAgen::where('id_order', $idPesanan)->get();
@@ -71,7 +72,7 @@ class PesananMasukDistributorController extends Controller
 
 
         $pesanMasukDistributor = [
-            'tanggal' => $orderAgen->tanggal,
+            'tanggal' => Carbon::parse($orderAgen->tanggal)->translatedFormat('d F Y'),
             'id_order' => $orderAgen->id_order,
             'nama_agen' => $namaAgen->nama_lengkap,
             'no_telp' => $namaAgen->no_telp,

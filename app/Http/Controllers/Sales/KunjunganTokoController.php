@@ -14,24 +14,24 @@ class KunjunganTokoController extends Controller
     {
         // Ambil informasi toko jika diperlukan
         $toko = DaftarToko::find($id_toko);
-    
+
         if (!$toko) {
             return redirect()->back()->with('error', 'Toko tidak ditemukan');
         }
-    
+
         // Mengambil data kunjungan toko dengan pagination, 5 item per halaman
         $kunjunganToko = KunjunganToko::where('id_daftar_toko', $id_toko)
             ->orderBy('tanggal', 'desc') // Urutkan berdasarkan tanggal terbaru di atas
             ->paginate(5); // Pagination dengan 5 item per halaman
-    
+
         $gambarTokoList = [];
-    
+
         // Jika kamu ingin mengubah format tanggal untuk ditampilkan di view
         foreach ($kunjunganToko as $visit) {
             $visit->tanggal = Carbon::parse($visit->tanggal);
             $gambarTokoList[] = $visit->gambar;
         }
-    
+
         return view('sales.kunjunganToko', [
             'storeName' => $toko->nama_toko, // Nama toko untuk ditampilkan di view
             'kunjunganToko' => $kunjunganToko, // Pastikan ini adalah hasil paginasi
@@ -39,7 +39,7 @@ class KunjunganTokoController extends Controller
             'gambarTokoList' => $gambarTokoList
         ]);
     }
-    
+
     // Function untuk menampilkan kunjungan toko berdasarkan id
     public function show($id)
     {
@@ -52,25 +52,31 @@ class KunjunganTokoController extends Controller
 
     /**
      * Function untuk Menginput data ke database 
-     */ public function store(Request $request)
-    {
-        // $request->validate([
-        //     'id_daftar_toko' => 'required|integer',
-        //     'tanggal' => 'required|date',
-        //     'sisa_produk' => 'required|integer',
-        //     'gambar' => 'required|string',
-        // ]);
+     */
+    public function store(Request $request)
+{
+    // Validasi input
+    // $request->validate([
+    //     'id_daftar_toko' => 'required|integer',
+    //     'tanggal' => 'required|date',
+    //     'sisa_produk' => 'required|integer',
+    //     'gambar' => 'required|file|image',
+    // ]);
 
-        if ($request->hasFile('gambar')) {
-            // Simpan gambar ke folder public/storage/toko
-            $path = $request->file('gambar')->store('toko', 'public');
-        } else {
-            $imageName = null; // Jika tidak ada gambar yang diupload
-        }
+    // Menyimpan gambar dengan format yang diinginkan
+    if ($request->hasFile('gambar')) {
+        $tanggal = \Carbon\Carbon::parse($request->tanggal)->format('d-m-Y');
+        $extension = $request->file('gambar')->getClientOriginalExtension();
+        $imageName = "dokumentasi-{$tanggal}.{$extension}";
+        $path = $request->file('gambar')->storeAs('toko', $imageName, 'public');
+    } else {
+        $path = null; // Jika tidak ada gambar yang diupload
+    }
+
 
         $id_user_sales = session('id_user_sales');
 
-        KunjunganToko::create([
+         $kunjunganBaru =  KunjunganToko::create([
             'id_daftar_toko' => $request->id_daftar_toko,
             'id_user_sales' => $id_user_sales,
             'tanggal' => $request->tanggal,
@@ -78,9 +84,28 @@ class KunjunganTokoController extends Controller
             'gambar' => $path, // Simpan nama gambar
         ]);
 
-        return redirect()->route('kunjunganToko', ['id_daftar_toko' => $request->id_daftar_toko])
-            ->with('success', 'Toko berhasil ditambahkan.');
-    }
+
+    // Ambil semua kunjungan untuk toko ini, urutkan berdasarkan tanggal terbaru
+    $kunjunganToko = KunjunganToko::where('id_daftar_toko', $request->id_daftar_toko)
+        ->orderBy('tanggal', 'desc')
+        ->get();
+
+    // Hitung posisi dari kunjungan yang baru ditambahkan
+    $index = $kunjunganToko->search(function ($kunjungan) use ($kunjunganBaru) {
+        return $kunjungan->id_kunjungan_toko === $kunjunganBaru->id_kunjungan_toko;
+    });
+
+
+    // Hitung nomor halaman untuk kunjungan baru
+    $perPage = 5; // Jumlah kunjungan per halaman
+    $currentPage = ceil(($index + 1) / $perPage); // +1 untuk offset karena $index dimulai dari 0
+
+    // Redirect ke halaman yang benar
+    return redirect()->route('kunjunganToko', [
+        'id_daftar_toko' => $request->id_daftar_toko,
+        'page' => $currentPage
+    ])->with('success', 'Toko berhasil ditambahkan.');
+}  
 
 
     /**
@@ -95,7 +120,7 @@ class KunjunganTokoController extends Controller
         ]);
 
         // Debugging request
-        // dd($request->all(), $request->file('gambar'));
+        // dd($request->all(), $request->file('gambar'));   
 
         $kunjunganToko = KunjunganToko::find($id_kunjungan_toko);
         if (!$kunjunganToko) {
@@ -108,7 +133,7 @@ class KunjunganTokoController extends Controller
                 // Mendapatkan tanggal dan memformatnya
                 $tanggal = \Carbon\Carbon::parse($request->tanggal)->format('d-m-Y');
                 $extension = $request->file('gambar')->getClientOriginalExtension();
-                $namaGambar = "dokumentasi {$tanggal}." . $extension;
+                $namaGambar = "dokumentasi-{$tanggal}." . $extension;
 
                 // Menyimpan gambar dengan nama yang ditentukan
                 $gambarPath = $request->file('gambar')->storeAs('images', $namaGambar, 'public');
@@ -118,11 +143,15 @@ class KunjunganTokoController extends Controller
             $kunjunganToko->save();
         }
 
-        return redirect()->route('kunjunganToko', ['id_daftar_toko' => $kunjunganToko->id_daftar_toko])
-            ->with('success', 'Kunjungan toko berhasil diperbarui.');
+        // Ambil parameter halaman saat ini
+        $currentPage = $request->input('page', 1);
+
+        // Redirect ke halaman yang sama
+        return redirect()->route('kunjunganToko', [
+            'id_daftar_toko' => $kunjunganToko->id_daftar_toko,
+            'page' => $currentPage
+        ])->with('success', 'Kunjungan toko berhasil diperbarui.');
     }
-
-
 
 
     /**
