@@ -37,7 +37,7 @@
                             <td class="px-4 py-2 flex space-x-2">
                                 <button type="button"
                                     class="inline-flex items-center justify-center w-10 h-10 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                                    onclick="openModal('{{ $namaRokokList[$index] }}', {{ $rokok->harga_karton_pabrik }}, {{ $stokSlopList[$index] }}, {{ $rokok->id_master_barang }})">
+                                    onclick="openModal('{{ $namaRokokList[$index] }}', {{ $rokok->harga_karton_pabrik }}, {{ $stokSlopList[$index] }}, {{ $rokok->id_master_barang }},  '{{ asset('storage/produk/' . $gambarRokokList[$index]) }}')">
                                     <i class="fa-regular fa-pen-to-square text-lg"></i>
                                 </button>
 
@@ -102,7 +102,7 @@
                     </div>
                     <div class="mb-4">
                         <label for="productImageInput" class="block text-sm font-medium text-gray-700">Foto Produk</label>
-                        <input type="file" id="productImageInput"
+                        <input type="file" id="productImageInput" name="gambar_barang"
                             class="mt-1 block w-full border border-gray-300 rounded-md" 
                             accept="image/*" 
                             onchange="previewImage(event, '{{ asset('storage/produk/' . $gambarRokokList[$index] ?? 'default.jpg') }}')">
@@ -175,32 +175,30 @@
 </div>
 
 <script>
-    
-    function previewImage(event, currentImageUrl) {
+    function previewImage(event) {
     const image = document.getElementById('editProductImage');
     const file = event.target.files[0];
     
-        // Jika ada gambar baru yang dipilih, gunakan gambar baru
-         if (file) {
-            image.src = URL.createObjectURL(file);
-         } else {
-        // Jika tidak ada gambar baru yang dipilih, gunakan gambar yang sudah tersimpan
-            image.src = currentImageUrl;
-        }
+    if (file) {
+        image.src = URL.createObjectURL(file);
     }
+}
 
     // Fungsi untuk membuka modal edit produk
-    function openModal(nama_produk, harga_karton_pabrik, stok_slop, productId) {
-        document.getElementById('nama_produk').value = nama_produk;
-        document.getElementById('harga_karton_pabrik').value = harga_karton_pabrik;
-        document.getElementById('stok_slop').value = stok_slop;
+    function openModal(nama_produk, harga_karton_pabrik, stok_slop, productId, currentImageUrl) {
+    document.getElementById('nama_produk').value = nama_produk;
+    document.getElementById('harga_karton_pabrik').value = harga_karton_pabrik;
+    document.getElementById('stok_slop').value = stok_slop;
 
-        // Update form action URL untuk menyertakan product ID
-        const form = document.getElementById('editForm');
-        form.action = `{{ route('pengaturanHargaPabrik.update', '') }}/${productId}`;
+    // Update form action URL untuk menyertakan product ID
+    const form = document.getElementById('editForm');
+    form.action = `{{ route('pengaturanHargaPabrik.update', '') }}/${productId}`;
 
-        document.getElementById('editModal').style.display = 'flex'; // Menampilkan modal edit
-    }
+    const imageElement = document.getElementById('editProductImage');
+    imageElement.src = currentImageUrl; // Gambar yang sudah tersimpan akan muncul
+
+    document.getElementById('editModal').style.display = 'flex'; // Menampilkan modal edit
+}
 
     // Fungsi untuk menutup modal edit produk
     function closeModal() {
