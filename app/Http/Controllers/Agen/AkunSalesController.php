@@ -14,7 +14,7 @@ class AkunSalesController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $id_user_agen = session('id_user_agen');
+        $id_user_agen = session(key: 'id_user_agen');
         // Query utama untuk mengambil data sales
         $akunSales = UserSales::query()
             ->where('id_user_agen', $id_user_agen)

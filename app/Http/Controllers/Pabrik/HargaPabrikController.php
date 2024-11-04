@@ -65,11 +65,11 @@ class HargaPabrikController extends Controller
         $setting->harga_karton_pabrik = $request->harga_karton_pabrik;
         $setting->stok_slop = $request->stok_slop;
 
-        if ($request->hasFile('gambar_barang')) {
-            $file = $request->file('gambar_barang');
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
             $nama_produk = $request->input('nama_produk');
             $nama_file_gambar = strtolower(str_replace(' ', '_', $nama_produk)) . '.' . $file->getClientOriginalExtension();
-            $request->gambar_barang->storeAs('produk', $nama_file_gambar, 'public');
+            $request->gambar->storeAs('produk', $nama_file_gambar, 'public');
             $setting->gambar = $nama_file_gambar;
         }
 
