@@ -37,7 +37,7 @@
                             <td class="px-4 py-2 flex space-x-2">
                                 <button type="button"
                                     class="inline-flex items-center justify-center w-10 h-10 text-gray-800 bg-gray-200 border border-gray-300 rounded-sm shadow-sm hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                                    onclick="openModal('{{ $namaRokokList[$index] }}', {{ $rokok->harga_karton_pabrik }}, {{ $stokSlopList[$index] }}, {{ $rokok->id_master_barang }})">
+                                    onclick="openModal('{{ $namaRokokList[$index] }}', {{ $rokok->harga_karton_pabrik }}, {{ $stokSlopList[$index] }}, {{ $rokok->id_master_barang }},'{{ asset('storage/produk/' . $gambarRokokList[$index]) }}')">
                                     <i class="fa-regular fa-pen-to-square text-lg"></i>
                                 </button>
 
@@ -101,8 +101,8 @@
                             class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
                     </div>
                     <div class="mb-4">
-                        <label for="productImageInput" class="block text-sm font-medium text-gray-700">Foto Produk</label>
-                        <input type="file" id="productImageInput"
+                        <label for="gambar" class="block text-sm font-medium text-gray-700">Foto Produk</label>
+                        <input type="file" name="gambar" id="gambar"
                             class="mt-1 block w-full border border-gray-300 rounded-md" 
                             accept="image/*" 
                             onchange="previewImage(event, '{{ asset('storage/produk/' . $gambarRokokList[$index] ?? 'default.jpg') }}')">
@@ -194,6 +194,7 @@
         document.getElementById('nama_produk').value = nama_produk;
         document.getElementById('harga_karton_pabrik').value = harga_karton_pabrik;
         document.getElementById('stok_slop').value = stok_slop;
+        
 
         // Update form action URL untuk menyertakan product ID
         const form = document.getElementById('editForm');
