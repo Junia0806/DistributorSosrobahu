@@ -15,6 +15,7 @@ class OrderSale extends Model
 
     protected $fillable = [
         'id_user_sales',
+        'id_user_agen',
         'jumlah',
         'total',
         'tanggal',

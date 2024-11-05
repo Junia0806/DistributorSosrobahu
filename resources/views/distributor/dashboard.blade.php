@@ -103,113 +103,114 @@
                 </div>
             </div>
 
-            <!-- Chart.js Script -->
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script>
-                // Tetapkan label bulan dalam bahasa Indonesia
-                let monthLabels = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September',
-                    'Oktober', 'November', 'Desember'
-                ];
 
-                // Ambil data dari controller (pesanan per bulan)
-                let pesananPerBulan = @json($pesananPerBulan);
-
-                // Fungsi untuk mendapatkan data berdasarkan tahun yang dipilih
-                function getDataByYear(selectedYear) {
-                    let omsetDataValues = [];
-                    let productDataValues = [];
-
-                    monthLabels.forEach((month, index) => {
-                        let formattedMonth = `${selectedYear}-${String(index + 1).padStart(2, '0')}`;
-                        if (pesananPerBulan[formattedMonth]) {
-                            omsetDataValues.push(pesananPerBulan[formattedMonth].total_omset);
-                            productDataValues.push(pesananPerBulan[formattedMonth].total_karton);
-                        } else {
-                            omsetDataValues.push(0); // Jika tidak ada data untuk bulan ini, omset 0
-                            productDataValues.push(0); // Jika tidak ada data untuk bulan ini, produk terjual 0
-                        }
-                    });
-
-                    return {
-                        omsetDataValues,
-                        productDataValues
-                    };
-                }
-
-                // Inisialisasi data chart pertama kali
-                let selectedYear = document.getElementById('yearFilter').value;
-                let initialData = getDataByYear(selectedYear);
-
-                const ctxOmset = document.getElementById('omsetChart').getContext('2d');
-                const ctxProduct = document.getElementById('productChart').getContext('2d');
-
-                let omsetChart = new Chart(ctxOmset, {
-                    type: 'bar',
-                    data: {
-                        labels: monthLabels, // Gunakan monthLabels sebagai label tetap
-                        datasets: [{
-                            label: 'Omset (Rp)',
-                            data: initialData.omsetDataValues, // Data omset sesuai bulan
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1,
-                            hoverBackgroundColor: 'rgba(54, 162, 235, 0.3)',
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    callback: function(value) {
-                                        return 'Rp ' + value.toLocaleString();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-
-                let productChart = new Chart(ctxProduct, {
-                    type: 'bar',
-                    data: {
-                        labels: monthLabels, // Gunakan monthLabels sebagai label tetap
-                        datasets: [{
-                            label: 'Produk Terjual (Karton)',
-                            data: initialData.productDataValues, // Data produk terjual sesuai bulan
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1,
-                            hoverBackgroundColor: 'rgba(75, 192, 192, 0.3)',
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
-                    }
-                });
-
-                // Update chart saat dropdown berubah
-                function updateChart() {
-                    selectedYear = document.getElementById('yearFilter').value;
-                    let newData = getDataByYear(selectedYear);
-
-                    // Update chart omset
-                    omsetChart.data.datasets[0].data = newData.omsetDataValues;
-                    omsetChart.update();
-
-                    // Update chart produk terjual
-                    productChart.data.datasets[0].data = newData.productDataValues;
-                    productChart.update();
-                }
-            </script>
         </div>
     </div>
+    <!-- Chart.js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Tetapkan label bulan dalam bahasa Indonesia
+        let monthLabels = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September',
+            'Oktober', 'November', 'Desember'
+        ];
+
+        // Ambil data dari controller (pesanan per bulan)
+        let pesananPerBulan = @json($pesananPerBulan);
+
+        // Fungsi untuk mendapatkan data berdasarkan tahun yang dipilih
+        function getDataByYear(selectedYear) {
+            let omsetDataValues = [];
+            let productDataValues = [];
+
+            monthLabels.forEach((month, index) => {
+                let formattedMonth = `${selectedYear}-${String(index + 1).padStart(2, '0')}`;
+                if (pesananPerBulan[formattedMonth]) {
+                    omsetDataValues.push(pesananPerBulan[formattedMonth].total_omset);
+                    productDataValues.push(pesananPerBulan[formattedMonth].total_karton);
+                } else {
+                    omsetDataValues.push(0); // Jika tidak ada data untuk bulan ini, omset 0
+                    productDataValues.push(0); // Jika tidak ada data untuk bulan ini, produk terjual 0
+                }
+            });
+
+            return {
+                omsetDataValues,
+                productDataValues
+            };
+        }
+
+        // Inisialisasi data chart pertama kali
+        let selectedYear = document.getElementById('yearFilter').value;
+        let initialData = getDataByYear(selectedYear);
+
+        const ctxOmset = document.getElementById('omsetChart').getContext('2d');
+        const ctxProduct = document.getElementById('productChart').getContext('2d');
+
+        let omsetChart = new Chart(ctxOmset, {
+            type: 'bar',
+            data: {
+                labels: monthLabels, // Gunakan monthLabels sebagai label tetap
+                datasets: [{
+                    label: 'Omset (Rp)',
+                    data: initialData.omsetDataValues, // Data omset sesuai bulan
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1,
+                    hoverBackgroundColor: 'rgba(54, 162, 235, 0.3)',
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'Rp ' + value.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        let productChart = new Chart(ctxProduct, {
+            type: 'bar',
+            data: {
+                labels: monthLabels, // Gunakan monthLabels sebagai label tetap
+                datasets: [{
+                    label: 'Produk Terjual (Karton)',
+                    data: initialData.productDataValues, // Data produk terjual sesuai bulan
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    hoverBackgroundColor: 'rgba(75, 192, 192, 0.3)',
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Update chart saat dropdown berubah
+        function updateChart() {
+            selectedYear = document.getElementById('yearFilter').value;
+            let newData = getDataByYear(selectedYear);
+
+            // Update chart omset
+            omsetChart.data.datasets[0].data = newData.omsetDataValues;
+            omsetChart.update();
+
+            // Update chart produk terjual
+            productChart.data.datasets[0].data = newData.productDataValues;
+            productChart.update();
+        }
+    </script>
 @endsection

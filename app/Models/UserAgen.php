@@ -23,6 +23,7 @@ class UserAgen extends Authenticatable
 
     // Kolom-kolom yang bisa diisi (mass assignable)
     protected $fillable = [
+        'id_user_distributor',
         'nama_lengkap',
         'username',
         'password',

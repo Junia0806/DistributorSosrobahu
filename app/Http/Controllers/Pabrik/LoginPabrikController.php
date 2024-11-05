@@ -29,7 +29,7 @@ class LoginPabrikController extends Controller
             // Cek status akun
             if ($user->status == 1) {
                 // Login user
-                Auth::login($user);
+                Auth::guard('pabrik')->login($user);
 
                 // Simpan nama_lengkap ke dalam session
                 session(['nama_lengkap' => $user->nama_lengkap]);
@@ -52,7 +52,11 @@ class LoginPabrikController extends Controller
 
     public function logoutPabrik()
     {
-        Auth::logout();
-        return redirect('/login');
+        Auth::guard('pabrik')->logout(); // Logout menggunakan guard 'sales'
+
+        // Kosongkan session pengguna
+        session()->flush();
+        // Redirect ke halaman login
+        return redirect()->route('halamanLoginPabrik')->with('success', 'Anda telah berhasil logout.');
     }
 }

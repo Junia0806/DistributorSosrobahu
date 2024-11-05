@@ -21,6 +21,7 @@ class OrderAgen extends Model
     // Kolom yang dapat diisi
     protected $fillable = [
         'id_user_agen',
+        'id_user_distributor',
         'jumlah',
         'total',
         'tanggal',

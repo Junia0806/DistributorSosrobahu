@@ -6,40 +6,56 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\OrderDistributor;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class OmsetPabrikController extends Controller
 {
-    public function omset(Request $request)  {
+    public function omset(Request $request)
+    {
+        // Mengambil input tanggal dari request
+        $startDate = $request->input('start');
+        $endDate = $request->input('end');
 
-    // Mengambil input bulan dan tahun dari request
-    $bulan = $request->input('bulan'); // format: 01 - 12
-    $tahun = $request->input('tahun'); // format: 2024, 2023, etc.
+        $pesananMasuks = OrderDistributor::where('order_distributor.status_pemesanan', 1)
+            ->orderBy('id_order', 'desc');
 
-    // Query dasar: mengambil semua pesanan distributor
-    $pesananMasuks = OrderDistributor::orderBy('id_order', 'desc');
+        //Filter tanggal
+        if ($startDate && $endDate) {
+            $pesananMasuks = $pesananMasuks->whereBetween('tanggal', [
+                Carbon::parse($startDate)->startOfDay(),
+                Carbon::parse($endDate)->endOfDay()
+            ]);
+        }
+        if ($startDate && $endDate) {
+            $pesananMasuks = $pesananMasuks->get();
+        } else {
+            $perPage = 10;
+            $pesananMasuks = $pesananMasuks->paginate($perPage);
+        }
+        $omsetPerBulan = $pesananMasuks->groupBy(function ($item) {
+            return Carbon::parse($item->tanggal)->format('Y-m');
+        })->map(function ($group) {
+            return [
+                'pesanan' => $group,
+                'total_omset' => $group->sum('total'),
+                'total_karton' => $group->sum('jumlah'),
+            ];
+        });
 
-    // Filter berdasarkan bulan dan tahun jika ada input
-    if ($bulan && $tahun) {
-        $pesananMasuks = $pesananMasuks->whereMonth('tanggal', $bulan)
-                                       ->whereYear('tanggal', $tahun);
-    }
+        // Mengonversi tanggal ke format Carbon dan menambahkan nama distributor
+        foreach ($pesananMasuks as $pesananMasuk) {
+            $pesananMasuk->tanggal = Carbon::parse($pesananMasuk->tanggal);
+            $namaDistributor = DB::table('user_distributor')->where('id_user_distributor', $pesananMasuk->id_user_distributor)->first();
+            $pesananMasuk->nama_distributor = $namaDistributor ? $namaDistributor->nama_lengkap : 'Tidak Ditemukan';
+        }
 
-    // Dapatkan hasil query setelah filter
-    $pesananMasuks = $pesananMasuks->get();
+        //Data Rekap
+        $DataMasuk = OrderDistributor::where('order_distributor.status_pemesanan', 1)
+            ->orderBy('id_order', 'desc');
+        $totalKarton = $DataMasuk->sum('jumlah');
+        $totalHarga = $DataMasuk->sum('total');
+        $totalTransaksi = $DataMasuk->count();
 
-    // Mengelompokkan pesanan berdasarkan bulan dan melakukan penotalan omset per bulan
-    $omsetPerBulan = $pesananMasuks->groupBy(function($item) {
-        // Mengelompokkan berdasarkan bulan dan tahun (misalnya, "2024-10")
-        return Carbon::parse($item->tanggal)->format('Y-m');
-    })->map(function($group) {
-        // Menambahkan total omset untuk setiap kelompok bulan
-        return [
-            'pesanan' => $group,
-            'total_omset' => $group->sum('total'),
-        ];
-    });
-
-    // Mengembalikan hasil dalam format JSON
-    return response()->json([$omsetPerBulan]);
+        return view('pabrik.laporan', compact('omsetPerBulan', 'totalKarton', 'totalHarga', 'totalTransaksi', 'pesananMasuks', 'startDate', 'endDate'));
     }
 }

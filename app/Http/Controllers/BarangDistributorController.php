@@ -15,6 +15,7 @@ class BarangDistributorController extends Controller
 {
     public function index()
     {
+        $id_user_distributor = session('id_user_distributor');
         $barangDistributors = BarangDistributor::all();
         $namaRokokList = [];
         $gambarRokokList = [];
@@ -48,15 +49,18 @@ class BarangDistributorController extends Controller
 
     public function stockbarang()
     {
+        $id_user_distributor = session('id_user_distributor');
         // Ambil semua barang agen
-        $barangDistributors = BarangDistributor::all();
+        $barangDistributors = BarangDistributor::where('id_user_distributor', $id_user_distributor)->get();
         // Mengambil semua tahun dari tabel pesanan agen berdasarkan tanggal pesanan
         $availableYears = DB::table('order_agen')
             ->select(DB::raw('YEAR(tanggal) as year'))
             ->distinct()
             ->orderBy('year', 'desc')
             ->pluck('year');
-        $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')->get();;
+        $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')
+            ->where('id_user_distributor', $id_user_distributor)
+            ->get();
 
         // Mengelompokkan pesanan berdasarkan bulan dan melakukan penotalan omset per bulan
         $pesananPerBulan = $pesananMasuks->groupBy(function ($item) {
@@ -114,7 +118,9 @@ class BarangDistributorController extends Controller
 
 
         // Mengambil semua pesanan yang statusnya selesai
-        $completedOrders = OrderDistributor::where('status_pemesanan', 1)->get();
+        $completedOrders = OrderDistributor::where('status_pemesanan', 1)
+            ->where('id_user_distributor', $id_user_distributor)
+            ->get();
 
         // Mengambil detail pesanan
         $orderDetails = OrderDetailDistributor::whereIn('id_order', $completedOrders->pluck('id_order'))->get();
@@ -134,6 +140,7 @@ class BarangDistributorController extends Controller
         // Produk terlaris dari pesanan sales yang statusnya 1
         $topProduct = DB::table('order_detail_agen')
             ->join('order_agen', 'order_agen.id_order', '=', 'order_detail_agen.id_order')
+            ->where('order_agen.id_user_distributor', $id_user_distributor)
             ->where('order_agen.status_pemesanan', 1) // Status pesanan sales yang selesai
             ->select('order_detail_agen.id_master_barang', DB::raw('SUM(order_detail_agen.jumlah_produk) as total_jumlah'))
             ->groupBy('order_detail_agen.id_master_barang')
@@ -146,11 +153,14 @@ class BarangDistributorController extends Controller
 
         // Total pendapatan dari pesanan agen yang statusnya 1
         $totalPendapatan = DB::table('order_agen')
+            ->where('id_user_distributor', $id_user_distributor)->get()
             ->where('status_pemesanan', 1)
             ->sum('total');
 
         // Mengambil jumlah sales dari tabel user_agen
-        $totalAgen = DB::table('user_agen')->count();
+        $totalAgen = DB::table('user_agen')
+            ->where('id_user_distributor', $id_user_distributor)->get()
+            ->count();
 
         // Kirim data ke view
 

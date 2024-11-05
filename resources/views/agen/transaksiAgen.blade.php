@@ -15,6 +15,7 @@
                     <tr>
                         <th class="p-2 text-left">Tanggal</th>
                         <th class="p-2 text-left">Nama Sales</th>
+                        <th class="p-2 text-left">Jumlah</th>
                         <th class="p-2 text-left">Total Harga</th>
                         <th class="p-2 text-left">Status Pesanan</th>
                         <th class="p-2 text-left">Status Pembayaran</th>
@@ -26,6 +27,7 @@
                         <tr class="border-b border-gray-200">
                             <td class="p-2">{{ $pesananMasuk->tanggal->format('d/m/Y') }}</td>
                             <td class="p-2">{{ $pesananMasuk->nama_sales }}</td>
+                            <td class="p-2">{{ $pesananMasuk->jumlah }} Slop</td>
                             <td class="p-2">Rp. {{ number_format($pesananMasuk->total, 0, ',', '.') }}</td>
                             <td class="p-2 {{ $pesananMasuk->status_pemesanan == 1 ? 'text-green-600' : 'text-red-600' }}">
                                 {{ $pesananMasuk->status_pemesanan == 1 ? 'Selesai' : ($pesananMasuk->status_pemesanan == 2 ? 'Ditolak' : 'Diproses') }}

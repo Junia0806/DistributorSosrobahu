@@ -124,95 +124,102 @@
                                 class="hidden fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto h-modal">
                                 <div class="relative w-full max-w-full md:max-w-md h-full max-h-full md:h-auto">
                                     <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                                        <button type="button"
-                                            class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:text-gray-500 dark:hover:bg-gray-600 dark:hover:text-white"
-                                            data-modal-hide="edit-akun-modal-{{ $akunAgens->id_user_agen }}">
-                                            <svg aria-hidden="true" class="w-5 h-5" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M6 18L18 6M6 6l12 12"></path>
-                                            </svg>
-                                            <span class="sr-only">Close modal</span>
-                                        </button>
-
-                                        <div class="p-6 text-center">
-                                            <h3 class="text-lg font-semibold text-gray-900">Edit Akun</h3>
+                                        <div class="flex items-center justify-between p-4 border-b border-gray-200">
+                                            <h3 class="text-xl font-semibold text-gray-700">Edit Akun
+                                                {{ $akunAgens->username }}</h3>
+                                            <button type="button"
+                                                class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:text-gray-500 dark:hover:bg-gray-600 dark:hover:text-white"
+                                                data-modal-hide="edit-akun-modal-{{ $akunAgens->id_user_agen }}">
+                                                <svg aria-hidden="true" class="w-5 h-5" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M6 18L18 6M6 6l12 12"></path>
+                                                </svg>
+                                                <span class="sr-only">Close modal</span>
+                                            </button>
+                                        </div>
+                                        <div class="p-6 ">
                                             <form action="{{ route('pengaturanAgen.update', $akunAgens->id_user_agen) }}"
                                                 id="edit-akun-form" method="POST" enctype="multipart/form-data"
                                                 class="space-y-4">
                                                 @csrf
                                                 @method('PUT')
-                                                <!-- Input tersembunyi untuk halaman saat ini -->
                                                 <input type="hidden" name="page"
                                                     value="{{ request()->input('page', 1) }}">
+                                                <div class="grid grid-cols-2 gap-2">
+                                                    <div class="text-left">
+                                                        <label for="edit-name"
+                                                            class="block mb-2 text-sm font-semibold text-gray-600">Nama</label>
+                                                        <input type="text" value="{{ $akunAgens->nama_lengkap }}"
+                                                            name="nama_lengkap" id="nama_lengkap"
+                                                            class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                            required>
+                                                    </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-name"
-                                                        class="block mb-2 text-sm font-medium text-black">Nama</label>
-                                                    <input type="text" value="{{ $akunAgens->nama_lengkap }}"
-                                                        name="nama_lengkap" id="nama_lengkap"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                        required>
+                                                    <div class="text-left">
+                                                        <label for="edit-username"
+                                                            class="block mb-2 text-sm font-semibold text-gray-600">Username</label>
+                                                        <input type="text" value="{{ $akunAgens->username }}"
+                                                            name="username" id="username"
+                                                            class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                            required>
+                                                    </div>
                                                 </div>
+                                                <div class="grid grid-cols-2 gap-2">
+                                                    <div class="text-left">
+                                                        <label for="edit-password"
+                                                            class="block mb-2 text-sm font-semibold text-gray-600">Password</label>
+                                                        <input type="text" placeholder="Password Baru Anda"
+                                                            name="password" id="password"
+                                                            class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                                    </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-username"
-                                                        class="block mb-2 text-sm font-medium text-black">Username</label>
-                                                    <input type="text" value="{{ $akunAgens->username }}"
-                                                        name="username" id="username"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                        required>
+                                                    <div class="text-left">
+                                                        <label for="edit-phone"
+                                                            class="block mb-2 text-sm font-semibold text-gray-600">No.
+                                                            Telepon</label>
+                                                        <input type="tel" value="{{ $akunAgens->no_telp }}"
+                                                            name="no_telp" id="no_telp"
+                                                            class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                            required>
+                                                    </div>
                                                 </div>
+                                                <div class="grid grid-cols-2 gap-4">
+                                                    <div class="text-left">
+                                                        <label for="edit-status"
+                                                            class="block mb-2 text-sm font-semibold text-gray-600">Status</label>
+                                                        <select name="status" id="edit-status"
+                                                            class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                                            <option value="1"
+                                                                {{ $akunAgens->status == 1 ? 'selected' : '' }}>
+                                                                Aktif
+                                                            </option>
+                                                            <option value="0"
+                                                                {{ $akunAgens->status == 0 ? 'selected' : '' }}>
+                                                                Tidak Aktif</option>
+                                                        </select>
+                                                    </div>
 
-                                                <div class="text-left">
-                                                    <label for="edit-password"
-                                                        class="block mb-2 text-sm font-medium text-black">Password</label>
-                                                    <input type="text" placeholder="Masukkan Password Baru Anda"
-                                                        name="password" id="password"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                                    <div class="text-left">
+                                                        <label for="edit-avatar"
+                                                            class="block mb-2 text-sm font-medium text-gray-90">KTP</label>
+                                                        <input
+                                                            class="block mb-2 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                                                            aria-describedby="edit-avatar_help" name="gambar_ktp"
+                                                            id="gambar_ktp-{{ $akunAgens['id_user_agen'] }}"
+                                                            type="file" accept=".jpg, .jpeg, .png" />
+                                                        <p id="sizeWarning-{{ $akunAgens['id_user_agen'] }}"
+                                                            class="text-red-600 mt-1 hidden text-sm">Foto KTP tidak boleh
+                                                            melebihi 1 MB
+                                                        </p>
+                                                        <p id="ktp-file-name-{{ $akunAgens['id_user_agen'] }}"
+                                                            class="text-sm text-gray-500">
+                                                            File saat ini:
+                                                            {{ $akunAgens['gambar_ktp'] ? $akunAgens['gambar_ktp'] : 'Tidak ada file saat ini.' }}
+                                                        </p>
+                                                    </div>
                                                 </div>
-
-                                                <div class="text-left">
-                                                    <label for="edit-phone"
-                                                        class="block mb-2 text-sm font-medium text-black">No.
-                                                        Telepon</label>
-                                                    <input type="tel" value="{{ $akunAgens->no_telp }}"
-                                                        name="no_telp" id="no_telp"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                                                        required>
-                                                </div>
-
-                                                <div class="text-left">
-                                                    <label for="edit-status"
-                                                        class="block mb-2 text-sm font-medium text-black">Status</label>
-                                                    <select name="status" id="edit-status"
-                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                        <option value="1"
-                                                            {{ $akunAgens->status == 1 ? 'selected' : '' }}>
-                                                            Aktif
-                                                        </option>
-                                                        <option value="0"
-                                                            {{ $akunAgens->status == 0 ? 'selected' : '' }}>
-                                                            Tidak Aktif</option>
-                                                    </select>
-                                                </div>
-
-                                                <div class="text-left">
-                                                    <label for="edit-avatar"
-                                                        class="block mb-2 text-sm font-medium text-gray-90">KTP</label>
-                                                    <input
-                                                        class="block mb-2 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                                                        aria-describedby="edit-avatar_help" name="gambar_ktp"
-                                                        id="gambar_ktp-{{ $akunAgens['id_user_agen'] }}" type="file"
-                                                        accept=".jpg, .jpeg, .png" />
-                                                    <!-- Menampilkan nama file KTP saat ini -->
-                                                    <p id="ktp-file-name-{{ $akunAgens['id_user_agen'] }}"
-                                                        class="text-sm text-gray-500">
-                                                        File saat ini:
-                                                        {{ $akunAgens['gambar_ktp'] ? $akunAgens['gambar_ktp'] : 'Tidak ada file saat ini.' }}
-                                                    </p>
-                                                </div>
-
                                                 <div class="col-span-2 text-center">
                                                     <button type="submit"
                                                         class="inline-flex items-center bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300 mt-3">
@@ -224,6 +231,7 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         @endforeach
                 </tbody>
                 @endif
@@ -237,7 +245,7 @@
         <div class="relative p-4 w-full max-w-md max-h-full">
             <div class="relative bg-white rounded-lg shadow">
                 <div class="flex items-center justify-between p-4 border-b border-gray-600">
-                    <h3 class="text-lg font-semibold text-black">Tambah Akun</h3>
+                    <h3 class="text-xl font-semibold text-gray-700">Tambah Akun</h3>
                     <button type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center"
                         data-modal-toggle="tambah-modal">
@@ -250,49 +258,67 @@
                     </button>
                 </div>
                 <form action="{{ route('pengaturanAgen.input') }}" method="POST" enctype="multipart/form-data"
-                    class="p-2 space-y-4">
+                    class="p-4 space-y-1">
                     @csrf
-                    <div>
-                        <label for="nama_lengkap" class="block mb-2 text-sm font-medium text-black">Nama Lengkap</label>
-                        <input type="text" name="nama_lengkap" id="nama_lengkap" placeholder="Masukkan nama lengkap"
-                            class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5" required>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label for="nama_lengkap" class="block mb-1 text-sm font-semibold text-gray-600">Nama
+                                Lengkap</label>
+                            <input type="text" name="nama_lengkap" id="nama_lengkap" placeholder="Nama lengkap"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg py-1.5 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                                required>
+                        </div>
+                        <div>
+                            <label for="username" class="block mb-1 text-sm font-semibold text-gray-600">Username</label>
+                            <input type="text" name="username" id="username" placeholder="Username"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg py-1.5 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2">
+                        <div class="relative">
+                            <label for="password" class="block mb-2 text-sm font-semibold text-gray-600">Password</label>
+                            <input type="password" id="password-add" name="password" placeholder="Password"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg py-1.5 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                                required />
+                            <span id="togglePassword"
+                                class="text-gray-500 absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer mt-6"
+                                onclick="togglePassword()">
+                                <i class="fa-solid fa-eye-slash"></i>
+                            </span>
+                        </div>
+                        <div>
+                            <label for="no_telp" class="block mb-2 text-sm font-semibold text-gray-600">No.
+                                Telepon</label>
+                            <input type="tel" name="no_telp" id="no_telp" placeholder="08xxxxxxxxxx"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg py-1.5 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                                required>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label for="nama_bank" class="block mb-2 text-sm font-semibold text-gray-600">Bank</label>
+                            <input type="text" name="nama_bank" id="nama_bank" placeholder="Nama Bank"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg py-1.5 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                                required>
+                        </div>
+                        <div>
+                            <label for="no_rek" class="block mb-2 text-sm font-semibold text-gray-600">No.
+                                Rekening</label>
+                            <input type="text" name="no_rek" id="no_rek" placeholder="Nomor rekening"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg py-1.5 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                                required>
+                        </div>
                     </div>
                     <div>
-                        <label for="username" class="block mb-2 text-sm font-medium text-black">Username</label>
-                        <input type="text" name="username" id="username" placeholder="Masukkan username"
-                            class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5" required>
-                    </div>
-                    <div class="relative">
-                        <label for="password" class="block mb-2 text-sm font-medium text-black">Password</label>
-                        <input type="password" id="password-add" name="password" placeholder="Masukkan Password"
-                            class="w-full p-3 text-sm bg-gray-100 border border-gray-300 rounded-lg focus:ring-gray-500 focus:border-gray-500"
-                            required />
-                        <span id="togglePassword"
-                            class="text-gray-500 absolute inset-y-0 right-0 flex items-center pr-3 pt-6 cursor-pointer"
-                            onclick="togglePassword()">
-                            <i class="fa-solid fa-eye-slash"></i>
-                        </span>
-                    </div>
-                    <div>
-                        <label for="no_telp" class="block mb-2 text-sm font-medium text-black">No. Telepon</label>
-                        <input type="tel" name="no_telp" id="no_telp" placeholder="08xxxxxxxxxx"
-                            class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5" required>
-                    </div>
-                    <div>
-                        <label for="nama_bank" class="block mb-2 text-sm font-medium text-black">Bank</label>
-                        <input type="text" name="nama_bank" id="nama_bank" placeholder="Masukkan nama Bank"
-                            class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5" required>
-                    </div>
-                    <div>
-                        <label for="no_rek" class="block mb-2 text-sm font-medium text-black">No. Rekening</label>
-                        <input type="text" name="no_rek" id="no_rek" placeholder="Masukkan nomor rekening"
-                            class="w-full bg-gray-50 border border-gray-300 text-black text-sm rounded-lg p-2.5" required>
-                    </div>
-                    <div>
-                        <label for="gambar_ktp" class="block mb-2 text-sm font-medium text-black">KTP</label>
+                        <label for="gambar_ktp" class="block mb-2 text-sm font-semibold text-gray-600">KTP</label>
                         <input type="file" id="gambar_ktp" name="gambar_ktp"
-                            class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                            class="block w-full mb-2 text-xs text-gray-600 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                             accept=".jpg, .jpeg, .png" required />
+                        <p id="sizeWarning" class="text-red-600 hidden text-xs">Foto KTP tidak boleh melebihi 1
+                            MB</p>
                     </div>
                     <div class="flex justify-center">
                         <button type="submit"
@@ -313,15 +339,12 @@
                 <span class="font-semibold text-gray-900 dark:text-white">{{ $akunAgen->lastItem() }}</span> dari
                 <span class="font-semibold text-gray-900 dark:text-white">{{ $akunAgen->total() }}</span> agen
             </span>
-            <!-- Buttons -->
             <div class="inline-flex mt-2 xs:mt-0">
-                <!-- Previous Button -->
                 <button {{ $akunAgen->onFirstPage() ? 'disabled' : '' }}
                     class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                     {{ $akunAgen->previousPageUrl() ? 'onclick=window.location.href=\'' . $akunAgen->previousPageUrl() . '\'' : '' }}>
                     Sebelumnya
                 </button>
-                <!-- Next Button -->
                 <button {{ !$akunAgen->hasMorePages() ? 'disabled' : '' }}
                     class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
                     {{ $akunAgen->nextPageUrl() ? 'onclick=window.location.href=\'' . $akunAgen->nextPageUrl() . '\'' : '' }}>
@@ -332,6 +355,35 @@
     @endif
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        // Validasi foto KTP tidak boleh lebih dari 1 mb
+        document.getElementById('gambar_ktp').addEventListener('change', function() {
+            const file = this.files[0];
+            const maxSize = 1 * 1024 * 1024;
+            const warningText = document.getElementById('sizeWarning');
+
+            if (file.size > maxSize) {
+                warningText.classList.remove('hidden');
+                this.value = '';
+            } else {
+                warningText.classList.add('hidden');
+            }
+        });
+        // Seleksi semua input file yang ID-nya dimulai dengan "gambar_ktp-"
+        document.querySelectorAll("input[id^='gambar_ktp-']").forEach(function(fileInput) {
+            const userId = fileInput.id.split('-')[1];
+            const warningText = document.getElementById(`sizeWarning-${userId}`);
+            fileInput.addEventListener('change', function() {
+                const file = this.files[0];
+                const maxSize = 1 * 1024 * 1024;
+
+                if (file && file.size > maxSize) {
+                    warningText.classList.remove('hidden');
+                    this.value = '';
+                } else {
+                    warningText.classList.add('hidden');
+                }
+            });
+        });
         // Mengosongkan input pencarian dan menghapus query string saat halaman dimuat
         document.addEventListener("DOMContentLoaded", function() {
             const searchInput = document.getElementById("searchInput");

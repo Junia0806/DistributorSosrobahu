@@ -21,7 +21,9 @@ class AkunDistributorController extends Controller
                     $q->where('nama_lengkap', 'like', '%' . $search . '%')
                         ->orWhere('username', 'like', '%' . $search . '%')
                         ->orWhere('no_telp', 'like', '%' . $search . '%')
-                        ->orWhere('status', 'like', '%' . $search . '%');
+                        ->orWhere('status', 'like', '%' . $search . '%')
+                        ->orWhere('nama_bank', 'like', '%' . $search . '%')
+                        ->orWhere('no_rek', 'like', '%' . $search . '%');
                 });
             })
             ->orderBy('order_distributors_sum_total', 'desc')
@@ -40,7 +42,7 @@ class AkunDistributorController extends Controller
         // Validasi input dari form
         $validated = $request->validate([
             // 'nama_lengkap' => 'required|string|max:255',
-            'username' => 'required|string|max:255|unique:user_sales,username'
+            'username' => 'required|string|max:255|unique:user_distributor,username'
             // 'password' => 'required|string|min:6',
             // 'no_telp' => 'required|string|max:15',
             // 'gambar_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
@@ -69,7 +71,9 @@ class AkunDistributorController extends Controller
             'no_rek' => $request->no_rek,
         ]);
     
-        return redirect()->back()->with('success', 'Akun berhasil ditambahkan.');
+        $totalAkunDistributor = UserDistributor::count();
+        $newPage = ceil($totalAkunDistributor / 10);
+        return redirect()->route('pengaturanDistributor', ['page' => $newPage])->with('success', 'Akun berhasil ditambahkan.');
     }
 
     public function update(Request $request, $id)
@@ -110,13 +114,16 @@ class AkunDistributorController extends Controller
         }
 
         // ini juga Minta tolong tambahin edit formnya buat nama bank sama no rek
-        $distributor->nama_bank = $request->nama_bank;
-        $distributor->no_rek = $request->no_rek;
+        // $distributor->nama_bank = $request->nama_bank;
+        // $distributor->no_rek = $request->no_rek;
 
         // Menyimpan perubahan
         $distributor->save();
-        // Redirect dengan pesan sukses
-        return redirect()->route('pengaturanDistributor')->with('success', 'Akun agen berhasil diperbarui.');
+
+          // Ambil parameter page dari request (jika ada)
+          $currentPage = $request->input('page', 1); // Default ke halaman 1 jika tidak ada parameter page
+          // Redirect dengan pesan sukses
+          return redirect()->route('pengaturanDistributor', ['page' => $currentPage])->with('success', 'Akun agen berhasil diperbarui.');
     }
 
     // Menghapus Akun Distributor

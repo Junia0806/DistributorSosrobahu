@@ -11,8 +11,9 @@
         <div id="orderDetails" class="p-6">
             <p class="mb-2 text-gray-700">Nama: <span id="agenName"
                     class="font-semibold">{{ $pesanMasukAgen['nama_sales'] }}</span></p>
-            <p class="mb-2 text-gray-700">Tanggal Pemesanan: <span id="orderDate"
-                    class="font-semibold">{{ $pesanMasukAgen['tanggal'] }}</span></p>
+            <p class="mb-2 text-gray-700">Tanggal Pemesanan:
+                <span id="orderDate" class="font-semibold">{{ $pesanMasukAgen['tanggal'] }}</span>
+            </p>
             <button data-modal-target="gambar" data-modal-toggle="gambar"
                 class="bg-green-600 text-sm text-white py-2 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 mb-4">Lihat
                 Bukti Pembayaran <i class="fa-regular fa-hand-pointer ml-2"></i></button>
@@ -161,8 +162,7 @@
         });
 
         document.getElementById('submitBtn').addEventListener('click', function(e) {
-            e.preventDefault(); // Mencegah form submit secara default
-
+            e.preventDefault();
             Swal.fire({
                 title: 'Apakah Anda yakin?',
                 text: "Anda tidak dapat mengubah status kembali setelah disimpan!",
@@ -174,40 +174,9 @@
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Jika dikonfirmasi, submit form
                     document.getElementById('statusForm').submit();
                 }
             });
         });
-
-        // document.getElementById('saveButton').addEventListener('click', function() {
-        //     Swal.fire({
-        //         title: 'Apakah Anda yakin?',
-        //         text: 'Perubahan hanya dapat dilakukan satu kali. Pastikan semua data telah sesuai.',
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#3085d6',
-        //         cancelButtonColor: '#d33',
-        //         confirmButtonText: 'Ya, simpan',
-        //         cancelButtonText: 'Batal'
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             // Logika penyimpanan
-        //             Swal.fire(
-        //                 'Tersimpan!',
-        //                 'Perubahan status pesanan telah disimpan.',
-        //                 'success'
-        //             ).then(() => {
-        //                 // Tampilkan kembali detail pesanan dan sembunyikan tombol edit
-        //                 document.getElementById('orderDetails').classList.remove('hidden');
-        //                 document.getElementById('editSection').classList.add('hidden');
-        //                 document.getElementById('pageTitle').textContent = "Detail Pesanan";
-
-        //                 // Sembunyikan tombol edit setelah perubahan disimpan
-        //                 document.getElementById('editButton').style.display = 'none';
-        //             });
-        //         }
-        //     });
-        // });
     </script>
 @endsection
