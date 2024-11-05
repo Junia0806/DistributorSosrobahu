@@ -47,7 +47,7 @@
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Rekening</a>
                             </li>
                             <li>
-                                <a href="#" id="logout-link"
+                                <a href="{{ route('logoutDistributor') }}" id="logout-link"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Keluar<i
                                         class="fa-solid fa-right-from-bracket ml-2"></i></a>
                             </li>
@@ -203,7 +203,7 @@
                         icon: "success"
                     }).then(() => {
                         // Redirect to login page or home
-                        window.location.href = '/distributor/halamanLogin'; // Adjust the URL as needed
+                        window.location.href = '/distributor/logout'; // Adjust the URL as needed
                     });
                 }
             });

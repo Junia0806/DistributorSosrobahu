@@ -14,9 +14,10 @@ class AkunAgenController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-
+        $id_user_distributor = session('id_user_distributor');
         // Query utama untuk mengambil data agen
         $akunAgen = UserAgen::query()
+            ->where('id_user_distributor', $id_user_distributor)
             ->withSum('orderAgens', 'total') // Mengambil total penjualan per agen
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {

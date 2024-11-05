@@ -40,6 +40,26 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'sales' => [
+            'driver' => 'session',
+            'provider' => 'user_sales',
+        ],
+
+        'agen' => [
+            'driver' => 'session',
+            'provider' => 'user_agen',
+        ],
+
+        'distributor' => [
+            'driver' => 'session',
+            'provider' => 'user_distributor',
+        ],
+
+        'pabrik' => [
+            'driver' => 'session',
+            'provider' => 'user_pabrik',
+        ],
     ],
 
     /*
@@ -63,6 +83,26 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+
+        'user_sales' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\UserSales::class, // Sesuaikan dengan model user_sales
+        ],
+
+        'user_agen' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\UserAgen::class, // Sesuaikan dengan model user_agen
+        ],
+
+        'user_distributor' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\UserDistributor::class, // Sesuaikan dengan model user_distributor
+        ],
+
+        'user_pabrik' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\UserPabrik::class, // Sesuaikan dengan model user_pabrik
         ],
 
         // 'users' => [

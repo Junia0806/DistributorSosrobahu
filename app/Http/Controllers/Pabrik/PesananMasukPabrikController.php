@@ -15,22 +15,18 @@ class PesananMasukPabrikController extends Controller
     public function index()
     {
         // Mengambil semua pesanan dan mengonversi tanggal ke format Carbon
-        $pesananMasuks = OrderDistributor::orderBy('id_order', 'desc')->get();
-        
-        // Mengelompokkan pesanan berdasarkan bulan dan melakukan penotalan omset per bulan
-        $pesananPerBulan = $pesananMasuks->groupBy(function($item) {
-            // Mengelompokkan berdasarkan bulan dan tahun (misalnya, "2024-10")
-            return Carbon::parse($item->tanggal)->format('Y-m');
-        })->map(function($group) {
-            // Menambahkan total omset untuk setiap kelompok bulan
-            return [
-                'pesanan' => $group,
-                'total_omset' => $group->sum('total'),
-            ];
-        });
+        $pesananMasuks =OrderDistributor::orderBy('id_order', 'desc')->paginate(10);
+        // Mengonversi tanggal ke format Carbon
+        foreach ($pesananMasuks as $pesananMasuk) {
+            $pesananMasuk->tanggal = Carbon::parse($pesananMasuk->tanggal);
+         // Mengambil nama user sales berdasarkan id_user_sales
+         $namaDistributor = DB::table('user_distributor')->where('id_user_distributor', $pesananMasuk->id_user_distributor)->first();
+         $pesananMasuk->nama_distributor = $namaDistributor ? $namaDistributor->nama_lengkap : 'Tidak Ditemukan';
+        }
 
         // Mengirim data yang dikelompokkan dan total omset ke view
-        return response()->json([$pesananMasuks,$pesananPerBulan]);
+        return view('pabrik.transaksi', compact('pesananMasuks'));
+        // return response()->json(data: $pesananMasuks);
     }
 
     public function detailPesanMasuk($idPesanan)
@@ -73,7 +69,7 @@ class PesananMasukPabrikController extends Controller
         $pesanMasukPabrik = [
             'tanggal' => $orderDistributor->tanggal,
             'id_order' => $orderDistributor->id_order,
-            'nama_agen' => $namaDistributor->nama_lengkap,
+            'nama_distributor' => $namaDistributor->nama_lengkap,
             'no_telp' => $namaDistributor->no_telp,
             'total_item' => $orderDistributor->jumlah,
             'total_harga' => $orderDistributor->total,
@@ -84,8 +80,8 @@ class PesananMasukPabrikController extends Controller
 
 
         // dd($pesanMasukPabrik);
-        // return view('agen.detailPesanMasuk', compact('pesanMasukPabrik'));
-        return response()->json(data: $pesanMasukPabrik);
+        return view('pabrik.detail-transaksi', compact('pesanMasukPabrik'));
+        // return response()->json(data: $pesanMasukPabrik);
     }
 
     public function editStatus($id)

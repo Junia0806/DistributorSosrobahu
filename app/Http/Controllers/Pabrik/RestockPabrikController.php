@@ -13,53 +13,52 @@ use App\Models\MasterBarang;
 class RestockPabrikController extends Controller
 {
     // Fitur Riwayat Pabrik
-    public function index()
-    {
-        // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
-        $restockPabriks = RestockPabrik::orderBy('id_restock', 'desc')->paginate(5);
+    public function index(Request $request)
+{
+    // Ambil input pencarian
+    $search = $request->input('search');
 
-        // Mengonversi tanggal ke format Carbon
-        foreach ($restockPabriks as $restockPabrik) {
-            $restockPabrik->tanggal = Carbon::parse($restockPabrik->tanggal);
-        }
+    // Query awal untuk pencarian dengan kondisi sesuai input
+    $restockPabriks = RestockPabrik::query();
 
-        // Mengirim data pesanan ke view
-        // return view('agen.riwayatAgen', compact('restockPabriks'));
-
-        // Menampilkan data menggunakan json
-        return response()->json($restockPabriks);
+    if ($search) {
+        // Filter data sesuai dengan format yang diinginkan
+        $restockPabriks->where(function ($query) use ($search) {
+            $query->where(DB::raw("CONCAT('RST1234', id_restock)"), 'like', "%{$search}%")
+                ->orWhere(DB::raw("DATE_FORMAT(tanggal, '%d/%m/%Y')"), 'like', "%{$search}%")
+                ->orWhere(DB::raw("CONCAT(jumlah, ' Karton')"), 'like', "%{$search}%");
+        });
     }
+
+    // Order by dan pagination khusus untuk hasil pencarian
+    $restockPabriks = $restockPabriks->orderBy('id_restock', 'desc')->paginate(10)->withQueryString();
+
+     // Mengonversi tanggal ke format Carbon
+    foreach ($restockPabriks as $restockPabrik) {
+        $restockPabrik->tanggal = Carbon::parse($restockPabrik->tanggal);
+    }
+
+    // Mengirim data pesanan ke view
+    return view('pabrik.riwayat-restock', compact('restockPabriks'));
+    // Menampilkan data menggunakan json
+    //return response()->json($restockPabriks);
+}
 
     public function notaPabrik($idNota)
     {
         // Ganti dengan ID order yang ingin dicari
-        $restockDetailPabrik = RestockDetailPabrik::where('id_restock', $idNota)->first();
         $restockDetailPabrikItem = RestockDetailPabrik::where('id_restock', $idNota)->get();
         $restockPabrik = RestockPabrik::where('id_restock', $idNota)->first();
-        $namaPabrik = DB::table('user_pabrik')->where('id_user_pabrik', $restockDetailPabrik->id_user_pabrik)->first();
-        
-
-
+        $namaPabrik = DB::table('user_pabrik')->where('id_user_pabrik', $restockPabrik->id_user_pabrik)->first();
 
         $itemNota = [];
-        $nama_rokok = [];
-
         foreach ($restockDetailPabrikItem as $barangPabrik) {
             $product = DB::table('master_barang')->where('id_master_barang', $barangPabrik->id_master_barang)->first();
-            if ($product) { // Cek apakah product ada dan memiliki properti nama_rokok
-                $nama_rokok[] = $product->nama_rokok;
-                $jumlah_item[] = $barangPabrik->jumlah_produk;
-            } else {
-                $nama_rokok[] = null; // Jika tidak ditemukan
-                $jumlah_item[] = null; // Jika tidak ditemukan
-            }
-
             $itemNota[] = [
-                'nama_rokok' => end($nama_rokok), // Gunakan end() untuk mengambil elemen terakhir
-                'jumlah_item' => end($jumlah_item),
+                'nama_rokok' => $product->nama_rokok ?? null,
+                'jumlah_item' => $barangPabrik->jumlah_produk,
             ];
         }
-
 
         $notaPabrik = [
             'tanggal' => $restockPabrik->tanggal,
@@ -69,16 +68,14 @@ class RestockPabrikController extends Controller
             'item_nota' => $itemNota
         ];
 
-
         // Menampilkan Hasil nota format view
-        // return view('agen.nota', compact('notaPabrik'));
+        return view('pabrik.detail-riwayat', compact('notaPabrik'));
 
         //Menampilkan hasil nota format json
-        return response()->json($notaPabrik);
+        //return response()->json($notaPabrik);
     }
 
     // Fitur Restock Pabrik
-
     public function detail(Request $request)
     {
         $selectedProductIds = $request->input('products', []); // Mengambil ID produk yang dipilih dari request
@@ -105,47 +102,54 @@ class RestockPabrikController extends Controller
         $restocks = MasterBarang::whereIn('id_master_barang', $selectedProductIds)->get();
 
 
-        // return view('agen.detailPesanan', compact('restocks', 'namaRokokList'));
+        return view('pabrik.detail-restock', compact('restocks', 'namaRokokList'));
     }
 
     public function store(Request $request)
     {
-        //ambil data semua buat data untuk tabel order lalu generate id order terbaru lalu jalankan foreach
+        // Validasi input
+        $request->validate([
+            'quantities' => 'required|array',
+            'quantities.*' => 'required|integer|min:1',
+        ]);
 
-        // Calculate total price
-        // Memasukkan data kedalan tabel Order DIstributor
-        $restocks = [
+        // Menghitung total jumlah dari semua produk yang direstock
+        $totalItems = array_sum($request->quantities);
+
+        // Menyimpan data ke dalam tabel RestockPabrik
+        $restockData = [
             'id_user_pabrik' => 1,
-            'jumlah' => $request->total_items,
+            'jumlah' => $totalItems,
             'tanggal' => now(),
             'created_at' => now(),
             'updated_at' => now(),
         ];
 
-        // Memasukan data Ke dalam tabel Detail Order Sales
-        RestockPabrik::insert($restocks);
-        $id_restock = RestockPabrik::latest('id_restock')->first()->id_restock;
+        // Simpan data RestockPabrik dan ambil ID yang baru
+        $restockPabrik = RestockPabrik::create($restockData);
+        $id_restock = $restockPabrik->id_restock;
+
         $restocks = [];
         foreach ($request->input('quantities') as $productId => $quantity) {
-            $totalAmount = 0;
+            // Pastikan produk ada dalam master_barang
             $product = DB::table('master_barang')->where('id_master_barang', $productId)->first();
-            $totalAmount += $product->harga_karton_pabrik * $quantity;
 
-
-            $restocks[] = [
-                'id_restock' => $id_restock,
-                'id_user_pabrik' => 1,
-                'id_master_barang' => $productId,
-                'jumlah_produk' => $quantity,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
+            if ($product) {
+                $restocks[] = [
+                    'id_restock' => $id_restock,
+                    'id_user_pabrik' => 1,
+                    'id_master_barang' => $productId,
+                    'jumlah_produk' => $quantity,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+            }
         }
 
-        // Memasukan data Ke dalam tabel Order Detail Sales
+        // Memasukkan data ke dalam tabel RestockDetailPabrik
         RestockDetailPabrik::insert($restocks);
 
         // Redirect or return a response
-        // return redirect()->route('riwayatDistributor')->with('success', 'Pesanan berhasil dikirim!');
+        return redirect()->route('riwayatPabrik')->with('success', 'Pesanan berhasil dikirim!');
     }
 }

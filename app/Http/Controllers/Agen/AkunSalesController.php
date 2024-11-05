@@ -11,30 +11,13 @@ use Illuminate\Foundation\Auth\User;
 
 class AkunSalesController extends Controller
 {
-    // Menampilkan Data Sales
-    // public function index()
-    // {
-    //     // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
-    //     $akunSales = UserSales::orderBy('id_user_sales', 'desc')->paginate(10);
-    //     // $totalOrderSales = OrderSale::where('id_user_sales', 'desc')->paginate(10);
-    //     $totalPricePerSales = [];
-
-    //     // Mengambil total penjualan untuk setiap sales
-    //     foreach ($akunSales as $sales) {
-    //         // Menghitung total harga berdasarkan id_user_sales
-    //         $totalOrderSales = OrderSale::where('id_user_sales', $sales->id_user_sales)->get();
-    //         $totalPricePerSales[$sales->id_user_sales] = $totalOrderSales->sum('total');
-    //     }
-
-    //     return view('agen.pengaturanAkun', compact('akunSales','totalPricePerSales'));
-    // }
-
     public function index(Request $request)
     {
         $search = $request->input('search');
-
+        $id_user_agen = session(key: 'id_user_agen');
         // Query utama untuk mengambil data sales
         $akunSales = UserSales::query()
+            ->where('id_user_agen', $id_user_agen)
             ->withSum('orderSales', 'total') // Mengambil total penjualan per sales
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {
@@ -65,18 +48,20 @@ class AkunSalesController extends Controller
             // 'no_telp' => 'required|string|max:15',
             // 'gambar_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+        $id_user_agen = session('id_user_agen');
 
         // Menangani upload file jika ada
         $ktpPath = null; // Default jika tidak ada file yang diupload
         if ($request->hasFile('gambar_ktp')) {
             $file = $request->file('gambar_ktp');
             $imageName = $request->username . '_ktp.' . $file->extension();
-            $file->storeAs('ktp', $imageName, 'public'); // Simpan file di storage/app/public/ktp  // Simpan nama file saja di database
+            $file->storeAs('ktp', $imageName, 'public'); 
         }
 
         // Simpan data ke database
         UserSales::create([
             'id_user_sales' => $request->id_user_sales,
+            'id_user_agen' => $id_user_agen,
             'nama_lengkap' => $request->nama_lengkap,
             'username' => $request->username,
             'password' => bcrypt($request->password), // Enkripsi password

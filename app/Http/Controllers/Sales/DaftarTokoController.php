@@ -14,10 +14,13 @@ class DaftarTokoController extends Controller
      */
     public function index()
     {
-        $toko = DaftarToko::paginate(5); // Mengambil 5 data per halaman
+        $id_user_sales = session('id_user_sales');
+
+        $toko = DaftarToko::where('id_user_sales', $id_user_sales)
+            ->paginate(5); // Mengambil 5 data per halaman
         return view('sales.tokoSales', compact('toko'));
     }
-    
+
     /**
      * Function untuk menampilkan kunjungan toko berdasarkan id daftar toko
      */
@@ -50,7 +53,7 @@ class DaftarTokoController extends Controller
      */
     public function store(Request $request)
     {
-
+        // Validasi inputan
         $request->validate([
             'nama_toko' => 'required|string|max:255',
             'lokasi' => 'required|string|max:255',
@@ -58,11 +61,25 @@ class DaftarTokoController extends Controller
             'no_telp' => 'required|string|max:100',
         ]);
 
-        // dd($request->all());
-        DaftarToko::create($request->all());
+        // Ambil id_user_sales dari session
+        $id_user_sales = session('id_user_sales');
 
-        return redirect()->route('tokoSales')->with('success', 'Toko berhasil ditambahkan.');
+        // Tambahkan id_user_sales ke dalam inputan data
+        $data = $request->all();
+        $data['id_user_sales'] = $id_user_sales;
+
+        // Simpan data ke tabel daftar_toko
+        DaftarToko::create($data);
+
+        // Hitung total akun sales
+        $totalTokoSales = DaftarToko::count();
+        // Tentukan halaman baru yang harus dituju
+        $newPage = ceil($totalTokoSales / 5); // Asumsikan 10 akun per halaman
+    
+        // Redirect ke route tokoSales dengan pesan sukses
+        return redirect()->route('tokoSales',  ['page' => $newPage])->with('success', 'Toko berhasil ditambahkan.');
     }
+
 
     // Function untuk memanggil halaman/view toko
     public function showtoko(DaftarToko $daftarToko)
@@ -81,30 +98,32 @@ class DaftarTokoController extends Controller
      * Function untuk Mengupdate ke database 
      */
 
-    public function update(Request $request, $id_daftar_toko)
-    {
-        $request->validate([
-            'nama_toko' => 'required|string|max:255',
-            'lokasi' => 'required|string|max:255',
-            'nama_pemilik' => 'required|string|max:255',
-            'no_telp' => 'required|string|max:100',
-        ]);
-
-
-        $daftarToko = DaftarToko::find($id_daftar_toko);
-        if (!$daftarToko) {
-            return response()->json(['message' => 'Data not found'], 404);
-        } else {
-            $daftarToko->nama_toko = $request->nama_toko;
-            $daftarToko->lokasi = $request->lokasi;
-            $daftarToko->nama_pemilik = $request->nama_pemilik;
-            $daftarToko->no_telp = $request->no_telp;
-            $daftarToko->save();
-        }
-
-        $daftarToko->update($request->all());
-        return redirect()->route('tokoSales')->with('success', 'Toko dan kunjungan terkait berhasil dihapus.');
-    }
+     public function update(Request $request, $id_daftar_toko)
+     {
+         $request->validate([
+             'nama_toko' => 'required|string|max:255',
+             'lokasi' => 'required|string|max:255',
+             'nama_pemilik' => 'required|string|max:255',
+             'no_telp' => 'required|string|max:100',
+         ]);
+         
+     
+         $daftarToko = DaftarToko::find($id_daftar_toko);
+         if (!$daftarToko) {
+             return response()->json(['message' => 'Data not found'], 404);
+         } else {
+         $daftarToko->nama_toko = $request->nama_toko;
+         $daftarToko->lokasi = $request->lokasi;
+         $daftarToko->nama_pemilik = $request->nama_pemilik;
+         $daftarToko->no_telp = $request->no_telp;
+         $daftarToko->save();
+         }
+         // Ambil parameter halaman saat ini
+         $currentPage = $request->input('page', 1); // Default ke halaman 1 jika tidak ada parameter page
+     
+         // Redirect ke halaman yang sama
+         return redirect()->route('tokoSales', ['page' => $currentPage])->with('success', 'Toko berhasil diperbarui.');
+     }
 
     /**
      * Function untuk Menghapus atau delete ke database

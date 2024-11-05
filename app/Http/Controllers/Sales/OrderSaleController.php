@@ -18,17 +18,23 @@ class OrderSaleController extends Controller
 
     public function dashboard()
 {
-    // Mengambil data total harga dari semua pemesanan yang berstatus 'selesai'
-    $orderSales = OrderSale::where('status_pemesanan', 1)->get();
+    // Ambil id_user_sales dari session
+    $id_user_sales = session('id_user_sales');
+
+    // Mengambil data total harga dari semua pemesanan yang berstatus 'selesai' dan sesuai dengan id_user_sales
+    $orderSales = OrderSale::where('status_pemesanan', 1)
+                           ->where('id_user_sales', $id_user_sales)
+                           ->get();
     $totalPrice = $orderSales->sum('total');
 
-    // Mengambil jumlah toko dari model
-    $jumlahToko = DaftarToko::count();
+    // Mengambil jumlah toko berdasarkan id_user_sales
+    $jumlahToko = DaftarToko::where('id_user_sales', $id_user_sales)->count();
 
-    // Mengambil produk terlaris
+    // Mengambil produk terlaris untuk id_user_sales
     $topProduct = OrderDetailSales::select('id_master_barang', DB::raw('SUM(jumlah_produk) as total_quantity'))
-        ->whereHas('orderSale', function($query) {
-            $query->where('status_pemesanan', 1);
+        ->whereHas('orderSale', function ($query) use ($id_user_sales) {
+            $query->where('status_pemesanan', 1)
+                  ->where('id_user_sales', $id_user_sales);
         })
         ->groupBy('id_master_barang')
         ->orderBy('total_quantity', 'desc')
@@ -37,25 +43,34 @@ class OrderSaleController extends Controller
     // Jika ada produk terlaris
     $topProductName = $topProduct ? DB::table('master_barang')->where('id_master_barang', $topProduct->id_master_barang)->value('nama_rokok') : 'Tidak ada data';
 
-    // Menghitung total stok (dalam pcs) berdasarkan pesanan yang berstatus 'selesai'
-    $totalStok = OrderDetailSales::whereHas('orderSale', function($query) {
-        $query->where('status_pemesanan', 1);
+    // Menghitung total stok (dalam pcs) berdasarkan pesanan yang berstatus 'selesai' dan sesuai id_user_sales
+    $totalStok = OrderDetailSales::whereHas('orderSale', function ($query) use ($id_user_sales) {
+        $query->where('status_pemesanan', 1)
+              ->where('id_user_sales', $id_user_sales);
     })->sum(DB::raw('jumlah_produk * 10')); // Mengonversi slop ke pcs
 
-    $totalPenjualan = KunjunganToko::sum('sisa_produk'); // Total produk yang terjual
+    // Menghitung total penjualan (sisa produk) sesuai dengan id_user_sales
+    $totalPenjualan = KunjunganToko::where('id_user_sales', $id_user_sales)->sum('sisa_produk'); // Total produk yang terjual
     $totalStok -= $totalPenjualan; // Mengurangi stok berdasarkan produk yang terjual
 
     // Mengirimkan variabel ke view
     return view('sales.dashboard', compact('totalPrice', 'jumlahToko', 'topProductName', 'totalStok'));
+  
 }
+
 
     /**
      * Function untuk Menampilkan semua Order dari database
      */
     public function index()
     {
-        // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
-        $orderSales = OrderSale::orderBy('id_order', 'desc')->paginate(10);
+        // Ambil id_user_sales dari session
+        $id_user_sales = session('id_user_sales');
+
+        // Mengambil pesanan yang sesuai dengan id_user_sales dan mengurutkan berdasarkan ID terbesar
+        $orderSales = OrderSale::where('id_user_sales', $id_user_sales)
+            ->orderBy('id_order', 'desc')
+            ->paginate(10);
 
         // Mengonversi tanggal ke format Carbon
         foreach ($orderSales as $orderSale) {
@@ -65,6 +80,7 @@ class OrderSaleController extends Controller
         // Mengirim data pesanan ke view
         return view('sales.riwayatOrder', compact('orderSales'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -96,9 +112,12 @@ class OrderSaleController extends Controller
 
         // Calculate total price
         $totalAmount = 0;
+        $id_user_sales = session('id_user_sales');
+        $id_user_agen = session('id_user_agen');
         // Memasukkan data kedalan tabel Order Sales
         $orders = [
-            'id_user_sales' => 1,
+            'id_user_sales' => $id_user_sales,
+            'id_user_agen' => $id_user_agen,
             'jumlah' => $request->total_items,
             'total' => $request->total_amount,
             'tanggal' => now(),
@@ -116,13 +135,13 @@ class OrderSaleController extends Controller
             $totalAmount = 0;
             $product = DB::table('tbl_barang_agen')->where('id_master_barang', $productId)->first();
             $totalAmount += $product->harga_agen * $quantity;
-            
+
 
 
             $orders[] = [
                 'id_order' => $id_order,
                 'id_user_agen' => 1,
-                'id_user_sales' => 1,
+                'id_user_sales' => $id_user_sales,
                 'id_master_barang' => $productId,
                 'id_barang_agen' => $product->id_barang_agen,
                 'jumlah_produk' => $quantity,
@@ -177,13 +196,13 @@ class OrderSaleController extends Controller
         $orderSale = OrderSale::where('id_order', $id_nota)->first();
         $namaAgen = DB::table('user_agen')->where('id_user_agen', $orderDetailSales->id_user_agen)->first();
         $namaSales = DB::table('user_sales')->where('id_user_sales', $orderSale->id_user_sales)->first();
-    
+
         $itemNota = [];
-    
+
         foreach ($orderDetailSalesItem as $barangAgen) {
             $product = DB::table('master_barang')->where('id_master_barang', $barangAgen->id_master_barang)->first();
             $hargaSatuan = DB::table('tbl_barang_agen')->where('id_master_barang', $barangAgen->id_master_barang)->first();
-            
+
             $itemNota[] = [
                 'nama_rokok' => $product ? $product->nama_rokok : null,
                 'harga_satuan' => $hargaSatuan ? $hargaSatuan->harga_agen : null,
@@ -191,7 +210,7 @@ class OrderSaleController extends Controller
                 'jumlah_harga' => $barangAgen->jumlah_harga_item,
             ];
         }
-    
+
         $formattedDate = Carbon::parse($orderSale->tanggal)->locale('id')->translatedFormat('j F Y');
 
         $notaSales = [
@@ -204,10 +223,10 @@ class OrderSaleController extends Controller
             'total_harga' => $orderSale->total,
             'item_nota' => $itemNota
         ];
-    
+
         return view('sales.bayar', compact('notaSales', 'id_nota'));
     }
-    
+
 
     /**
      * Function untuk Mengupdate ke database 
@@ -225,7 +244,7 @@ class OrderSaleController extends Controller
             }
             $editNota->save();
         }
-        
+
 
         return redirect()->route('riwayatOrder',)
             ->with('success', 'Kunjungan toko berhasil diperbarui.');
@@ -248,7 +267,7 @@ class OrderSaleController extends Controller
     {
         $selectedProductIds = $request->input('products', []); // Mengambil ID produk yang dipilih dari request
         $namaRokokList = [];
-        $idAgen = 4;
+        $idAgen = 1;
         $getAgen = UserAgen::where('id_user_agen', $idAgen)->first();
 
         $namaAgen = [
@@ -286,7 +305,7 @@ class OrderSaleController extends Controller
         // Mengambil harga per produk
         $prices = $orders->pluck('harga_agen', 'id_master_barang')->toArray();
 
-        return view('sales.detail_pesanan', compact('orders', 'totalAmount', 'prices', 'namaRokokList','namaAgen'));
+        return view('sales.detail_pesanan', compact('orders', 'totalAmount', 'prices', 'namaRokokList', 'namaAgen'));
     }
 
 
@@ -307,9 +326,9 @@ class OrderSaleController extends Controller
         return redirect()->route('detail')->with('success', 'Pesanan Anda telah diproses. Terima kasih!');
     }
 
-    
-    public function notaSales($idNota)  
-    {   
+
+    public function notaSales($idNota)
+    {
         // Ganti dengan ID order yang ingin dicari
         $orderDetailSales = OrderDetailSales::where('id_order', $idNota)->first();
         $orderDetailSalesItem = OrderDetailSales::where('id_order', $idNota)->get();
@@ -317,7 +336,7 @@ class OrderSaleController extends Controller
         $namaAgen = DB::table('user_agen')->where('id_user_agen', $orderDetailSales->id_user_agen)->first();
         $namaSales = DB::table('user_sales')->where('id_user_sales', $orderSale->id_user_sales)->first();
 
-        
+
         $itemNota = [];
         $nama_rokok = [];
 
@@ -335,7 +354,7 @@ class OrderSaleController extends Controller
                 $jumlah_harga[] = null; // Jika tidak ditemukan
                 $harga_satuan[] = null; // Jika tidak ditemukan
             }
-        
+
             $itemNota[] = [
                 'nama_rokok' => end($nama_rokok), // Gunakan end() untuk mengambil elemen terakhir
                 'harga_satuan' => end($harga_satuan),
@@ -343,10 +362,11 @@ class OrderSaleController extends Controller
                 'jumlah_harga' => end($jumlah_harga),
             ];
         }
-        
-        
+
+        $formattedDate = Carbon::parse($orderSale->tanggal)->locale('id')->translatedFormat('j F Y');
+
         $notaSales = [
-            'tanggal' => $orderSale->tanggal,
+            'tanggal' => $formattedDate,
             'id_order' => $orderSale->id_order,
             'nama_agen' => $namaAgen->nama_lengkap,
             'nama_sales' => $namaSales->nama_lengkap,
@@ -355,9 +375,9 @@ class OrderSaleController extends Controller
             'total_harga' => $orderSale->total,
             'item_nota' => $itemNota
         ];
-        
 
-        
+
+
         return view('sales.nota', compact('notaSales'));
     }
 }

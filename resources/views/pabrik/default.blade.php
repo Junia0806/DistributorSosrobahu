@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.compat.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     @vite('resources/css/app.css')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -203,7 +204,7 @@
                     }).then(() => {
                         // Redirect to login page or home
                         window.location.href =
-                        '/pabrik/halamanLogin'; // Adjust the URL as needed
+                        '/pabrik/logout'; // Adjust the URL as needed
                     });
                 }
             });
