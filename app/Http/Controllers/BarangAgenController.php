@@ -48,17 +48,19 @@ class BarangAgenController extends Controller
                 ->where('order_sales.status_pemesanan', 1)
                 ->sum('order_detail_sales.jumlah_produk');
 
-            // Simpan data ke dalam array
+            $isianSlop = $orderValue ? $orderValue->stok_slop : 10;
             if ($orderValue) {
                 $namaRokokList[] = $orderValue->nama_rokok;
                 $gambarRokokList[] = $orderValue->gambar;
-                $totalProdukList[] = ($totalProduk * 10) - $totalProdukTerjual; // Perhitungan total produk yang tersedia
+                $totalProdukList[] = ($totalProduk * $isianSlop) - $totalProdukTerjual;
             } else {
                 $namaRokokList[] = null;
                 $gambarRokokList[] = null;
                 $totalProdukList[] = 0;
             }
+            // dd($orderValue);
         }
+
 
         // Mengambil semua pesanan yang statusnya selesai sesuai id_user_agen
         $completedOrders = OrderAgen::where('status_pemesanan', 1)
@@ -82,6 +84,8 @@ class BarangAgenController extends Controller
 
         // Hitung stok yang disesuaikan (dikurangi pesanan masuk yang sudah berhasil)
         $finalStockSlop = $totalStockSlop -= $incomingCompletedOrders;
+
+        
 
         // Produk terlaris dari pesanan sales yang statusnya 1 dan sesuai id_user_agen
         $topProduct = DB::table('order_detail_sales')
@@ -149,9 +153,6 @@ class BarangAgenController extends Controller
             }
         }
 
-
-
-        // Pass both barangAgens and namaRokokList to the view
         return view('sales.pesan_barang', compact('barangAgens', 'namaRokokList', 'gambarRokokList'));
     }
 

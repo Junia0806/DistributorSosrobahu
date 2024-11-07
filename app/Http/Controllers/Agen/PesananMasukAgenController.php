@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
+
 class PesananMasukAgenController extends Controller
 {
     public function index()
@@ -23,26 +24,21 @@ class PesananMasukAgenController extends Controller
         // Mengonversi tanggal ke format Carbon
         foreach ($pesananMasuks as $pesananMasuk) {
             $pesananMasuk->tanggal = Carbon::parse($pesananMasuk->tanggal);
-         // Mengambil nama user sales berdasarkan id_user_sales
-         $namaSales = DB::table('user_sales')->where('id_user_sales', $pesananMasuk->id_user_sales)->first();
-         $pesananMasuk->nama_sales = $namaSales ? $namaSales->nama_lengkap : 'Tidak Ditemukan';
+            // Mengambil nama user sales berdasarkan id_user_sales
+            $namaSales = DB::table('user_sales')->where('id_user_sales', $pesananMasuk->id_user_sales)->first();
+            $pesananMasuk->nama_sales = $namaSales ? $namaSales->nama_lengkap : 'Tidak Ditemukan';
         }
-
-
-
-        // Mengirim data pesanan ke view
         return view('agen.transaksiAgen', compact('pesananMasuks'));
     }
 
     public function detailPesanMasuk($idPesanan)
     {
+        Carbon::setLocale('id');
         // Ganti dengan ID order yang ingin dicari
         $orderDetailSales = OrderDetailSales::where('id_order', $idPesanan)->first();
         $orderDetailSalesItem = OrderDetailSales::where('id_order', $idPesanan)->get();
         $orderSales = OrderSale::where('id_order', $idPesanan)->first();
         $namaSales = DB::table('user_sales')->where('id_user_sales', $orderSales->id_user_sales)->first();
-
-
 
         $itemNota = [];
         $nama_rokok = [];
@@ -63,7 +59,7 @@ class PesananMasukAgenController extends Controller
             }
 
             $itemNota[] = [
-                'nama_rokok' => end($nama_rokok), // Gunakan end() untuk mengambil elemen terakhir
+                'nama_rokok' => end($nama_rokok),
                 'harga_satuan' => end($harga_satuan),
                 'jumlah_item' => end($jumlah_item),
                 'jumlah_harga' => end($jumlah_harga),
@@ -72,7 +68,7 @@ class PesananMasukAgenController extends Controller
 
 
         $pesanMasukAgen = [
-            'tanggal' => $orderSales->tanggal,
+            'tanggal' => Carbon::parse($orderSales->tanggal)->translatedFormat('d F Y'),
             'id_order' => $orderSales->id_order,
             'nama_sales' => $namaSales->nama_lengkap,
             'no_telp' => $namaSales->no_telp,
