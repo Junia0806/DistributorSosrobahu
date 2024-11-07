@@ -131,10 +131,11 @@ class BarangDistributorController extends Controller
         $incomingCompletedOrders = DB::table('order_detail_agen')
             ->join('order_agen', 'order_agen.id_order', '=', 'order_detail_agen.id_order')
             ->where('order_agen.status_pemesanan', 1)
+            ->where('order_detail_agen.id_user_distributor', $id_user_distributor)
             ->sum('order_detail_agen.jumlah_produk');
 
         // Hitung stok yang disesuaikan (dikurangi pesanan masuk yang sudah berhasil)
-        $finalStockKarton = $totalStockKarton - $incomingCompletedOrders;
+        $finalStockKarton = $totalStockKarton -= $incomingCompletedOrders;
 
 
         // Produk terlaris dari pesanan sales yang statusnya 1

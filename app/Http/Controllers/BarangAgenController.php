@@ -81,7 +81,7 @@ class BarangAgenController extends Controller
             ->sum('order_detail_sales.jumlah_produk'); // Slop
 
         // Hitung stok yang disesuaikan (dikurangi pesanan masuk yang sudah berhasil)
-        $finalStockSlop = $totalStockSlop - $incomingCompletedOrders;
+        $finalStockSlop = $totalStockSlop -= $incomingCompletedOrders;
 
         // Produk terlaris dari pesanan sales yang statusnya 1 dan sesuai id_user_agen
         $topProduct = DB::table('order_detail_sales')
