@@ -165,10 +165,17 @@
                                                 </div>
                                                 <div class="grid grid-cols-2 gap-2">
                                                     <div class="text-left">
-                                                        <label for="edit-password" class="block mb-2 text-sm font-semibold text-gray-600">Password</label>
-                                                        <input type="password" placeholder="Masukkan Password Baru Anda" name="password" id="password-edit"
-                                                            class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                    </div>
+                                                        <label for="password-edit" class="block mb-2 text-sm font-semibold text-gray-600">Password</label>
+                                                        <div class="relative">
+                                                            <input type="password" id="password-edit" name="password" placeholder="Password Baru"
+                                                                class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" />
+                                                            <span id="togglePasswordEdit"
+                                                                class="text-gray-500 absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                                                                onclick="togglePassword('password-edit', 'togglePasswordEdit')">
+                                                                <i class="fa-solid fa-eye-slash"></i>
+                                                            </span>
+                                                        </div>
+                                                </div>
                                                     <div class="text-left">
                                                         <label for="edit-phone" class="block mb-2 text-sm font-semibold text-gray-600">No. Telepon</label>
                                                         <input type="tel" value="{{ $akunDistributors->no_telp }}" name="no_telp" id="no_telp"
@@ -334,7 +341,7 @@
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-2">
-                            <div class="relative">
+                        <div class="relative">
                                 <label for="password-add" class="block mb-2 text-sm font-semibold text-gray-600">Password</label>
                                 <input type="password" id="password-add" name="password" placeholder="Password"
                                     class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg py-1.5 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
@@ -436,7 +443,7 @@
         function togglePassword(inputId, toggleId) {
             const passwordInput = document.getElementById(inputId);
             const toggleIcon = document.getElementById(toggleId).querySelector('i');
-    
+            
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';
                 toggleIcon.classList.remove('fa-eye-slash');
