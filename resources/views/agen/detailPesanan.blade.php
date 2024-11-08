@@ -63,13 +63,15 @@
                     <i class="fa-solid fa-triangle-exclamation h-6 w-6 text-yellow-600"></i>
                     <p class="text-gray-700">Harap melakukan pembayaran sejumlah <span id="total-amount2">Rp
                             {{ number_format($totalAmount, 0, ',', '.') }}</span>
-                        melalui transfer BRI 981-628-262 a/n Bapak Adi Sucipto dan upload bukti pembayaran di bawah ini.</p>
+                        melalui transfer {{ $namaDistributor['nama_bank'] }} {{ $namaDistributor['no_rek'] }} a/n  {{ $namaDistributor['nama_distributor'] }} dan upload bukti pembayaran di bawah ini.</p>
                 </div>
 
                 <!-- Upload Bukti Pembayaran -->
                 <div class="mb-4">
                     <label for="payment-proof" class="block text-gray-800 text-lg font-semibold mb-2">Upload Bukti
                         Pembayaran:</label>
+                        <p id="file-error" class="mt-2 text-sm text-red-500" style="display:none;">Gambar yang Anda submit tidak
+                        boleh berukuran lebih dari 1 MB.</p>
                     <div class="relative">
                         <input type="file" id="payment-proof" name="payment_proof" accept="image/*"
                             class="border border-gray-300 rounded-lg py-2 px-3 w-full bg-white text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -192,5 +194,36 @@
 
         // Panggil updatePrices saat halaman dimuat
         document.addEventListener('DOMContentLoaded', updatePrices);
+
+        document.getElementById('payment-proof').addEventListener('change', function() {
+            const file = this.files[0];
+            const fileError = document.getElementById('file-error');
+            const fileInputLabel = document.getElementById('file-input-label');
+
+            // Cek jika ukuran file lebih dari 1MB (1048576 bytes)
+            if (file && file.size > 1048576) {
+                fileError.style.display = 'block'; 
+                this.value = ''; 
+                this.classList.add('border-red-500'); 
+                return;
+            } else {
+                this.classList.remove('border-red-500');
+                fileError.style.display = 'none'; 
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Event listener untuk tombol submit
+            document.getElementById('order-button').addEventListener('click', function(event) {
+                const fileInput = document.getElementById('payment-proof');
+                const fileError = document.getElementById('file-error');
+
+                if (!fileInput.value || fileError.style.display === 'block') {
+                    event.preventDefault(); // Cegah submit jika ada error
+                    fileError.style.display =
+                    'block'; 
+                }
+            });
+        });
     </script>
 @endsection

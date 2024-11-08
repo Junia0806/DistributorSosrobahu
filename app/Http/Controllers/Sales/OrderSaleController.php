@@ -264,49 +264,56 @@ class OrderSaleController extends Controller
 
     //  memilih barang Dihalaman Order 
     public function detail(Request $request)
-    {
-        $selectedProductIds = $request->input('products', []); // Mengambil ID produk yang dipilih dari request
-        $namaRokokList = [];
-        $idAgen = 1;
-        $getAgen = UserAgen::where('id_user_agen', $idAgen)->first();
+{
+    $selectedProductIds = $request->input('products', []); // Mengambil ID produk yang dipilih dari request
+    $namaRokokList = [];
+    // Ambil ID agen dari session
+    $idAgen = session('id_user_agen'); // Mengambil ID agen dari session
+    $getAgen = UserAgen::where('id_user_agen', $idAgen)->first();
 
-        $namaAgen = [
-            'nama_agen' => $getAgen->nama_lengkap,
-            'no_rek' => $getAgen->no_rek,
-            'nama_bank' => $getAgen->nama_bank,
-        ];
-
-        // Loop through each selected product ID
-        foreach ($selectedProductIds as $barangAgen) {
-
-            // Convert the ID to an integer
-            $namaProdukint = intval($barangAgen);
-
-            // Query the master_barang table for the corresponding record
-            $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProdukint)->first();
-
-            // Store the nama_rokok in the array
-            if ($orderValue) {
-                $namaRokokList[] = $orderValue->nama_rokok;
-            } else {
-                $namaRokokList[] = null; // If no matching record is found
-            }
-        }
-
-        // Ambil detail pesanan berdasarkan ID produk yang dipilih
-        $orders = BarangAgen::whereIn('id_master_barang', $selectedProductIds)->get();
-
-        // Menghitung total harga
-        $totalAmount = $orders->sum(function ($order) {
-            return $order->harga_agen * $order->jumlah; // Menghitung total harga untuk semua barang
-        });
-
-
-        // Mengambil harga per produk
-        $prices = $orders->pluck('harga_agen', 'id_master_barang')->toArray();
-
-        return view('sales.detail_pesanan', compact('orders', 'totalAmount', 'prices', 'namaRokokList', 'namaAgen'));
+    // Pastikan agen ditemukan
+    if (!$getAgen) {
+        return back()->withErrors(['message' => 'Agen tidak ditemukan.']);
     }
+
+    // Ambil informasi agen
+    $namaAgen = [
+        'nama_agen' => $getAgen->nama_lengkap,
+        'no_rek' => $getAgen->no_rek,
+        'nama_bank' => $getAgen->nama_bank,
+    ];
+
+    // Loop through each selected product ID
+    foreach ($selectedProductIds as $barangAgen) {
+
+        // Convert the ID to an integer
+        $namaProdukint = intval($barangAgen);
+
+        // Query the master_barang table for the corresponding record
+        $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProdukint)->first();
+
+        // Store the nama_rokok in the array
+        if ($orderValue) {
+            $namaRokokList[] = $orderValue->nama_rokok;
+        } else {
+            $namaRokokList[] = null; // If no matching record is found
+        }
+    }
+
+    // Ambil detail pesanan berdasarkan ID produk yang dipilih
+    $orders = BarangAgen::whereIn('id_master_barang', $selectedProductIds)->get();
+
+    // Menghitung total harga
+    $totalAmount = $orders->sum(function ($order) {
+        return $order->harga_agen * $order->jumlah; // Menghitung total harga untuk semua barang
+    });
+
+
+    // Mengambil harga per produk
+    $prices = $orders->pluck('harga_agen', 'id_master_barang')->toArray();
+
+    return view('sales.detail_pesanan', compact('orders', 'totalAmount', 'prices', 'namaRokokList', 'namaAgen'));
+}
 
 
     public function submit(Request $request)
