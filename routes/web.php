@@ -297,3 +297,13 @@ Route::get('/pabrik/rekening', function () {
     return view('pabrik.rekening');
 })->name('pabrik-rekening');
 
+//ERROR
+Route::get('/404', function () {
+    return view('errors.404');
+})->name('404');
+Route::get('/504', function () {
+    return view('errors.504');
+})->name('504');
+Route::get('/500', function () {
+    return view('errors.500');
+})->name('500');
