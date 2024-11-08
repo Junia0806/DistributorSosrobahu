@@ -61,9 +61,31 @@ class BarangAgenController extends Controller
             // dd($orderValue);
         }
 
-        // Menghitung total dari $totalProdukList
-        $finalStockSlop = array_sum($totalProdukList);
-        // dd($finalStockSlop);
+
+        // Mengambil semua pesanan yang statusnya selesai sesuai id_user_agen
+        $completedOrders = OrderAgen::where('status_pemesanan', 1)
+            ->where('id_user_agen', $id_user_agen)
+            ->get();
+
+        // Mengambil detail pesanan yang sesuai id_user_agen
+        $orderDetails = OrderDetailAgen::whereIn('id_order', $completedOrders->pluck('id_order'))->get();
+
+        // Menghitung total stok (konversi dari karton ke slop, 1 karton = 10 slop)
+        $slopPerKarton = 10;
+        $totalStockKarton = $orderDetails->sum('jumlah_produk'); // Karton
+        $totalStockSlop = $totalStockKarton * $slopPerKarton;
+
+        // Pesanan masuk (yang sudah berhasil) sesuai id_user_agen
+        $incomingCompletedOrders = DB::table('order_detail_sales')
+            ->join('order_sales', 'order_sales.id_order', '=', 'order_detail_sales.id_order')
+            ->where('order_sales.status_pemesanan', 1)
+            ->where('order_detail_sales.id_user_agen', $id_user_agen)
+            ->sum('order_detail_sales.jumlah_produk'); // Slop
+
+        // Hitung stok yang disesuaikan (dikurangi pesanan masuk yang sudah berhasil)
+        $finalStockSlop = $totalStockSlop -= $incomingCompletedOrders;
+
+        
 
         // Produk terlaris dari pesanan sales yang statusnya 1 dan sesuai id_user_agen
         $topProduct = DB::table('order_detail_sales')

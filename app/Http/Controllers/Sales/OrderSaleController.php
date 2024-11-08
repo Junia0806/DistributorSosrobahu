@@ -140,7 +140,7 @@ class OrderSaleController extends Controller
 
             $orders[] = [
                 'id_order' => $id_order,
-                'id_user_agen' => 1,
+                'id_user_agen' => $id_user_agen,
                 'id_user_sales' => $id_user_sales,
                 'id_master_barang' => $productId,
                 'id_barang_agen' => $product->id_barang_agen,
