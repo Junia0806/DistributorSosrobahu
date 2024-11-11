@@ -39,46 +39,49 @@ class AkunSalesController extends Controller
 
 
     public function store(Request $request)
-    {
-        // Validasi input dari form
-        $validated = $request->validate([
+{
+    // Validasi input dari form
+    $validated = $request->validate([
             // 'nama_lengkap' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:user_sales,username'
             // 'password' => 'required|string|min:6',
             // 'no_telp' => 'required|string|max:15',
             // 'gambar_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-        $id_user_agen = session('id_user_agen');
+        ]); 
+    $id_user_agen = session('id_user_agen');
 
-        // Menangani upload file jika ada
-        $ktpPath = null; // Default jika tidak ada file yang diupload
-        if ($request->hasFile('gambar_ktp')) {
-            $file = $request->file('gambar_ktp');
-            $imageName = $request->username . '_ktp.' . $file->extension();
-            $file->storeAs('ktp', $imageName, 'public'); 
-        }
-
-        // Simpan data ke database
-        UserSales::create([
-            'id_user_sales' => $request->id_user_sales,
-            'id_user_agen' => $id_user_agen,
-            'nama_lengkap' => $request->nama_lengkap,
-            'username' => $request->username,
-            'password' => bcrypt($request->password), // Enkripsi password
-            'no_telp' => $request->no_telp,
-            'status' => 1,
-            'level' => 1,
-            'gambar_ktp' => $imageName, // Simpan nama gambar
-        ]);
-
-        // Hitung total akun sales
-        $totalAkunSales = UserSales::count();
-        // Tentukan halaman baru yang harus dituju
-        $newPage = ceil($totalAkunSales / 10); // Asumsikan 10 akun per halaman
-
-        // Redirect ke halaman baru
-        return redirect()->route('pengaturanSales', ['page' => $newPage])->with('success', 'Akun berhasil ditambahkan.');
+    // Menangani upload file jika ada
+    $ktpPath = null; // Default jika tidak ada file yang diupload
+    if ($request->hasFile('gambar_ktp')) {
+        $file = $request->file('gambar_ktp');
+        $imageName = $request->username . '_ktp.' . $file->extension();
+        $file->storeAs('ktp', $imageName, 'public'); 
     }
+
+    // Simpan data akun sales baru ke database
+    UserSales::create([
+        'id_user_sales' => $request->id_user_sales,
+        'id_user_agen' => $id_user_agen,
+        'nama_lengkap' => $request->nama_lengkap,
+        'username' => $request->username,
+        'password' => bcrypt($request->password), // Enkripsi password
+        'no_telp' => $request->no_telp,
+        'status' => 1,
+        'level' => 1,
+        'gambar_ktp' => $imageName, // Simpan nama gambar
+    ]);
+
+    // Hitung total akun sales untuk id_user_agen
+    $totalAkunSales = UserSales::where('id_user_agen', $id_user_agen)->count();
+    // Tentukan jumlah akun sales per halaman (misalnya 10 akun per halaman)
+    $perPage = 10;
+
+    // Hitung halaman tempat akun sales baru berada
+    $newPage = ceil($totalAkunSales / $perPage);
+
+    // Redirect ke halaman yang berisi akun sales baru
+    return redirect()->route('pengaturanSales', ['page' => $newPage])->with('success', 'Akun berhasil ditambahkan.');
+}
 
     // Untuk Mengupdate data Sales
     public function update(Request $request, $id)

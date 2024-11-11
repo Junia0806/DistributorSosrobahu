@@ -59,6 +59,34 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Custom Pagination -->
+        @if ($rokokPabriks->total() > 10)
+            <div class="flex flex-col items-center my-4">
+                <span class="text-sm text-gray-700 dark:text-gray-400">
+                    Menampilkan <span
+                        class="font-semibold text-gray-900 dark:text-white">{{ $rokokPabriks->firstItem() }}</span>
+                    sampai
+                    <span class="font-semibold text-gray-900 dark:text-white">{{ $rokokPabriks->lastItem() }}</span> dari
+                    <span class="font-semibold text-gray-900 dark:text-white">{{ $rokokPabriks->total() }}</span>
+                    produk
+                </span>
+                <div class="inline-flex mt-2 xs:mt-0">
+                    <!-- Previous Button -->
+                    <button {{ $rokokPabriks->onFirstPage() ? 'disabled' : '' }}
+                        class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                        {{ $rokokPabriks->previousPageUrl() ? 'onclick=window.location.href=\'' . $rokokPabriks->previousPageUrl() . '\'' : '' }}>
+                        Sebelumnya
+                    </button>
+                    <!-- Next Button -->
+                    <button {{ !$rokokPabriks->hasMorePages() ? 'disabled' : '' }}
+                        class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                        {{ $rokokPabriks->nextPageUrl() ? 'onclick=window.location.href=\'' . $rokokPabriks->nextPageUrl() . '\'' : '' }}>
+                        Selanjutnya
+                    </button>
+                </div>
+            </div>
+        @endif
     </div>
 </section>
 
@@ -73,9 +101,8 @@
             <!-- Flex untuk membagi menjadi 2 kolom pada layar besar -->
             <!-- Bagian kiri untuk Foto Produk -->
             <div class="w-full md:w-1/2 flex flex-col items-center mb-4 md:mb-0">
-                <img id="editProductImage" 
-                    class="w-64 h-80 object-cover mb-4" 
-                    src="{{ asset('storage/produk/' . $gambarRokokList[$index] ?? 'default.jpg') }}" 
+                <img id="editProductImage" class="w-64 h-80 object-cover mb-4"
+                    src="{{ asset('storage/produk/' . $gambarRokokList[$index] ?? 'default.jpg') }}"
                     alt="{{ $namaRokokList[$index] }}">
             </div>
             <!-- Bagian kanan untuk Form -->
@@ -91,7 +118,8 @@
                             class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
                     </div>
                     <div class="mb-4">
-                        <label for="stok_slop" class="block text-sm font-medium text-gray-700">Jumlah Slop per Karton</label>
+                        <label for="stok_slop" class="block text-sm font-medium text-gray-700">Jumlah Slop per
+                            Karton</label>
                         <input type="number" name="stok_slop" id="stok_slop"
                             class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
                     </div>
@@ -101,12 +129,14 @@
                             class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
                     </div>
                     <div class="mb-4">
-                        <label for="productImageInput" class="block text-sm font-medium text-gray-700">Foto Produk</label>
-                        <input type="file" id="productImageInput" name="gambar_barang"
-                            class="mt-1 block w-full border border-gray-300 rounded-md" 
-                            accept="image/*" 
-                            onchange="previewImage(event, '{{ asset('storage/produk/' . $gambarRokokList[$index] ?? 'default.jpg') }}')">
+                        <label for="productImageInput" class="block text-sm font-medium text-gray-700">Foto Produk
+                            (Edit)</label>
+                        <input type="file" id="productImageInput" name="gambar"
+                            class="mt-1 block w-full border border-gray-300 rounded-md" accept="image/*">
+                        <span id="file-error-productImageInput" class="text-red-500 text-sm mt-1 hidden">Ukuran file
+                            maksimum adalah 1 MB.</span>
                     </div>
+
                     <div class="flex justify-end space-x-2 mt-4">
                         <button type="submit"
                             class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Simpan</button>
@@ -149,14 +179,18 @@
                     class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
             </div>
             <div class="mb-4">
-                <label for="newProductSlop" class="block text-sm font-medium text-gray-700">Jumlah Slop per Karton</label>
+                <label for="newProductSlop" class="block text-sm font-medium text-gray-700">Jumlah Slop per
+                    Karton</label>
                 <input type="number" id="newProductSlop" name="stok_slop"
                     class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
             </div>
             <div class="mb-4">
-                <label for="newProductImage" class="block text-sm font-medium text-gray-700">Foto Produk</label>
+                <label for="newProductImage" class="block text-sm font-medium text-gray-700">Foto Produk
+                    (Tambah)</label>
                 <input type="file" id="newProductImage" name="gambar"
-                    class="mt-1 block w-full border border-gray-300 rounded-md" accept="image/*" required>
+                    class="mt-1 block w-full border border-gray-300 rounded-md" accept="image/*">
+                <span id="file-error-newProductImage" class="text-red-500 text-sm mt-1 hidden">Ukuran file maksimum
+                    adalah 1 MB.</span>
             </div>
             <div class="flex justify-end space-x-2 mt-4">
                 <button type="submit"
@@ -176,29 +210,29 @@
 
 <script>
     function previewImage(event) {
-    const image = document.getElementById('editProductImage');
-    const file = event.target.files[0];
-    
-    if (file) {
-        image.src = URL.createObjectURL(file);
+        const image = document.getElementById('editProductImage');
+        const file = event.target.files[0];
+
+        if (file) {
+            image.src = URL.createObjectURL(file);
+        }
     }
-}
 
     // Fungsi untuk membuka modal edit produk
     function openModal(nama_produk, harga_karton_pabrik, stok_slop, productId, currentImageUrl) {
-    document.getElementById('nama_produk').value = nama_produk;
-    document.getElementById('harga_karton_pabrik').value = harga_karton_pabrik;
-    document.getElementById('stok_slop').value = stok_slop;
+        document.getElementById('nama_produk').value = nama_produk;
+        document.getElementById('harga_karton_pabrik').value = harga_karton_pabrik;
+        document.getElementById('stok_slop').value = stok_slop;
 
-    // Update form action URL untuk menyertakan product ID
-    const form = document.getElementById('editForm');
-    form.action = `{{ route('pengaturanHargaPabrik.update', '') }}/${productId}`;
+        // Update form action URL untuk menyertakan product ID
+        const form = document.getElementById('editForm');
+        form.action = `{{ route('pengaturanHargaPabrik.update', '') }}/${productId}`;
 
-    const imageElement = document.getElementById('editProductImage');
-    imageElement.src = currentImageUrl; // Gambar yang sudah tersimpan akan muncul
+        const imageElement = document.getElementById('editProductImage');
+        imageElement.src = currentImageUrl; // Gambar yang sudah tersimpan akan muncul
 
-    document.getElementById('editModal').style.display = 'flex'; // Menampilkan modal edit
-}
+        document.getElementById('editModal').style.display = 'flex'; // Menampilkan modal edit
+    }
 
     // Fungsi untuk menutup modal edit produk
     function closeModal() {
@@ -262,6 +296,44 @@
             }
         });
     }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Ambil kedua input file dengan ID yang sudah ditentukan
+        const inputFileEdit = document.getElementById('productImageInput');
+        const inputFileTambah = document.getElementById('newProductImage');
+
+        // Fungsi validasi ukuran file
+        function validateFile(inputFile, errorId) {
+            const file = inputFile.files[0];
+            const fileError = document.getElementById(errorId);
+
+            if (file && file.size > 1048576) { // Validasi jika ukuran file lebih dari 1 MB
+                fileError.style.display = 'block'; // Tampilkan pesan error
+                inputFile.classList.add('border-red-500'); // Beri border merah
+                inputFile.value = ''; // Reset input file
+            } else {
+                fileError.style.display = 'none'; // Sembunyikan pesan error
+                inputFile.classList.remove('border-red-500'); // Hapus border merah
+            }
+        }
+
+        // Event listener untuk input file edit
+        if (inputFileEdit) {
+            inputFileEdit.addEventListener('change', function () {
+                validateFile(inputFileEdit, 'file-error-productImageInput');
+            });
+        }
+
+        // Event listener untuk input file tambah
+        if (inputFileTambah) {
+            inputFileTambah.addEventListener('change', function () {
+                validateFile(inputFileTambah, 'file-error-newProductImage');
+            });
+        }
+    });
+
+
+
 </script>
 
 @endsection

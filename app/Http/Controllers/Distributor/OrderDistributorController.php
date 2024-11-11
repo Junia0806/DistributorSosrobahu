@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Models\OrderDistributor;
 use App\Models\OrderDetailDistributor;
 use App\Models\MasterBarang;
+use App\Models\UserPabrik;
 
 
 class OrderDistributorController extends Controller
@@ -91,6 +92,21 @@ class OrderDistributorController extends Controller
         $selectedProductIds = $request->input('products', []); // Mengambil ID produk yang dipilih dari request
         $namaRokokList = [];
 
+        // Ambil informasi pabrik (asumsikan hanya ada satu pabrik)
+    $getPabrik = UserPabrik::first(); // Mengambil data pabrik pertama
+
+    // Pastikan pabrik ditemukan
+    if (!$getPabrik) {
+        return back()->withErrors(['message' => 'Pabrik tidak ditemukan.']);
+    }
+
+    // Ambil informasi pabrik
+    $infoPabrik = [
+        'nama_pabrik' => $getPabrik->nama_lengkap,
+        'no_rek' => $getPabrik->no_rek,
+        'nama_bank' => $getPabrik->nama_bank,
+    ];
+
         // Loop through each selected product ID
         foreach ($selectedProductIds as $barangPabrik) {
 
@@ -120,7 +136,7 @@ class OrderDistributorController extends Controller
         // Mengambil harga per produk
         $prices = $orders->pluck('harga_karton_pabrik', 'id_master_barang')->toArray();
 
-        return view('distributor.detailpesan', compact('orders', 'totalAmount', 'prices', 'namaRokokList'));
+        return view('distributor.detailpesan', compact('orders', 'totalAmount', 'prices', 'namaRokokList', 'infoPabrik'));
     }
 
     //Menyimpan Order Distributor

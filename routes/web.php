@@ -114,6 +114,7 @@ Route::middleware('auth.agen')->group(function () {
     // KELOLA HARGA AGEN
     Route::get('/agen/pengaturan-harga', [HargaAgenController::class, 'index'])->name('pengaturanHarga');
     Route::put('/agen/pengaturan-harga/update/{id}', [HargaAgenController::class, 'update'])->name('pengaturanHarga.update');
+    Route::get('/agen/tambah-produk', [HargaAgenController::class, 'tambahProduk'])->name('tambahProduk');
 
     // REKENING AGEN
     Route::get('/agen/pengaturan-bank', [PengaturanBankController::class, 'index'])->name('pengaturanBank');
@@ -160,6 +161,7 @@ Route::middleware('auth.distributor')->group(function () {
     // KELOLA HARGA DISTRIBUTOR
     Route::get('/distributor/pengaturan-harga', [HargaDistributorController::class, 'index'])->name('pengaturanHargaDistributor');
     Route::put('/distributor/pengaturan-harga/update/{id}', [HargaDistributorController::class, 'update'])->name('pengaturanHargaDistributor.update');
+    Route::get('/distributor/tambah-produk', [HargaDistributorController::class, 'tambahProduk'])->name('tambahProduk');
 
     // REKENING DISTRIBUTOR
     Route::get('/distributor/pengaturan-bank', [PengaturanBankDistributorController::class, 'index'])->name('pengaturanBankDistributor');
@@ -297,3 +299,13 @@ Route::get('/pabrik/rekening', function () {
     return view('pabrik.rekening');
 })->name('pabrik-rekening');
 
+//ERROR
+Route::get('/404', function () {
+    return view('errors.404');
+})->name('404');
+Route::get('/504', function () {
+    return view('errors.504');
+})->name('504');
+Route::get('/500', function () {
+    return view('errors.500');
+})->name('500');
