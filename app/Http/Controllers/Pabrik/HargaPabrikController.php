@@ -46,36 +46,6 @@ class HargaPabrikController extends Controller
         //return response()->json([$rokokPabriks]);
     }
 
-    public function tambahProduk()
-    {
-        $barangPabriks = MasterBarang::all();
-        $namaRokokList = [];
-        $gambarRokokList = [];
-
-        // Loop through each BarangPabrik item
-        foreach ($barangPabriks as $barangPabrik) {
-            // Get the id_master_barang for the current BarangPabrik item
-            $namaProduk = $barangPabrik->id_master_barang;
-
-            // Query the master_barang table for the corresponding record
-            $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProduk)->first();
-
-            // Store the nama_rokok in the array
-            if ($orderValue) {
-                $namaRokokList[] = $orderValue->nama_rokok;
-                $gambarRokokList[] = $orderValue->gambar;
-            } else {
-                $namaRokokList[] = null; // If no matching record is found
-                $gambarRokokList[] = null;
-            }
-        }
-
-
-        // Pass both barangPabriks and namaRokokList to the view
-        // return view('distributor.pesan', compact('barangPabriks', 'namaRokokList', 'gambarRokokList'));
-        return response()->json([$barangPabriks,$namaRokokList,$gambarRokokList]);
-    }
-
     public function update(Request $request, $id)
     {
         // Validasi input
@@ -124,5 +94,36 @@ class HargaPabrikController extends Controller
         }
     }
 
-    
+    public function store(Request $request)
+    {
+        // Validasi data
+        $request->validate([
+            'nama_produk' => 'required|string|max:255',
+            'harga_karton_pabrik' => 'required|numeric',
+            'stok_karton' => 'required|numeric',
+            'stok_slop' => 'required|numeric',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+        
+        if ($request->hasFile('gambar')) {
+            $file = $request->file('gambar');
+            $nama_produk = $request->input('nama_produk');
+            $nama_file_gambar = strtolower(str_replace(' ', '_', $nama_produk)) . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('produk', $nama_file_gambar, 'public'); // Simpan file di storage/app/public/ktp  // Simpan nama file saja di database
+        }
+
+
+
+        // Simpan data ke database
+        $newProduct = new MasterBarang();
+        $newProduct->nama_rokok = $request->input('nama_produk');
+        $newProduct->harga_karton_pabrik = $request->input('harga_karton_pabrik');
+        $newProduct->stok_karton = $request->input('stok_karton');
+        $newProduct->stok_slop = $request->input('stok_slop');
+        $newProduct->gambar = $nama_file_gambar;
+        $newProduct->save();
+
+        // Redirect setelah produk ditambahkan
+        return redirect()->route('pengaturanHargaPabrik')->with('success', 'Produk berhasil ditambahkan');
+    }
 }

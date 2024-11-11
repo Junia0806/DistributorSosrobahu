@@ -25,7 +25,7 @@
                                 <td class="py-3 px-4 text-left">{{ $item['nama_rokok'] }}</td>
                                 <td class="py-3 px-4 text-center">Rp {{ number_format($item['harga_satuan'], 0, ',', '.') }}
                                 </td>
-                                <td class="py-3 px-4 text-center">{{ $item['jumlah_item'] }}</td>
+                                <td class="py-3 px-4 text-center">{{ $item['jumlah_item'] }} slop</td>
                                 <td class="py-3 px-4 text-right">Rp {{ number_format($item['jumlah_harga'], 0, ',', '.') }}
                                 </td>
                             </tr>
@@ -45,8 +45,9 @@
                         <p class="text-gray-700">
                             Mohon segera melakukan pembayaran sebesar
                             <span class="font-medium">Rp {{ number_format($notaSales['total_harga'], 0, ',', '.') }}</span>
-                            ke rekening <span class="font-medium">BRI 981-628-262 a.n. Bapak Adi Sucipto</span>. Setelah
-                            melakukan transfer, silakan unggah bukti pembayaran Anda melalui tombol di bawah ini.
+                            melalui {{ $notaSales['no_rek'] }} {{ $notaSales['nama_bank'] }} a/n
+                            {{ $notaSales['nama_agen'] }}, silahkan unggah bukti pembayaran Anda melalui tombol di bawah
+                            ini.
                         </p>
                     </div>
                 </div>
@@ -100,21 +101,21 @@
     <script>
         document.getElementById('gambar').addEventListener('change', function() {
             const file = this.files[0];
-            const fileName = 'Pilih File'; 
+            const fileName = 'Pilih File';
             const fileError = document.getElementById('file-error');
             const fileInputLabel = document.getElementById('file-input-label');
 
             // Cek jika ukuran file lebih dari 1MB (1048576 bytes)
             if (file && file.size > 1048576) {
-                fileError.style.display = 'block'; 
-                fileInputLabel.classList.add('border-red-600'); 
-                this.value = ''; 
-                document.getElementById('file-name').textContent = fileName; 
+                fileError.style.display = 'block';
+                fileInputLabel.classList.add('border-red-600');
+                this.value = '';
+                document.getElementById('file-name').textContent = fileName;
             } else {
-                fileError.style.display = 'none'; 
-                fileInputLabel.classList.remove('border-red-600'); 
+                fileError.style.display = 'none';
+                fileInputLabel.classList.remove('border-red-600');
                 document.getElementById('file-name').textContent = file ? file.name :
-                fileName; 
+                    fileName;
             }
         });
 
