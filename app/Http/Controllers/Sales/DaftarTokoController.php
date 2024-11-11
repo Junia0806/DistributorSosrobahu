@@ -60,26 +60,30 @@ class DaftarTokoController extends Controller
             'nama_pemilik' => 'required|string|max:255',
             'no_telp' => 'required|string|max:100',
         ]);
-
+    
         // Ambil id_user_sales dari session
         $id_user_sales = session('id_user_sales');
-
+    
         // Tambahkan id_user_sales ke dalam inputan data
         $data = $request->all();
         $data['id_user_sales'] = $id_user_sales;
-
-        // Simpan data ke tabel daftar_toko
-        DaftarToko::create($data);
-
-        // Hitung total akun sales
-        $totalTokoSales = DaftarToko::count();
-        // Tentukan halaman baru yang harus dituju
-        $newPage = ceil($totalTokoSales / 5); // Asumsikan 10 akun per halaman
     
-        // Redirect ke route tokoSales dengan pesan sukses
+        // Simpan data toko baru
+        $newToko = DaftarToko::create($data);
+    
+        // Mengambil jumlah toko yang ada untuk user sales yang sedang login
+        $totalTokoSales = DaftarToko::where('id_user_sales', $id_user_sales)->count();
+    
+        // Tentukan jumlah toko per halaman
+        $perPage = 5; // Misalnya 5 toko per halaman
+    
+        // Hitung halaman tempat toko baru berada
+        $newPage = ceil($totalTokoSales / $perPage);
+    
+        // Redirect ke halaman yang berisi toko baru
         return redirect()->route('tokoSales',  ['page' => $newPage])->with('success', 'Toko berhasil ditambahkan.');
     }
-
+    
 
     // Function untuk memanggil halaman/view toko
     public function showtoko(DaftarToko $daftarToko)

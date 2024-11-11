@@ -11,7 +11,7 @@
                     <i class="fas fa-box-open fa-2x"></i>
                 </div>
                 <div class="ml-4">
-                    <h2 class="text-xl font-bold">{{ $finalStockSlop }} Slop</h2>
+                    <h2 class="text-xl font-bold">{{ number_format($finalStockSlop, 0, ',', '.') }} Slop</h2>
                     <p class="text-lg">Total Stok</p>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                     </div>
                     <div class="text-center">
                         <h2 class="text-sm font-bold text-gray-800">{{ $namaRokokList[$index] }}</h2>
-                        <p class="text-gray-700 text-md">Stok: <span class="text-black font-bold">{{ $totalProdukList[$index] }}
+                        <p class="text-gray-700 text-md">Stok: <span class="text-black font-bold"> {{ number_format( $totalProdukList[$index], 0, ',', '.') }}
                                 Slop</span></p>
                     </div>
                 </div>

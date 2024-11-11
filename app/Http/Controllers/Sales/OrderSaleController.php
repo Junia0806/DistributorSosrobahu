@@ -17,46 +17,45 @@ class OrderSaleController extends Controller
 {
 
     public function dashboard()
-{
-    // Ambil id_user_sales dari session
-    $id_user_sales = session('id_user_sales');
+    {
+        // Ambil id_user_sales dari session
+        $id_user_sales = session('id_user_sales');
 
-    // Mengambil data total harga dari semua pemesanan yang berstatus 'selesai' dan sesuai dengan id_user_sales
-    $orderSales = OrderSale::where('status_pemesanan', 1)
-                           ->where('id_user_sales', $id_user_sales)
-                           ->get();
-    $totalPrice = $orderSales->sum('total');
+        // Mengambil data total harga dari semua pemesanan yang berstatus 'selesai' dan sesuai dengan id_user_sales
+        $orderSales = OrderSale::where('status_pemesanan', 1)
+            ->where('id_user_sales', $id_user_sales)
+            ->get();
+        $totalPrice = $orderSales->sum('total');
 
-    // Mengambil jumlah toko berdasarkan id_user_sales
-    $jumlahToko = DaftarToko::where('id_user_sales', $id_user_sales)->count();
+        // Mengambil jumlah toko berdasarkan id_user_sales
+        $jumlahToko = DaftarToko::where('id_user_sales', $id_user_sales)->count();
 
-    // Mengambil produk terlaris untuk id_user_sales
-    $topProduct = OrderDetailSales::select('id_master_barang', DB::raw('SUM(jumlah_produk) as total_quantity'))
-        ->whereHas('orderSale', function ($query) use ($id_user_sales) {
+        // Mengambil produk terlaris untuk id_user_sales
+        $topProduct = OrderDetailSales::select('id_master_barang', DB::raw('SUM(jumlah_produk) as total_quantity'))
+            ->whereHas('orderSale', function ($query) use ($id_user_sales) {
+                $query->where('status_pemesanan', 1)
+                    ->where('id_user_sales', $id_user_sales);
+            })
+            ->groupBy('id_master_barang')
+            ->orderBy('total_quantity', 'desc')
+            ->first();
+
+        // Jika ada produk terlaris
+        $topProductName = $topProduct ? DB::table('master_barang')->where('id_master_barang', $topProduct->id_master_barang)->value('nama_rokok') : 'Tidak ada data';
+
+        // Menghitung total stok (dalam pcs) berdasarkan pesanan yang berstatus 'selesai' dan sesuai id_user_sales
+        $totalStok = OrderDetailSales::whereHas('orderSale', function ($query) use ($id_user_sales) {
             $query->where('status_pemesanan', 1)
-                  ->where('id_user_sales', $id_user_sales);
-        })
-        ->groupBy('id_master_barang')
-        ->orderBy('total_quantity', 'desc')
-        ->first();
+                ->where('id_user_sales', $id_user_sales);
+        })->sum(DB::raw('jumlah_produk * 10')); // Mengonversi slop ke pcs
 
-    // Jika ada produk terlaris
-    $topProductName = $topProduct ? DB::table('master_barang')->where('id_master_barang', $topProduct->id_master_barang)->value('nama_rokok') : 'Tidak ada data';
+        // Menghitung total penjualan (sisa produk) sesuai dengan id_user_sales
+        $totalPenjualan = KunjunganToko::where('id_user_sales', $id_user_sales)->sum('sisa_produk'); // Total produk yang terjual
+        $totalStok -= $totalPenjualan; // Mengurangi stok berdasarkan produk yang terjual
 
-    // Menghitung total stok (dalam pcs) berdasarkan pesanan yang berstatus 'selesai' dan sesuai id_user_sales
-    $totalStok = OrderDetailSales::whereHas('orderSale', function ($query) use ($id_user_sales) {
-        $query->where('status_pemesanan', 1)
-              ->where('id_user_sales', $id_user_sales);
-    })->sum(DB::raw('jumlah_produk * 10')); // Mengonversi slop ke pcs
-
-    // Menghitung total penjualan (sisa produk) sesuai dengan id_user_sales
-    $totalPenjualan = KunjunganToko::where('id_user_sales', $id_user_sales)->sum('sisa_produk'); // Total produk yang terjual
-    $totalStok -= $totalPenjualan; // Mengurangi stok berdasarkan produk yang terjual
-
-    // Mengirimkan variabel ke view
-    return view('sales.dashboard', compact('totalPrice', 'jumlahToko', 'topProductName', 'totalStok'));
-  
-}
+        // Mengirimkan variabel ke view
+        return view('sales.dashboard', compact('totalPrice', 'jumlahToko', 'topProductName', 'totalStok'));
+    }
 
 
     /**
@@ -140,7 +139,7 @@ class OrderSaleController extends Controller
 
             $orders[] = [
                 'id_order' => $id_order,
-                'id_user_agen' => 1,
+                'id_user_agen' => $id_user_agen,
                 'id_user_sales' => $id_user_sales,
                 'id_master_barang' => $productId,
                 'id_barang_agen' => $product->id_barang_agen,
@@ -197,8 +196,6 @@ class OrderSaleController extends Controller
         $namaAgen = DB::table('user_agen')->where('id_user_agen', $orderDetailSales->id_user_agen)->first();
         $namaSales = DB::table('user_sales')->where('id_user_sales', $orderSale->id_user_sales)->first();
 
-        $itemNota = [];
-
         foreach ($orderDetailSalesItem as $barangAgen) {
             $product = DB::table('master_barang')->where('id_master_barang', $barangAgen->id_master_barang)->first();
             $hargaSatuan = DB::table('tbl_barang_agen')->where('id_master_barang', $barangAgen->id_master_barang)->first();
@@ -217,6 +214,8 @@ class OrderSaleController extends Controller
             'tanggal' => $formattedDate,
             'id_order' => $orderSale->id_order,
             'nama_agen' => $namaAgen->nama_lengkap,
+            'nama_bank' => $namaAgen->nama_bank,
+            'no_rek' => $namaAgen->no_rek,
             'nama_sales' => $namaSales->nama_lengkap,
             'no_telp' => $namaSales->no_telp,
             'total_item' => $orderSale->jumlah,
@@ -267,9 +266,16 @@ class OrderSaleController extends Controller
     {
         $selectedProductIds = $request->input('products', []); // Mengambil ID produk yang dipilih dari request
         $namaRokokList = [];
-        $idAgen = 1;
+        // Ambil ID agen dari session
+        $idAgen = session('id_user_agen'); // Mengambil ID agen dari session
         $getAgen = UserAgen::where('id_user_agen', $idAgen)->first();
 
+        // Pastikan agen ditemukan
+        if (!$getAgen) {
+            return back()->withErrors(['message' => 'Agen tidak ditemukan.']);
+        }
+
+        // Ambil informasi agen
         $namaAgen = [
             'nama_agen' => $getAgen->nama_lengkap,
             'no_rek' => $getAgen->no_rek,

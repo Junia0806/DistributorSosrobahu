@@ -166,14 +166,16 @@
                                                     </div>
                                                 </div>
                                                 <div class="grid grid-cols-2 gap-4">
-                                                    <div class="relative">
-                                                        <label for="edit-password"
-                                                            class="block mb-2 text-sm font-semibold text-gray-600">Password
-                                                            Baru</label>
-                                                        <input type="text" placeholder="Password Baru Anda"
-                                                            name="password" id="password"
-                                                            class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
-                                                    </div>
+                                                <div class="relative">
+                                                    <label for="password-edit" class="block mb-2 text-sm font-semibold text-gray-600">Password Baru</label>
+                                                    <input type="password" id="password-edit" name="password" placeholder="Password Baru Anda"
+                                                     class="w-full mb-4 py-1.5 px-3 text-sm bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                                                    <span id="togglePasswordEdit"
+                                                        class="text-gray-500 absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                                                        onclick="togglePassword('password-edit', 'togglePasswordEdit')">
+                                                        <i class="fa-solid fa-eye-slash"></i>
+                                                    </span>
+                                                </div>
                                                     <div>
                                                         <label for="edit-phone"
                                                             class="block mb-2 text-sm  font-semibold text-gray-600">No.
@@ -272,17 +274,17 @@
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="relative">
-                            <label for="password" class="block mb-1 text-sm font-semibold text-gray-600">Password</label>
-                            <input type="password" id="password-add" name="password" placeholder="Password"
-                                class="w-full py-1.5 px-3 text-sm bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
-                                required />
-                            <span id="togglePassword"
-                                class="text-gray-500 absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
-                                onclick="togglePassword()">
-                                <i class="fa-solid fa-eye-slash mt-4"></i>
-                            </span>
-                        </div>
+                    <div class="relative">
+                        <label for="password-add" class="block mb-1 text-sm font-semibold text-gray-600">Password</label>
+                        <input type="password" id="password-add" name="password" placeholder="Password"
+                            class="w-full py-1.5 px-3 text-sm bg-gray-50 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                             required />
+                        <span id="togglePasswordAdd"
+                            class="text-gray-500 absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+                            onclick="togglePassword('password-add', 'togglePasswordAdd')">
+                            <i class="fa-solid fa-eye-slash mt-6"></i>
+                        </span>
+                    </div>
                         <div>
                             <label for="no_telp" class="block mb-1 text-sm font-semibold text-gray-600">No.
                                 Telepon</label>
@@ -386,14 +388,9 @@
             });
         });
 
-
-        function togglePassword() {
-            const passwordInput = document.getElementById('password-add');
-            const toggleIcon = document.getElementById('togglePassword').children[0];
-
-            console.log('Toggle Password function called');
-            console.log('Current type:', passwordInput.type);
-
+        function togglePassword(inputId, toggleId) {
+            const passwordInput = document.getElementById(inputId);
+            const toggleIcon = document.getElementById(toggleId).querySelector('i');
 
             if (passwordInput.type === 'password') {
                 passwordInput.type = 'text';

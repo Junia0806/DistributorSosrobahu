@@ -32,7 +32,7 @@ class AkunDistributorController extends Controller
         // Membuat array total harga per distributor
         $totalPricePerDistributors = $akunDistributor->pluck('order_distributors_sum_total', 'id_user_distributor')->toArray();
 
-         return view('pabrik.kelola-akun', compact('akunDistributor', 'totalPricePerDistributors'));
+        return view('pabrik.kelola-akun', compact('akunDistributor', 'totalPricePerDistributors'));
         //return response()->json([$akunDistributor,$totalPricePerDistributors]);
     }
 
@@ -47,12 +47,12 @@ class AkunDistributorController extends Controller
             // 'no_telp' => 'required|string|max:15',
             // 'gambar_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
-    
+
         // Menangani upload file jika ada
         $ktpPath = null; // Default jika tidak ada file yang diupload
         if ($request->hasFile('gambar_ktp')) {
             $file = $request->file('gambar_ktp');
-            $imageName = time() . '.' . $file->extension(); // Membuat nama file dengan timestamp
+            $imageName = $request->username . '_ktp.' . $file->extension();
             $file->storeAs('ktp', $imageName, 'public'); // Simpan file di storage/app/public/ktp // Simpan nama file saja di database
         }
 
@@ -70,7 +70,7 @@ class AkunDistributorController extends Controller
             'nama_bank' => $request->nama_bank,
             'no_rek' => $request->no_rek,
         ]);
-    
+
         $totalAkunDistributor = UserDistributor::count();
         $newPage = ceil($totalAkunDistributor / 10);
         return redirect()->route('pengaturanDistributor', ['page' => $newPage])->with('success', 'Akun berhasil ditambahkan.');
@@ -108,7 +108,7 @@ class AkunDistributorController extends Controller
 
         // Mengupload dan mengupdate gambar KTP jika ada
         if ($request->hasFile('gambar_ktp')) {
-            $imageName = time() . '.' . $request->gambar_ktp->extension();
+            $imageName =  $request->username . '.' . $request->gambar_ktp->extension();
             $request->gambar_ktp->storeAs('ktp', $imageName, 'public');
             $distributor->gambar_ktp = $imageName;
         }
@@ -120,10 +120,10 @@ class AkunDistributorController extends Controller
         // Menyimpan perubahan
         $distributor->save();
 
-          // Ambil parameter page dari request (jika ada)
-          $currentPage = $request->input('page', 1); // Default ke halaman 1 jika tidak ada parameter page
-          // Redirect dengan pesan sukses
-          return redirect()->route('pengaturanDistributor', ['page' => $currentPage])->with('success', 'Akun agen berhasil diperbarui.');
+        // Ambil parameter page dari request (jika ada)
+        $currentPage = $request->input('page', 1); // Default ke halaman 1 jika tidak ada parameter page
+        // Redirect dengan pesan sukses
+        return redirect()->route('pengaturanDistributor', ['page' => $currentPage])->with('success', 'Akun agen berhasil diperbarui.');
     }
 
     // Menghapus Akun Distributor

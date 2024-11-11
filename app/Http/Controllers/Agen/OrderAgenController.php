@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\OrderAgen;
 use App\Models\OrderDetailAgen;
+use App\Models\UserDistributor;
 
 class OrderAgenController extends Controller
 {
@@ -80,7 +81,7 @@ class OrderAgenController extends Controller
 
         // Mengirim data pesanan ke view
         return view('agen.riwayatAgen', compact('orderAgens'));
-        
+
     }
 
     //  memanipulasi jumlah barang Dihalaman Order Detail
@@ -88,6 +89,23 @@ class OrderAgenController extends Controller
     {
         $selectedProductIds = $request->input('products', []); // Mengambil ID produk yang dipilih dari request
         $namaRokokList = [];
+
+        // Ambil ID distributor dari session
+        $idDistributor = session('id_user_distributor'); // Mengambil ID distributor dari session
+        $getDistributor = UserDistributor::where('id_user_distributor', $idDistributor)->first();
+
+        // Pastikan distributor ditemukan
+        if (!$getDistributor) {
+            return back()->withErrors(['message' => 'Distributor tidak ditemukan.']);
+        }
+
+        // Ambil informasi distributor
+        $namaDistributor = [
+            'nama_distributor' => $getDistributor->nama_lengkap,
+            'no_rek' => $getDistributor->no_rek,
+            'nama_bank' => $getDistributor->nama_bank,
+        ];
+
 
         // Loop through each selected product ID
         foreach ($selectedProductIds as $barangDistributor) {
@@ -118,7 +136,7 @@ class OrderAgenController extends Controller
         // Mengambil harga per produk
         $prices = $orders->pluck('harga_distributor', 'id_master_barang')->toArray();
 
-        return view('agen.detailPesanan', compact('orders', 'totalAmount', 'prices', 'namaRokokList'));
+        return view('agen.detailPesanan', compact('orders', 'totalAmount', 'prices', 'namaRokokList', 'namaDistributor'));
     }
 
     //Menyimpan Order Agen
