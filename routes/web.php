@@ -115,6 +115,9 @@ Route::middleware('auth.agen')->group(function () {
     Route::get('/agen/pengaturan-harga', [HargaAgenController::class, 'index'])->name('pengaturanHarga');
     Route::put('/agen/pengaturan-harga/update/{id}', [HargaAgenController::class, 'update'])->name('pengaturanHarga.update');
     Route::get('/agen/tambah-produk', [HargaAgenController::class, 'tambahProduk'])->name('tambahProduk');
+    Route::get('/agen/produkBaru', function () {
+        return view('agen.produkBaru');
+    })->name('agenProdukBaru');
 
     // REKENING AGEN
     Route::get('/agen/pengaturan-bank', [PengaturanBankController::class, 'index'])->name('pengaturanBank');
@@ -162,6 +165,9 @@ Route::middleware('auth.distributor')->group(function () {
     Route::get('/distributor/pengaturan-harga', [HargaDistributorController::class, 'index'])->name('pengaturanHargaDistributor');
     Route::put('/distributor/pengaturan-harga/update/{id}', [HargaDistributorController::class, 'update'])->name('pengaturanHargaDistributor.update');
     Route::get('/distributor/tambah-produk', [HargaDistributorController::class, 'tambahProduk'])->name('tambahProduk');
+    Route::get('/distributor/produkBaru', function () {
+        return view('distributor.produkBaru');
+    })->name('distributorProdukBaru');
 
     // REKENING DISTRIBUTOR
     Route::get('/distributor/pengaturan-bank', [PengaturanBankDistributorController::class, 'index'])->name('pengaturanBankDistributor');
@@ -309,3 +315,5 @@ Route::get('/504', function () {
 Route::get('/500', function () {
     return view('errors.500');
 })->name('500');
+
+//Tampilan produk baru
