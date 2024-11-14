@@ -33,16 +33,16 @@ class HargaAgenController extends Controller
         return view('agen.pengaturanHarga', compact('rokokAgens','namaRokokList'));
     }
 
-    public function tambahProduk()
+    public function showAddProduct()
     {
-        $barangPabriks = MasterBarang::all();
+        $newAgenProducts = MasterBarang::all();
         $namaRokokList = [];
         $gambarRokokList = [];
 
         // Loop through each BarangPabrik item
-        foreach ($barangPabriks as $barangPabrik) {
+        foreach ($newAgenProducts as $newDistributorProduct) {
             // Get the id_master_barang for the current BarangPabrik item
-            $namaProduk = $barangPabrik->id_master_barang;
+            $namaProduk = $newDistributorProduct->id_master_barang;
 
             // Query the master_barang table for the corresponding record
             $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProduk)->first();
@@ -58,9 +58,29 @@ class HargaAgenController extends Controller
         }
 
 
-        // Pass both barangPabriks and namaRokokList to the view
-        // return view('distributor.pesan', compact('barangPabriks', 'namaRokokList', 'gambarRokokList'));
-        return response()->json([$barangPabriks,$namaRokokList,$gambarRokokList]);
+        // Pass both newAgenProducts and namaRokokList to the view
+        return view('agen.produkBaru', compact('newAgenProducts', 'namaRokokList', 'gambarRokokList'));
+        // return response()->json([$barangPabriks,$namaRokokList,$gambarRokokList]);
+    }
+
+    public function storeSelectedProducts(Request $request)
+    {
+        $id_user_agen = session('id_user_distributor');
+
+        foreach ($request->products as $productId) {
+            $product = MasterBarang::find($productId);
+
+            if ($product) {
+                BarangAgen::create([
+                    'id_master_barang' => $productId,
+                    'id_user_agen' => $id_user_agen,
+                    'harga_agen' => $product->harga_karton_pabrik, // Gunakan harga yang sudah ada
+                    'stok_karton' => 10,
+                ]);
+            }
+        }
+
+        return redirect()->route('pengaturanHarga')->with('success', 'Produk berhasil ditambahkan');
     }
 
     

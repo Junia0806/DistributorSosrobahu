@@ -10,7 +10,7 @@ class BarangDistributor extends Model
     use HasFactory;
 
     protected $table = 'tbl_barang_disitributor';
-    
+
     protected $primaryKey = 'id_barang_distributor';
 
     protected $fillable = [
@@ -19,4 +19,10 @@ class BarangDistributor extends Model
         'harga_distributor',
         'stok_karton',
     ];
+
+    // Model BarangDistributor
+    public function masterBarang()
+    {
+        return $this->belongsTo(MasterBarang::class, 'id_master_barang');
+    }
 }

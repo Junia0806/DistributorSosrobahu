@@ -14,7 +14,6 @@ class HargaPabrikController extends Controller
 
         $namaRokokList = [];
         $gambarRokokList = [];
-        $stokKartonList = [];
         $stokSlopList = [];
 
         // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
@@ -30,19 +29,17 @@ class HargaPabrikController extends Controller
             if ($orderValue) {
                 $namaRokokList[] = $orderValue->nama_rokok;
                 $gambarRokokList[] = $orderValue->gambar;
-                $stokKartonList[] = $orderValue->stok_karton;
                 $stokSlopList[] = $orderValue->stok_slop;
             } else {
                 $namaRokokList[] = null; // If no matching record is found
                 $gambarRokokList[] = null;
-                $stokKartonList[] = null;
                 $stokSlopList[] = null;
             }
         }
         // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
         $rokokPabriks = MasterBarang::orderBy('id_master_barang', 'desc')->paginate(10);
 
-        return view('pabrik.pengaturanHarga', compact('rokokPabriks', 'namaRokokList', 'gambarRokokList', 'stokKartonList', 'stokSlopList'));
+        return view('pabrik.pengaturanHarga', compact('rokokPabriks', 'namaRokokList', 'gambarRokokList', 'stokSlopList'));
         //return response()->json([$rokokPabriks]);
     }
 
@@ -100,7 +97,6 @@ class HargaPabrikController extends Controller
         $request->validate([
             'nama_produk' => 'required|string|max:255',
             'harga_karton_pabrik' => 'required|numeric',
-            'stok_karton' => 'required|numeric',
             'stok_slop' => 'required|numeric',
             'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ]);
@@ -118,7 +114,6 @@ class HargaPabrikController extends Controller
         $newProduct = new MasterBarang();
         $newProduct->nama_rokok = $request->input('nama_produk');
         $newProduct->harga_karton_pabrik = $request->input('harga_karton_pabrik');
-        $newProduct->stok_karton = $request->input('stok_karton');
         $newProduct->stok_slop = $request->input('stok_slop');
         $newProduct->gambar = $nama_file_gambar;
         $newProduct->save();

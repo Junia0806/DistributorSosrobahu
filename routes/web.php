@@ -114,10 +114,9 @@ Route::middleware('auth.agen')->group(function () {
     // KELOLA HARGA AGEN
     Route::get('/agen/pengaturan-harga', [HargaAgenController::class, 'index'])->name('pengaturanHarga');
     Route::put('/agen/pengaturan-harga/update/{id}', [HargaAgenController::class, 'update'])->name('pengaturanHarga.update');
-    Route::get('/agen/tambah-produk', [HargaAgenController::class, 'tambahProduk'])->name('tambahProduk');
-    Route::get('/agen/produkBaru', function () {
-        return view('agen.produkBaru');
-    })->name('agenProdukBaru');
+    Route::get('/agen/produkBaru', [HargaAgenController::class, 'showAddProduct'])->name('showAddProductAgen');
+    Route::post('/agen/tambah-produk', [HargaAgenController::class, 'storeSelectedProducts'])->name('storeSelectedProductsAgen');
+    
 
     // REKENING AGEN
     Route::get('/agen/pengaturan-bank', [PengaturanBankController::class, 'index'])->name('pengaturanBank');
@@ -164,10 +163,10 @@ Route::middleware('auth.distributor')->group(function () {
     // KELOLA HARGA DISTRIBUTOR
     Route::get('/distributor/pengaturan-harga', [HargaDistributorController::class, 'index'])->name('pengaturanHargaDistributor');
     Route::put('/distributor/pengaturan-harga/update/{id}', [HargaDistributorController::class, 'update'])->name('pengaturanHargaDistributor.update');
-    Route::get('/distributor/tambah-produk', [HargaDistributorController::class, 'tambahProduk'])->name('tambahProduk');
-    Route::get('/distributor/produkBaru', function () {
-        return view('distributor.produkBaru');
-    })->name('distributorProdukBaru');
+    Route::get('/distributor/produkBaru', [HargaDistributorController::class, 'showAddProduct'])->name('showAddProductDistributor');
+    Route::post('/distributor/tambah-produk', [HargaDistributorController::class, 'storeSelectedProducts'])->name('storeSelectedProductsDistributor');
+
+ 
 
     // REKENING DISTRIBUTOR
     Route::get('/distributor/pengaturan-bank', [PengaturanBankDistributorController::class, 'index'])->name('pengaturanBankDistributor');

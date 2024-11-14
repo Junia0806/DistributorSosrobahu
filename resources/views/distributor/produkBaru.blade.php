@@ -17,39 +17,37 @@
                 </p>
             </div>
 
-
-            <!-- Form Pilih Produk -->
-            <form action="" method="POST">
+            <form action="{{ route('storeSelectedProductsDistributor') }}" method="POST">
                 @csrf
                 <div class="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 py-3">
-                    @for ($i = 1; $i <= 6; $i++)
-                        <label class="relative block cursor-pointer transition-all duration-300">
-                            <input type="checkbox" class="absolute opacity-0 peer" name="products[]"
-                                value="product{{ $i }}">
+                    {{-- Card Produk --}}
+                    @foreach ($newDistributorProducts as $index => $barang)
+                        <label class="relative block cursor-pointer">
+                            <input type="checkbox" class="absolute opacity-0 peer" id="product{{ $barang->id_master_barang }}"
+                                name="products[]" value="{{ $barang->id_master_barang }}">
                             <div
                                 class="bg-white p-3 rounded-lg border border-gray-200 shadow-md transition-colors duration-150 peer-checked:bg-gray-300 peer-checked:border-green-500 peer-checked:border-2 peer-checked:shadow-lg w-full max-w-[180px] mx-auto">
                                 <div class="relative mb-2">
-                                    <img src="{{ asset('assets/images/produk' . $i . '.jpg') }}"
-                                        alt="Produk {{ $i }}"
+                                    <img src="{{ asset('storage/produk/' . $gambarRokokList[$index]) }}" alt="{{ $namaRokokList[$index] }}"
                                         class="w-full h-[200px] object-cover rounded-md border border-gray-200">
                                 </div>
                                 <div class="text-center">
-                                    <h3 class="text-lg font-semibold text-gray-800">Produk Baru {{ $i }}</h3>
+                                    <h2 class="text-sm font-bold text-gray-800">{{ $namaRokokList[$index] }}</h2>
+                                    <p class="text-gray-600 text-sm">Rp {{ number_format($barang->harga_karton_pabrik, 0, ',', '.') }}</p>
                                 </div>
                             </div>
                         </label>
-                    @endfor
+                    @endforeach
                 </div>
 
-                <!-- Tombol Tambahkan Produk -->
-                <div class="sticky bottom-0 bg-white w-full flex justify-center p-6">
-                    <a href="{{ route('pengaturanHargaDistributor') }}"
+                <div class="sticky bottom-0 bg-white w-full flex justify-center p-4">
+                    <button type="submit"
                         class="bg-gray-800 text-white font-semibold py-3 px-8 rounded-md hover:bg-gray-700 transition duration-300 w-2/3 lg:w-1/4 text-center flex justify-center items-center">
-                        <i class="fa-solid fa-plus mr-2"></i> Tambahkan Produk
-                    </a>
+                        <i class="fa-solid fa-plus mr-2"></i> Tambahkan Produk 
+                    </button>
                 </div>
-
             </form>
+
         </div>
     </section>
 

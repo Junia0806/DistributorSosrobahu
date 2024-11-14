@@ -7,7 +7,7 @@
             <span><i class="fa-solid fa-circle-info h-6 w-6 text-yellow-600"></i></span>
             <p class="text-gray-700">
                 Terdapat produk baru yang tersedia dari <strong>Rokok Sosrobahu</strong>. Klik 
-                <a href="{{ route('agenProdukBaru') }}" class="text-red-500 font-semibold underline">disini</a> untuk menambahkan.
+                <a href="{{ route('showAddProductAgen') }}" class="text-red-500 font-semibold underline">disini</a> untuk menambahkan.
             </p>            
         </div>
 
