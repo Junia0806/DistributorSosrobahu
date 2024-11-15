@@ -174,11 +174,6 @@
                     class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
             </div>
             <div class="mb-4">
-                <label for="newProductKarton" class="block text-sm font-medium text-gray-700">Stok Karton</label>
-                <input type="number" id="newProductKarton" name="stok_karton"
-                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
-            </div>
-            <div class="mb-4">
                 <label for="newProductSlop" class="block text-sm font-medium text-gray-700">Jumlah Slop per
                     Karton</label>
                 <input type="number" id="newProductSlop" name="stok_slop"
@@ -254,7 +249,6 @@
         // Ambil data dari form
         const productName = document.getElementById('newProductName').value;
         const productPrice = document.getElementById('newProductPrice').value;
-        const productKarton = document.getElementById('newProductKarton').value;
         const productSlop = document.getElementById('newProductSlop').value;
         const productImage = document.getElementById('newProductImage').files[0];
 
@@ -267,7 +261,6 @@
         // Lakukan sesuatu dengan data (bisa gunakan AJAX di sini jika perlu)
         console.log("Nama Produk:", productName);
         console.log("Harga:", productPrice);
-        console.log("Isian (karton):", productKarton);
         console.log("Isian (slop):", productSlop);
         console.log("Foto Produk:", productImage);
 

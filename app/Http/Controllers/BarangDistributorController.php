@@ -16,7 +16,7 @@ class BarangDistributorController extends Controller
     public function index()
     {
         $id_user_distributor = session('id_user_distributor');
-        $barangDistributors = BarangDistributor::all();
+        $barangDistributors = BarangDistributor::where('id_user_distributor', $id_user_distributor)->get();;
         $namaRokokList = [];
         $gambarRokokList = [];
 

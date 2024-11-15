@@ -40,6 +40,7 @@ class AkunAgenController extends Controller
     // menginputkan Akun agen baru
     public function store(Request $request)
     {
+        $id_user_distributor = session('id_user_distributor');
         // Validasi input dari form
         $validated = $request->validate([
             // 'nama_lengkap' => 'required|string|max:255',
@@ -59,6 +60,7 @@ class AkunAgenController extends Controller
         // Simpan data ke database
         UserAgen::create([
             'id_user_agen' => $request->id_user_agen,
+            'id_user_distributor' => $id_user_distributor,
             'nama_lengkap' => $request->nama_lengkap,
             'username' => $request->username,
             'password' => bcrypt($request->password), // Enkripsi password
