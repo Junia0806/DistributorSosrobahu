@@ -19,7 +19,7 @@
                     <tr>
                         <th class="px-4 py-2 text-left text-sm font-medium">Foto Produk</th>
                         <th class="px-4 py-2 text-left text-sm font-medium">Nama Produk</th>
-                        <th class="px-4 py-2 text-left text-sm font-medium">Jumlah Slop per Karton</th>
+                        <th class="px-4 py-2 text-left text-sm font-medium">Isian slop / karton</th>
                         <th class="px-4 py-2 text-left text-sm font-medium">Harga Jual</th>
                         <th class="px-4 py-2 text-left text-sm font-medium">Aksi</th>
                     </tr>
@@ -118,7 +118,7 @@
                             class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
                     </div>
                     <div class="mb-4">
-                        <label for="stok_slop" class="block text-sm font-medium text-gray-700">Jumlah Slop per
+                        <label for="stok_slop" class="block text-sm font-medium text-gray-700">Isian Slop per
                             Karton</label>
                         <input type="number" name="stok_slop" id="stok_slop"
                             class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
@@ -174,7 +174,7 @@
                     class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
             </div>
             <div class="mb-4">
-                <label for="newProductSlop" class="block text-sm font-medium text-gray-700">Jumlah Slop per
+                <label for="newProductSlop" class="block text-sm font-medium text-gray-700">Isian Slop per
                     Karton</label>
                 <input type="number" id="newProductSlop" name="stok_slop"
                     class="mt-1 block w-full p-2 border border-gray-300 rounded-md" required>
