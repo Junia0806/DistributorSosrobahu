@@ -15,7 +15,6 @@ class MasterBarang extends Model
     protected $fillable = [
         'nama_rokok',
         'harga_karton_pabrik',
-        'stok_karton',
         'gambar',
         'stok_slop',
     ];
