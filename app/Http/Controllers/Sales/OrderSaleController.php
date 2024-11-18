@@ -261,7 +261,7 @@ class OrderSaleController extends Controller
             ->with('success', 'Order Sale deleted successfully.');
     }
 
-    //  memilih barang Dihalaman Order 
+     
     public function detail(Request $request)
     {
         $selectedProductIds = $request->input('products', []); // Mengambil ID produk yang dipilih dari request
@@ -289,7 +289,7 @@ class OrderSaleController extends Controller
             $namaProdukint = intval($barangAgen);
 
             // Query the master_barang table for the corresponding record
-            $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProdukint)->first();
+            $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProdukint)->limit(1)->first();
 
             // Store the nama_rokok in the array
             if ($orderValue) {
@@ -299,8 +299,10 @@ class OrderSaleController extends Controller
             }
         }
 
+
+
         // Ambil detail pesanan berdasarkan ID produk yang dipilih
-        $orders = BarangAgen::whereIn('id_master_barang', $selectedProductIds)->get();
+        $orders = BarangAgen::whereIn('id_barang_agen', $selectedProductIds)->get();
 
         // Menghitung total harga
         $totalAmount = $orders->sum(function ($order) {
@@ -310,9 +312,11 @@ class OrderSaleController extends Controller
 
         // Mengambil harga per produk
         $prices = $orders->pluck('harga_agen', 'id_master_barang')->toArray();
-
+        // return response()->json($orders);
         return view('sales.detail_pesanan', compact('orders', 'totalAmount', 'prices', 'namaRokokList', 'namaAgen'));
     }
+
+
 
 
     public function submit(Request $request)

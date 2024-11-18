@@ -65,7 +65,7 @@ class HargaAgenController extends Controller
 
     public function storeSelectedProducts(Request $request)
     {
-        $id_user_agen = session('id_user_distributor');
+        $id_user_agen = session('id_user_agen');
 
         foreach ($request->products as $productId) {
             $product = MasterBarang::find($productId);
