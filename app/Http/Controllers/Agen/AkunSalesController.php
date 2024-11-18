@@ -85,7 +85,7 @@ class AkunSalesController extends Controller
 
     public function store(Request $request)
     {
-        $id_user_agen = session('id_user_agen');
+        
         // Validasi input dari form
         // $validated = $request->validate([
         //     // 'nama_lengkap' => 'required|string|max:255',
@@ -100,11 +100,12 @@ class AkunSalesController extends Controller
             $file = $request->file('gambar_ktp');
             $ktpPath = $file->store('ktp', 'public'); // Simpan file di storage/app/public/ktp
         }
+        $id_user_agen = session('id_user_agen');
 
         // Simpan data ke database
         UserSales::create([
             'id_user_sales' => $request->id_user_sales,
-            'id_user_agen' => $id_user_agen,
+            'id_user_agen' => intval($id_user_agen),
             'nama_lengkap' => $request->nama_lengkap,
             'username' => $request->username,
             'password' => $request->password,
