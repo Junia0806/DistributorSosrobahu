@@ -12,9 +12,11 @@ class HargaDistributorController extends Controller
 {
     public function index()
     {
+        $id_user_distributor = session('id_user_distributor');
         $namaRokokList = [];
         // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
-        $rokokDistributors = BarangDistributor::orderBy('id_master_barang', 'desc')->paginate(10);
+        $rokokDistributors = BarangDistributor::where('id_user_distributor', $id_user_distributor)->get();
+
         foreach ($rokokDistributors as $barangDistributor) {
             // Get the id_master_barang for the current Barang Distributor item
             $namaProduk = $barangDistributor->id_master_barang;

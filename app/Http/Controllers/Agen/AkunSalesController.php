@@ -85,22 +85,16 @@ class AkunSalesController extends Controller
 
     public function store(Request $request)
     {
-        
-        // Validasi input dari form
-        // $validated = $request->validate([
-        //     // 'nama_lengkap' => 'required|string|max:255',
-        //     // 'username' => 'required|string|max:255|unique:sales,username',
-        //     // 'password' => 'required|string|min:6',
-        //     // 'no_telp' => 'required|string|max:15',
-        //     // 'gambar_ktp' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        // ]);
+
+        $id_user_agen = session('id_user_agen');
 
         // Menangani upload file jika ada
+         // Default jika tidak ada file yang diupload
         if ($request->hasFile('gambar_ktp')) {
             $file = $request->file('gambar_ktp');
-            $ktpPath = $file->store('ktp', 'public'); // Simpan file di storage/app/public/ktp
+            $imageName = $request->username . '_ktp.' . $file->extension();
+            $file->storeAs('ktp', $imageName, 'public');
         }
-        $id_user_agen = session('id_user_agen');
 
         // Simpan data ke database
         UserSales::create([
@@ -112,7 +106,7 @@ class AkunSalesController extends Controller
             'no_telp' => $request->no_telp,
             'status' => 1,
             'level' => 1,
-            'gambar_ktp' => $ktpPath // Simpan nama gambar
+            'gambar_ktp' => $imageName // Simpan nama gambar
         ]);
 
 

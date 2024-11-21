@@ -13,8 +13,10 @@ class HargaAgenController extends Controller
     public function index()
     {   
         $namaRokokList = [];
+        $id_user_agen = session('id_user_agen');
         // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
-        $rokokAgens = BarangAgen::orderBy('id_master_barang', 'desc')->paginate(10);
+        $rokokAgens = BarangAgen::where('id_user_agen', $id_user_agen)->get();
+
         foreach ($rokokAgens as $barangAgen) {
             // Get the id_master_barang for the current BarangAgen item
             $namaProduk = $barangAgen->id_master_barang;
