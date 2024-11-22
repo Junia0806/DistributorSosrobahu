@@ -132,11 +132,11 @@
                         <label for="productImageInput" class="block text-sm font-medium text-gray-700">Foto Produk
                             (Edit)</label>
                         <input type="file" id="productImageInput" name="gambar"
-                            class="mt-1 block w-full border border-gray-300 rounded-md" accept="image/*">
+                            class="mt-1 block w-full border border-gray-300 rounded-md" accept="image/*"
+                            onchange="previewImage(event)">
                         <span id="file-error-productImageInput" class="text-red-500 text-sm mt-1 hidden">Ukuran file
                             maksimum adalah 1 MB.</span>
                     </div>
-
                     <div class="flex justify-end space-x-2 mt-4">
                         <button type="submit"
                             class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Simpan</button>
@@ -204,12 +204,33 @@
 </div>
 
 <script>
+    document.getElementById('productImageInput').addEventListener('change', previewImage);
     function previewImage(event) {
         const image = document.getElementById('editProductImage');
         const file = event.target.files[0];
+        const fileError = document.getElementById('file-error-productImageInput');
+
+        // Ukuran maksimum dalam bytes (1 MB = 1 * 1024 * 1024 bytes)
+        const maxSize = 1 * 1024 * 1024;
 
         if (file) {
-            image.src = URL.createObjectURL(file);
+            // Cek ukuran file
+            if (file.size > maxSize) {
+                // Tampilkan pesan error dan ubah src menjadi ikon gambar rusak dari URL eksternal
+                fileError.classList.remove('hidden');
+                fileError.textContent = "Ukuran file terlalu besar, maksimal 1 MB.";
+
+                // Menggunakan ikon eksternal sebagai placeholder dengan ukuran yang lebih kecil
+                image.src = "https://cdn-icons-png.flaticon.com/128/15393/15393096.png";
+                image.style.width = '100px';  // Ukuran ikon lebih kecil
+                image.style.height = 'auto';  // Menjaga proporsi gambar
+            } else {
+                // Hilangkan pesan error dan tampilkan preview image
+                fileError.classList.add('hidden');
+                image.src = URL.createObjectURL(file);
+                image.style.width = 'auto';  // Kembalikan ukuran asli
+                image.style.height = 'auto';  // Kembalikan ukuran asli
+            }
         }
     }
 
