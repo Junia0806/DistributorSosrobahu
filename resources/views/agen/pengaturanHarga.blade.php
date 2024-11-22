@@ -2,15 +2,18 @@
 
 @section('content')
     <section class="container mx-auto p-6 my-20">
-        <!-- Notifikasi Produk Baru -->
-        <div class="mb-6 p-4 bg-yellow-100 border-l-4 border-yellow-400 rounded-lg flex items-center space-x-2 shadow-lg" role="alert">
+        @if ($newProductsCount > 0)
+        <div class="mb-6 p-4 bg-yellow-100 border-l-4 border-yellow-400 rounded-lg flex items-center space-x-2 shadow-lg"
+            role="alert">
             <span><i class="fa-solid fa-circle-info h-6 w-6 text-yellow-600"></i></span>
             <p class="text-gray-700">
-                Terdapat produk baru yang tersedia dari <strong>Rokok Sosrobahu</strong>. Klik 
-                <a href="{{ route('showAddProductAgen') }}" class="text-red-500 font-semibold underline">disini</a> untuk menambahkan.
-            </p>            
+                Terdapat produk baru yang tersedia dari <strong>Rokok Sosrobahu</strong>. Klik
+                <a href="{{ route('showAddProductAgen') }}" class="text-red-500 font-semibold underline">disini</a>
+                untuk
+                menambahkan.
+            </p>
         </div>
-
+    @endif
         <!-- Section Pengaturan Harga -->
         <div class="bg-white shadow-md rounded-lg max-w-full overflow-x-auto p-4">
             <h2 class="text-2xl font-bold border-b-2 mb-3 pb-3 text-center text-gray-800">Pengaturan Harga</h2>

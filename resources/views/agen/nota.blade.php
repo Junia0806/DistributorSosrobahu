@@ -52,10 +52,14 @@
                 </div>
             </div>
             <div class="border-t-2 border-gray-300 pt-8 mb-8">
-                <p class="text-gray-600 mb-2">Kami menghargai kepercayaan Anda dalam melakukan pembelian dengan kami.</p>
-                <p class="text-gray-600">Jika Anda memiliki pertanyaan lebih lanjut, jangan ragu untuk menghubungi kami di
-                    <a href="mailto:info@ecommerce.com" class="text-blue-500 underline">info@ecommerce.com</a>. Tim kami
-                    selalu siap membantu Anda.
+                <p class="text-gray-600 mb-2">
+                    Terima kasih atas kepercayaan Anda sebagai Agen Sosrobahu.
+                </p>
+                <p class="text-gray-600">
+                    Jika ada kendala, silakan hubungi Distributor Resmi kami di
+                    <a href="https://wa.me/{{ $notaAgen['no_distributor'] }}" class="text-blue-500 underline" target="_blank">
+                        {{ $notaAgen['no_distributor'] }}
+                    </a> ({{ $notaAgen['nama_distributor'] }}).
                 </p>
             </div>
         </div>

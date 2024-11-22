@@ -15,13 +15,20 @@ class HargaDistributorController extends Controller
         $namaRokokList = [];
         // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
         $rokokDistributors = BarangDistributor::orderBy('id_master_barang', 'desc')->paginate(10);
+        
+        // Ambil semua ID master_barang yang sudah ada di BarangDistributor
+        $existingProductIds = BarangDistributor::pluck('id_master_barang')->toArray();
+    
+        // Ambil produk yang belum ada di BarangDistributor
+        $newProductsCount = MasterBarang::whereNotIn('id_master_barang', $existingProductIds)->count();
+    
         foreach ($rokokDistributors as $barangDistributor) {
             // Get the id_master_barang for the current Barang Distributor item
             $namaProduk = $barangDistributor->id_master_barang;
-
+    
             // Query the master_barang table for the corresponding record
             $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProduk)->first();
-
+    
             // Store the nama_rokok in the array
             if ($orderValue) {
                 $namaRokokList[] = $orderValue->nama_rokok;
@@ -29,40 +36,24 @@ class HargaDistributorController extends Controller
                 $namaRokokList[] = null; // If no matching record is found
             }
         }
-        // Mengambil total penjualan untuk setiap sales
-        return view('distributor.pengaturanHarga', compact('rokokDistributors', 'namaRokokList'));
-        //return response()->json([$rokokDistributors,$namaRokokList]);
+    
+        // Kirim informasi jumlah produk baru yang belum ditambahkan ke view
+        return view('distributor.pengaturanHarga', compact('rokokDistributors', 'namaRokokList', 'newProductsCount'));
     }
+    
+    
 
     public function showAddProduct()
     {
-        $newDistributorProducts = MasterBarang::all();
-        $namaRokokList = [];
-        $gambarRokokList = [];
-
-        // Loop through each BarangPabrik item
-        foreach ($newDistributorProducts as $newDistributorProduct) {
-            // Get the id_master_barang for the current BarangPabrik item
-            $namaProduk = $newDistributorProduct->id_master_barang;
-
-            // Query the master_barang table for the corresponding record
-            $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProduk)->first();
-
-            // Store the nama_rokok in the array
-            if ($orderValue) {
-                $namaRokokList[] = $orderValue->nama_rokok;
-                $gambarRokokList[] = $orderValue->gambar;
-            } else {
-                $namaRokokList[] = null; // If no matching record is found
-                $gambarRokokList[] = null;
-            }
-        }
-
-
-        // Pass both newDistributorProducts and namaRokokList to the view
-        return view('distributor.produkBaru', compact('newDistributorProducts', 'namaRokokList', 'gambarRokokList'));
-        // return response()->json([$barangPabriks,$namaRokokList,$gambarRokokList]);
+        // Ambil semua ID master_barang yang sudah ada di BarangDistributor
+        $existingProductIds = BarangDistributor::pluck('id_master_barang')->toArray();
+    
+        // Ambil produk yang belum ada di BarangDistributor
+        $newDistributorProducts = MasterBarang::whereNotIn('id_master_barang', $existingProductIds)->get();
+    
+        return view('distributor.produkBaru', compact('newDistributorProducts'));
     }
+    
 
     public function storeSelectedProducts(Request $request)
     {
