@@ -379,6 +379,7 @@ class OrderSaleController extends Controller
             'tanggal' => $formattedDate,
             'id_order' => $orderSale->id_order,
             'nama_agen' => $namaAgen->nama_lengkap,
+            'no_agen' => $namaAgen->no_telp,
             'nama_sales' => $namaSales->nama_lengkap,
             'no_telp' => $namaSales->no_telp,
             'total_item' => $orderSale->jumlah,

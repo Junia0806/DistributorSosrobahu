@@ -23,14 +23,12 @@
                         <div
                             class="bg-white p-4 rounded-lg border border-gray-200 shadow-md transition-colors duration-150 peer-checked:bg-gray-300 peer-checked:border-green-500 peer-checked:border-2 peer-checked:shadow-lg w-full max-w-[180px] mx-auto">
                             <div class="relative mb-4">
-                                <img src="{{ asset('storage/produk/' . $barang->gambar_produk) }}"
+                                <img src="{{ asset('storage/produk/' . $barang->gambar) }}"
                                     alt="{{ $barang->nama_rokok }}"
                                     class="w-full h-[200px] object-cover rounded-md border border-gray-200">
                             </div>
                             <div class="text-center">
                                 <h2 class="text-sm font-bold text-gray-800">{{ $barang->nama_rokok }}</h2>
-                                <p class="text-gray-600 text-sm">Rp
-                                    {{ number_format($barang->harga_karton_pabrik, 0, ',', '.') }}</p>
                             </div>
                         </div>
                     </label>

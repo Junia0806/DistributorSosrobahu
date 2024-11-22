@@ -240,6 +240,7 @@ class OrderAgenController extends Controller
             'tanggal' => Carbon::parse($orderAgen->tanggal)->translatedFormat('d F Y'),
             'id_order' => $orderAgen->id_order,
             'nama_distributor' => $namaDistributor->nama_lengkap,
+            'no_distributor' => $namaDistributor->no_telp,
             'nama_agen' => $namaAgen->nama_lengkap,
             'no_telp' => $namaAgen->no_telp,
             'total_item' => $orderAgen->jumlah,
