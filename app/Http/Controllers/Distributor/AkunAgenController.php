@@ -60,10 +60,10 @@ class AkunAgenController extends Controller
         // Simpan data ke database
         UserAgen::create([
             'id_user_agen' => $request->id_user_agen,
-            'id_user_distributor' => $id_user_distributor,
+            'id_user_distributor' => intval($id_user_distributor),
             'nama_lengkap' => $request->nama_lengkap,
             'username' => $request->username,
-            'password' => bcrypt($request->password), // Enkripsi password
+            'password' => $request->password, // Enkripsi password
             'no_telp' => $request->no_telp,
             'status' => 1,
             'level' => 1,
@@ -78,10 +78,12 @@ class AkunAgenController extends Controller
         return redirect()->route('pengaturanAgen', ['page' => $newPage])->with('success', 'Akun berhasil ditambahkan.');
     }
 
+    
+
     // Mengupdate Akun Agen
     public function update(Request $request, $id)
     {
-    
+
         // Mengambil data agen berdasarkan ID
         $agen = UserAgen::find($id);
 

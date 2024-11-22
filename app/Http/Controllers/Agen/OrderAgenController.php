@@ -125,7 +125,7 @@ class OrderAgenController extends Controller
         }
 
         // Ambil detail pesanan berdasarkan ID produk yang dipilih
-        $orders = BarangDistributor::whereIn('id_master_barang', $selectedProductIds)->get();
+        $orders = BarangDistributor::whereIn('id_barang_distributor', $selectedProductIds)->get();
 
         // Menghitung total harga
         $totalAmount = $orders->sum(function ($order) {

@@ -49,7 +49,6 @@ class AkunDistributorController extends Controller
         ]);
 
         // Menangani upload file jika ada
-        $ktpPath = null; // Default jika tidak ada file yang diupload
         if ($request->hasFile('gambar_ktp')) {
             $file = $request->file('gambar_ktp');
             $imageName = $request->username . '_ktp.' . $file->extension();
@@ -61,7 +60,7 @@ class AkunDistributorController extends Controller
             'id_user_distributor' => $request->id_user_distributor,
             'nama_lengkap' => $request->nama_lengkap,
             'username' => $request->username,
-            'password' => bcrypt($request->password), // Enkripsi password
+            'password' => $request->password, // Enkripsi password
             'no_telp' => $request->no_telp,
             'status' => 1,
             'level' => 1,

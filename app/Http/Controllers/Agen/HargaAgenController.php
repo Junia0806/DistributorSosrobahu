@@ -13,9 +13,15 @@ class HargaAgenController extends Controller
     public function index()
     {
         $namaRokokList = [];
+
+        $id_user_agen = session('id_user_agen');
+        // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
+        $rokokAgens = BarangAgen::where('id_user_agen', $id_user_agen)->get();
+
         $rokokAgens = BarangAgen::orderBy('id_master_barang', 'desc')->paginate(10);
         $existingProductIds = BarangAgen::pluck('id_master_barang')->toArray();
         $newProductsCount = MasterBarang::whereNotIn('id_master_barang', $existingProductIds)->count();
+
         foreach ($rokokAgens as $barangAgen) {
             $namaProduk = $barangAgen->id_master_barang;
             $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProduk)->first();
@@ -68,7 +74,7 @@ class HargaAgenController extends Controller
 
     public function storeSelectedProducts(Request $request)
     {
-        $id_user_agen = session('id_user_distributor');
+        $id_user_agen = session('id_user_agen');
 
         foreach ($request->products as $productId) {
             $product = MasterBarang::find($productId);
