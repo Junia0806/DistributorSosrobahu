@@ -52,8 +52,11 @@ class BarangPabrikController extends Controller
             ->distinct()
             ->orderBy('year', 'desc')
             ->pluck('year');
-        $pesananMasuks = OrderDistributor::orderBy('id_order', 'desc')->get();
-        ;
+
+        $pesananMasuks = OrderDistributor::orderBy('id_order', 'desc')
+            ->where('order_distributor.status_pemesanan', 1)
+            ->get();
+
 
         // Mengelompokkan pesanan berdasarkan bulan dan melakukan penotalan omset per bulan
         $pesananPerBulan = $pesananMasuks->groupBy(function ($item) {
