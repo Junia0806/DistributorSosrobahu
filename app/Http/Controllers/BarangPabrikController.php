@@ -52,7 +52,8 @@ class BarangPabrikController extends Controller
             ->distinct()
             ->orderBy('year', 'desc')
             ->pluck('year');
-        $pesananMasuks = OrderDistributor::orderBy('id_order', 'desc')->get();;
+        $pesananMasuks = OrderDistributor::orderBy('id_order', 'desc')->get();
+        ;
 
         // Mengelompokkan pesanan berdasarkan bulan dan melakukan penotalan omset per bulan
         $pesananPerBulan = $pesananMasuks->groupBy(function ($item) {
@@ -63,7 +64,7 @@ class BarangPabrikController extends Controller
             return [
                 'pesanan' => $group,
                 'total_omset' => $group->sum('total'),
-                'total_karton'  => $group->sum('jumlah'),
+                'total_karton' => $group->sum('jumlah'),
             ];
         });
 
@@ -82,7 +83,6 @@ class BarangPabrikController extends Controller
 
             // Hitung total jumlah produk berdasarkan id_master_barang, id_user_pabrik, dan status_pemesanan dari restock_detail_pabrik
             $totalProduk = DB::table('restock_detail_pabrik')
-                ->join('restock_pabrik', 'restock_detail_pabrik.id_restock', '=', 'restock_pabrik.id_restock')
                 ->where('restock_detail_pabrik.id_master_barang', $idMasterBarang)
                 ->sum('restock_detail_pabrik.jumlah_produk');
 
@@ -90,15 +90,17 @@ class BarangPabrikController extends Controller
             $totalProdukTerjual = DB::table('order_detail_distributor')
                 ->join('order_distributor', 'order_detail_distributor.id_order', '=', 'order_distributor.id_order')
                 ->where('order_detail_distributor.id_master_barang', $idMasterBarang)
-                ->where('order_detail_distributor.id_user_pabrik', $idUserPabrik)
                 ->where('order_distributor.status_pemesanan', 1)
                 ->sum('order_detail_distributor.jumlah_produk');
 
-            // Simpan data ke dalam array
+            // Hitung stok akhir per produk (produk yang tersedia setelah terjual)
+            $finalStockPerBarang = $totalProduk - $totalProdukTerjual;
+
+            // Simpan data ke dalam array jika ada nilai pada orderValue
             if ($orderValue) {
                 $namaRokokList[] = $orderValue->nama_rokok;
                 $gambarRokokList[] = $orderValue->gambar;
-                $totalProdukList[] = $totalProduk - $totalProdukTerjual; // Perhitungan total produk yang tersedia
+                $totalProdukList[] = $finalStockPerBarang; // Menyimpan stok akhir ke totalProdukList
             } else {
                 $namaRokokList[] = null;
                 $gambarRokokList[] = null;
