@@ -55,9 +55,11 @@ class LoginAgenController extends Controller
     {
         // Ambil ID user yang sedang login
         $userId = Auth::guard('agen')->id(); // Pastikan pengguna sudah login
+        $id_user_agen = session('id_user_agen');
 
         // Mengambil data sales dengan total penjualan, urut berdasarkan total penjualan tertinggi
-        $akunAgen = UserAgen::withSum('orderAgens', 'total')
+        $akunAgen = UserAgen::where('id_user_agen', $id_user_agen)
+        ->withSum('orderAgens', 'total')
             ->orderBy('order_agens_sum_total', 'desc')
             ->get(); // Ambil semua data tanpa pagination
 

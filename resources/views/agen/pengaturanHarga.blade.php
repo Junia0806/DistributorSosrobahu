@@ -2,23 +2,37 @@
 
 @section('content')
     <section class="container mx-auto p-6 my-20">
-        @if ($newProductsCount > 0)
-        <div class="mb-6 p-4 bg-yellow-100 border-l-4 border-yellow-400 rounded-lg flex items-center space-x-2 shadow-lg"
-            role="alert">
-            <span><i class="fa-solid fa-circle-info h-6 w-6 text-yellow-600"></i></span>
-            <p class="text-gray-700">
-                Terdapat produk baru yang tersedia dari <strong>Rokok Sosrobahu</strong>. Klik
-                <a href="{{ route('showAddProductAgen') }}" class="text-red-500 font-semibold underline">disini</a>
-                untuk
-                menambahkan.
-            </p>
-        </div>
-    @endif
+        <!-- Notifikasi -->
+        @if ($rokokAgens->isEmpty())
+            <!-- Notifikasi produk kosong -->
+            <div class="mb-6 p-4 bg-red-100 border-l-4 border-red-500 rounded-lg flex items-center space-x-2 shadow-lg"
+                role="alert">
+                <span><i class="fa-solid fa-circle-exclamation h-6 w-6 text-red-600"></i></span>
+                <p class="text-gray-700">
+                    Tidak ada produk yang tersedia. Klik
+                    <a href="{{ route('showAddProductAgen') }}" class="text-red-500 font-semibold underline">disini</a>
+                    untuk menambahkan produk baru.
+                </p>
+            </div>
+        @elseif ($newProductsCount > 0)
+            <!-- Notifikasi produk baru tersedia -->
+            <div class="mb-6 p-4 bg-yellow-100 border-l-4 border-yellow-400 rounded-lg flex items-center space-x-2 shadow-lg"
+                role="alert">
+                <span><i class="fa-solid fa-circle-info h-6 w-6 text-yellow-600"></i></span>
+                <p class="text-gray-700">
+                    Terdapat produk baru yang tersedia dari <strong>Rokok Sosrobahu</strong>. Klik
+                    <a href="{{ route('showAddProductAgen') }}" class="text-red-500 font-semibold underline">disini</a>
+                    untuk menambahkan.
+                </p>
+            </div>
+        @endif
+
         <!-- Section Pengaturan Harga -->
         <div class="bg-white shadow-md rounded-lg max-w-full overflow-x-auto p-4">
             <h2 class="text-2xl font-bold border-b-2 mb-3 pb-3 text-center text-gray-800">Pengaturan Harga</h2>
             <p class="mb-6 px-4 py-2 text-gray-600 text-center">
-                Harga yang tertera adalah harga jual Anda untuk para Sales. Pastikan harga sesuai agar proses penjualan berjalan optimal.
+                Harga yang tertera adalah harga jual Anda untuk para Sales. Pastikan harga sesuai agar proses penjualan
+                berjalan optimal.
             </p>
 
             <!-- Table Produk dan Harga -->
@@ -32,25 +46,33 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white text-sm">
-                        @foreach ($rokokAgens as $index => $rokok)
-                            <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
-                                <td class="px-4 py-2">{{ $namaRokokList[$index] }}</td>
-                                <td class="px-4 py-2">{{ 'Rp ' . number_format($rokok->harga_agen, 0, ',', '.') }}</td>
-                                <td class="px-4 py-2">
-                                    <button type="button"
-                                        class="inline-flex items-center justify-center w-10 h-10 text-gray-800 bg-gray-200 border border-gray-300 rounded shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
-                                        onclick="openModal('{{ $namaRokokList[$index] }}', {{ $rokok->harga_agen }}, {{ $rokok->id_barang_agen }})">
-                                        <i class="fa-regular fa-pen-to-square text-lg"></i>
-                                    </button>
+                        @if ($rokokAgens->isEmpty())
+                            <tr>
+                                <td colspan="3" class="p-2">
+                                    <p class="text-center text-red-500">Belum ada produk apapun yang bisa di kelola.
+                                    </p>
                                 </td>
                             </tr>
-                        @endforeach
+                        @else
+                            @foreach ($rokokAgens as $index => $rokok)
+                                <tr class="border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200">
+                                    <td class="px-4 py-2">{{ $namaRokokList[$index] }}</td>
+                                    <td class="px-4 py-2">{{ 'Rp ' . number_format($rokok->harga_agen, 0, ',', '.') }}</td>
+                                    <td class="px-4 py-2">
+                                        <button type="button"
+                                            class="inline-flex items-center justify-center w-10 h-10 text-gray-800 bg-gray-200 border border-gray-300 rounded shadow hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500"
+                                            onclick="openModal('{{ $namaRokokList[$index] }}', {{ $rokok->harga_agen }}, {{ $rokok->id_barang_agen }})">
+                                            <i class="fa-regular fa-pen-to-square text-lg"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
                     </tbody>
+                    @endif
                 </table>
             </div>
         </div>
     </section>
-
     <!-- Modal Edit Harga Produk -->
     <div id="editModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden transition-all">
         <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative animate__animated animate__fadeIn">
@@ -85,11 +107,11 @@
             document.getElementById('harga_agen').value = harga_agen;
             const form = document.getElementById('editForm');
             form.action = `{{ route('pengaturanHarga.update', '') }}/${productId}`;
-            document.getElementById('editModal').classList.remove('hidden'); // Menampilkan modal
+            document.getElementById('editModal').classList.remove('hidden');
         }
 
         function closeModal() {
-            document.getElementById('editModal').classList.add('hidden'); // Menyembunyikan modal
+            document.getElementById('editModal').classList.add('hidden');
         }
     </script>
 @endsection
