@@ -11,31 +11,38 @@ use App\Models\MasterBarang;
 class HargaAgenController extends Controller
 {
     public function index()
-    {   
+    {
         $namaRokokList = [];
+
         $id_user_agen = session('id_user_agen');
         // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
         $rokokAgens = BarangAgen::where('id_user_agen', $id_user_agen)->get();
 
+        $rokokAgens = BarangAgen::orderBy('id_master_barang', 'desc')->paginate(10);
+        $existingProductIds = BarangAgen::pluck('id_master_barang')->toArray();
+        $newProductsCount = MasterBarang::whereNotIn('id_master_barang', $existingProductIds)->count();
+
         foreach ($rokokAgens as $barangAgen) {
-            // Get the id_master_barang for the current BarangAgen item
             $namaProduk = $barangAgen->id_master_barang;
-
-            // Query the master_barang table for the corresponding record
             $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProduk)->first();
-
-            // Store the nama_rokok in the array
             if ($orderValue) {
                 $namaRokokList[] = $orderValue->nama_rokok;
             } else {
-                $namaRokokList[] = null; // If no matching record is found
+                $namaRokokList[] = null;
             }
         }
-        // Mengambil total penjualan untuk setiap sales
-        return view('agen.pengaturanHarga', compact('rokokAgens','namaRokokList'));
+        return view('agen.pengaturanHarga', compact('rokokAgens', 'namaRokokList', 'newProductsCount'));
     }
 
     public function showAddProduct()
+    {
+        $existingProductIds = BarangAgen::pluck('id_master_barang')->toArray();
+        $newAgenProducts = MasterBarang::whereNotIn('id_master_barang', $existingProductIds)->get();
+    
+        return view('agen.produkBaru', compact('newAgenProducts'));
+    }
+    
+    public function showAdd()
     {
         $newAgenProducts = MasterBarang::all();
         $namaRokokList = [];
@@ -85,8 +92,8 @@ class HargaAgenController extends Controller
         return redirect()->route('pengaturanHarga')->with('success', 'Produk berhasil ditambahkan');
     }
 
-    
-   
+
+
 
     public function update(Request $request, $id)
     {
@@ -94,7 +101,7 @@ class HargaAgenController extends Controller
         $request->validate([
             // 'harga_agen' => 'required|string|max:255'
         ]);
-        
+
         // Mengambil data sales berdasarkan ID
         $setting = BarangAgen::find($id);
 
@@ -105,7 +112,7 @@ class HargaAgenController extends Controller
 
         // Mengupdate data sales
         $setting->harga_agen = $request->harga_agen;
-        
+
         // dd($setting);
         // Menyimpan perubahan
         $setting->save();

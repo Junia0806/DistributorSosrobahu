@@ -56,13 +56,18 @@
                 {{ number_format($notaDistributor['total_harga'], 0, ',', '.') }}
             </div>
         </div>
-        <div class="border-t-2 border-gray-300 pt-8 mb-8">
-            <p class="text-gray-600 mb-2">Kami menghargai kepercayaan Anda dalam melakukan pembelian dengan kami.</p>
-            <p class="text-gray-600">Jika Anda memiliki pertanyaan lebih lanjut, jangan ragu untuk menghubungi kami di
-                <a href="mailto:info@ecommerce.com" class="text-blue-500 underline">info@ecommerce.com</a>. Tim kami
-                selalu siap membantu Anda.
+        <div class="border-t-2 border-gray-300 pt-8 mb-8 px-6">
+            <p class="text-gray-600 mb-2 text-lg font-medium text-justify">
+                Terima kasih atas kepercayaan Anda kepada kami, <span class="font-semibold text-gray-800">Distributor Resmi Sosrobahu</span>.
+            </p>
+            <p class="text-gray-600 text-lg mb-4 text-justify">
+                Untuk bantuan atau informasi lebih lanjut, silakan hubungi Admin Official <span class="font-semibold">CV. Santoso Jaya Tembakau</span> melalui WhatsApp di 
+                <a href="https://wa.me/{{ $notaDistributor['no_pabrik'] }}" class="text-blue-500 hover:text-blue-700 font-semibold" target="_blank">
+                    {{ $notaDistributor['no_pabrik'] }}
+                </a>.
             </p>
         </div>
+        
     </div>
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
