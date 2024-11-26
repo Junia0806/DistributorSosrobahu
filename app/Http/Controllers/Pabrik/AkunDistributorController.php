@@ -68,6 +68,8 @@ class AkunDistributorController extends Controller
             // tolong tambahkan input formnya juga buat nama bank sama no rek di viewnya karena beda dengan akun sales
             'nama_bank' => $request->nama_bank,
             'no_rek' => $request->no_rek,
+            'provinsi' => $request->provinsi,
+            'alamat' => $request->alamat,
         ]);
 
         $totalAkunDistributor = UserDistributor::count();
@@ -104,6 +106,8 @@ class AkunDistributorController extends Controller
 
         // Mengupdate no telepon
         $distributor->no_telp = $request->no_telp;
+        $distributor->provinsi = $request->provinsi;
+        $distributor->alamat = $request->alamat;
 
         // Mengupload dan mengupdate gambar KTP jika ada
         if ($request->hasFile('gambar_ktp')) {

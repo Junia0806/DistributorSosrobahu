@@ -129,7 +129,7 @@ class OrderAgenController extends Controller
         $orders = BarangDistributor::where('id_user_distributor', $idDistributor) // Filter berdasarkan id_user_agen
             ->whereIn('id_master_barang', $selectedProductIds) // Filter berdasarkan id_barang_agen
             ->get();
-            
+
         // Menghitung total harga
         $totalAmount = $orders->sum(function ($order) {
             return $order->harga_distributor * $order->jumlah; // Menghitung total harga untuk semua barang
