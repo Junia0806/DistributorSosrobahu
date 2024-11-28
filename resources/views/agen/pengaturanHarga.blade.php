@@ -2,7 +2,6 @@
 
 @section('content')
     <section class="container mx-auto p-6 my-20">
-        <!-- Notifikasi -->
         @if ($rokokAgens->isEmpty())
             <!-- Notifikasi produk kosong -->
             <div class="mb-6 p-4 bg-red-100 border-l-4 border-red-500 rounded-lg flex items-center space-x-2 shadow-lg"
@@ -66,40 +65,58 @@
                                         </button>
                                     </td>
                                 </tr>
+                                <!-- Modal Edit Harga Produk -->
+                                <div id="editModal"
+                                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden transition-all">
+                                    <div
+                                        class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative animate__animated animate__fadeIn">
+                                        <h3 class="text-2xl font-semibold mb-4 text-gray-800">Edit Harga
+                                            {{ $namaRokokList[$index] }}</h3>
+                                        <form id="editForm" method="POST"
+                                            action="{{ route('pengaturanHarga.update', ['id' => $rokok->id_barang_agen]) }}"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            @method('PUT')
+                                            <div class="mb-4">
+                                                <label class="block text-sm font-medium text-gray-700">Nama Produk</label>
+                                                <p name="nama_produk" id="nama_produk"
+                                                    class="block text-sm font-medium text-gray-900 mt-1"></p>
+                                            </div>
+                                            <div class="mb-4">
+                                                <label for="productPrice"
+                                                    class="block text-sm font-medium text-gray-700">Harga
+                                                    Jual</label>
+                                                <input type="number" name="harga_agen" id="harga_agen"
+                                                    class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300"
+                                                    required>
+                                            </div>
+                                            <div class="flex justify-end space-x-2 mt-4">
+                                                <button type="submit"
+                                                    class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">Simpan</button>
+                                                <button type="button"
+                                                    class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+                                                    onclick="closeModal()">Batal</button>
+                                            </div>
+                                        </form>
+                                        <button class="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
+                                            onclick="closeModal()">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
                             @endforeach
+
                     </tbody>
                     @endif
                 </table>
             </div>
         </div>
     </section>
-    <!-- Modal Edit Harga Produk -->
-    <div id="editModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden transition-all">
-        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md relative animate__animated animate__fadeIn">
-            <h3 class="text-2xl font-semibold mb-4 text-gray-800">Edit Harga {{ $namaRokokList[$index] }}</h3>
-            <form id="editForm" method="POST" action="{{ route('pengaturanHarga.update', ['id' => $rokok->id_barang_agen]) }}" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="mb-4">
-                    <label class="block text-sm font-medium text-gray-700">Nama Produk</label>
-                    <p name="nama_produk" id="nama_produk" class="block text-sm font-medium text-gray-900 mt-1"></p>
-                </div>
-                <div class="mb-4">
-                    <label for="productPrice" class="block text-sm font-medium text-gray-700">Harga Jual</label>
-                    <input type="number" name="harga_agen" id="harga_agen" class="mt-1 block w-full p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300" required>
-                </div>
-                <div class="flex justify-end space-x-2 mt-4">
-                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">Simpan</button>
-                    <button type="button" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition" onclick="closeModal()">Batal</button>
-                </div>
-            </form>
-            <button class="absolute top-2 right-2 text-gray-500 hover:text-gray-700" onclick="closeModal()">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-    </div>
+
 
     <script>
         function openModal(nama_produk, harga_agen, productId) {

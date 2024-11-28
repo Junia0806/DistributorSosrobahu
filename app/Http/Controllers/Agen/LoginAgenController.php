@@ -53,27 +53,43 @@ class LoginAgenController extends Controller
 
     public function updateRanking()
     {
-        // Ambil ID user yang sedang login
-        $userId = Auth::guard('agen')->id(); // Pastikan pengguna sudah login
-        $id_user_agen = session('id_user_agen');
-
-        // Mengambil data sales dengan total penjualan, urut berdasarkan total penjualan tertinggi
-        $akunAgen = UserAgen::where('id_user_agen', $id_user_agen)
-        ->withSum('orderAgens', 'total')
+        $id_user_agen = session('id_user_agen'); 
+    
+        $distributorId = UserAgen::where('id_user_agen', $id_user_agen)
+            ->value('id_user_distributor');
+    
+        if (!$distributorId) {
+            return response()->json([
+                'message' => 'Distributor tidak ditemukan untuk user ini.',
+                'peringkat' => null,
+            ], 404);
+        }
+    
+        $akunAgen = UserAgen::where('id_user_distributor', $distributorId)
+            ->withSum('orderAgens', 'total')
             ->orderBy('order_agens_sum_total', 'desc')
-            ->get(); // Ambil semua data tanpa pagination
-
-        // Buat array untuk total penjualan
+            ->get();
+    
         $totalPricePerSales = $akunAgen->pluck('order_agens_sum_total', 'id_user_agen')->toArray();
-
-        // Hitung peringkat pengguna saat ini
-        $peringkat = array_search($userId, array_keys($totalPricePerSales)) + 1;
-
-        // Simpan peringkat ke dalam session
+    
+        if (!array_key_exists($id_user_agen, $totalPricePerSales)) {
+            return response()->json([
+                'message' => 'User tidak ditemukan dalam daftar ranking untuk distributor ini.',
+                'peringkat' => null,
+            ], 404);
+        }
+    
+        $peringkat = array_search($id_user_agen, array_keys($totalPricePerSales)) + 1;
+    
         session(['peringkat' => $peringkat]);
-
-        return response()->json(['peringkat' => $peringkat]);
+    
+        return response()->json([
+            'peringkat' => $peringkat,
+            'id_user_distributor' => $distributorId,
+        ]);
     }
+    
+    
 
     public function logoutAgen()
     {

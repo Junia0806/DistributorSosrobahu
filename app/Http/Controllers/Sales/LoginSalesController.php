@@ -53,29 +53,56 @@ class LoginSalesController extends Controller
     }
 
 
+    // public function updateRanking()
+    // {
+    //     // Ambil ID user yang sedang login
+    //     $userId = Auth::guard('sales')->id();
+    //     $id_user_sales = session('id_user_sales');
+    //     $akunSales = UserSales::where('id_user_sales', $id_user_sales)
+    //         ->withSum('orderSales', 'total')
+    //         ->orderBy('order_sales_sum_total', 'desc')
+    //         ->get(); 
+
+    //     $totalPricePerSales = $akunSales->pluck('order_sales_sum_total', 'id_user_sales')->toArray();
+
+    //     $peringkat = array_search($userId, array_keys($totalPricePerSales)) + 1;
+    //     session(['peringkat' => $peringkat]);
+
+    //     return response()->json(['peringkat' => $peringkat]);
+    // }
+
     public function updateRanking()
     {
-        // Ambil ID user yang sedang login
-        $userId = Auth::guard('sales')->id(); // Pastikan pengguna sudah login
-
-        // Mengambil data sales dengan total penjualan, urut berdasarkan total penjualan tertinggi
-        $akunSales = UserSales::withSum('orderSales', 'total')
+        $id_user_sales = session('id_user_sales');
+        $agenId = UserSales::where('id_user_sales', $id_user_sales)
+            ->value('id_user_agen');
+        if (!$agenId) {
+            return response()->json([
+                'message' => 'Distributor tidak ditemukan untuk sales ini.',
+                'peringkat' => null,
+            ], 404);
+        }
+        $akunSales = UserSales::where('id_user_agen', $agenId)
+            ->withSum('orderSales', 'total')
             ->orderBy('order_sales_sum_total', 'desc')
-            ->get(); // Ambil semua data tanpa pagination
-
-        // Buat array untuk total penjualan
+            ->get();
+    
         $totalPricePerSales = $akunSales->pluck('order_sales_sum_total', 'id_user_sales')->toArray();
-
-        // Hitung peringkat pengguna saat ini
-        $peringkat = array_search($userId, array_keys($totalPricePerSales)) + 1;
-
-        // Simpan peringkat ke dalam session
+    
+        if (!array_key_exists($id_user_sales, $totalPricePerSales)) {
+            return response()->json([
+                'message' => 'Sales tidak ditemukan dalam daftar ranking untuk distributor ini.',
+                'peringkat' => null,
+            ], 404);
+        }
+        $peringkat = array_search($id_user_sales, array_keys($totalPricePerSales)) + 1;
         session(['peringkat' => $peringkat]);
-
-        return response()->json(['peringkat' => $peringkat]);
+        return response()->json([
+            'peringkat' => $peringkat,
+            'id_user_agen' => $agenId,
+        ]);
     }
-
-
+    
     public function logoutSales()
     {
         Auth::guard('sales')->logout(); // Logout menggunakan guard 'sales'
