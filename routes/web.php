@@ -29,6 +29,7 @@ use App\Http\Controllers\BarangDistributorController;
 use App\Http\Controllers\MasterBarangController;
 use App\Http\Controllers\BarangAgenController;
 use App\Http\Controllers\BarangPabrikController;
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\OrderSalesController;
 use App\Models\OrderDistributor;
 
@@ -36,6 +37,8 @@ use App\Models\OrderDistributor;
 Route::get('/sales/halamanLogin', [LoginSalesController::class, 'showLoginForm'])->name('halamanLoginSales');
 Route::post('/sales/login', [LoginSalesController::class, 'loginSales'])->name('loginSales');
 Route::get('/sales/logout', [LoginSalesController::class, 'logoutSales'])->name('logoutSales');
+Route::get('/home/agen', [LandingPageController::class, 'dataAgen'])->name('dataAgen');
+Route::get('/home/distributor', [LandingPageController::class, 'dataDistributor'])->name('dataDistributor');
 
 
 // Rute lainnya menggunakan middleware
@@ -114,7 +117,9 @@ Route::middleware('auth.agen')->group(function () {
     // KELOLA HARGA AGEN
     Route::get('/agen/pengaturan-harga', [HargaAgenController::class, 'index'])->name('pengaturanHarga');
     Route::put('/agen/pengaturan-harga/update/{id}', [HargaAgenController::class, 'update'])->name('pengaturanHarga.update');
-    Route::get('/agen/tambah-produk', [HargaAgenController::class, 'tambahProduk'])->name('tambahProduk');
+    Route::get('/agen/produkBaru', [HargaAgenController::class, 'showAddProduct'])->name('showAddProductAgen');
+    Route::post('/agen/tambah-produk', [HargaAgenController::class, 'storeSelectedProducts'])->name('storeSelectedProductsAgen');
+
 
     // REKENING AGEN
     Route::get('/agen/pengaturan-bank', [PengaturanBankController::class, 'index'])->name('pengaturanBank');
@@ -130,7 +135,8 @@ Route::middleware('auth.distributor')->group(function () {
 
     // DASHBOARD DISTRIBUTOR
     Route::get('/distributor/dashboard', [BarangDistributorController::class, 'stockbarang'])->name('dashboard-distributor');
-
+    Route::get('/distributor/update-ranking', [LoginDistributorController::class, 'updateRanking'])->name('distributor.updateRanking');
+    
     // PENGATURAN AKUN AGEN
     Route::get('/pengaturan-agen', [AkunAgenController::class, 'index'])->name('pengaturanAgen');
     Route::put('/pengaturan-agen/update/{id}', [AkunAgenController::class, 'update'])->name('pengaturanAgen.update');
@@ -161,7 +167,10 @@ Route::middleware('auth.distributor')->group(function () {
     // KELOLA HARGA DISTRIBUTOR
     Route::get('/distributor/pengaturan-harga', [HargaDistributorController::class, 'index'])->name('pengaturanHargaDistributor');
     Route::put('/distributor/pengaturan-harga/update/{id}', [HargaDistributorController::class, 'update'])->name('pengaturanHargaDistributor.update');
-    Route::get('/distributor/tambah-produk', [HargaDistributorController::class, 'tambahProduk'])->name('tambahProduk');
+    Route::get('/distributor/produkBaru', [HargaDistributorController::class, 'showAddProduct'])->name('showAddProductDistributor');
+    Route::post('/distributor/tambah-produk', [HargaDistributorController::class, 'storeSelectedProducts'])->name('storeSelectedProductsDistributor');
+
+
 
     // REKENING DISTRIBUTOR
     Route::get('/distributor/pengaturan-bank', [PengaturanBankDistributorController::class, 'index'])->name('pengaturanBankDistributor');
@@ -266,7 +275,6 @@ Route::post('/pabrik/detailrestock', [RestockPabrikController::class, 'detail'])
 
 Route::get('/pabrik/riwayatPabrik', function () {
     return view('pabrik.riwayat-restock');
-
 })->name('riwayatPabrik');
 Route::post('/pabrik/riwayatPabrik', [RestockPabrikController::class, 'store'])->name('riwayatPabrik.store');
 Route::get('/pabrik/riwayatPabrik', [RestockPabrikController::class, 'index'])->name('riwayatPabrik');
@@ -309,3 +317,26 @@ Route::get('/504', function () {
 Route::get('/500', function () {
     return view('errors.500');
 })->name('500');
+
+
+Route::get('/', function () {
+    return view('landing-page.landingpage');
+})->name('landingpage');
+
+// Route::get('/daftar-sales', function () {
+//     return view('landing-page.daftar-sales');
+// })->name('daftarMenjadiSales');
+
+// Route::get('/daftar-agen', function () {
+//     return view('landing-page.daftar-agen');
+// })->name('daftarMenjadiAgen');
+
+Route::get('/daftar-sales', [LandingPageController::class, 'dataAgen'])->name('daftarMenjadiSales');
+Route::get('/daftar-agen', [LandingPageController::class, 'dataDistributor'])->name('daftarMenjadiAgen');
+
+
+Route::get('/daftar-distributor', function () {
+    return view('landing-page.daftar-distributor');
+})->name('daftarMenjadiDistributor');
+
+//Tampilan produk baru

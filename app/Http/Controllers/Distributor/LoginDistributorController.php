@@ -51,6 +51,48 @@ class LoginDistributorController extends Controller
         ]);
     }
 
+    public function updateRanking()
+    {
+        // Ambil ID distributor yang login dari session
+        $id_user_distributor = session('id_user_distributor');
+    
+        if (!$id_user_distributor) {
+            return response()->json([
+                'message' => 'ID distributor tidak ditemukan dalam session.',
+                'peringkat' => null,
+            ], 404);
+        }
+    
+        // Ambil semua distributor dengan total penjualan
+        $akunDistributor = UserDistributor::withSum('orderDistributors', 'total')
+            ->orderBy('order_distributors_sum_total', 'desc')
+            ->get();
+    
+        // Buat array total penjualan dengan ID distributor sebagai kunci
+        $totalPricePerDistributor = $akunDistributor->pluck('order_distributors_sum_total', 'id_user_distributor')->toArray();
+    
+        // Periksa apakah ID distributor login ada dalam array
+        if (!array_key_exists($id_user_distributor, $totalPricePerDistributor)) {
+            return response()->json([
+                'message' => 'Distributor login tidak ditemukan dalam daftar ranking.',
+                'peringkat' => null,
+            ], 404);
+        }
+    
+        // Hitung peringkat distributor login
+        $peringkat = array_search($id_user_distributor, array_keys($totalPricePerDistributor)) + 1;
+    
+        // Simpan peringkat ke dalam session
+        session(['peringkat' => $peringkat]);
+    
+        // Return data dalam format JSON
+        return response()->json([
+            'peringkat' => $peringkat,
+            'totalPenjualan' => $totalPricePerDistributor[$id_user_distributor],
+        ]);
+    }
+    
+
     public function logoutDistributor()
     {
         Auth::guard('distributor')->logout(); // Logout menggunakan guard 'sales'

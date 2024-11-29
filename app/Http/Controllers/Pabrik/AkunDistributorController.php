@@ -49,7 +49,6 @@ class AkunDistributorController extends Controller
         ]);
 
         // Menangani upload file jika ada
-        $ktpPath = null; // Default jika tidak ada file yang diupload
         if ($request->hasFile('gambar_ktp')) {
             $file = $request->file('gambar_ktp');
             $imageName = $request->username . '_ktp.' . $file->extension();
@@ -61,7 +60,7 @@ class AkunDistributorController extends Controller
             'id_user_distributor' => $request->id_user_distributor,
             'nama_lengkap' => $request->nama_lengkap,
             'username' => $request->username,
-            'password' => bcrypt($request->password), // Enkripsi password
+            'password' => $request->password, // Enkripsi password
             'no_telp' => $request->no_telp,
             'status' => 1,
             'level' => 1,
@@ -69,6 +68,8 @@ class AkunDistributorController extends Controller
             // tolong tambahkan input formnya juga buat nama bank sama no rek di viewnya karena beda dengan akun sales
             'nama_bank' => $request->nama_bank,
             'no_rek' => $request->no_rek,
+            'provinsi' => $request->provinsi,
+            'alamat' => $request->alamat,
         ]);
 
         $totalAkunDistributor = UserDistributor::count();
@@ -105,6 +106,8 @@ class AkunDistributorController extends Controller
 
         // Mengupdate no telepon
         $distributor->no_telp = $request->no_telp;
+        $distributor->provinsi = $request->provinsi;
+        $distributor->alamat = $request->alamat;
 
         // Mengupload dan mengupdate gambar KTP jika ada
         if ($request->hasFile('gambar_ktp')) {
@@ -114,8 +117,8 @@ class AkunDistributorController extends Controller
         }
 
         // ini juga Minta tolong tambahin edit formnya buat nama bank sama no rek
-        // $distributor->nama_bank = $request->nama_bank;
-        // $distributor->no_rek = $request->no_rek;
+         $distributor->nama_bank = $request->nama_bank;
+         $distributor->no_rek = $request->no_rek;
 
         // Menyimpan perubahan
         $distributor->save();

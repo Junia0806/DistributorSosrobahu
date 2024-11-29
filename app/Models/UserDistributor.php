@@ -32,6 +32,8 @@ class UserDistributor extends Authenticatable
         'gambar_ktp',
         'nama_bank',
         'no_rek',
+        'provinsi',
+        'alamat',
     ];
 
     // Kolom yang tidak ingin ditampilkan atau diproses

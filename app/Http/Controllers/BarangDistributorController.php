@@ -16,7 +16,7 @@ class BarangDistributorController extends Controller
     public function index()
     {
         $id_user_distributor = session('id_user_distributor');
-        $barangDistributors = BarangDistributor::all();
+        $barangDistributors = BarangDistributor::where('id_user_distributor', $id_user_distributor)->get();;
         $namaRokokList = [];
         $gambarRokokList = [];
 
@@ -60,6 +60,7 @@ class BarangDistributorController extends Controller
             ->pluck('year');
         $pesananMasuks = OrderAgen::orderBy('id_order', 'desc')
             ->where('id_user_distributor', $id_user_distributor)
+            ->where('order_agen.status_pemesanan', 1)
             ->get();
 
         // Mengelompokkan pesanan berdasarkan bulan dan melakukan penotalan omset per bulan
@@ -75,6 +76,7 @@ class BarangDistributorController extends Controller
             ];
         });
 
+        
         // Siapkan array untuk menyimpan data
         $namaRokokList = [];
         $gambarRokokList = [];

@@ -16,35 +16,43 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white text-sm">
-                        @foreach ($orderDistributors as $orderDistributor)
-                            <tr class="border-b border-gray-200">
-                                <td class="p-2">{{ $orderDistributor->tanggal->format('d/m/Y') }}</td>
-                                <td class="p-2">Rp. {{ number_format($orderDistributor->total, 0, ',', '.') }}</td>
-                                <td class="p-2">{{ $orderDistributor->jumlah }} Karton</td>
-                                <td
-                                    class="p-2 {{ $orderDistributor->status_pemesanan == 1 ? 'text-green-600' : 'text-red-600' }} ">
-                                    {{ $orderDistributor->status_pemesanan == 1 ? 'Selesai' : ($orderDistributor->status_pemesanan == 2 ? 'Ditolak' : 'Diproses') }}
-                                </td>
-
-                                <td class="p-2">
-                                    @if ($orderDistributor->status_pemesanan == 1)
-                                        <!--  status_pemesanan adalah 1/Selesai tampilkan tombol Tersedia -->
-                                        <button
-                                            onclick="window.location.href='{{ route('notaDistributor', $orderDistributor->id_order) }}'"
-                                            class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">
-                                            Tersedia
-                                        </button>
-                                        @elseif ($orderDistributor->status_pemesanan == 2)
-                                        <!-- Jika status_pemesanan adalah 2/Ditolak, tidak tersedia -->
-                                        <span class="text-gray-600 ">Tidak Tersedia</span>
-                                    @else
-                                        <!-- Jika kondisi lain, tampilkan teks Diproses -->
-                                        <span class="text-gray-600 ">Diproses</span>
-                                    @endif
+                        @if ($orderDistributors->isEmpty())
+                            <tr>
+                                <td colspan="10" class="p-2">
+                                    <p class="text-center text-red-500">Anda belum melakukan pemesanan produk</p>
                                 </td>
                             </tr>
-                        @endforeach
+                        @else
+                            @foreach ($orderDistributors as $orderDistributor)
+                                <tr class="border-b border-gray-200">
+                                    <td class="p-2">{{ $orderDistributor->tanggal->format('d/m/Y') }}</td>
+                                    <td class="p-2">Rp. {{ number_format($orderDistributor->total, 0, ',', '.') }}</td>
+                                    <td class="p-2">{{ $orderDistributor->jumlah }} Karton</td>
+                                    <td
+                                        class="p-2 {{ $orderDistributor->status_pemesanan == 1 ? 'text-green-600' : 'text-red-600' }} ">
+                                        {{ $orderDistributor->status_pemesanan == 1 ? 'Selesai' : ($orderDistributor->status_pemesanan == 2 ? 'Ditolak' : 'Diproses') }}
+                                    </td>
+
+                                    <td class="p-2">
+                                        @if ($orderDistributor->status_pemesanan == 1)
+                                            <!--  status_pemesanan adalah 1/Selesai tampilkan tombol Tersedia -->
+                                            <button
+                                                onclick="window.location.href='{{ route('notaDistributor', $orderDistributor->id_order) }}'"
+                                                class="bg-green-600 text-white font-bold py-1 px-3 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 text-xs">
+                                                Tersedia
+                                            </button>
+                                        @elseif ($orderDistributor->status_pemesanan == 2)
+                                            <!-- Jika status_pemesanan adalah 2/Ditolak, tidak tersedia -->
+                                            <span class="text-gray-600 ">Tidak Tersedia</span>
+                                        @else
+                                            <!-- Jika kondisi lain, tampilkan teks Diproses -->
+                                            <span class="text-gray-600 ">Diproses</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
                     </tbody>
+                    @endif
                 </table>
             </div>
 
@@ -56,9 +64,12 @@
                 <!-- Help text -->
                 <span class="text-sm text-gray-700 dark:text-gray-400">
                     Menampilkan <span
-                        class="font-semibold text-gray-900 dark:text-white">{{ $orderDistributors->firstItem() }}</span> sampai
-                    <span class="font-semibold text-gray-900 dark:text-white">{{ $orderDistributors->lastItem() }}</span> dari
-                    <span class="font-semibold text-gray-900 dark:text-white">{{ $orderDistributors->total() }}</span> transaksi
+                        class="font-semibold text-gray-900 dark:text-white">{{ $orderDistributors->firstItem() }}</span>
+                    sampai
+                    <span class="font-semibold text-gray-900 dark:text-white">{{ $orderDistributors->lastItem() }}</span>
+                    dari
+                    <span class="font-semibold text-gray-900 dark:text-white">{{ $orderDistributors->total() }}</span>
+                    transaksi
                 </span>
                 <!-- Buttons -->
                 <div class="inline-flex mt-2 xs:mt-0">

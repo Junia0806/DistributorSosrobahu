@@ -18,7 +18,8 @@
             <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
                     <img src="{{ asset('assets/images/logo.png') }}" class="h-8" alt="Sosrobahu Logo" />
-                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Distributor</span>
+                    <span
+                        class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Distributor</span>
                 </a>
                 <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                     <button type="button"
@@ -34,7 +35,12 @@
                         id="user-dropdown">
                         <div class="px-4 py-3">
                             <span class="block text-sm text-gray-900 dark:text-white">Akun Distributor</span>
-                            <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">Nama : {{ session('nama_lengkap') }}</span>
+                            <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">Nama :
+                                {{ session('nama_lengkap') }}</span>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">
+                                Peringkat: {{ session('peringkat') }}
+                            </div>
+
                         </div>
                         <ul class="py-2" aria-labelledby="user-menu-button">
                             <li>
@@ -80,7 +86,7 @@
                             Agen
                         </a>
                         <li>
-                            <a  href="{{ route('pesananMasukDistributor') }}"
+                            <a href="{{ route('pesananMasukDistributor') }}"
                                 class="block py-2 px-3 rounded {{ Route::is('pesananMasukDistributor') ? 'navbar-link-active' : 'navbar-link-inactive' }}"
                                 id="pesananMasukDistributor">
                                 Pesanan Masuk
@@ -117,7 +123,8 @@
                 <div class="mb-6 md:mb-0">
                     <a href="https://flowbite.com/" class="flex items-center">
                         <img src="{{ asset('assets/images/logo.png') }}" class="h-8 me-3" alt="FlowBite Logo" />
-                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">DISTRIBUTOR</span>
+                        <span
+                            class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">DISTRIBUTOR</span>
                     </a>
                 </div>
                 <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2">
@@ -159,6 +166,19 @@
 <!-- SweetAlert2 CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    window.onload = function() {
+        fetch('{{ route('distributor.updateRanking') }}')
+            .then(response => response.json())
+            .then(data => {
+                if (data.peringkat) {
+                    // Update peringkat di tampilan
+                    document.querySelector('span.text-xs').innerText = 'Peringkat: ' + data.peringkat;
+                }
+            })
+            .catch(error => {
+                console.error('Error updating ranking:', error);
+            });
+    };
     document.addEventListener('DOMContentLoaded', function() {
         const path = window.location.pathname;
         const links = {
@@ -203,7 +223,8 @@
                         icon: "success"
                     }).then(() => {
                         // Redirect to login page or home
-                        window.location.href = '/distributor/logout'; // Adjust the URL as needed
+                        window.location.href =
+                        '/distributor/logout'; // Adjust the URL as needed
                     });
                 }
             });

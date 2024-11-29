@@ -8,8 +8,38 @@
             </div>
         </div>
 
-        <div class="overflow-x-auto">
-            <div class="my-2 flex justify-center">
+        <div class="overflow-x-auto">            
+            <!-- <div class="p-6 bg-gray-50 rounded-lg shadow-lg m-2"> -->
+                <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-6 p-6">
+                    <div
+                        class="flex items-center p-6 bg-teal-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                        <i class="fa-solid fa-chart-line text-4xl text-teal-600"></i>
+                        <div class="ml-4">
+                            <p class="text-sm text-gray-600">Keseluruhan Total Harga</p>
+                            <p class="text-xl font-semibold text-teal-700">Rp. {{ number_format($totalHarga, 0, ',', '.') }}
+                            </p>
+                        </div>
+                    </div>
+                    <div
+                        class="flex items-center p-6 bg-indigo-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                        <i class="fa-regular fa-chart-bar text-4xl text-indigo-600"></i>
+                        <div class="ml-4">
+                            <p class="text-sm text-gray-600">Keseluruhan Karton</p>
+                            <p class="text-xl font-semibold text-indigo-700">{{ $totalKarton }}</p>
+                        </div>
+                    </div>
+                    <div
+                        class="flex items-center p-6 bg-orange-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+                        <i class="fa-solid fa-receipt text-4xl text-orange-600"></i>
+                        <div class="ml-4">
+                            <p class="text-sm text-gray-600">Keseluruhan Transaksi</p>
+                            <p class="text-xl font-semibold text-orange-700">{{ $totalTransaksi }}</p>
+                        </div>
+                    </div>
+                </div>
+            <!-- </div> -->
+
+            <div class="my-2 flex justify-center mb-4">
                 <form method="GET" class="flex items-center w-full max-w-xl justify-center">
                     <div id="date-range-picker" class="flex items-center">
                         <div class="relative">
@@ -43,35 +73,6 @@
                     <a href="{{ route('omsetPabrik') }}"
                         class="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition duration-200 ease-in-out ml-4">Reset</a>
                 </form>
-            </div>
-            <div class="p-6 bg-gray-50 rounded-lg shadow-lg m-2">
-                <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-6">
-                    <div
-                        class="flex items-center p-6 bg-teal-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                        <i class="fa-solid fa-chart-line text-4xl text-teal-600"></i>
-                        <div class="ml-4">
-                            <p class="text-sm text-gray-600">Keseluruhan Total Harga</p>
-                            <p class="text-xl font-semibold text-teal-700">Rp. {{ number_format($totalHarga, 0, ',', '.') }}
-                            </p>
-                        </div>
-                    </div>
-                    <div
-                        class="flex items-center p-6 bg-indigo-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                        <i class="fa-regular fa-chart-bar text-4xl text-indigo-600"></i>
-                        <div class="ml-4">
-                            <p class="text-sm text-gray-600">Keseluruhan Karton</p>
-                            <p class="text-xl font-semibold text-indigo-700">{{ $totalKarton }}</p>
-                        </div>
-                    </div>
-                    <div
-                        class="flex items-center p-6 bg-orange-200 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
-                        <i class="fa-solid fa-receipt text-4xl text-orange-600"></i>
-                        <div class="ml-4">
-                            <p class="text-sm text-gray-600">Keseluruhan Transaksi</p>
-                            <p class="text-xl font-semibold text-orange-700">{{ $totalTransaksi }}</p>
-                        </div>
-                    </div>
-                </div>
             </div>
 
 
