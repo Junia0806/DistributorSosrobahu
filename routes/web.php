@@ -116,7 +116,7 @@ Route::middleware('auth.agen')->group(function () {
     Route::put('/agen/pengaturan-harga/update/{id}', [HargaAgenController::class, 'update'])->name('pengaturanHarga.update');
     Route::get('/agen/produkBaru', [HargaAgenController::class, 'showAddProduct'])->name('showAddProductAgen');
     Route::post('/agen/tambah-produk', [HargaAgenController::class, 'storeSelectedProducts'])->name('storeSelectedProductsAgen');
-    
+
 
     // REKENING AGEN
     Route::get('/agen/pengaturan-bank', [PengaturanBankController::class, 'index'])->name('pengaturanBank');
@@ -132,7 +132,8 @@ Route::middleware('auth.distributor')->group(function () {
 
     // DASHBOARD DISTRIBUTOR
     Route::get('/distributor/dashboard', [BarangDistributorController::class, 'stockbarang'])->name('dashboard-distributor');
-
+    Route::get('/distributor/update-ranking', [LoginDistributorController::class, 'updateRanking'])->name('distributor.updateRanking');
+    
     // PENGATURAN AKUN AGEN
     Route::get('/pengaturan-agen', [AkunAgenController::class, 'index'])->name('pengaturanAgen');
     Route::put('/pengaturan-agen/update/{id}', [AkunAgenController::class, 'update'])->name('pengaturanAgen.update');
@@ -166,7 +167,7 @@ Route::middleware('auth.distributor')->group(function () {
     Route::get('/distributor/produkBaru', [HargaDistributorController::class, 'showAddProduct'])->name('showAddProductDistributor');
     Route::post('/distributor/tambah-produk', [HargaDistributorController::class, 'storeSelectedProducts'])->name('storeSelectedProductsDistributor');
 
- 
+
 
     // REKENING DISTRIBUTOR
     Route::get('/distributor/pengaturan-bank', [PengaturanBankDistributorController::class, 'index'])->name('pengaturanBankDistributor');
@@ -271,7 +272,6 @@ Route::post('/pabrik/detailrestock', [RestockPabrikController::class, 'detail'])
 
 Route::get('/pabrik/riwayatPabrik', function () {
     return view('pabrik.riwayat-restock');
-
 })->name('riwayatPabrik');
 Route::post('/pabrik/riwayatPabrik', [RestockPabrikController::class, 'store'])->name('riwayatPabrik.store');
 Route::get('/pabrik/riwayatPabrik', [RestockPabrikController::class, 'index'])->name('riwayatPabrik');
@@ -333,4 +333,3 @@ Route::get('/daftar-distributor', function () {
 })->name('daftarMenjadiDistributor');
 
 //Tampilan produk baru
-
