@@ -35,6 +35,8 @@ class LoginAgenController extends Controller
                 session(['nama_lengkap' => $user->nama_lengkap]);
                 session(['id_user_agen' => $user->id_user_agen]);
                 session(['id_user_distributor' => $user->id_user_distributor]);
+                session(['role'=>  'agen']);
+
 
                 // Redirect ke dashboard atau halaman lain
                 return redirect()->intended('/dashboard-agen')->with('success', 'Selamat datang, ' . $user->nama_lengkap);

@@ -34,6 +34,7 @@ class LoginPabrikController extends Controller
                 // Simpan nama_lengkap ke dalam session
                 session(['nama_lengkap' => $user->nama_lengkap]);
                 session(['id_user_pabrik' => $user->id_user_pabrik]);
+                session(['role'=>  'pabrik']);
 
                 // Redirect ke dashboard atau halaman lain
                 return redirect()->intended('/pabrik/dashboard')->with('success', 'Selamat datang, ' . $user->nama_lengkap);
