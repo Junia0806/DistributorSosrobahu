@@ -29,6 +29,7 @@ use App\Http\Controllers\BarangDistributorController;
 use App\Http\Controllers\MasterBarangController;
 use App\Http\Controllers\BarangAgenController;
 use App\Http\Controllers\BarangPabrikController;
+use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\OrderSalesController;
 use App\Models\OrderDistributor;
 
@@ -36,6 +37,8 @@ use App\Models\OrderDistributor;
 Route::get('/sales/halamanLogin', [LoginSalesController::class, 'showLoginForm'])->name('halamanLoginSales');
 Route::post('/sales/login', [LoginSalesController::class, 'loginSales'])->name('loginSales');
 Route::get('/sales/logout', [LoginSalesController::class, 'logoutSales'])->name('logoutSales');
+Route::get('/home/agen', [LandingPageController::class, 'dataAgen'])->name('dataAgen');
+Route::get('/home/distributor', [LandingPageController::class, 'dataDistributor'])->name('dataDistributor');
 
 
 // Rute lainnya menggunakan middleware

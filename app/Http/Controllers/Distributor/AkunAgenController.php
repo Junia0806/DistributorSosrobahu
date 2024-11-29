@@ -71,6 +71,8 @@ class AkunAgenController extends Controller
             // tolong tambahkan input formnya juga buat nama bank sama no rek di viewnya karena beda dengan akun agen
             'nama_bank' => $request->nama_bank,
             'no_rek' => $request->no_rek,
+            'provinsi' => $request->provinsi,
+            'alamat' => $request->alamat,
         ]);
 
         $totalAkunAgen = UserAgen::count();
@@ -103,6 +105,8 @@ class AkunAgenController extends Controller
 
         // Mengupdate no telepon
         $agen->no_telp = $request->no_telp;
+        $agen->provinsi = $request->provinsi;
+        $agen->alamat = $request->alamat;
 
         // Mengupload dan mengupdate gambar KTP jika ada
 
