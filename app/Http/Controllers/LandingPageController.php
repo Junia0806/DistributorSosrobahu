@@ -23,15 +23,20 @@ class LandingPageController extends Controller
                         ->orWhere('status', 'like', '%' . $search . '%');
                 });
             })
-            
-            ->paginate(10); // Pagination
-
-        // Format respons JSON
-        return response()->json([
-            'success' => true,
-            'message' => 'Data agen berhasil diambil.',
-            'data' => $akunAgen,
-        ], 200);
+            ->get();
+    
+        // Ambil daftar provinsi unik dari data agen
+        $provinsiList = UserAgen::distinct()->pluck('provinsi')->toArray();
+    
+        // Kirim data agen dan provinsi ke view
+        return view('landing-page.daftar-sales', compact('akunAgen', 'provinsiList'));
+        
+        // // Format respons JSON
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Data agen berhasil diambil.',
+        //     'data' => $akunAgen,
+        // ], 200);
     }
 
     public function dataDistributor(Request $request)
@@ -48,13 +53,19 @@ class LandingPageController extends Controller
                         ->orWhere('status', 'like', '%' . $search . '%');
                 });
             })
-            ->paginate(10); // Pagination
+            ->get();
+
+        // Ambil daftar provinsi unik dari data agen
+        $provinsiList = UserDistributor::distinct()->pluck('provinsi')->toArray();
+    
+        // Kirim data agen dan provinsi ke view
+        return view('landing-page.daftar-agen', compact('akunDistributor', 'provinsiList'));
 
         // Format respons JSON
-        return response()->json([
-            'success' => true,
-            'message' => 'Data Distributor berhasil diambil.',
-            'data' => $akunDistributor,
-        ], 200);
+        // return response()->json([
+        //     'success' => true,
+        //     'message' => 'Data Distributor berhasil diambil.',
+        //     'data' => $akunDistributor,
+        // ], 200);
     }
 }

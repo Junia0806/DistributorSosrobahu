@@ -117,8 +117,8 @@ class AkunDistributorController extends Controller
         }
 
         // ini juga Minta tolong tambahin edit formnya buat nama bank sama no rek
-        // $distributor->nama_bank = $request->nama_bank;
-        // $distributor->no_rek = $request->no_rek;
+         $distributor->nama_bank = $request->nama_bank;
+         $distributor->no_rek = $request->no_rek;
 
         // Menyimpan perubahan
         $distributor->save();

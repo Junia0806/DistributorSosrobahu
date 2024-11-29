@@ -118,8 +118,8 @@ class AkunAgenController extends Controller
 
 
         // ini juga Minta tolong tambahin edit formnya buat nama bank sama no rek
-        // $agen->nama_bank = $request->nama_bank;
-        // $agen->no_rek = $request->no_rek;
+        $agen->nama_bank = $request->nama_bank;
+        $agen->no_rek = $request->no_rek;
 
         // Menyimpan perubahan
         $agen->save();
