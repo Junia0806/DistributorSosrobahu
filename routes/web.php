@@ -323,13 +323,17 @@ Route::get('/', function () {
     return view('landing-page.landingpage');
 })->name('landingpage');
 
-Route::get('/daftar-sales', function () {
-    return view('landing-page.daftar-sales');
-})->name('daftarMenjadiSales');
+// Route::get('/daftar-sales', function () {
+//     return view('landing-page.daftar-sales');
+// })->name('daftarMenjadiSales');
 
-Route::get('/daftar-agen', function () {
-    return view('landing-page.daftar-agen');
-})->name('daftarMenjadiAgen');
+// Route::get('/daftar-agen', function () {
+//     return view('landing-page.daftar-agen');
+// })->name('daftarMenjadiAgen');
+
+Route::get('/daftar-sales', [LandingPageController::class, 'dataAgen'])->name('daftarMenjadiSales');
+Route::get('/daftar-agen', [LandingPageController::class, 'dataDistributor'])->name('daftarMenjadiAgen');
+
 
 Route::get('/daftar-distributor', function () {
     return view('landing-page.daftar-distributor');

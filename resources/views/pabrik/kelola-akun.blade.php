@@ -36,6 +36,8 @@
                         <th class="p-2 text-left">Penjualan</th>
                         <th class="p-2 text-left">Bank</th>
                         <th class="p-2 text-left">Rekening</th>
+                        <th class="p-2 text-left">Alamat</th>
+                        <th class="p-2 text-left">Provinsi</th>
                         <th class="p-2 text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -70,8 +72,10 @@
                                 <td class="p-2 font-semibold">
                                     Rp.{{ number_format($totalPricePerAgens[$akunDistributors['id_user_distributor']] ?? 0, 0, ',', '.') }}
                                 </td>
-                                <td class="p-2">{{ $akunDistributors['nama_bank'] }}</td>
-                                <td class="p-2">{{ $akunDistributors['no_rek'] }}</td>
+                                <td class="p-2">{{ $akunDistributors['nama_bank'] }}</td> <!-- Kolom Nama Bank -->
+                                <td class="p-2">{{ $akunDistributors['no_rek'] }}</td> <!-- Kolom No Rekening -->
+                                <td class="p-2">{{ $akunDistributors['alamat'] }}</td> <!-- Kolom Alamat -->
+                                <td class="p-2">{{ $akunDistributors['provinsi'] }}</td> <!-- Kolom Provinsi -->
                                 <td class="p-2">
                                     <div class="flex justify-center space-x-2">
                                         <button type="button"
@@ -163,6 +167,7 @@
                                                             required>
                                                     </div>
                                                 </div>
+
                                                 <div class="grid grid-cols-2 gap-2">
                                                     <div class="text-left">
                                                         <label for="password-edit" class="block mb-2 text-sm font-semibold text-gray-600">Password</label>
@@ -175,7 +180,7 @@
                                                                 <i class="fa-solid fa-eye-slash"></i>
                                                             </span>
                                                         </div>
-                                                </div>
+                                                    </div>
                                                     <div class="text-left">
                                                         <label for="edit-phone" class="block mb-2 text-sm font-semibold text-gray-600">No. Telepon</label>
                                                         <input type="tel" value="{{ $akunDistributors->no_telp }}" name="no_telp" id="no_telp"
@@ -183,6 +188,26 @@
                                                             required>
                                                     </div>
                                                 </div>
+
+                                                <div class="grid grid-cols-2 gap-2">
+                                                    <div class="text-left">
+                                                        <label for="edit-bank"
+                                                            class="block mb-2 text-sm font-semibold text-gray-600">Nama Bank</label>
+                                                        <input type="text" value="{{ $akunDistributors->nama_bank }}" name="nama_bank"
+                                                            id="nama_bank"
+                                                            class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                                    </div>
+
+                                                    <div class="text-left">
+                                                        <label for="edit-rekening"
+                                                            class="block mb-2 text-sm font-semibold text-gray-600">No.
+                                                            Rekening</label>
+                                                        <input type="text" value="{{ $akunDistributors->no_rek }}" name="no_rek"
+                                                            id="no_rek"
+                                                            class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                                    </div>
+                                                </div>
+
                                                 <div class="grid grid-cols-2 gap-4">
                                                     <div class="text-left">
                                                         <label for="edit-status" class="block mb-2 text-sm font-semibold text-gray-600">Status</label>
@@ -192,8 +217,63 @@
                                                             <option value="0" {{ $akunDistributors->status == 0 ? 'selected' : '' }}>Tidak Aktif</option>
                                                         </select>
                                                     </div>
+
                                                     <div class="text-left">
-                                                        <label for="edit-avatar" class="block mb-2 text-sm font-medium text-gray-90">KTP</label>
+                                                        <label for="edit-provinsi"
+                                                            class="block mb-2 text-sm font-semibold text-gray-600">Provinsi</label>
+                                                            <select name="provinsi" id="provinsi"
+                                                                class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5">
+                                                                <option value="">Pilih Provinsi</option>
+                                                                <option value="Aceh" {{ $akunDistributors->provinsi == 'Aceh' ? 'selected' : '' }}>Aceh</option>
+                                                                <option value="Bali" {{ $akunDistributors->provinsi == 'Bali' ? 'selected' : '' }}>Bali</option>
+                                                                <option value="Bangka Belitung" {{ $akunDistributors->provinsi == 'Bangka Belitung' ? 'selected' : '' }}>Bangka Belitung</option>
+                                                                <option value="Banten" {{ $akunDistributors->provinsi == 'Banten' ? 'selected' : '' }}>Banten</option>
+                                                                <option value="Bengkulu" {{ $akunDistributors->provinsi == 'Bengkulu' ? 'selected' : '' }}>Bengkulu</option>
+                                                                <option value="DI Yogyakarta" {{ $akunDistributors->provinsi == 'DI Yogyakarta' ? 'selected' : '' }}>DI Yogyakarta</option>
+                                                                <option value="DKI Jakarta" {{ $akunDistributors->provinsi == 'DKI Jakarta' ? 'selected' : '' }}>DKI Jakarta</option>
+                                                                <option value="Gorontalo" {{ $akunDistributors->provinsi == 'Gorontalo' ? 'selected' : '' }}>Gorontalo</option>
+                                                                <option value="Jambi" {{ $akunDistributors->provinsi == 'Jambi' ? 'selected' : '' }}>Jambi</option>
+                                                                <option value="Kalimantan Barat" {{ $akunDistributors->provinsi == 'Kalimantan Barat' ? 'selected' : '' }}>Kalimantan Barat</option>
+                                                                <option value="Kalimantan Selatan" {{ $akunDistributors->provinsi == 'Kalimantan Selatan' ? 'selected' : '' }}>Kalimantan Selatan</option>
+                                                                <option value="Kalimantan Tengah" {{ $akunDistributors->provinsi == 'Kalimantan Tengah' ? 'selected' : '' }}>Kalimantan Tengah</option>
+                                                                <option value="Kalimantan Timur" {{ $akunDistributors->provinsi == 'Kalimantan Timur' ? 'selected' : '' }}>Kalimantan Timur</option>
+                                                                <option value="Kalimantan Utara" {{ $akunDistributors->provinsi == 'Kalimantan Utara' ? 'selected' : '' }}>Kalimantan Utara</option>
+                                                                <option value="Kalimantan Tenggara" {{ $akunDistributors->provinsi == 'Kalimantan Tenggara' ? 'selected' : '' }}>Kalimantan Tenggara</option>
+                                                                <option value="Kepulauan Riau" {{ $akunDistributors->provinsi == 'Kepulauan Riau' ? 'selected' : '' }}>Kepulauan Riau</option>
+                                                                <option value="Lampung" {{ $akunDistributors->provinsi == 'Lampung' ? 'selected' : '' }}>Lampung</option>
+                                                                <option value="Maluku" {{ $akunDistributors->provinsi == 'Maluku' ? 'selected' : '' }}>Maluku</option>
+                                                                <option value="Maluku Utara" {{ $akunDistributors->provinsi == 'Maluku Utara' ? 'selected' : '' }}>Maluku Utara</option>
+                                                                <option value="Nusa Tenggara Barat" {{ $akunDistributors->provinsi == 'Nusa Tenggara Barat' ? 'selected' : '' }}>Nusa Tenggara Barat</option>
+                                                                <option value="Nusa Tenggara Timur" {{ $akunDistributors->provinsi == 'Nusa Tenggara Timur' ? 'selected' : '' }}>Nusa Tenggara Timur</option>
+                                                                <option value="Papua Barat" {{ $akunDistributors->provinsi == 'Papua Barat' ? 'selected' : '' }}>Papua Barat</option>
+                                                                <option value="Papua Barat Daya" {{ $akunDistributors->provinsi == 'Papua Barat Daya' ? 'selected' : '' }}>Papua Barat Daya</option>
+                                                                <option value="Papua Pegunungan" {{ $akunDistributors->provinsi == 'Papua Pegunungan' ? 'selected' : '' }}>Papua Pegunungan</option>
+                                                                <option value="Papua Selatan" {{ $akunDistributors->provinsi == 'Papua Selatan' ? 'selected' : '' }}>Papua Selatan</option>
+                                                                <option value="Papua Tengah" {{ $akunDistributors->provinsi == 'Papua Tengah' ? 'selected' : '' }}>Papua Tengah</option>
+                                                                <option value="Riau" {{ $akunDistributors->provinsi == 'Riau' ? 'selected' : '' }}>Riau</option>
+                                                                <option value="Sulawesi Barat" {{ $akunDistributors->provinsi == 'Sulawesi Barat' ? 'selected' : '' }}>Sulawesi Barat</option>
+                                                                <option value="Sulawesi Selatan" {{ $akunDistributors->provinsi == 'Sulawesi Selatan' ? 'selected' : '' }}>Sulawesi Selatan</option>
+                                                                <option value="Sulawesi Tengah" {{ $akunDistributors->provinsi == 'Sulawesi Tengah' ? 'selected' : '' }}>Sulawesi Tengah</option>
+                                                                <option value="Sulawesi Tengah Timur" {{ $akunDistributors->provinsi == 'Sulawesi Tengah Timur' ? 'selected' : '' }}>Sulawesi Tengah Timur</option>
+                                                                <option value="Sulawesi Tenggara" {{ $akunDistributors->provinsi == 'Sulawesi Tenggara' ? 'selected' : '' }}>Sulawesi Tenggara</option>
+                                                                <option value="Sulawesi Utara" {{ $akunDistributors->provinsi == 'Sulawesi Utara' ? 'selected' : '' }}>Sulawesi Utara</option>
+                                                                <option value="Sumatera Barat" {{ $akunDistributors->provinsi == 'Sumatera Barat' ? 'selected' : '' }}>Sumatera Barat</option>
+                                                                <option value="Sumatera Selatan" {{ $akunDistributors->provinsi == 'Sumatera Selatan' ? 'selected' : '' }}>Sumatera Selatan</option>
+                                                                <option value="Sumatera Utara" {{ $akunDistributors->provinsi == 'Sumatera Utara' ? 'selected' : '' }}>Sumatera Utara</option>
+                                                            </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="text-left">
+                                                    <label for="edit-alamat"
+                                                        class="block mb-2 text-sm font-semibold text-gray-600">Alamat</label>
+                                                    <textarea name="alamat" id="alamat"
+                                                        class="mb-4 bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                                                        placeholder="Contoh: Jl. Sudirman No. 123, RT/RW 05/02, Kecamatan, Kota, Kode Pos">{{ $akunDistributors->alamat }}</textarea>
+                                                </div>
+
+                                                <div class="text-left">
+                                                        <label for="edit-avatar" class="block mb-2 text-sm font-semibold text-gray-600">KTP</label>
                                                         <input class="block mb-2 w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
                                                             aria-describedby="edit-avatar_help" name="gambar_ktp" id="gambar_ktp-{{ $akunDistributors['id_user_distributor'] }}"
                                                             type="file" accept=".jpg, .jpeg, .png" />
@@ -202,7 +282,7 @@
                                                             File saat ini: {{ $akunDistributors['gambar_ktp'] ? $akunDistributors['gambar_ktp'] : 'Tidak ada file saat ini.' }}
                                                         </p>
                                                     </div>
-                                                </div>
+
                                                 <div class="col-span-2 text-center">
                                                     <button type="submit"
                                                         class="inline-flex items-center bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300 mt-3">
@@ -335,13 +415,13 @@
                                 @if ($errors->has('username'))
                                     <span class="text-sm text-red-500">Username telah digunakan</span>
                                 @endif
-                        <input type="text" name="username" id="username" placeholder="Username"
+                                <input type="text" name="username" id="username" placeholder="Username"
                                     class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg py-1.5 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
                                     value="{{ old('username') }}" required>
                             </div>
                         </div>
                         <div class="grid grid-cols-2 gap-2">
-                        <div class="relative">
+                            <div class="relative">
                                 <label for="password-add" class="block mb-2 text-sm font-semibold text-gray-600">Password</label>
                                 <input type="password" id="password-add" name="password" placeholder="Password"
                                     class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg py-1.5 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
@@ -359,20 +439,75 @@
                                     value="{{ old('no_telp') }}" required>
                             </div>
                         </div>
+
                         <div class="grid grid-cols-2 gap-2">
                             <div>
                                 <label for="nama_bank" class="block mb-2 text-sm font-semibold text-gray-600">Bank</label>
                                 <input type="text" name="nama_bank" id="nama_bank" placeholder="Nama Bank"
                                     class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg py-1.5 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
-                                    value="{{ old('nama_bank') }}" required>
+                                    required>
                             </div>
                             <div>
                                 <label for="no_rek" class="block mb-2 text-sm font-semibold text-gray-600">No. Rekening</label>
                                 <input type="text" name="no_rek" id="no_rek" placeholder="Nomor rekening"
                                     class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg py-1.5 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
-                                    value="{{ old('no_rek') }}" required>
+                                    required>
                             </div>
                         </div>
+
+                        <!-- Provinsi -->
+                        <div>
+                            <label for="provinsi" class="block mb-2 text-sm font-semibold text-gray-600">Provinsi</label>
+                            <select id="provinsi" name="provinsi"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg py-1.5 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out">
+                                <option value="" disabled selected>Pilih Provinsi</option>
+                                <option value="Aceh">Aceh</option>
+                                <option value="Bali">Bali</option>
+                                <option value="Banten">Banten</option>
+                                <option value="Bengkulu">Bengkulu</option>
+                                <option value="DI Yogyakarta">DI Yogyakarta</option>
+                                <option value="DKI Jakarta">DKI Jakarta</option>
+                                <option value="Jawa Barat">Jawa Barat</option>
+                                <option value="Jawa Tengah">Jawa Tengah</option>
+                                <option value="Jawa Timur">Jawa Timur</option>
+                                <option value="Kalimantan Barat">Kalimantan Barat</option>
+                                <option value="Kalimantan Selatan">Kalimantan Selatan</option>
+                                <option value="Kalimantan Tengah">Kalimantan Tengah</option>
+                                <option value="Kalimantan Timur">Kalimantan Timur</option>
+                                <option value="Kalimantan Utara">Kalimantan Utara</option>
+                                <option value="Kepulauan Bangka Belitung">Kepulauan Bangka Belitung</option>
+                                <option value="Kepulauan Riau">Kepulauan Riau</option>
+                                <option value="Lampung">Lampung</option>
+                                <option value="Maluku">Maluku</option>
+                                <option value="Maluku Utara">Maluku Utara</option>
+                                <option value="Nusa Tenggara Barat">Nusa Tenggara Barat</option>
+                                <option value="Nusa Tenggara Timur">Nusa Tenggara Timur</option>
+                                <option value="Papua">Papua</option>
+                                <option value="Papua Barat">Papua Barat</option>
+                                <option value="Papua Barat Daya">Papua Barat Daya</option>
+                                <option value="Papua Selatan">Papua Selatan</option>
+                                <option value="Papua Tengah">Papua Tengah</option>
+                                <option value="Papua Pegunungan">Papua Pegunungan</option>
+                                <option value="Riau">Riau</option>
+                                <option value="Sulawesi Barat">Sulawesi Barat</option>
+                                <option value="Sulawesi Selatan">Sulawesi Selatan</option>
+                                <option value="Sulawesi Tengah">Sulawesi Tengah</option>
+                                <option value="Sulawesi Tenggara">Sulawesi Tenggara</option>
+                                <option value="Sulawesi Utara">Sulawesi Utara</option>
+                                <option value="Sumatera Barat">Sumatera Barat</option>
+                                <option value="Sumatera Selatan">Sumatera Selatan</option>
+                                <option value="Sumatera Utara">Sumatera Utara</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="alamat" class="block mb-2 text-sm font-semibold text-gray-600">Alamat</label>
+                            <textarea id="alamat" name="alamat"
+                                placeholder="Contoh: Jalan Sudirman No. 123, Kelurahan ABC, Kecamatan XYZ, Kota DEF, Provinsi GHI, Kode Pos 12345"
+                                class="w-full bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg py-1.5 px-3 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 ease-in-out"
+                                rows="3" required></textarea>
+                        </div>
+
                         <div>
                             <label for="gambar_ktp" class="block mb-2 text-sm font-semibold text-gray-600">KTP</label>
                             <input type="file" id="gambar_ktp" name="gambar_ktp"
@@ -380,6 +515,7 @@
                                 accept=".jpg, .jpeg, .png" required />
                             <span id="file-error-gambar_ktp" class="text-red-500 text-xs mt-1 hidden">Ukuran file maksimum adalah 1 MB.</span>
                         </div>
+
                         <div class="flex justify-center">
                             <button type="submit"
                                 class="bg-gray-800 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-300">Simpan</button>

@@ -19,83 +19,78 @@
         </ul>
     </div>
 
-    <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">Daftar Agen di Jawa Timur</h1>
-    
-    <!-- Pencarian Agen -->
+    <!-- Pilih Provinsi -->
     <div class="mb-6">
-        <label for="search" class="text-lg font-semibold text-gray-700">Cari Agen:</label>
-        <input id="search" type="text"
-            class="w-full px-4 py-2 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            placeholder="Cari agen berdasarkan nama..." onkeyup="filterAgen()">
+        <label for="provinsi" class="block text-gray-700">Pilih Provinsi:</label>
+        <select id="provinsi" class="mt-2 p-2 border border-gray-300 rounded-md w-full">
+            <option value="">Pilih Provinsi</option>
+            @foreach ($provinsiList as $provinsi)
+                <option value="{{ $provinsi }}">{{ $provinsi }}</option>
+            @endforeach
+        </select>
     </div>
 
-    <!-- Tampilkan Daftar Agen Per Wilayah -->
-    @php
-        $wilayahAgen = [
-            'Surabaya' => [
-                ['nama' => 'Agen Sidoarjo', 'alamat' => 'Jl. Raya Surabaya No. 1', 'telepon' => '08123456789'],
-                ['nama' => 'Agen Gubeng', 'alamat' => 'Jl. Pahlawan No. 5', 'telepon' => '08198765432']
-            ],
-            'Malang' => [
-                ['nama' => 'Agen Kota Malang', 'alamat' => 'Jl. Malang Raya No. 10', 'telepon' => '08134567890'],
-                ['nama' => 'Agen Batu', 'alamat' => 'Jl. Ijen Boulevard No. 20', 'telepon' => '08123412345']
-            ],
-            'Kediri' => [
-                ['nama' => 'Agen Kediri', 'alamat' => 'Jl. Mayor Bismo No. 15', 'telepon' => '08156789123'],
-                ['nama' => 'Agen Blitar', 'alamat' => 'Jl. Dhoho No. 8', 'telepon' => '08123456780']
-            ],
-        ];
-    @endphp
+    <!-- Daftar Agen -->
+    <div id="agenListContainer" class="overflow-x-auto">
+        <div id="message" class="text-center text-gray-500 py-4">Pilih provinsi terlebih dahulu</div>
 
-    <!-- Looping Data Agen -->
-    @foreach($wilayahAgen as $wilayah => $agenList)
-        <div class="mb-10">
-            <h2 class="text-2xl font-semibold mb-4 text-gray-700">{{ $wilayah }}</h2>
-            <div class="overflow-x-auto">
-                <table class="min-w-full bg-white border border-gray-200 rounded-lg">
-                    <thead class="bg-gray-800 text-white rounded-t-lg">
-                        <tr>
-                            <th class="p-3 text-left text-sm font-semibold tracking-wide rounded-tl-lg">Nama Agen</th>
-                            <th class="p-3 text-left text-sm font-semibold tracking-wide">Alamat</th>
-                            <th class="p-3 text-left text-sm font-semibold tracking-wide rounded-tr-lg">Nomor Telepon</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-gray-700 rounded-b-lg" id="agenList-{{ $wilayah }}">
-                        @if (count($agenList) > 0)
-                            @foreach($agenList as $agen)
-                                <tr class="border-b border-gray-200 hover:bg-gray-50 transition ease-in-out duration-150 agen-item">
-                                    <td class="p-3">{{ $agen['nama'] }}</td>
-                                    <td class="p-3">{{ $agen['alamat'] }}</td>
-                                    <td class="p-3">{{ $agen['telepon'] }}</td>
-                                </tr>
-                            @endforeach
-                        @else
-                            <tr>
-                                <td colspan="3" class="p-3 text-center">Tidak ada agen ditemukan.</td>
-                            </tr>
-                        @endif
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    @endforeach
+        <table id="agenTable" class="min-w-full bg-white border border-gray-200 rounded-lg hidden">
+            <thead class="bg-gray-800 text-white rounded-t-lg">
+                <tr>
+                    <th class="p-2 text-left">Nama Agen</th>
+                    <th class="p-2 text-left">Alamat</th>
+                    <th class="p-2 text-left">Provinsi</th>
+                    <th class="p-2 text-left">No Telpon</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-700 rounded-b-lg" id="agenList">
+                @forelse ($akunAgen as $agen)
+                    <tr class="border-b agenRow" data-provinsi="{{ $agen->provinsi }}">
+                        <td class="p-2">{{ $agen->nama_lengkap }}</td>
+                        <td class="p-2">{{ $agen->alamat ?? '-' }}</td>
+                        <td class="p-2">{{ $agen->provinsi ?? '-' }}</td>
+                        <td class="p-2">{{ $agen->no_telp }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" class="p-4 text-center text-gray-500">Tidak ada data Agen yang ditemukan.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
-    function filterAgen() {
-        const input = document.getElementById('search');
-        const filter = input.value.toLowerCase();
+    document.getElementById('provinsi').addEventListener('change', function () {
+        var selectedProvinsi = this.value;
+        var agenList = document.querySelectorAll('.agenRow');
+        var message = document.getElementById('message');
+        var agenTable = document.getElementById('agenTable');
 
-        const allAgenRows = document.querySelectorAll('.agen-item');
-        allAgenRows.forEach(row => {
-            const agenName = row.querySelector('td').textContent.toLowerCase();
-            if (agenName.indexOf(filter) > -1) {
-                row.style.display = '';
+        // Menyembunyikan pesan "Pilih provinsi terlebih dahulu" dan tabel agen
+        message.classList.add('hidden');
+        agenTable.classList.add('hidden');
+
+        // Filter agen berdasarkan provinsi yang dipilih
+        var isDataFound = false;
+        agenList.forEach(function (agen) {
+            var agenProvinsi = agen.getAttribute('data-provinsi');
+            if (selectedProvinsi === "" || agenProvinsi === selectedProvinsi) {
+                agen.style.display = '';
+                isDataFound = true;
             } else {
-                row.style.display = 'none';
+                agen.style.display = 'none';
             }
         });
-    }
-</script>
 
+        // Menampilkan tabel jika ada agen yang ditemukan
+        if (isDataFound) {
+            agenTable.classList.remove('hidden');
+        } else {
+            message.classList.remove('hidden');
+            message.textContent = "Tidak ada agen yang ditemukan untuk provinsi ini.";
+        }
+    });
+</script>
 @endsection
