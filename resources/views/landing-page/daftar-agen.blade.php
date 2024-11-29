@@ -48,7 +48,11 @@
                         <td class="p-2">{{ $distributor->nama_lengkap }}</td>
                         <td class="p-2">{{ $distributor->alamat ?? '-' }}</td>
                         <td class="p-2">{{ $distributor->provinsi ?? '-' }}</td>
-                        <td class="p-2">{{ $distributor->no_telp }}</td>
+                        <td class="p-2">
+                            <a href="https://wa.me/62{{ $distributor->no_telp }}" target="_blank" class="text-blue-500 hover:underline">
+                                {{ $distributor->no_telp }}
+                            </a>
+                        </td>
                     </tr>
                 @empty
                     <tr>

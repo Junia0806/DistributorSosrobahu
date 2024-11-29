@@ -49,7 +49,12 @@
                         <td class="p-2">{{ $agen->nama_lengkap }}</td>
                         <td class="p-2">{{ $agen->alamat ?? '-' }}</td>
                         <td class="p-2">{{ $agen->provinsi ?? '-' }}</td>
-                        <td class="p-2">{{ $agen->no_telp }}</td>
+                        <td class="p-2">
+                            <a href="https://wa.me/62{{ $agen->no_telp }}" target="_blank" class="text-blue-500 hover:underline">
+                                {{ $agen->no_telp }}
+                            </a>
+                        </td>
+                        
                     </tr>
                 @empty
                     <tr>

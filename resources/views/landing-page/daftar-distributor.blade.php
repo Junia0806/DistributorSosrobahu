@@ -29,9 +29,13 @@
         <div class="space-y-4">
             <div class="flex items-center justify-between bg-gray-50 p-4 rounded-lg border border-gray-200">
                 <div>
-                    <p class="font-semibold text-lg text-gray-700">Pabrik Santoso Jaya Tembakau</p>
-                    <p class="text-gray-600">Alamat: Jl. Raya Pabrik No. 25, Surabaya, Jawa Timur</p>
-                    <p class="text-gray-600">Nomor Telepon: 081234567890</p>
+                    <p class="font-semibold text-lg text-gray-700">CV. Santoso Jaya Tembakau</p>
+                    <p class="text-gray-600">Alamat: Jl. Sukorejo-Bangil RT.01 RW.10 Dusun, Dusun Watulunyu No.Desa, Selo Tumpang, Oro-Oro Ombokulon, Rembang, Pasuruan Regency, East Java 67152</p>
+                    <p class="text-gray-600"> Nomor:
+                        <a href="https://wa.me/628123106221" target="_blank" class="text-blue-500 hover:underline">
+                            0812-3106-221
+                        </a>
+                    </p>
                 </div>
             </div>
         </div>
