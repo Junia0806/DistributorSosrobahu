@@ -11,60 +11,77 @@ use App\Models\MasterBarang;
 class HargaAgenController extends Controller
 {
     public function index()
-    {   
-        $namaRokokList = [];
-        // Mengambil pesanan dengan mengurutkan berdasarkan ID terbesar
-        $rokokAgens = BarangAgen::orderBy('id_master_barang', 'desc')->paginate(10);
-        foreach ($rokokAgens as $barangAgen) {
-            // Get the id_master_barang for the current BarangAgen item
-            $namaProduk = $barangAgen->id_master_barang;
-
-            // Query the master_barang table for the corresponding record
-            $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProduk)->first();
-
-            // Store the nama_rokok in the array
-            if ($orderValue) {
-                $namaRokokList[] = $orderValue->nama_rokok;
-            } else {
-                $namaRokokList[] = null; // If no matching record is found
-            }
-        }
-        // Mengambil total penjualan untuk setiap sales
-        return view('agen.pengaturanHarga', compact('rokokAgens','namaRokokList'));
-    }
-
-    public function tambahProduk()
     {
-        $barangPabriks = MasterBarang::all();
         $namaRokokList = [];
-        $gambarRokokList = [];
 
-        // Loop through each BarangPabrik item
-        foreach ($barangPabriks as $barangPabrik) {
-            // Get the id_master_barang for the current BarangPabrik item
-            $namaProduk = $barangPabrik->id_master_barang;
+        // Dapatkan id_user_agen dari sesi
+        $id_user_agen = session('id_user_agen');
 
-            // Query the master_barang table for the corresponding record
-            $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProduk)->first();
+        // Query BarangAgen untuk agen tertentu dan urutkan berdasarkan id_master_barang (desc)
+        $rokokAgens = BarangAgen::where('id_user_agen', $id_user_agen)
+            ->orderBy('id_master_barang', 'desc')
+            ->paginate(10);
 
-            // Store the nama_rokok in the array
+        // Ambil semua id_master_barang untuk id_user_agen tertentu
+        $existingProductIds = BarangAgen::where('id_user_agen', $id_user_agen)
+            ->pluck('id_master_barang')
+            ->toArray();
+
+        // Hitung jumlah produk baru yang tidak ada di BarangAgen
+        $newProductsCount = MasterBarang::whereNotIn('id_master_barang', $existingProductIds)->count();
+
+        // Dapatkan nama rokok dari tabel master_barang untuk setiap id_master_barang
+        foreach ($rokokAgens as $barangAgen) {
+            $orderValue = MasterBarang::where('id_master_barang', $barangAgen->id_master_barang)->first();
             if ($orderValue) {
                 $namaRokokList[] = $orderValue->nama_rokok;
-                $gambarRokokList[] = $orderValue->gambar;
             } else {
-                $namaRokokList[] = null; // If no matching record is found
-                $gambarRokokList[] = null;
+                $namaRokokList[] = null; // Jika tidak ditemukan, tambahkan nilai null
+            }
+        }
+        return view('agen.pengaturanHarga', compact('rokokAgens', 'namaRokokList', 'newProductsCount'));
+    }
+
+
+    public function showAddProduct()
+    {
+        // Ambil id_user_agen dari sesi
+        $id_user_agen = session('id_user_agen');
+
+        // Ambil id_master_barang yang sudah dimiliki agen tertentu
+        $existingProductIds = BarangAgen::where('id_user_agen', $id_user_agen)
+            ->pluck('id_master_barang')
+            ->toArray();
+
+        // Ambil produk baru yang belum dimiliki agen tertentu
+        $newAgenProducts = MasterBarang::whereNotIn('id_master_barang', $existingProductIds)->get();
+
+        // Tampilkan data ke view
+        return view('agen.produkBaru', compact('newAgenProducts'));
+    }
+
+    public function storeSelectedProducts(Request $request)
+    {
+        $id_user_agen = session('id_user_agen');
+
+        foreach ($request->products as $productId) {
+            $product = MasterBarang::find($productId);
+
+            if ($product) {
+                BarangAgen::create([
+                    'id_master_barang' => $productId,
+                    'id_user_agen' => $id_user_agen,
+                    'harga_agen' => $product->harga_karton_pabrik, // Gunakan harga yang sudah ada
+                    'stok_karton' => 10,
+                ]);
             }
         }
 
-
-        // Pass both barangPabriks and namaRokokList to the view
-        // return view('distributor.pesan', compact('barangPabriks', 'namaRokokList', 'gambarRokokList'));
-        return response()->json([$barangPabriks,$namaRokokList,$gambarRokokList]);
+        return redirect()->route('pengaturanHarga')->with('success', 'Produk berhasil ditambahkan');
     }
 
-    
-   
+
+
 
     public function update(Request $request, $id)
     {
@@ -72,7 +89,7 @@ class HargaAgenController extends Controller
         $request->validate([
             // 'harga_agen' => 'required|string|max:255'
         ]);
-        
+
         // Mengambil data sales berdasarkan ID
         $setting = BarangAgen::find($id);
 
@@ -83,7 +100,7 @@ class HargaAgenController extends Controller
 
         // Mengupdate data sales
         $setting->harga_agen = $request->harga_agen;
-        
+
         // dd($setting);
         // Menyimpan perubahan
         $setting->save();

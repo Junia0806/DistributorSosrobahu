@@ -125,7 +125,10 @@ class OrderAgenController extends Controller
         }
 
         // Ambil detail pesanan berdasarkan ID produk yang dipilih
-        $orders = BarangDistributor::whereIn('id_master_barang', $selectedProductIds)->get();
+
+        $orders = BarangDistributor::where('id_user_distributor', $idDistributor) // Filter berdasarkan id_user_agen
+            ->whereIn('id_master_barang', $selectedProductIds) // Filter berdasarkan id_barang_agen
+            ->get();
 
         // Menghitung total harga
         $totalAmount = $orders->sum(function ($order) {
@@ -240,6 +243,7 @@ class OrderAgenController extends Controller
             'tanggal' => Carbon::parse($orderAgen->tanggal)->translatedFormat('d F Y'),
             'id_order' => $orderAgen->id_order,
             'nama_distributor' => $namaDistributor->nama_lengkap,
+            'no_distributor' => $namaDistributor->no_telp,
             'nama_agen' => $namaAgen->nama_lengkap,
             'no_telp' => $namaAgen->no_telp,
             'total_item' => $orderAgen->jumlah,
