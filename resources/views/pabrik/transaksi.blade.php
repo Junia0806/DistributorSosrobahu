@@ -59,6 +59,7 @@
             </table>
         </div>
         <!-- Custom Pagination -->
+        @if ($pesananMasuks->total() > 10)
         <div class="flex flex-col items-center my-6">
             <span class="text-sm text-gray-700">
                 Menampilkan <span class="font-semibold text-gray-900">{{ $pesananMasuks->firstItem() }}</span>
@@ -80,5 +81,6 @@
                 </button>
             </div>
         </div>
+        @endif
     </div>
 @endsection

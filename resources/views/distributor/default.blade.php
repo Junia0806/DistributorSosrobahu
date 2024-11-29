@@ -35,6 +35,10 @@
                         <div class="px-4 py-3">
                             <span class="block text-sm text-gray-900 dark:text-white">Akun Distributor</span>
                             <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">Nama : {{ session('nama_lengkap') }}</span>
+                            <div class="text-xs text-gray-500 dark:text-gray-400">
+                                Peringkat: {{ session('peringkat') }}
+                            </div>
+                            
                         </div>
                         <ul class="py-2" aria-labelledby="user-menu-button">
                             <li>

@@ -235,6 +235,7 @@ class OrderDistributorController extends Controller
             'tanggal' => Carbon::parse( $orderDistributor->tanggal)->translatedFormat('d F Y'),
             'id_order' => $orderDistributor->id_order,
             'nama_pabrik' => $namaPabrik->nama_lengkap,
+            'no_pabrik' => $namaPabrik->no_telp,
             'nama_distributor' => $namaDistributor->nama_lengkap,
             'no_telp' => $namaDistributor->no_telp,
             'total_item' => $orderDistributor->jumlah,

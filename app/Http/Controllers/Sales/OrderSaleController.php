@@ -132,7 +132,10 @@ class OrderSaleController extends Controller
         $orders = [];
         foreach ($request->input('quantities') as $productId => $quantity) {
             $totalAmount = 0;
-            $product = DB::table('tbl_barang_agen')->where('id_master_barang', $productId)->first();
+            $product = DB::table('tbl_barang_agen')
+                ->where('id_master_barang', $productId)
+                ->where('id_user_agen', $id_user_agen)
+                ->first();
             $totalAmount += $product->harga_agen * $quantity;
 
 
@@ -198,7 +201,10 @@ class OrderSaleController extends Controller
 
         foreach ($orderDetailSalesItem as $barangAgen) {
             $product = DB::table('master_barang')->where('id_master_barang', $barangAgen->id_master_barang)->first();
-            $hargaSatuan = DB::table('tbl_barang_agen')->where('id_master_barang', $barangAgen->id_master_barang)->first();
+            $hargaSatuan = DB::table('tbl_barang_agen')
+            ->where('id_user_agen', $barangAgen->id_user_agen)
+            ->where('id_barang_agen', $barangAgen->id_barang_agen)
+            ->first();
 
             $itemNota[] = [
                 'nama_rokok' => $product ? $product->nama_rokok : null,
@@ -261,7 +267,7 @@ class OrderSaleController extends Controller
             ->with('success', 'Order Sale deleted successfully.');
     }
 
-    //  memilih barang Dihalaman Order 
+
     public function detail(Request $request)
     {
         $selectedProductIds = $request->input('products', []); // Mengambil ID produk yang dipilih dari request
@@ -289,7 +295,7 @@ class OrderSaleController extends Controller
             $namaProdukint = intval($barangAgen);
 
             // Query the master_barang table for the corresponding record
-            $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProdukint)->first();
+            $orderValue = DB::table('master_barang')->where('id_master_barang', $namaProdukint)->limit(1)->first();
 
             // Store the nama_rokok in the array
             if ($orderValue) {
@@ -299,8 +305,12 @@ class OrderSaleController extends Controller
             }
         }
 
+
+
         // Ambil detail pesanan berdasarkan ID produk yang dipilih
-        $orders = BarangAgen::whereIn('id_master_barang', $selectedProductIds)->get();
+        $orders = BarangAgen::where('id_user_agen', $idAgen) // Filter berdasarkan id_user_agen
+            ->whereIn('id_master_barang', $selectedProductIds) // Filter berdasarkan id_barang_agen
+            ->get();
 
         // Menghitung total harga
         $totalAmount = $orders->sum(function ($order) {
@@ -310,9 +320,11 @@ class OrderSaleController extends Controller
 
         // Mengambil harga per produk
         $prices = $orders->pluck('harga_agen', 'id_master_barang')->toArray();
-
+        // return response()->json($orders);
         return view('sales.detail_pesanan', compact('orders', 'totalAmount', 'prices', 'namaRokokList', 'namaAgen'));
     }
+
+
 
 
     public function submit(Request $request)
@@ -375,6 +387,7 @@ class OrderSaleController extends Controller
             'tanggal' => $formattedDate,
             'id_order' => $orderSale->id_order,
             'nama_agen' => $namaAgen->nama_lengkap,
+            'no_agen' => $namaAgen->no_telp,
             'nama_sales' => $namaSales->nama_lengkap,
             'no_telp' => $namaSales->no_telp,
             'total_item' => $orderSale->jumlah,
