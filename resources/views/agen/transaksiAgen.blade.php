@@ -23,6 +23,13 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white text-sm">
+                    @if ($pesananMasuks->isEmpty())
+                    <tr>
+                        <td colspan="10" class="p-2">
+                            <p class="text-center text-red-500">Belum terdapat pesanan masuk dari Sales</p>
+                        </td>
+                    </tr>
+                @else
                     @foreach ($pesananMasuks as $pesananMasuk)
                         <tr class="border-b border-gray-200">
                             <td class="p-2">{{ $pesananMasuk->tanggal->format('d/m/Y') }}</td>
@@ -56,6 +63,7 @@
                         </tr>
                     @endforeach
                 </tbody>
+                @endif
             </table>
         </div>
 
