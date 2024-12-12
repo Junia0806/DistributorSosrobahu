@@ -16,6 +16,13 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white text-sm">
+                        @if ($orderAgens->isEmpty())
+                            <tr>
+                                <td colspan="10" class="p-2">
+                                    <p class="text-center text-red-500">Anda belum melakukan pemesanan produk</p>
+                                </td>
+                            </tr>
+                        @else
                         @foreach ($orderAgens as $orderAgen)
                             <tr class="border-b border-gray-200">
                                 <td class="p-2">{{ $orderAgen->tanggal->format('d/m/Y') }}</td>
@@ -44,6 +51,7 @@
                                 </td>
                             </tr>
                         @endforeach
+                        @endif
                     </tbody>
                 </table>
             </div>

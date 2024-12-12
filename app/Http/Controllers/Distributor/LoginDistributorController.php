@@ -34,6 +34,7 @@ class LoginDistributorController extends Controller
                 // Simpan nama_lengkap ke dalam session
                 session(['nama_lengkap' => $user->nama_lengkap]);
                 session(['id_user_distributor' => $user->id_user_distributor]);
+                session(['role'=>  'distributor']);
 
                 // Redirect ke dashboard atau halaman lain
                 return redirect()->intended('/distributor/dashboard')->with('success', 'Selamat datang, ' . $user->nama_lengkap);

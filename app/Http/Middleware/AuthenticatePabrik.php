@@ -24,6 +24,13 @@ class AuthenticatePabrik
             return redirect()->route('halamanLoginPabrik')->with('error', 'Silakan login terlebih dahulu.');
         }
         
+        // Cek apakah session 'role' bukan 'agen'
+        if (session('role') !== 'pabrik') {
+            // Hancurkan session dan redirect ke halaman login
+            session()->invalidate(); // Menghapus semua data session
+            session()->regenerateToken(); // Regenerasi CSRF token
+            return redirect()->route('halamanLoginPabrik')->with('error', 'Akses ditolak. Silakan login sebagai Pabrik.');
+        }
         return $next($request);
         
     }

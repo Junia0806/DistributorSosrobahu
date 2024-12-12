@@ -36,6 +36,8 @@ class LoginSalesController extends Controller
                 session(['nama_lengkap' => $user->nama_lengkap]);
                 session(['id_user_sales' => $user->id_user_sales]);
                 session(['id_user_agen' => $user->id_user_agen]);
+                session(['role'=>  'sales']);
+
 
                 // Redirect ke dashboard atau halaman lain
                 return redirect()->intended('/dashboard')->with('success', 'Selamat datang, ' . $user->nama_lengkap);
