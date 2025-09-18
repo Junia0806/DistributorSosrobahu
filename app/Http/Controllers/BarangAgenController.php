@@ -48,12 +48,12 @@ class BarangAgenController extends Controller
                 ->where('order_sales.status_pemesanan', 1)
                 ->sum('order_detail_sales.jumlah_produk');
           
-            $isianSlop = $orderValue->stok_slop;
+            
 
             if ($orderValue) {
                 $namaRokokList[] = $orderValue->nama_rokok;
                 $gambarRokokList[] = $orderValue->gambar;
-                $totalProdukList[] = ($totalProduk * $isianSlop) - $totalProdukTerjual;
+                $totalProdukList[] = $totalProduk - $totalProdukTerjual;
             } else {
                 $namaRokokList[] = null;
                 $gambarRokokList[] = null;

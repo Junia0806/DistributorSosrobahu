@@ -1,6 +1,6 @@
 @extends('distributor.default')
 
-@section('content')
+@section(section: 'content')
     <div class="w-full max-w-6xl mx-auto bg-white overflow-x-auto my-20">
         <!-- Atas -->
         <div class="p-6">
